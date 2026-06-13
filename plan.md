@@ -281,3 +281,11 @@ Rules are configured in the collection settings (via JSON migrations or the Admi
 10. [PocketBase Discussion #4447](https://github.com/pocketbase/pocketbase/discussions/4447): S3 proxy behavior and custom public S3 URL construction.
 11. [PocketBase Discussion #2520](https://github.com/pocketbase/pocketbase/discussions/2520): Best practices for setting up separate buckets for backups and file uploads.
 12. [Pockethost JSVM Docs](https://pockethost.io/docs/js): Community documentation covering JSVM limitations, synchronous execution, and environment variables.
+
+---
+
+## Notes for Generating Tasks
+
+- Ensure all tasks target the latest version introduced in this document (v0.31.0).
+- When generating pytest code, double-check the code and documentation to ensure that test cases use the correct and existing API for the specified version.
+
