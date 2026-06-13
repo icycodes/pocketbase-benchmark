@@ -1,0 +1,124 @@
+[37m2026-06-13 07:13:16.051[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m[39m[0m[0m[1m[37m	Pochi[39m[22m[0m[0m	pochi v0.6.14
+[37m2026-06-13 07:13:16.564[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37mnative:7[39m[0m[0m[1m[37m	BuiltInBundle[39m[22m[0m[0m	Materializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59
+[37m2026-06-13 07:13:16.727[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:517730[39m[0m[0m[1m[37m	loadAgents[39m[22m[0m[0m	Loaded 6 custom agents (6 valid, 0 invalid)
+[37m2026-06-13 07:13:16.800[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:517731[39m[0m[0m[1m[37m	loadSkills[39m[22m[0m[0m	Loaded 3 skills (3 valid, 0 invalid)
+[37m2026-06-13 07:13:16.853[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:442311[39m[0m[0m[1m[37m	PochiVendor[39m[22m[0m[0m	JWT is expiring or missing, fetching a new one
+[37m2026-06-13 07:13:19.185[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:418456[39m[0m[0m[1m[37m	MCPHub[39m[22m[0m[0m	MCP servers configuration changed via signal:
+[37m2026-06-13 07:13:19.186[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:418568[39m[0m[0m[1m[37m	MCPHub[39m[22m[0m[0m	Build MCPHub Status
+[37m2026-06-13 07:13:19.570[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37mnative:7[39m[0m[0m[1m[37m	Pochi[39m[22m[0m[0m	Starting task runner...
+[37m2026-06-13 07:13:19.673[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:508502[39m[0m[0m[1m[37m	generateTaskTitle[39m[22m[0m[0m	Generating task title, old: null, new: # PocketBase Multi-Tenant Membership Access Control (JS Migration)
+[37m2026-06-13 07:13:39.885[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:508502[39m[0m[0m[1m[37m	generateTaskTitle[39m[22m[0m[0m	Generating task title, old: # PocketBase Multi-Tenant Membership Access Control (JS Migration), new: Implement PocketBase multi tenant membership access control migration
+[37m2026-06-13 07:13:42.530[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516111[39m[0m[0m[1m[37m	listFiles[39m[22m[0m[0m	handling listFile with dirPath /home/user/myproject and recursive [33mtrue[39m
+[37m2026-06-13 07:13:45.461[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516111[39m[0m[0m[1m[37m	listFiles[39m[22m[0m[0m	handling listFile with dirPath /home/user/myproject/pb_migrations and recursive [33mtrue[39m
+[37m2026-06-13 07:13:52.472[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: path="/home/user/myproject/pb_data/types.d.ts" resolvedPath="/home/user/myproject/pb_data/types.d.ts" isVirtual=false cacheExists=true shouldCache=true startLine=1 endLine=100
+[37m2026-06-13 07:13:52.472[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: existingState=undefined
+[37m2026-06-13 07:13:52.478[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: populating cache for "/home/user/myproject/pb_data/types.d.ts" mtime=1781334175727 contentLen=2380
+[37m2026-06-13 07:13:55.264[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data migrate|Collection [90mundefined[39m
+[37m2026-06-13 07:13:55.265[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified 'migrate|Collection' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:13:55.277[39m[0m[0m	[31m[1mERROR[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	Failed to parse rg JSON output line: {"type":"match","data":{"path":{"text":"/home/user/myproject/pb_data/data.db"},"lines":{"bytes":"BlQdLr0m+icFA0UGMTcxNzIzMzU1OF92MC4yM19taWdyYXRlMy5nbwo="},"line_number":3988,"absolute_offset":7997,"submatches":[{"match":{"text":"migrate"},"start":29,"end":36}]}}
+
+[97m[101m[1m TypeError [22m[49m[39m[0m[0m undefined is not an object (evaluating 'matchData.lines.text.replace'), 463327, 42, 463327, 42, /$bunfs/root/pochi[0m[0m
+error stack:
+  • [33mpochi[39m[0m[0m	searchFilesWithRipgrep[0m[0m
+	[37m$bunfs/root/pochi:463327[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async <anonymous>[0m[0m
+	[37m$bunfs/root/pochi:516831[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async executeToolCall2[0m[0m
+	[37m$bunfs/root/pochi:516941[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async executeToolCallItem[0m[0m
+	[37m$bunfs/root/pochi:517333[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async runToolCall[0m[0m
+	[37m$bunfs/root/pochi:517312[39m[0m[0m
+  • [33mnative[39m[0m[0m	processTicksAndRejections[0m[0m
+	[37mnative:7[39m[0m[0m[0m[0m
+[37m2026-06-13 07:13:55.279[39m[0m[0m	[31m[1mERROR[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	Failed to parse rg JSON output line: {"type":"match","data":{"path":{"text":"/home/user/myproject/pb_data/data.db"},"lines":{"bytes":"BlQdLr0kpycEA0UGMTcxNzIzMzU1N192MC4yM19taWdyYXRlMi5nbwo="},"line_number":3989,"absolute_offset":8038,"submatches":[{"match":{"text":"migrate"},"start":29,"end":36}]}}
+
+[97m[101m[1m TypeError [22m[49m[39m[0m[0m undefined is not an object (evaluating 'matchData.lines.text.replace'), 463327, 42, 463327, 42, /$bunfs/root/pochi[0m[0m
+error stack:
+  • [33mpochi[39m[0m[0m	searchFilesWithRipgrep[0m[0m
+	[37m$bunfs/root/pochi:463327[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async <anonymous>[0m[0m
+	[37m$bunfs/root/pochi:516831[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async executeToolCall2[0m[0m
+	[37m$bunfs/root/pochi:516941[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async executeToolCallItem[0m[0m
+	[37m$bunfs/root/pochi:517333[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async runToolCall[0m[0m
+	[37m$bunfs/root/pochi:517312[39m[0m[0m
+  • [33mnative[39m[0m[0m	processTicksAndRejections[0m[0m
+	[37mnative:7[39m[0m[0m[0m[0m
+[37m2026-06-13 07:13:55.279[39m[0m[0m	[31m[1mERROR[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	Failed to parse rg JSON output line: {"type":"match","data":{"path":{"text":"/home/user/myproject/pb_data/data.db"},"lines":{"bytes":"BlQdLrzzQSYDA0MGMTcxNzIzMzU1Nl92MC4yM19taWdyYXRlLmdvCg=="},"line_number":3990,"absolute_offset":8079,"submatches":[{"match":{"text":"migrate"},"start":29,"end":36}]}}
+
+[97m[101m[1m TypeError [22m[49m[39m[0m[0m undefined is not an object (evaluating 'matchData.lines.text.replace'), 463327, 42, 463327, 42, /$bunfs/root/pochi[0m[0m
+error stack:
+  • [33mpochi[39m[0m[0m	searchFilesWithRipgrep[0m[0m
+	[37m$bunfs/root/pochi:463327[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async <anonymous>[0m[0m
+	[37m$bunfs/root/pochi:516831[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async executeToolCall2[0m[0m
+	[37m$bunfs/root/pochi:516941[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async executeToolCallItem[0m[0m
+	[37m$bunfs/root/pochi:517333[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async runToolCall[0m[0m
+	[37m$bunfs/root/pochi:517312[39m[0m[0m
+  • [33mnative[39m[0m[0m	processTicksAndRejections[0m[0m
+	[37mnative:7[39m[0m[0m[0m[0m
+[37m2026-06-13 07:13:58.955[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: path="/home/user/myproject/pb_data/types.d.ts" resolvedPath="/home/user/myproject/pb_data/types.d.ts" isVirtual=false cacheExists=true shouldCache=true startLine=8210 endLine=8310
+[37m2026-06-13 07:13:58.955[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: existingState={startLine=1, endLine=100, timestamp=1781334175727}
+[37m2026-06-13 07:13:58.960[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: populating cache for "/home/user/myproject/pb_data/types.d.ts" mtime=1781334175727 contentLen=3017
+[37m2026-06-13 07:14:02.921[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: path="/home/user/myproject/pb_data/types.d.ts" resolvedPath="/home/user/myproject/pb_data/types.d.ts" isVirtual=false cacheExists=true shouldCache=true startLine=315 endLine=360
+[37m2026-06-13 07:14:02.921[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: existingState={startLine=8210, endLine=8310, timestamp=1781334175727}
+[37m2026-06-13 07:14:02.926[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: populating cache for "/home/user/myproject/pb_data/types.d.ts" mtime=1781334175727 contentLen=1094
+[37m2026-06-13 07:14:06.704[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data RelationField|relation [90mundefined[39m
+[37m2026-06-13 07:14:06.704[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified 'RelationField|relation' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:14:09.514[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: path="/home/user/myproject/pb_data/types.d.ts" resolvedPath="/home/user/myproject/pb_data/types.d.ts" isVirtual=false cacheExists=true shouldCache=true startLine=11270 endLine=11360
+[37m2026-06-13 07:14:09.514[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: existingState={startLine=315, endLine=360, timestamp=1781334175727}
+[37m2026-06-13 07:14:09.520[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: populating cache for "/home/user/myproject/pb_data/types.d.ts" mtime=1781334175727 contentLen=2732
+[37m2026-06-13 07:14:14.872[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data maxSelect [90mundefined[39m
+[37m2026-06-13 07:14:14.872[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified 'maxSelect' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:14:14.881[39m[0m[0m	[31m[1mERROR[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	Failed to parse rg JSON output line: {"type":"match","data":{"path":{"text":"/home/user/myproject/pb_data/data.db"},"lines":{"bytes":"qxwGEisIFRebJ4JfNzcNNze1fT09X3BiX3VzZXJzX2F1dGhfYXV0aHVzZXJzW3siYXV0b2dlbmVyYXRlUGF0dGVybiI6IlthLXowLTldezE1fSIsImhpZGRlbiI6ZmFsc2UsImlkIjoidGV4dDMyMDgyMTAyNTYiLCJtYXgiOjE1LCJtaW4iOjE1LCJuYW1lIjoiaWQiLCJwYXR0ZXJuIjoiXlthLXowLTldKyQiLCJwcmVzZW50YWJsZSI6ZmFsc2UsInByaW1hcnlLZXkiOnRydWUsInJlcXVpcmVkIjp0cnVlLCJzeXN0ZW0iOnRydWUsInR5cGUiOiJ0ZXh0In0seyJjb3N0IjowLCJoaWRkZW4iOnRydWUsImlkIjoicGFzc3dvcmQ5MDE5MjQ1NjUiLCJtYXgiOjAsIm1pbiI6OCwibmFtZSI6InBhc3N3b3JkIiwicGF0dGVybiI6IiIsInByZXNlbnRhYmxlIjpmYWxzZSwicmVxdWlyZWQiOnRydWUsInN5c3RlbSI6dHJ1ZSwidHlwZSI6InBhc3N3b3JkIn0seyJhdXRvZ2VuZXJhdGVQYXR0ZXJuIjoiW2EtekEtWjAtOV17NTB9IiwiaGlkZGVuIjp0cnVlLCJpZCI6InRleHQyNTA0MTgzNzQ0IiwibWF4Ijo2MCwibWluIjozMCwibmFtZSI6InRva2VuS2V5IiwicGF0dGVybiI6IiIsInByZXNlbnRhYmxlIjpmYWxzZSwicHJpbWFyeUtleSI6ZmFsc2UsInJlcXVpcmVkIjp0cnVlLCJzeXN0ZW0iOnRydWUsInR5cGUiOiJ0ZXh0In0seyJleGNlcHREb21haW5zIjpudWxsLCJoaWRkZW4iOmZhbHNlLCJpZCI6ImVtYWlsMzg4NTEzNzAxMiIsIm5hbWUiOiJlbWFpbCIsIm9ubHlEb21haW5zIjpudWxsLCJwcmVzZW50YWJsZSI6ZmFsc2UsInJlcXVpcmVkIjp0cnVlLCJzeXN0ZW0iOnRydWUsInR5cGUiOiJlbWFpbCJ9LHsiaGlkZGVuIjpmYWxzZSwiaWQiOiJib29sMTU0Nzk5MjgwNiIsIm5hbWUiOiJlbWFpbFZpc2liaWxpdHkiLCJwcmVzZW50YWJsZSI6ZmFsc2UsInJlcXVpcmVkIjpmYWxzZSwic3lzdGVtIjp0cnVlLCJ0eXBlIjoiYm9vbCJ9LHsiaGlkZGVuIjpmYWxzZSwiaWQiOiJib29sMjU2MjQ1NTI5IiwibmFtZSI6InZlcmlmaWVkIiwicHJlc2VudGFibGUiOmZhbHNlLCJyZXF1aXJlZCI6ZmFsc2UsInN5c3RlbSI6dHJ1ZSwidHlwZSI6ImJvb2wifSx7ImF1dG9nZW5lcmF0ZVBhdHRlcm4iOiIiLCJoaWRkZW4iOmZhbHNlLCJpZCI6InRleHQxNTc5Mzg0MzI2IiwibWF4IjoyNTUsIm1pbiI6MCwibmFtZSI6Im5hbWUiLCJwYXR0ZXJuIjoiIiwicHJlc2VudGFibGUiOmZhbHNlLCJwcmltYXJ5S2V5IjpmYWxzZSwicmVxdWlyZWQiOmZhbHNlLCJzeXN0ZW0iOmZhbHNlLCJ0eXBlIjoidGV4dCJ9LHsiaGlkZGVuIjpmYWxzZSwiaWQiOiJmaWxlMzc2OTI2NzY3IiwibWF4U2VsZWN0IjoxLCJtYXhTaXplIjowLCJtaW1lVHlwZXMiOlsiaW1hZ2UvanBlZyIsImltYWdlL3BuZyIsImltYWdlL3N2Zyt4bWwiLCJpbWFnZS9naWYiLCJpbWFnZS93ZWJwIl0sIm5hbWUiOiJhdmF0YXIiLCJwcmVzZW50YWJsZSI6ZmFsc2UsInByb3RlY3RlZCI6ZmFsc2UsInJlcXVpcmVkCg=="},"line_number":93118,"absolute_offset":120520,"submatches":[{"match":{"text":"maxSelect"},"start":1275,"end":1284}]}}
+
+[97m[101m[1m TypeError [22m[49m[39m[0m[0m undefined is not an object (evaluating 'matchData.lines.text.replace'), 463327, 42, 463327, 42, /$bunfs/root/pochi[0m[0m
+error stack:
+  • [33mpochi[39m[0m[0m	searchFilesWithRipgrep[0m[0m
+	[37m$bunfs/root/pochi:463327[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async <anonymous>[0m[0m
+	[37m$bunfs/root/pochi:516831[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async executeToolCall2[0m[0m
+	[37m$bunfs/root/pochi:516941[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async executeToolCallItem[0m[0m
+	[37m$bunfs/root/pochi:517333[39m[0m[0m
+  • [33mpochi[39m[0m[0m	async runToolCall[0m[0m
+	[37m$bunfs/root/pochi:517312[39m[0m[0m
+  • [33mnative[39m[0m[0m	processTicksAndRejections[0m[0m
+	[37mnative:7[39m[0m[0m[0m[0m
+[37m2026-06-13 07:14:46.561[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data class TextField [90mundefined[39m
+[37m2026-06-13 07:14:46.562[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified 'class TextField' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:14:51.192[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data fields: [90mundefined[39m
+[37m2026-06-13 07:14:51.193[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified 'fields:' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:14:54.416[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: path="/home/user/myproject/pb_data/types.d.ts" resolvedPath="/home/user/myproject/pb_data/types.d.ts" isVirtual=false cacheExists=true shouldCache=true startLine=11920 endLine=11950
+[37m2026-06-13 07:14:54.417[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: existingState={startLine=11270, endLine=11360, timestamp=1781334175727}
+[37m2026-06-13 07:14:54.423[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: populating cache for "/home/user/myproject/pb_data/types.d.ts" mtime=1781334175727 contentLen=691
+[37m2026-06-13 07:15:10.459[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data \bsave\( [90mundefined[39m
+[37m2026-06-13 07:15:10.460[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified '\bsave\(' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:15:17.622[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data \bdelete\( [90mundefined[39m
+[37m2026-06-13 07:15:17.623[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified '\bdelete\(' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:15:39.775[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data \bid: string [90mundefined[39m
+[37m2026-06-13 07:15:39.776[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified '\bid: string' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:15:43.199[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: path="/home/user/myproject/pb_data/types.d.ts" resolvedPath="/home/user/myproject/pb_data/types.d.ts" isVirtual=false cacheExists=true shouldCache=true startLine=8515 endLine=8535
+[37m2026-06-13 07:15:43.199[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: existingState={startLine=11920, endLine=11950, timestamp=1781334175727}
+[37m2026-06-13 07:15:43.208[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: populating cache for "/home/user/myproject/pb_data/types.d.ts" mtime=1781334175727 contentLen=459
+[37m2026-06-13 07:15:46.451[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data interface baseCollection\b [90mundefined[39m
+[37m2026-06-13 07:15:46.451[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified 'interface baseCollection\b' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:15:50.763[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: path="/home/user/myproject/pb_data/types.d.ts" resolvedPath="/home/user/myproject/pb_data/types.d.ts" isVirtual=false cacheExists=true shouldCache=true startLine=8180 endLine=8205
+[37m2026-06-13 07:15:50.764[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: existingState={startLine=8515, endLine=8535, timestamp=1781334175727}
+[37m2026-06-13 07:15:50.772[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: populating cache for "/home/user/myproject/pb_data/types.d.ts" mtime=1781334175727 contentLen=853
+[37m2026-06-13 07:15:54.132[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	searchFiles /home/user/myproject/pb_data interface BaseModel\b [90mundefined[39m
+[37m2026-06-13 07:15:54.133[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516831[39m[0m[0m[1m[37m	RipgrepUtils[39m[22m[0m[0m	command "/usr/bin/rg" --json --case-sensitive --binary --sortr modified 'interface BaseModel\b' '/home/user/myproject/pb_data'
+[37m2026-06-13 07:15:57.425[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: path="/home/user/myproject/pb_data/types.d.ts" resolvedPath="/home/user/myproject/pb_data/types.d.ts" isVirtual=false cacheExists=true shouldCache=true startLine=9070 endLine=9115
+[37m2026-06-13 07:15:57.425[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: existingState={startLine=8180, endLine=8205, timestamp=1781334175727}
+[37m2026-06-13 07:15:57.433[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:516783[39m[0m[0m[1m[37m	FileStateCache[39m[22m[0m[0m	withReadFileCache: populating cache for "/home/user/myproject/pb_data/types.d.ts" mtime=1781334175727 contentLen=1138
+[37m2026-06-13 07:18:33.361[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37mnative:7[39m[0m[0m[1m[37m	Pochi[39m[22m[0m[0m	Task runner finished successfully.
+[37m2026-06-13 07:18:33.362[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37mnative:7[39m[0m[0m[1m[37m	Pochi[39m[22m[0m[0m	Shutting down...
+[37m2026-06-13 07:18:33.391[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37mnative:7[39m[0m[0m[1m[37m	Pochi[39m[22m[0m[0m	Shutdown completed. Process will exit.
+[37m2026-06-13 07:18:33.394[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m[39m[0m[0m[1m[37m	Pochi[39m[22m[0m[0m	Process exiting with code 0
