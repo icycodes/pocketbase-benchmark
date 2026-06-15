@@ -1,0 +1,157 @@
+- Initializing MCP connections...
+You
+# S3 Presigned Upload Routes for PocketBase (Go) ## Goal Build a custom PocketBase v0.31.0 backend in Go that exposes two authenticated REST endpoints used by clients to upload files directly to an S3-compatible object store (local MinIO). The backend itself must never proxy the file bytes — it only mints short-lived presigned URLs and tracks pending vs. finalized uploads in its own SQLite collections. ## Acceptance Criteria * Project path: `/home/user/myapp` * Start command: `./myapp serve --http=0.0.0.0:8090` (the executable named `myapp` must be produced by `go build` in the project directory; the verifier will (re)build it if missing). * Port: `8090` * The PocketBase application must use the `github.com/pocketbase/pocketbase` module at version `v0.31.0`. * A pre-seeded superuser is available for collection bootstrapping: `admin@example.com` / `1234567890`. * A pre-seeded regular auth user lives in the `users` collection: `user@example.com` / `password1234`. * A second regular auth user lives in the `users` collection: `other@example.com` / `password1234`. * The S3-compatible target is a local MinIO server reachable at `http://127.0.0.1:9000` with credentials `minioadmin` / `minioadmin`, region `us-east-1`, and a pre-created bucket named `uploads`. The Go process may read these from any environment variables it chooses, but the defaults above MUST work out of the box when the variables are unset. * Two collections MUST exist (the app may create them programmatically on boot or via migrations): * `pending_upload` (type `base`) with fields: * `user` (relation to `users`, required, single) * `key` (text, required, unique) * `expires_at` (date, required) * `uploads` (type `base`) with fields: * `user` (relation to `users`, required, single) * `key` (text, required, unique) * Endpoint `POST /api/uploads/presign`: * Requires a valid PocketBase auth token from the `users` collection. Unauthenticated requests MUST return HTTP `401`. * On success returns HTTP `200` with JSON body containing AT LEAST the fields: * `url` — a presigned S3 PUT URL whose host/path resolves to `http(s)://<minio-host>:<port>/uploads/<key>?...` (path-style addressing, with AWS SigV4 query parameters such as `X-Amz-Signature`). * `key` — a server-generated object key (must look like a UUID, i.e. match `^[a-f0-9-]{16,}$`). * `expiresAt` — an RFC3339 timestamp at least 299 seconds in the future and at most 360 seconds in the future at the moment the response is produced. * The presigned URL MUST be valid for exactly 300 seconds (±5s tolerance) and MUST allow an HTTP `PUT` with arbitrary body to upload the object to the `uploads` bucket under the returned `key`. * Before returning, the handler MUST create a record in `pending_upload` whose `user` equals the authenticated user's id, `key` equals the returned `key`, and `expires_at` equals the returned `expiresAt`. * Endpoint `POST /api/uploads/finalize`: * Requires a valid PocketBase auth token from the `users` collection. Unauthenticated requests MUST return HTTP `401`. * Accepts JSON body `{ "key": "<key>" }`. * The handler MUST verify the object exists in the bucket via an S3 `HEAD` request. If the object does not exist, respond with HTTP `404`. * If a `pending_upload` record for the given `key` does not exist OR belongs to a different user, respond with HTTP `404`. * On success: delete the `pending_upload` row for that `key`, create a new `uploads` row with the same `user` and `key`, and respond with HTTP `200` and a JSON body that contains at least `{ "key": "<key>" }`. * The two endpoints MUST live under `/api/uploads/...` exactly as written above so the verifier can reach them. * The app may emit logs to stdout/stderr; no specific log format is required.   
+
+Pochi
+💭 Thinking for 312 characters   
+📂 Listing files in /home/user recursively ✔ 
+📂 Listing files in /home/user/myapp recursively ✔ 
+💭 Thinking for 1314 characters   
+💫 Executing go version ✔ 
+📋 Updating todo list (6 items) ✔ 
+📋 Updating todo list (6 items) ✔ 
+💫 Executing go mod init myapp ✔ 
+💫 Executing go get github.com/pocketbase/pocketbase@v0.31.0 ✔ 
+💭 Thinking for 264 characters   
+💫 Executing go get github.com/aws/aws-sdk-go-v2 github.com/aws/aws-sdk-go-v2/config github.com/aws/aws-sdk-go-v2/credentials github.com/aws/aws-sdk-go-v2/service/s3 ✔ 
+📋 Updating todo list (6 items) ✔ 
+📋 Updating todo list (6 items) ✔ 
+💭 Thinking for 644 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core Collection ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core NewBaseCollection ✔ 
+💭 Thinking for 356 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core | grep "type Collection" -A 15 ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core FieldsList ✔ 
+💫 Executing go doc -src github.com/pocketbase/pocketbase/core Collection ✔ 
+💫 Executing go doc -src github.com/pocketbase/pocketbase/core baseCollection ✖ "Command exited with code 1"
+💭 Thinking for 276 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core | grep -i "fields" ✔ 
+💭 Thinking for 397 characters   
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✔ 
+💭 Thinking for 256 characters   
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✔ 
+💭 Thinking for 340 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core RelationField ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core DateField ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core TextField ✔ 
+💭 Thinking for 309 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core App ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core App | grep -i "collection" ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core App | grep "Save" ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core NewRecord ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core Record.Set ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core Record | grep -E "func \(m \*Record\) Get" ✔ 
+💭 Thinking for 822 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core Collection.AddIndex ✔ 
+💭 Thinking for 979 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core App | grep -i "bootstrap" ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase PocketBase ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core App | grep -E "On.*Serve" ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core ServeEvent ✔ 
+💭 Thinking for 323 characters   
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✔ 
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✔ 
+💭 Thinking for 233 characters   
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✔ 
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✔ 
+💭 Thinking for 244 characters   
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✔ 
+💭 Thinking for 275 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core Record.Collection ✔ 
+💭 Thinking for 1753 characters   
+📋 Updating todo list (6 items) ✔ 
+💭 Thinking for 482 characters   
+💫 Executing go doc github.com/aws/aws-sdk-go-v2/service/s3 Options | grep -i "endpoint" ✔ 
+💫 Executing go doc github.com/aws/aws-sdk-go-v2/service/s3 Options | grep -i "path" ✔ 
+💭 Thinking for 250 characters   
+💫 Executing go doc github.com/aws/aws-sdk-go-v2/service/s3 NewPresignClient ✔ 
+💫 Executing go doc github.com/aws/aws-sdk-go-v2/service/s3 PresignClient ✔ 
+💫 Executing go doc github.com/aws/aws-sdk-go-v2/service/s3 PresignClient.PresignPutObject ✔ 
+💫 Executing go doc github.com/aws/aws-sdk-go-v2/service/s3 PresignOptions ✔ 
+💭 Thinking for 506 characters   
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✔ 
+💭 Thinking for 245 characters   
+💫 Executing go doc github.com/aws/aws-sdk-go-v2/service/s3 Client.HeadObject ✔ 
+💭 Thinking for 583 characters   
+💫 Executing go doc github.com/aws/aws-sdk-go-v2/service/s3/types NotFound ✔ 
+💫 Executing go doc github.com/aws/aws-sdk-go-v2/service/s3/types NoSuchKey ✔ 
+💭 Thinking for 270 characters   
+📋 Updating todo list (6 items) ✔ 
+💭 Thinking for 646 characters   
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/tools/types DateTime ✔ 
+💭 Thinking for 591 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core Record ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/core BaseModel ✔ 
+💭 Thinking for 1083 characters   
+📋 Updating todo list (6 items) ✔ 
+💭 Thinking for 1364 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core App | grep -E "func \(.*\) Delete" ✖ "Command exited with code 1"
+💫 Executing go doc github.com/pocketbase/pocketbase/core App | grep "Delete" ✔ 
+💭 Thinking for 263 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/core App | grep -i "transaction" ✔ 
+💭 Thinking for 1357 characters   
+💫 Executing go doc github.com/pocketbase/pocketbase/apis | grep -i "auth" ✔ 
+💫 Executing go doc github.com/pocketbase/pocketbase/apis RequireAuth ✔ 
+💭 Thinking for 329 characters   
+✏️  Writing /home/user/myapp/inspect.go ✔ 
+💫 Executing go run inspect.go ✖ "Command exited with code 1"
+💫 Executing go doc github.com/pocketbase/pocketbase/tools/router Route ✔ 
+💭 Thinking for 1359 characters   
+✏️  Writing /home/user/myapp/main.go ✔ 
+💫 Executing go build -o myapp ✖ "Command exited with code 1"
+💫 Executing rm inspect.go ✔ 
+💫 Executing go build -o myapp ✔ 
+💫 Executing go mod tidy ✔ 
+💫 Executing go build -o myapp ✔ 
+📋 Updating todo list (6 items) ✔ 
+💫 Executing curl -I http://127.0.0.1:9000 ✔ 
+🛠️ Tool startBackgroundJob ✔ 
+🛠️ Tool readBackgroundJobOutput ✔ 
+💭 Thinking for 196 characters   
+💫 Executing curl -s -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password -H "Content-Type: application/json" -d '{"identity":"user@example.com","password":"password1234"}' ✔ 
+💭 Thinking for 154 characters   
+💫 Executing curl -s -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password -H "Content-Type: application/json" -d '{"identity":"other@example.com","password":"password1234"}' ✔ 
+💭 Thinking for 234 characters   
+💫 Executing curl -i -X POST http://127.0.0.1:8090/api/uploads/presign ✔ 
+💭 Thinking for 349 characters   
+💫 Executing curl -i -X POST http://127.0.0.1:8090/api/uploads/presign -H "Authorization: REDACTED" ✔ 
+💭 Thinking for 268 characters   
+💫 Executing sqlite3 pb_data/data.db "SELECT * FROM pending_upload" ✖ "Command exited with code 127"
+💭 Thinking for 297 characters   
+💫 Executing curl -i -X POST http://127.0.0.1:8090/api/uploads/finalize -H "Authorization: REDACTED" -H "Content-Type: application/json" -d '{"key":"f048caff-255e-41b2-8367-97787de31c66"}' ✔ 
+💭 Thinking for 263 characters   
+💫 Executing curl -i -X PUT "http://127.0.0.1:9000/uploads/f048caff-255e-41b2-8367-97787de31c66?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20260615%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260615T022603Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&x-id=PutObject&X-Amz-Signature=1628801c803f090e487c60b31ad3337c472d402001cc4e6195f1f7c4a8529eae" -d "Hello, MinIO!" ✔ 
+💭 Thinking for 217 characters   
+💫 Executing curl -i -X POST http://127.0.0.1:8090/api/uploads/finalize -H "Authorization: REDACTED" -H "Content-Type: application/json" -d '{"key":"f048caff-255e-41b2-8367-97787de31c66"}' ✔ 
+💭 Thinking for 380 characters   
+💫 Executing curl -i -X POST http://127.0.0.1:8090/api/uploads/finalize -H "Authorization: REDACTED" -H "Content-Type: application/json" -d '{"key":"f048caff-255e-41b2-8367-97787de31c66"}' ✔ 
+💫 Executing curl -s -X POST http://127.0.0.1:8090/api/uploads/presign -H "Authorization: REDACTED" ✔ 
+💭 Thinking for 150 characters   
+💫 Executing curl -i -X POST http://127.0.0.1:8090/api/uploads/finalize -H "Authorization: REDACTED" -H "Content-Type: application/json" -d '{"key":"ccb3da49-45bc-4e13-b44c-d13cbe5de0c4"}' ✔ 
+💭 Thinking for 257 characters   
+🛠️ Tool killBackgroundJob ✔ 
+📋 Updating todo list (6 items) ✔ 
+📂 Listing files in /home/user/myapp recursively ✔ 
+💭 Thinking for 236 characters   
+🎉 Task Completed
+I have successfully built and verified the custom PocketBase backend in Go according to all of your requirements.
+
+### Summary of what was accomplished:
+1. **Initialized Go Module**: Initialized `go.mod` at `/home/user/myapp` and imported `github.com/pocketbase/pocketbase` at version `v0.31.0`.
+2. **Integrated AWS SDK v2**: Added dependencies for the modern AWS SDK v2 (`github.com/aws/aws-sdk-go-v2`) and configured path-style routing compatible with local MinIO.
+3. **Automated Collection Creation**: Created logic on server startup (`OnServe` hook) to automatically check for and bootstrap the `pending_upload` and `uploads` collections with correct types, required fields, and unique indexes on the `key` field.
+4. **Endpoint implementation**:
+   - `POST /api/uploads/presign`: Requires authentication, generates a UUID-based key, mints a 300-second S3 PUT presigned URL, creates a `pending_upload` record, and returns the metadata.
+   - `POST /api/uploads/finalize`: Requires authentication, validates the S3 object exists using a `HEAD` request, verifies ownership of the `pending_upload` record, atomically deletes the `pending_upload` record, and inserts a finalized record in the `uploads` collection using an SQLite transaction.
+5. **Validation and Verification**: Compiled the `myapp` binary and ran local tests using `curl` and the pre-seeded users. Verified correct behavior, authentication rules, and user isolation.   
+  

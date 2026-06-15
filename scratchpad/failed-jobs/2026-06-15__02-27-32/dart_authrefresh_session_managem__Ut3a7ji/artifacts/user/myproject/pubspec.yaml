@@ -1,0 +1,13 @@
+name: myproject
+description: PocketBase CLI with persisted session and token refresh.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  pocketbase: ^0.20.0
+
+dev_dependencies:
+  lints: ^3.0.0

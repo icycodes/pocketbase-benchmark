@@ -1,0 +1,100 @@
+- Initializing MCP connections...
+You
+# PocketBase Superuser and Task Seeding via CLI ## Goal Write an idempotent shell script `setup.sh` at `/home/user/myproject/setup.sh` that prepares a clean PocketBase v0.31.0 instance: creates a superuser non-interactively, applies a migration that defines a `tasks` collection, starts the server in the background, and seeds five predefined task records via the PocketBase REST API. Running the script multiple times must NOT create duplicates and must not error. ## Acceptance Criteria - Project path: `/home/user/myproject` - The PocketBase v0.31.0 binary is available at `/home/user/myproject/pocketbase` (already pre-installed in the environment). - Command: `bash setup.sh` - After the command completes (the first time and every subsequent time), all of the following must hold: - The PocketBase server is running and responds to `GET http://127.0.0.1:8090/api/health` with HTTP 200. - Exactly one superuser record exists in the `_superusers` collection with email `admin@example.com` and password `Adm1n_passw0rd!`. The password must work with the `POST /api/collections/_superusers/auth-with-password` endpoint. - A collection named `tasks` (type `base`) exists with the following schema fields: `title` (text, required), `done` (bool), `due` (date). - Exactly 5 records exist in the `tasks` collection with the following `title` values (one record per title, no duplicates, exact case): - `Buy groceries` - `Walk the dog` - `Read a book` - `Write weekly report` - `Call mom` - Idempotency: Running `bash setup.sh` two times in a row from the same project directory must exit with status 0 both times and must leave the counts at exactly 1 superuser and exactly 5 `tasks` records. - The server started by the script must keep running after the script exits (so the REST API can be queried).   
+
+Pochi
+💭 Thinking for 2403 characters   
+📂 Listing files in /home/user/myproject ✔ 
+💫 Executing /home/user/myproject/pocketbase --version 2>&1; /home/user/myproject/pocketbase --help 2>&1 | head -60 ✔ 
+💫 Executing /home/user/myproject/pocketbase superuser --help 2>&1 ✔ 
+💫 Executing /home/user/myproject/pocketbase migrate --help 2>&1; /home/user/myproject/pocketbase serve --help 2>&1 ✔ 
+Now I have a complete picture. Let me check what tools are available in the environment for the seeding logic:   
+💫 Executing which curl jq python3 2>&1; curl --version 2>&1 | head -1; jq --version 2>&1 ✔ 
+`curl` and `jq` are both available. Now I have everything I need to write a well-crafted, idempotent script.   
+📋 Updating todo list (4 items) ✔ 
+📋 Updating todo list (4 items) ✔ 
+💫 Executing mkdir -p /home/user/myproject/pb_migrations ✔ 
+✏️  Writing /home/user/myproject/pb_migrations/1_create_tasks.js ✔ 
+📋 Updating todo list (4 items) ✔ 
+✏️  Writing /home/user/myproject/setup.sh ✔ 
+💫 Executing chmod +x /home/user/myproject/setup.sh ✔ 
+📋 Updating todo list (4 items) ✔ 
+💫 Executing cd /home/user/myproject && bash setup.sh 2>&1 ✔ 
+First run succeeded. Now verify all acceptance criteria:   
+💫 Executing 
+# 1. Health check
+echo "=== Health ==="
+curl -s http://127.0.0.1:8090/api/health | jq .
+
+# 2. Auth as superuser
+echo "=== Auth ==="
+TOKEN=$(curl -sf -X POST http://127.0.0.1:8090/api/collections/_superusers/auth-with-password \
+  -H "Content-Type: application/json" \
+  -d '{"identity":"admin@example.com","password":"Adm1n_passw0rd!"}' | jq -r '.token')
+echo "Token obtained: ${TOKEN:0:20}..."
+
+# 3. Superuser count
+echo "=== Superusers ==="
+curl -sf -H "Authorization: $TOKEN" \
+  "http://127.0.0.1:8090/api/collections/_superusers/records" | jq '{totalItems, items_email: [.items[].email]}'
+
+# 4. Tasks collection schema
+echo "=== Tasks collection schema ==="
+curl -sf -H "Authorization: $TOKEN" \
+  "http://127.0.0.1:8090/api/collections/tasks" | jq '{name, type, fields: [.fields[] | {name,type,required}]}'
+
+# 5. Tasks records
+echo "=== Tasks records ==="
+curl -sf -H "Authorization: $TOKEN" \
+  "http://127.0.0.1:8090/api/collections/tasks/records?perPage=50" | jq '{totalItems, titles: [.items[].title]}'
+ ✔ 
+All acceptance criteria pass on the first run. Now test idempotency:   
+📋 Updating todo list (4 items) ✔ 
+💫 Executing cd /home/user/myproject && bash setup.sh 2>&1; echo "EXIT CODE: $?" ✔ 
+Second run exits 0, all tasks skipped. Verify counts are still exactly right:   
+💫 Executing 
+TOKEN=$(curl -sf -X POST http://127.0.0.1:8090/api/collections/_superusers/auth-with-password \
+  -H "Content-Type: application/json" \
+  -d '{"identity":"admin@example.com","password":"Adm1n_passw0rd!"}' | jq -r '.token')
+
+echo "=== Health (HTTP status) ==="
+curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8090/api/health
+
+echo ""
+echo "=== Superuser count ==="
+curl -sf -H "Authorization: $TOKEN" \
+  "http://127.0.0.1:8090/api/collections/_superusers/records" | jq '.totalItems'
+
+echo "=== Tasks count ==="
+curl -sf -H "Authorization: $TOKEN" \
+  "http://127.0.0.1:8090/api/collections/tasks/records?perPage=50" | jq '.totalItems'
+ ✔ 
+📋 Updating todo list (4 items) ✔ 
+All acceptance criteria are satisfied on both runs.   
+🎉 Task Completed
+The idempotent setup script is ready. Two files were created:
+
+---
+
+### `/home/user/myproject/pb_migrations/1_create_tasks.js`
+A PocketBase JS migration that creates the `tasks` collection (`base` type) with fields `title` (text, required), `done` (bool), and `due` (date). It wraps the creation in a `try/catch` so re-running the migration is a no-op.
+
+---
+
+### `/home/user/myproject/setup.sh`
+The script follows these steps on every invocation:
+
+1. **Stop** any previously started PocketBase process (via PID file, then `fuser` fallback) so the port is free.
+2. **Upsert superuser** with `./pocketbase superuser upsert admin@example.com Adm1n_passw0rd!` — creates on first run, updates on subsequent runs, always exits 0.
+3. **Start server** in the background (`--automigrate` applies the migration on first boot, skips it on subsequent boots because PocketBase tracks applied migrations in `_migrations`). The PID is saved to `pocketbase.pid`.
+4. **Health-poll** the `GET /api/health` endpoint (up to 30 s) before proceeding.
+5. **Authenticate** via `POST /api/collections/_superusers/auth-with-password` to get a bearer token.
+6. **Seed tasks** — for each of the 5 titles, query `tasks` with a `filter=title='...'` check; create the record only when `totalItems == 0`, otherwise skip.
+
+**Verified results (both runs):**
+- `GET /api/health` → HTTP 200 ✓
+- Exactly **1 superuser** (`admin@example.com`) ✓
+- `tasks` collection with `title` (text, required), `done` (bool), `due` (date) ✓
+- Exactly **5 task records** with the required exact-case titles ✓
+- Second `bash setup.sh` exits with status **0**, all 5 tasks logged as SKIP, counts unchanged ✓   
+  

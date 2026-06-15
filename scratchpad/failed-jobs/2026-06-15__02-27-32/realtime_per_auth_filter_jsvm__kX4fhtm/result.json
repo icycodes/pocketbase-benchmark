@@ -1,0 +1,118 @@
+{
+    "id": "d0cc7776-451c-4915-863d-45b9ea9019de",
+    "task_name": "realtime_per_auth_filter_jsvm",
+    "trial_name": "realtime_per_auth_filter_jsvm__kX4fhtm",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__02-27-32/realtime_per_auth_filter_jsvm__kX4fhtm",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/realtime_per_auth_filter_jsvm"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "a6dff49b8f07123a1b37d7218859814f45dc3bb4ca7bf225ee476b1196dc68a6",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/realtime_per_auth_filter_jsvm",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "realtime_per_auth_filter_jsvm__kX4fhtm",
+        "trials_dir": "jobs/2026-06-15__02-27-32",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "anthropic/claude-4-6-sonnet",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "556e259b-c709-4a48-9634-9181bb5f02a4"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "claude-4-6-sonnet",
+            "provider": "anthropic"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 0,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": null,
+    "exception_info": {
+        "exception_type": "NonZeroAgentExitCodeError",
+        "exception_message": "Command failed (exit 143): pochi --model anthropic/claude-4-6-sonnet --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# Per-Authenticated-User Realtime Filtering in PocketBase\n\n## Goal\nIn the PocketBase project at `/home/user/myproject`, configure a `notifications` collection so that PocketBase's realtime Server-Sent Events (SSE) stream naturally delivers notification records only to the user named on the record. JSVM hooks at `pb_hooks/*.pb.js` may be used as a supporting mechanism, but the primary filtering MUST be enforced by collection API rules so that a generic SSE subscriber sees only the records it is authorized to see.\n\n## Acceptance Criteria\n- Project path: `/home/user/myproject`\n- Start command (run from the project path): `./pocketbase serve --http=0.0.0.0:8090`\n- Port: `8090`\n- A non-auth, non-view base collection named `notifications` exists with at least the following fields:\n  - `recipient`: relation to the built-in `users` collection, required, single (`maxSelect = 1`).\n  - `message`: text.\n- The `notifications` collection's `listRule` and `viewRule` are BOTH the exact expression `recipient = @request.auth.id` (other rules — create/update/delete — may stay restricted to superusers).\n- The pre-seeded `users` collection still contains the two regular accounts `alice@example.com` and `bob@example.com` (passwords pre-provisioned in `pb_data`). The verifier authenticates with these credentials via `POST /api/collections/users/auth-with-password`.\n- Realtime SSE behavior on `GET /api/realtime` followed by `POST /api/realtime` with `subscriptions = [\"notifications\"]`:\n  - When the subscriber sends an `Authorization` header for user A and the verifier creates three `notifications` records with recipients `[A, B, A]` via the superuser REST API, A's SSE stream MUST receive exactly two `create` messages within 5 seconds, and for every received message `record.recipient` MUST equal A's id.\n  - When the subscriber sends an `Authorization` header for user B in the same scenario, B's SSE stream MUST receive exactly one `create` message within 5 seconds, with `record.recipient` equal to B's id.\n  - When the subscriber sends NO `Authorization` header (anonymous), it MUST receive zero `create` messages for the `notifications` collection within 5 seconds.\n\n\nEOF\nstdout: \u001b[37m2026-06-15 02:43:51.173\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 02:43:51.457\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 02:43:51.761\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 02:43:51.857\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 02:43:51.897\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 02:43:53.170\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 63, in _run_agent\n    await self._run_agent_phase(\n    ...<4 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py\", line 238, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/usr/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 39, in wrapper\n    return await fn(self, instruction, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kweizh/zealt/zealt-agent/agents/pochi.py\", line 223, in run\n    await self.exec_as_agent(\n    ...<15 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 354, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 317, in _exec\n    raise NonZeroAgentExitCodeError(\n    ...<3 lines>...\n    )\nharbor.agents.installed.base.NonZeroAgentExitCodeError: Command failed (exit 143): pochi --model anthropic/claude-4-6-sonnet --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# Per-Authenticated-User Realtime Filtering in PocketBase\n\n## Goal\nIn the PocketBase project at `/home/user/myproject`, configure a `notifications` collection so that PocketBase's realtime Server-Sent Events (SSE) stream naturally delivers notification records only to the user named on the record. JSVM hooks at `pb_hooks/*.pb.js` may be used as a supporting mechanism, but the primary filtering MUST be enforced by collection API rules so that a generic SSE subscriber sees only the records it is authorized to see.\n\n## Acceptance Criteria\n- Project path: `/home/user/myproject`\n- Start command (run from the project path): `./pocketbase serve --http=0.0.0.0:8090`\n- Port: `8090`\n- A non-auth, non-view base collection named `notifications` exists with at least the following fields:\n  - `recipient`: relation to the built-in `users` collection, required, single (`maxSelect = 1`).\n  - `message`: text.\n- The `notifications` collection's `listRule` and `viewRule` are BOTH the exact expression `recipient = @request.auth.id` (other rules — create/update/delete — may stay restricted to superusers).\n- The pre-seeded `users` collection still contains the two regular accounts `alice@example.com` and `bob@example.com` (passwords pre-provisioned in `pb_data`). The verifier authenticates with these credentials via `POST /api/collections/users/auth-with-password`.\n- Realtime SSE behavior on `GET /api/realtime` followed by `POST /api/realtime` with `subscriptions = [\"notifications\"]`:\n  - When the subscriber sends an `Authorization` header for user A and the verifier creates three `notifications` records with recipients `[A, B, A]` via the superuser REST API, A's SSE stream MUST receive exactly two `create` messages within 5 seconds, and for every received message `record.recipient` MUST equal A's id.\n  - When the subscriber sends an `Authorization` header for user B in the same scenario, B's SSE stream MUST receive exactly one `create` message within 5 seconds, with `record.recipient` equal to B's id.\n  - When the subscriber sends NO `Authorization` header (anonymous), it MUST receive zero `create` messages for the `notifications` collection within 5 seconds.\n\n\nEOF\nstdout: \u001b[37m2026-06-15 02:43:51.173\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 02:43:51.457\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 02:43:51.761\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 02:43:51.857\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 02:43:51.897\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 02:43:53.170\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None\n",
+        "occurred_at": "2026-06-15T02:46:35.041102"
+    },
+    "started_at": "2026-06-15T02:43:32.417514Z",
+    "finished_at": "2026-06-15T02:56:50.085158Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T02:43:32.420045Z",
+        "finished_at": "2026-06-15T02:43:35.075028Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T02:43:35.075067Z",
+        "finished_at": "2026-06-15T02:43:47.253771Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T02:43:47.253883Z",
+        "finished_at": "2026-06-15T02:46:35.036485Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-15T02:46:38.392637Z",
+        "finished_at": "2026-06-15T02:56:38.493690Z"
+    },
+    "step_results": null
+}

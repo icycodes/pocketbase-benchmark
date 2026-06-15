@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 8 items
+
+bootstrap/test_initial_state.py::test_project_dir_exists PASSED
+bootstrap/test_initial_state.py::test_pocketbase_binary_exists PASSED
+bootstrap/test_initial_state.py::test_pocketbase_version_is_v0_31_0 PASSED
+bootstrap/test_initial_state.py::test_curl_available PASSED
+bootstrap/test_initial_state.py::test_jq_available PASSED
+bootstrap/test_initial_state.py::test_no_preexisting_pb_data PASSED
+bootstrap/test_initial_state.py::test_no_preexisting_setup_script PASSED
+bootstrap/test_initial_state.py::test_port_8090_is_free PASSED
+
+============================== 8 passed in 0.10s ===============================

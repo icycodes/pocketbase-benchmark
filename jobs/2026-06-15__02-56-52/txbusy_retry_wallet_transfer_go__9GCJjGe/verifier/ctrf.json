@@ -1,0 +1,77 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T03:20:21.238274+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 4,
+            "passed": 0,
+            "failed": 4,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781493619849,
+            "stop": 1781493621237
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_single_transfer_succeeds",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 357,
+                "start": 1781493620229,
+                "stop": 1781493620586,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "server = None\n\n    def test_single_transfer_succeeds(server):\n        super_token = _superuser_token()\n        id_a, id_b = _wallet_ids(super_token)\n        _reset_state(super_token, id_a, id_b)\n    \n        user_token = _user_token()\n        r = requests.post(\n            f\"{BASE_URL}/api/wallets/transfer\",\n            json={\"fromId\": id_a, \"toId\": id_b, \"amount\": 10},\n            headers={\"Authorization\": user_token},\n            timeout=10,\n        )\n>       assert r.status_code == 200, (\n            f\"Expected HTTP 200 for a valid transfer, got {r.status_code}: {r.text}\"\n        )\nE       AssertionError: Expected HTTP 200 for a valid transfer, got 404: {\"data\":{},\"message\":\"The requested resource wasn't found.\",\"status\":404}\nE         \nE       assert 404 == 200\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:186: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_unauthenticated_transfer_is_rejected",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 101,
+                "start": 1781493620587,
+                "stop": 1781493620688,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "server = None\n\n    def test_unauthenticated_transfer_is_rejected(server):\n        super_token = _superuser_token()\n        id_a, id_b = _wallet_ids(super_token)\n    \n        r = requests.post(\n            f\"{BASE_URL}/api/wallets/transfer\",\n            json={\"fromId\": id_a, \"toId\": id_b, \"amount\": 1},\n            timeout=10,\n        )\n>       assert r.status_code in (401, 403), (\n            f\"Expected 401/403 for unauthenticated transfer, got {r.status_code}: {r.text}\"\n        )\nE       AssertionError: Expected 401/403 for unauthenticated transfer, got 404: {\"data\":{},\"message\":\"The requested resource wasn't found.\",\"status\":404}\nE         \nE       assert 404 in (401, 403)\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:214: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_50_concurrent_transfers_complete_without_deadlock",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 313,
+                "start": 1781493620688,
+                "stop": 1781493621001,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "server = None\n\n    def test_50_concurrent_transfers_complete_without_deadlock(server):\n        super_token = _superuser_token()\n        id_a, id_b = _wallet_ids(super_token)\n        _reset_state(super_token, id_a, id_b)\n    \n        user_token = _user_token()\n    \n        def do_transfer():\n            return requests.post(\n                f\"{BASE_URL}/api/wallets/transfer\",\n                json={\"fromId\": id_a, \"toId\": id_b, \"amount\": 1},\n                headers={\"Authorization\": user_token},\n                timeout=30,\n            )\n    \n        start = time.monotonic()\n        statuses = []\n        with ThreadPoolExecutor(max_workers=10) as executor:\n            futures = [executor.submit(do_transfer) for _ in range(50)]\n            for fut in as_completed(futures):\n                statuses.append(fut.result().status_code)\n        elapsed = time.monotonic() - start\n    \n        assert elapsed < 30, (\n            f\"50 concurrent transfers must finish under 30s, took {elapsed:.2f}s.\"\n        )\n>       assert all(s == 200 for s in statuses), (\n            f\"Expected every concurrent transfer to return HTTP 200, got statuses: {sorted(statuses)}.\"\n        )\nE       AssertionError: Expected every concurrent transfer to return HTTP 200, got statuses: [404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404].\nE       assert False\nE        +  where False = all(<generator object test_50_concurrent_transfers_complete_without_deadlock.<locals>.<genexpr> at 0x7f36438625a0>)\n\ntests/test_final_state.py:245: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_insufficient_funds_returns_400_without_state_change",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 235,
+                "start": 1781493621002,
+                "stop": 1781493621237,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "server = None\n\n    def test_insufficient_funds_returns_400_without_state_change(server):\n        super_token = _superuser_token()\n        id_a, id_b = _wallet_ids(super_token)\n        _reset_state(super_token, id_a, id_b)\n    \n        user_token = _user_token()\n    \n        before_transfers = _transfers_count(super_token)\n        r = requests.post(\n            f\"{BASE_URL}/api/wallets/transfer\",\n            json={\"fromId\": id_a, \"toId\": id_b, \"amount\": 9999},\n            headers={\"Authorization\": user_token},\n            timeout=10,\n        )\n>       assert r.status_code == 400, (\n            f\"Expected HTTP 400 for insufficient funds, got {r.status_code}: {r.text}\"\n        )\nE       AssertionError: Expected HTTP 400 for insufficient funds, got 404: {\"data\":{},\"message\":\"The requested resource wasn't found.\",\"status\":404}\nE         \nE       assert 404 == 400\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:274: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

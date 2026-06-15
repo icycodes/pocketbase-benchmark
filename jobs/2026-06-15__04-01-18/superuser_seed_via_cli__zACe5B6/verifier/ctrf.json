@@ -1,0 +1,80 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T04:09:24.628981+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 3,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781496561985,
+            "stop": 1781496564628
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_server_is_alive",
+                "status": "passed",
+                "duration": 2032,
+                "start": 1781496562431,
+                "stop": 1781496564463,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_superuser_authentication_works",
+                "status": "passed",
+                "duration": 90,
+                "start": 1781496564463,
+                "stop": 1781496564553,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_one_superuser_exists",
+                "status": "passed",
+                "duration": 5,
+                "start": 1781496564554,
+                "stop": 1781496564559,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_tasks_collection_schema",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 41,
+                "start": 1781496564559,
+                "stop": 1781496564600,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "admin_token = 'REDACTED'\n\n    def test_tasks_collection_schema(admin_token: str):\n        resp = requests.get(\n            TASKS_COLLECTION_URL,\n            headers={\"Authorization\": admin_token},\n            timeout=10,\n        )\n>       assert resp.status_code == 200, (\n            f\"Expected GET {TASKS_COLLECTION_URL} to return 200, \"\n            f\"got {resp.status_code}: {resp.text}\"\n        )\nE       AssertionError: Expected GET http://127.0.0.1:8090/api/collections/tasks to return 200, got 404: {\"data\":{},\"message\":\"The requested resource wasn't found.\",\"status\":404}\nE         \nE       assert 404 == 200\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:196: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_five_seeded_tasks",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 28,
+                "start": 1781496564600,
+                "stop": 1781496564628,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "admin_token = 'REDACTED'\n\n    def test_exactly_five_seeded_tasks(admin_token: str):\n        resp = requests.get(\n            TASKS_RECORDS_URL,\n            params={\"perPage\": 200, \"sort\": \"title\"},\n            headers={\"Authorization\": admin_token},\n            timeout=10,\n        )\n>       assert resp.status_code == 200, (\n            f\"Expected GET {TASKS_RECORDS_URL} to return 200, \"\n            f\"got {resp.status_code}: {resp.text}\"\n        )\nE       AssertionError: Expected GET http://127.0.0.1:8090/api/collections/tasks/records to return 200, got 404: {\"data\":{},\"message\":\"Missing collection context.\",\"status\":404}\nE         \nE       assert 404 == 200\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:246: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

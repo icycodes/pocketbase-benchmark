@@ -1,0 +1,69 @@
+Skipping image OS validation for hb__dart_authrefresh_session_management: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-ndj3klk > /logs/artifacts/run-id && echo dart_authrefresh_session_managem__nDJ3kLK > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Dart PocketBase CLI: Persisted Session with authRefresh
+
+## Goal
+Build a standalone Dart CLI at `/home/user/myproject` that authenticates against the local PocketBase v0.31.0 server (`http://127.0.0.1:8090`, `users` collection), persists the resulting auth token to a `session.json` file in the current working directory, and on subsequent runs refreshes that token using the official `pocketbase` pub package.
+
+A seed user is already provisioned: `user@example.com` / `password`.
+
+## Acceptance Criteria
+- Entrypoint: `bin/app.dart`, runnable via `dart run bin/app.dart ...` from `/home/user/myproject`.
+- `dart run bin/app.dart login <email> <password>`
+  - Writes `session.json` (in the current working directory) containing a non-empty PocketBase auth token.
+  - Exits 0.
+- `dart run bin/app.dart refresh`
+  - Loads `session.json`, calls `authRefresh()` on the `users` collection, and persists the new token back to `session.json` if it changed.
+  - Stdout prints exactly two lines and nothing else: the authenticated user record id, then the token's `exp` claim as an integer epoch (seconds).
+  - Exits 0.
+- `dart run bin/app.dart refresh` with a corrupted `session.json` (not valid JSON or missing the token):
+  - Prints exactly `INVALID_SESSION` to stderr.
+  - Exits 1.
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

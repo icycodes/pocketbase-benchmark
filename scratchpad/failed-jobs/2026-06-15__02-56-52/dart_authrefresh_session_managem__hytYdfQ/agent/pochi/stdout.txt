@@ -1,0 +1,30 @@
+- Initializing MCP connections...
+You
+# Dart PocketBase CLI: Persisted Session with authRefresh ## Goal Build a standalone Dart CLI at `/home/user/myproject` that authenticates against the local PocketBase v0.31.0 server (`http://127.0.0.1:8090`, `users` collection), persists the resulting auth token to a `session.json` file in the current working directory, and on subsequent runs refreshes that token using the official `pocketbase` pub package. A seed user is already provisioned: `user@example.com` / `password`. ## Acceptance Criteria - Entrypoint: `bin/app.dart`, runnable via `dart run bin/app.dart ...` from `/home/user/myproject`. - `dart run bin/app.dart login <email> <password>` - Writes `session.json` (in the current working directory) containing a non-empty PocketBase auth token. - Exits 0. - `dart run bin/app.dart refresh` - Loads `session.json`, calls `authRefresh()` on the `users` collection, and persists the new token back to `session.json` if it changed. - Stdout prints exactly two lines and nothing else: the authenticated user record id, then the token's `exp` claim as an integer epoch (seconds). - Exits 0. - `dart run bin/app.dart refresh` with a corrupted `session.json` (not valid JSON or missing the token): - Prints exactly `INVALID_SESSION` to stderr. - Exits 1.   
+
+Pochi
+💭 Thinking for 743 characters   
+💫 Executing mkdir -p /home/user/myproject && cd /home/user/myproject && dart create -t console-full . --force && dart pub add pocketbase ✔ 
+💭 Thinking for 1723 characters   
+✏️  Writing /home/user/myproject/bin/app.dart ✔ 
+💫 Executing curl http://127.0.0.1:8090/api/health ✔ 
+💫 Executing cd /home/user/myproject && dart run bin/app.dart login user@example.com password ✔ 
+💭 Thinking for 140 characters   
+💫 Executing cat /home/user/myproject/session.json ✔ 
+💫 Executing cd /home/user/myproject && dart run bin/app.dart refresh ✔ 
+💫 Executing cd /home/user/myproject && echo 'invalid' > session.json && dart run bin/app.dart refresh ✖ "Command exited with code 1"
+💫 Executing cd /home/user/myproject && echo '{"foo":"bar"}' > session.json && dart run bin/app.dart refresh ✖ "Command exited with code 1"
+💭 Thinking for 267 characters   
+💫 Executing cd /home/user/myproject && echo '{"token":""}' > session.json && dart run bin/app.dart refresh ✖ "Command exited with code 1"
+💫 Executing cd /home/user/myproject && dart run bin/app.dart login user@example.com password && dart run bin/app.dart refresh ✔ 
+💭 Thinking for 1174 characters   
+🔧 Applying diff to /home/user/myproject/bin/app.dart ✔ 
+💭 Thinking for 153 characters   
+🎉 Task Completed
+I have built the Dart CLI application at `/home/user/myproject`. 
+
+It uses the `pocketbase` package to authenticate against the local PocketBase server.
+- Running `dart run bin/app.dart login <email> <password>` authenticates the user and saves the auth token to `session.json` in the current working directory.
+- Running `dart run bin/app.dart refresh` reads `session.json`, restores the session in the `AuthStore`, calls `authRefresh()`, and updates `session.json` with the new token. It then prints the authenticated user's record ID and the token's `exp` claim (in seconds) to stdout.
+- If `session.json` is missing, invalid, or lacks a token, `dart run bin/app.dart refresh` will output exactly `INVALID_SESSION` to stderr and exit with status code 1.   
+  

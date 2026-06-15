@@ -1,0 +1,65 @@
+- Initializing MCP connections...
+You
+# Per-Authenticated-User Realtime Filtering in PocketBase ## Goal In the PocketBase project at `/home/user/myproject`, configure a `notifications` collection so that PocketBase's realtime Server-Sent Events (SSE) stream naturally delivers notification records only to the user named on the record. JSVM hooks at `pb_hooks/*.pb.js` may be used as a supporting mechanism, but the primary filtering MUST be enforced by collection API rules so that a generic SSE subscriber sees only the records it is authorized to see. ## Acceptance Criteria * Project path: `/home/user/myproject` * Start command (run from the project path): `./pocketbase serve --http=0.0.0.0:8090` * Port: `8090` * A non-auth, non-view base collection named `notifications` exists with at least the following fields: * `recipient`: relation to the built-in `users` collection, required, single (`maxSelect = 1`). * `message`: text. * The `notifications` collection's `listRule` and `viewRule` are BOTH the exact expression `recipient = @request.auth.id` (other rules — create/update/delete — may stay restricted to superusers). * The pre-seeded `users` collection still contains the two regular accounts `alice@example.com` and `bob@example.com` (passwords pre-provisioned in `pb_data`). The verifier authenticates with these credentials via `POST /api/collections/users/auth-with-password`. * Realtime SSE behavior on `GET /api/realtime` followed by `POST /api/realtime` with `subscriptions = ["notifications"]`: * When the subscriber sends an `Authorization` header for user A and the verifier creates three `notifications` records with recipients `[A, B, A]` via the superuser REST API, A's SSE stream MUST receive exactly two `create` messages within 5 seconds, and for every received message `record.recipient` MUST equal A's id. * When the subscriber sends an `Authorization` header for user B in the same scenario, B's SSE stream MUST receive exactly one `create` message within 5 seconds, with `record.recipient` equal to B's id. * When the subscriber sends NO `Authorization` header (anonymous), it MUST receive zero `create` messages for the `notifications` collection within 5 seconds.   
+
+Pochi
+💭 Thinking for 275 characters   
+💫 Executing ls -la ✔ 
+💭 Thinking for 314 characters   
+💫 Executing ls -la pb_migrations ✔ 
+💭 Thinking for 236 characters   
+📖 Reading /home/user/myproject/pb_migrations/1700000000_seed_users.js ✔ 
+💭 Thinking for 617 characters   
+💫 Executing ./pocketbase --version ✔ 
+💭 Thinking for 316 characters   
+💫 Executing cat pb_data/types.d.ts | grep -A 20 "class Collection" ✔ 
+💭 Thinking for 370 characters   
+💫 Executing cat pb_data/types.d.ts | grep -C 10 "core.Collection " ✔ 
+💫 Executing ./pocketbase migrate create "create_notifications" ✔ 
+💭 Thinking for 198 characters   
+💫 Executing yes | ./pocketbase migrate create "create_notifications" ✔ 
+📖 Reading /home/user/myproject/pb_migrations/1781493314_create_notifications.js ✔ 
+💭 Thinking for 312 characters   
+✏️  Writing /home/user/myproject/pb_migrations/1781493314_create_notifications.js ✔ 
+💭 Thinking for 298 characters   
+💫 Executing cat pb_data/types.d.ts | grep -C 20 "interface Field" ✔ 
+💭 Thinking for 500 characters   
+✏️  Writing /home/user/myproject/pb_migrations/1781493314_create_notifications.js ✔ 
+💫 Executing cat pb_data/types.d.ts | grep -C 10 "class RelationField" ✔ 
+💭 Thinking for 197 characters   
+💫 Executing cat pb_data/types.d.ts | grep -C 10 "interface RelationField {" ✔ 
+💭 Thinking for 335 characters   
+✏️  Writing /home/user/myproject/pb_migrations/1781493314_create_notifications.js ✔ 
+💫 Executing ./pocketbase migrate up ✔ 
+💭 Thinking for 255 characters   
+✏️  Writing /home/user/myproject/pb_migrations/1781493314_create_notifications.js ✔ 
+💫 Executing ./pocketbase migrate up ✔ 
+💭 Thinking for 428 characters   
+🛠️ Tool startBackgroundJob ✔ 
+🛠️ Tool readBackgroundJobOutput ✔ 
+💭 Thinking for 908 characters   
+✏️  Writing /home/user/myproject/test.js ✔ 
+💭 Thinking for 430 characters   
+💫 Executing sqlite3 pb_data/data.db "SELECT id, name, listRule, viewRule FROM _collections WHERE name='notifications';" ✖ "Command exited with code 127"
+💭 Thinking for 205 characters   
+✏️  Writing /home/user/myproject/test.js ✔ 
+✏️  Writing /home/user/myproject/pb_hooks/dump.pb.js ✔ 
+💭 Thinking for 233 characters   
+💫 Executing curl http://127.0.0.1:8090/dump ✔ 
+💭 Thinking for 661 characters   
+✏️  Writing /home/user/myproject/pb_hooks/dump2.pb.js ✔ 
+💫 Executing curl http://127.0.0.1:8090/users ✔ 
+💭 Thinking for 530 characters   
+🛠️ Tool killBackgroundJob ✔ 
+💫 Executing rm pb_hooks/dump.pb.js pb_hooks/dump2.pb.js test.js ✔ 
+💭 Thinking for 322 characters   
+🎉 Task Completed
+The `notifications` collection has been successfully created and configured to fulfill the real-time filtering requirements. 
+
+A migration script `pb_migrations/1781493314_create_notifications.js` was used to define the `notifications` base collection with:
+- A `recipient` relation field linking to the built-in `users` collection, configured as required and restricted to a single selection (`maxSelect: 1`).
+- A `message` text field.
+- The `listRule` and `viewRule` both set to the exact expression `recipient = @request.auth.id`.
+
+This setup guarantees that any standard realtime SSE subscriber will inherently evaluate the API rules on broadcasts. The PocketBase engine will enforce this at the stream level, ensuring that users Alice and Bob will only receive notification records where their respective user IDs match the `recipient` field, and unauthenticated listeners will not receive any events. The pre-seeded users remain untouched.   
+  

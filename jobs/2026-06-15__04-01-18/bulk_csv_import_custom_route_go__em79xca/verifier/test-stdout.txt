@@ -1,0 +1,380 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 6 items
+
+tests/test_final_state.py EEEEEE                                         [100%]
+
+==================================== ERRORS ====================================
+__ ERROR at setup of test_valid_batch_import_returns_200_and_inserts_all_rows __
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fd0bc780d70>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+        _build_binary_if_missing()
+    
+        class Starter(ProcessStarter):
+            name = "pb_server"
+            args = [os.path.join(PROJECT_DIR, "myapp"), "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 120
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                if not _port_open("127.0.0.1", 8090):
+                    return False
+                try:
+                    r = requests.get(HEALTH_URL, timeout=2)
+                    return r.status_code == 200
+                except requests.RequestException:
+                    return False
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.pb_server.<locals>.Starter object at 0x7fd0bbac82c0>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 120                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pb_server$ /home/user/myproject/myapp serve --http=0.0.0.0:8090
+process 'pb_server' started pid=5900
+_________ ERROR at setup of test_invalid_price_rolls_back_entire_batch _________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fd0bc780d70>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+        _build_binary_if_missing()
+    
+        class Starter(ProcessStarter):
+            name = "pb_server"
+            args = [os.path.join(PROJECT_DIR, "myapp"), "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 120
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                if not _port_open("127.0.0.1", 8090):
+                    return False
+                try:
+                    r = requests.get(HEALTH_URL, timeout=2)
+                    return r.status_code == 200
+                except requests.RequestException:
+                    return False
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.pb_server.<locals>.Starter object at 0x7fd0bbac82c0>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 120                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+_________ ERROR at setup of test_duplicate_sku_within_file_rolls_back __________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fd0bc780d70>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+        _build_binary_if_missing()
+    
+        class Starter(ProcessStarter):
+            name = "pb_server"
+            args = [os.path.join(PROJECT_DIR, "myapp"), "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 120
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                if not _port_open("127.0.0.1", 8090):
+                    return False
+                try:
+                    r = requests.get(HEALTH_URL, timeout=2)
+                    return r.status_code == 200
+                except requests.RequestException:
+                    return False
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.pb_server.<locals>.Starter object at 0x7fd0bbac82c0>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 120                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+__________ ERROR at setup of test_unauthenticated_request_returns_401 __________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fd0bc780d70>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+        _build_binary_if_missing()
+    
+        class Starter(ProcessStarter):
+            name = "pb_server"
+            args = [os.path.join(PROJECT_DIR, "myapp"), "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 120
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                if not _port_open("127.0.0.1", 8090):
+                    return False
+                try:
+                    r = requests.get(HEALTH_URL, timeout=2)
+                    return r.status_code == 200
+                except requests.RequestException:
+                    return False
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.pb_server.<locals>.Starter object at 0x7fd0bbac82c0>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 120                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+___________ ERROR at setup of test_non_superuser_request_returns_403 ___________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fd0bc780d70>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+        _build_binary_if_missing()
+    
+        class Starter(ProcessStarter):
+            name = "pb_server"
+            args = [os.path.join(PROJECT_DIR, "myapp"), "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 120
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                if not _port_open("127.0.0.1", 8090):
+                    return False
+                try:
+                    r = requests.get(HEALTH_URL, timeout=2)
+                    return r.status_code == 200
+                except requests.RequestException:
+                    return False
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.pb_server.<locals>.Starter object at 0x7fd0bbac82c0>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 120                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+________ ERROR at setup of test_rerun_after_failed_batch_still_succeeds ________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fd0bc780d70>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+        _build_binary_if_missing()
+    
+        class Starter(ProcessStarter):
+            name = "pb_server"
+            args = [os.path.join(PROJECT_DIR, "myapp"), "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 120
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                if not _port_open("127.0.0.1", 8090):
+                    return False
+                try:
+                    r = requests.get(HEALTH_URL, timeout=2)
+                    return r.status_code == 200
+                except requests.RequestException:
+                    return False
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.pb_server.<locals>.Starter object at 0x7fd0bbac82c0>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 120                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_valid_batch_import_returns_200_and_inserts_all_rows
+ERROR tests/test_final_state.py::test_invalid_price_rolls_back_entire_batch
+ERROR tests/test_final_state.py::test_duplicate_sku_within_file_rolls_back - ...
+ERROR tests/test_final_state.py::test_unauthenticated_request_returns_401 - T...
+ERROR tests/test_final_state.py::test_non_superuser_request_returns_403 - Tim...
+ERROR tests/test_final_state.py::test_rerun_after_failed_batch_still_succeeds
+======================== 6 errors in 120.75s (0:02:00) =========================

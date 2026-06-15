@@ -1,0 +1,73 @@
+Skipping image OS validation for hb__bulk_csv_import_custom_route_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-tzydits > /logs/artifacts/run-id && echo bulk_csv_import_custom_route_go__TZYDiTS > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Bulk CSV Import Custom Route (PocketBase Go)
+
+## Goal
+Implement a Go-embedded PocketBase v0.31.0 application that exposes a superuser-only custom route `POST /api/import/products` for bulk-importing products from a CSV file. All inserts must be performed inside a single database transaction; if any row fails validation, the entire batch must be rolled back.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: `./myapp serve --http=0.0.0.0:8090` (the binary is produced by `go build -o myapp .` inside the project directory).
+- Port: 8090
+- A `base` collection named `products` with the fields `sku` (text), `name` (text) and `price` (number) must exist after the server has started.
+- Route: `POST /api/import/products`
+  - Must require superuser authentication (`Authorization: Bearer <superuser-token>`).
+  - Accepts a `multipart/form-data` request with a single file field named `file` containing a CSV whose first row is the header `sku,name,price`.
+  - Validates every data row: `price` must be > 0, `sku` must be unique within the uploaded file, and `sku` must not already exist in the `products` collection.
+  - All inserts must run inside a single transaction. If ANY row fails validation, the transaction must be rolled back so that no new records are inserted.
+  - Success response: HTTP 200 with JSON body `{"inserted": <int>, "errors": []}`.
+  - Validation-failure response: HTTP 400 with JSON body `{"inserted": 0, "errors": [{"row": <int>, "reason": <string>}, ...]}` where `row` is the 1-based row number of the offending data row (the header is not counted).
+  - Unauthenticated request: HTTP 401.
+  - Authenticated, non-superuser request: HTTP 403.
+
+## Credentials (pre-provisioned)
+- Superuser: `$PB_SUPERUSER_EMAIL` / `$PB_SUPERUSER_PASSWORD` (already exists in the `pb_data/` directory packaged with the environment).
+- A regular auth user is provisioned by the verifier at test time; do not hard-code regular-user credentials.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

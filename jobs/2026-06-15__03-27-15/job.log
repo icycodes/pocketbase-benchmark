@@ -1,0 +1,1483 @@
+Skipping image OS validation for hb__migration_with_seed_data_go: docker inspect returned 1
+Skipping image OS validation for hb__oauth2_mock_signin_flow_js: docker inspect returned 1
+Skipping image OS validation for hb__batch_atomic_records_js_sdk: docker inspect returned 1
+Skipping image OS validation for hb__mailer_password_reset_override_go: docker inspect returned 1
+Trial cron_scheduled_archive_hook_go__33iPv5Q failed: Docker compose command failed for environment cron_scheduled_archive_hook_go. Command: docker compose --project-name cron_scheduled_archive_hook_go__33ipv5q --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/cron_scheduled_archive_hook_go/environment -f /tmp/tmptwa3qjbr/cron_scheduled_archive_hook_go__33iPv5Q-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmp8p6aojci/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.20kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main 1/6] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main 2/6] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep         build-essential unzip &&     ln -s /usr/bin/python3 /usr/bin/python &&     curl -fsSL "https://go.dev/dl/go1.23.4.linux-amd64.tar.gz" -o /tmp/go.tar.gz &&     tar -C /usr/local -xzf /tmp/go.tar.gz &&     rm /tmp/go.tar.gz &&     pip3 install --break-system-packages         pytest-json-ctrf         pytest-xprocess         requests &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main 3/6] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main 4/6] RUN mkdir -p /home/user/myproject &&     cd /home/user/myproject &&     cat >go.mod <<'EOF'
+#7 CACHED
+
+#8 [main 5/6] RUN cd /home/user/myproject &&     cat >main.go <<'EOF'
+#8 CACHED
+
+#9 [main 6/6] RUN cd /home/user/myproject &&     go mod download github.com/pocketbase/pocketbase &&     go mod tidy
+#9 1.792 go: github.com/pocketbase/pocketbase@v0.31.0 requires go >= 1.24.0 (running go 1.23.4; GOTOOLCHAIN=local)
+#9 ERROR: process "/bin/sh -c cd /home/user/myproject &&     go mod download github.com/pocketbase/pocketbase &&     go mod tidy" did not complete successfully: exit code: 1
+------
+ > [main 6/6] RUN cd /home/user/myproject &&     go mod download github.com/pocketbase/pocketbase &&     go mod tidy:
+1.792 go: github.com/pocketbase/pocketbase@v0.31.0 requires go >= 1.24.0 (running go 1.23.4; GOTOOLCHAIN=local)
+------
+failed to solve: process "/bin/sh -c cd /home/user/myproject &&     go mod download github.com/pocketbase/pocketbase &&     go mod tidy" did not complete successfully: exit code: 1
+. Stderr: None. 
+Failed to download artifact '/home/user' (best-effort)
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 160, in run
+    await self._prepare()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 187, in _prepare
+    await self._setup_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 612, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 618, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/usr/lib/python3.13/asyncio/tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 517, in start
+    await self._run_docker_compose_command(["build"])
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cron_scheduled_archive_hook_go. Command: docker compose --project-name cron_scheduled_archive_hook_go__33ipv5q --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/cron_scheduled_archive_hook_go/environment -f /tmp/tmptwa3qjbr/cron_scheduled_archive_hook_go__33iPv5Q-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmp8p6aojci/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.20kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main 1/6] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main 2/6] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep         build-essential unzip &&     ln -s /usr/bin/python3 /usr/bin/python &&     curl -fsSL "https://go.dev/dl/go1.23.4.linux-amd64.tar.gz" -o /tmp/go.tar.gz &&     tar -C /usr/local -xzf /tmp/go.tar.gz &&     rm /tmp/go.tar.gz &&     pip3 install --break-system-packages         pytest-json-ctrf         pytest-xprocess         requests &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main 3/6] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main 4/6] RUN mkdir -p /home/user/myproject &&     cd /home/user/myproject &&     cat >go.mod <<'EOF'
+#7 CACHED
+
+#8 [main 5/6] RUN cd /home/user/myproject &&     cat >main.go <<'EOF'
+#8 CACHED
+
+#9 [main 6/6] RUN cd /home/user/myproject &&     go mod download github.com/pocketbase/pocketbase &&     go mod tidy
+#9 1.792 go: github.com/pocketbase/pocketbase@v0.31.0 requires go >= 1.24.0 (running go 1.23.4; GOTOOLCHAIN=local)
+#9 ERROR: process "/bin/sh -c cd /home/user/myproject &&     go mod download github.com/pocketbase/pocketbase &&     go mod tidy" did not complete successfully: exit code: 1
+------
+ > [main 6/6] RUN cd /home/user/myproject &&     go mod download github.com/pocketbase/pocketbase &&     go mod tidy:
+1.792 go: github.com/pocketbase/pocketbase@v0.31.0 requires go >= 1.24.0 (running go 1.23.4; GOTOOLCHAIN=local)
+------
+failed to solve: process "/bin/sh -c cd /home/user/myproject &&     go mod download github.com/pocketbase/pocketbase &&     go mod tidy" did not complete successfully: exit code: 1
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/artifact_handler.py", line 195, in _download_artifact
+    await source_env.download_file(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 609, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker_unix.py", line 48, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cron_scheduled_archive_hook_go. Command: docker compose --project-name cron_scheduled_archive_hook_go__33ipv5q --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/cron_scheduled_archive_hook_go/environment -f /tmp/tmptwa3qjbr/cron_scheduled_archive_hook_go__33iPv5Q-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmp8p6aojci/docker-compose-mounts.json cp main:/home/user jobs/2026-06-15__03-27-15/cron_scheduled_archive_hook_go__33iPv5Q/artifacts/user. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__superuser_seed_via_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: echo zr-f427xnq > /logs/artifacts/run-id && echo migration_with_seed_data_go__f427Xnq > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Running command: echo zr-htzgdcz > /logs/artifacts/run-id && echo mailer_password_reset_override_g__htZgdCZ > /logs/artifacts/trial_id
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Running command: echo zr-r5yu8mu > /logs/artifacts/run-id && echo oauth2_mock_signin_flow_js__R5Yu8mU > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Running command: echo zr-pbv6oe9 > /logs/artifacts/run-id && echo batch_atomic_records_js_sdk__pbV6oe9 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase v0.31.0 Go Migration with Seed Data
+
+## Goal
+Build a custom Go PocketBase v0.31.0 binary that ships exactly ONE reversible Go migration which creates two collections (`categories`, `articles`) and seeds them with deterministic initial data. The down step must remove both collections and the seeded records.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Binary path: /home/user/myproject/app
+- Build command: `go build -o /home/user/myproject/app .` (executed in /home/user/myproject)
+- Migrate up command: `/home/user/myproject/app migrate up`
+- Migrate down command: `/home/user/myproject/app migrate down 1`
+- Serve command: `/home/user/myproject/app serve --http=0.0.0.0:8090`
+- Port: 8090
+- After `./app migrate up`:
+  - `GET http://localhost:8090/api/collections/categories/records` returns HTTP 200 with `totalItems = 3` and the `items[].name` values are exactly the set {`Tech`, `Life`, `News`} (order not enforced).
+  - `GET http://localhost:8090/api/collections/articles/records` returns HTTP 200 with `totalItems = 6` and every `items[].category` value equals the `id` of one of the three category records.
+  - Each article record contains non-empty `title` and `body` string fields.
+  - The `category` field on `articles` is a single relation to `categories`, required, with cascade delete behavior.
+  - The `name` field on `categories` is unique.
+- After `./app migrate down 1` (run once after a successful up):
+  - Both `categories` and `articles` collections are absent: `GET /api/collections/categories/records` and `GET /api/collections/articles/records` both return HTTP 404.
+- After running `./app migrate up` again following the down:
+  - The same 3 categories (`Tech`, `Life`, `News`) and exactly 6 articles are restored deterministically.
+
+
+EOF
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase Go Mailer Hook: Override Password Reset Email
+
+## Goal
+Build a Go PocketBase v0.31.0 application that intercepts the password-reset email for the built-in `users` collection and replaces the default Subject and HTML body with custom branded content, while still delivering through the configured SMTP server.
+
+## Acceptance Criteria
+- Project path: `/home/user/myapp`
+- Start command: `cd /home/user/myapp && go run . serve --http=0.0.0.0:8090` (the verifier will (re)start this if not already running).
+- Port: `8090` (PocketBase HTTP API).
+- A real PocketBase v0.31.0 Go application (imports `github.com/pocketbase/pocketbase@v0.31.0`) running on port 8090 with the customized mailer hook registered.
+- SMTP must be configured to deliver outbound mail to the local Mailpit instance on `localhost:1025` (Mailpit HTTP UI/API on `localhost:8025`).
+- The `users` auth collection must contain a verified, seeded user whose credentials are provided through environment variables `TEST_USER_EMAIL` and `TEST_USER_NAME` (default value: `alice@example.com` / `Alice`).
+- API behavior:
+  - `POST /api/collections/users/request-password-reset` with body `{"email": "<TEST_USER_EMAIL>"}` returns HTTP `204` and causes exactly one email to be queued by Mailpit (`GET http://localhost:8025/api/v1/messages`).
+  - The queued message:
+    - `Subject` is **exactly** `Reset your acme.com password`.
+    - `To` contains the original recipient address (`<TEST_USER_EMAIL>`); the recipient must not be rewritten.
+    - HTML body is exactly of the form `Hi <NAME>! Use this link: <LINK>` where:
+      - `<NAME>` is the value of `e.Record.GetString("name")`, or the user's email when the `name` field is empty.
+      - `<LINK>` starts with `https://acme.com/reset?token=` and the `token` query parameter is the password-reset action token (a JWT in `header.payload.signature` form) that PocketBase generates for that send.
+- The hook handler must call `e.Next()` so the underlying mailer still actually delivers the message via SMTP.
+
+
+EOF
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Atomic Order + Items Creation with PocketBase JS SDK Batch API
+
+## Goal
+Write a Node.js script at `/home/user/myproject/app.js` that uses the PocketBase JavaScript SDK to atomically create one `orders` record together with N related `order_items` records in a single transactional batch request against the locally running PocketBase v0.31.0 server (Batch API enabled). The script must support a `--fail` mode where the entire batch must roll back.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Command: `node app.js --items <N>` exits with code 0 and prints exactly one line to stdout matching the regex `^ORDER:[a-z0-9]{15}$` (where the suffix is the id of the newly created order). After execution, the PocketBase server must contain exactly 1 new `orders` row with its `customer` field equal to the value of the `ZEALT_RUN_ID` environment variable, and exactly N new `order_items` rows whose `order` relation field references the printed order id.
+- Command: `node app.js --items <N> --fail` exits with code 1, emits the literal token `BATCH_ROLLED_BACK` on stderr, and produces NO new persisted `orders` or `order_items` rows (the batch must be fully rolled back).
+- The script must perform the writes using the SDK batch interface (`pb.createBatch()` + `batch.send()`); it must not fall back to issuing one create request per item.
+- Credentials and endpoint are available in the environment as `PB_URL`, `PB_ADMIN_EMAIL`, `PB_ADMIN_PASSWORD`; the `ZEALT_RUN_ID` value must be read from `$ZEALT_RUN_ID`.
+
+
+EOF
+Running command: echo zr-mx58amq > /logs/artifacts/run-id && echo superuser_seed_via_cli__mX58aMq > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase Superuser and Task Seeding via CLI
+
+## Goal
+Write an idempotent shell script `setup.sh` at `/home/user/myproject/setup.sh` that prepares a clean PocketBase v0.31.0 instance: creates a superuser non-interactively, applies a migration that defines a `tasks` collection, starts the server in the background, and seeds five predefined task records via the PocketBase REST API. Running the script multiple times must NOT create duplicates and must not error.
+
+## Acceptance Criteria
+- Project path: `/home/user/myproject`
+- The PocketBase v0.31.0 binary is available at `/home/user/myproject/pocketbase` (already pre-installed in the environment).
+- Command: `bash setup.sh`
+- After the command completes (the first time and every subsequent time), all of the following must hold:
+    - The PocketBase server is running and responds to `GET http://127.0.0.1:8090/api/health` with HTTP 200.
+    - Exactly one superuser record exists in the `_superusers` collection with email `admin@example.com` and password `Adm1n_passw0rd!`. The password must work with the `POST /api/collections/_superusers/auth-with-password` endpoint.
+    - A collection named `tasks` (type `base`) exists with the following schema fields: `title` (text, required), `done` (bool), `due` (date).
+    - Exactly 5 records exist in the `tasks` collection with the following `title` values (one record per title, no duplicates, exact case):
+        - `Buy groceries`
+        - `Walk the dog`
+        - `Read a book`
+        - `Write weekly report`
+        - `Call mom`
+- Idempotency: Running `bash setup.sh` two times in a row from the same project directory must exit with status 0 both times and must leave the counts at exactly 1 superuser and exactly 5 `tasks` records.
+- The server started by the script must keep running after the script exits (so the REST API can be queried).
+
+
+EOF
+Command failed
+Trial oauth2_mock_signin_flow_js__R5Yu8mU failed: Initial state test failed
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__bulk_csv_import_custom_route_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-tzydits > /logs/artifacts/run-id && echo bulk_csv_import_custom_route_go__TZYDiTS > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Bulk CSV Import Custom Route (PocketBase Go)
+
+## Goal
+Implement a Go-embedded PocketBase v0.31.0 application that exposes a superuser-only custom route `POST /api/import/products` for bulk-importing products from a CSV file. All inserts must be performed inside a single database transaction; if any row fails validation, the entire batch must be rolled back.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: `./myapp serve --http=0.0.0.0:8090` (the binary is produced by `go build -o myapp .` inside the project directory).
+- Port: 8090
+- A `base` collection named `products` with the fields `sku` (text), `name` (text) and `price` (number) must exist after the server has started.
+- Route: `POST /api/import/products`
+  - Must require superuser authentication (`Authorization: Bearer <superuser-token>`).
+  - Accepts a `multipart/form-data` request with a single file field named `file` containing a CSV whose first row is the header `sku,name,price`.
+  - Validates every data row: `price` must be > 0, `sku` must be unique within the uploaded file, and `sku` must not already exist in the `products` collection.
+  - All inserts must run inside a single transaction. If ANY row fails validation, the transaction must be rolled back so that no new records are inserted.
+  - Success response: HTTP 200 with JSON body `{"inserted": <int>, "errors": []}`.
+  - Validation-failure response: HTTP 400 with JSON body `{"inserted": 0, "errors": [{"row": <int>, "reason": <string>}, ...]}` where `row` is the 1-based row number of the offending data row (the header is not counted).
+  - Unauthenticated request: HTTP 401.
+  - Authenticated, non-superuser request: HTTP 403.
+
+## Credentials (pre-provisioned)
+- Superuser: `$PB_SUPERUSER_EMAIL` / `$PB_SUPERUSER_PASSWORD` (already exists in the `pb_data/` directory packaged with the environment).
+- A regular auth user is provisioned by the verifier at test time; do not hard-code regular-user credentials.
+
+
+EOF
+Command failed
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Command failed
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__dart_authrefresh_session_management: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-ndj3klk > /logs/artifacts/run-id && echo dart_authrefresh_session_managem__nDJ3kLK > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Dart PocketBase CLI: Persisted Session with authRefresh
+
+## Goal
+Build a standalone Dart CLI at `/home/user/myproject` that authenticates against the local PocketBase v0.31.0 server (`http://127.0.0.1:8090`, `users` collection), persists the resulting auth token to a `session.json` file in the current working directory, and on subsequent runs refreshes that token using the official `pocketbase` pub package.
+
+A seed user is already provisioned: `user@example.com` / `password`.
+
+## Acceptance Criteria
+- Entrypoint: `bin/app.dart`, runnable via `dart run bin/app.dart ...` from `/home/user/myproject`.
+- `dart run bin/app.dart login <email> <password>`
+  - Writes `session.json` (in the current working directory) containing a non-empty PocketBase auth token.
+  - Exits 0.
+- `dart run bin/app.dart refresh`
+  - Loads `session.json`, calls `authRefresh()` on the `users` collection, and persists the new token back to `session.json` if it changed.
+  - Stdout prints exactly two lines and nothing else: the authenticated user record id, then the token's `exp` claim as an integer epoch (seconds).
+  - Exits 0.
+- `dart run bin/app.dart refresh` with a corrupted `session.json` (not valid JSON or missing the token):
+  - Prints exactly `INVALID_SESSION` to stderr.
+  - Exits 1.
+
+EOF
+Not retrying trial because the maximum number of retries has been reached
+Trial sveltekit_cookie_auth_sync_middl__GFJB3gz failed: Docker compose command failed for environment sveltekit_cookie_auth_sync_middleware. Command: docker compose --project-name sveltekit_cookie_auth_sync_middl__gfjb3gz --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sveltekit_cookie_auth_sync_middleware/environment -f /tmp/tmppmu83ray/sveltekit_cookie_auth_sync_middl__GFJB3gz-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpzab7w1vm/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 7.14kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main  1/16] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main  3/16] RUN mkdir -p /opt/pocketbase &&     cd /opt/pocketbase &&     curl -fsSL -o pocketbase.zip         https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     rm pocketbase.zip &&     chmod +x /opt/pocketbase/pocketbase &&     ln -s /opt/pocketbase/pocketbase /usr/local/bin/pocketbase
+#5 CACHED
+
+#6 [main  4/16] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main  6/16] RUN cat > /usr/local/bin/start-pocketbase.sh <<'EOS'
+#7 CACHED
+
+#8 [main  2/16] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git unzip python3 python3-pip python3-pytest bash ripgrep &&     ln -s /usr/bin/python3 /usr/bin/python &&     curl -fsSL https://deb.nodesource.com/setup_24.x | bash - &&     apt-get install -y --no-install-recommends nodejs &&     pip3 install --break-system-packages pytest-json-ctrf pytest-xprocess requests &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [main  5/16] RUN mkdir -p /home/user/pb /home/user/pb/pb_data /home/user/pb/pb_migrations /home/user/pb/pb_hooks /home/user/pb/pb_public
+#9 CACHED
+
+#10 [main  7/16] RUN chmod +x /usr/local/bin/start-pocketbase.sh
+#10 CACHED
+
+#11 [main  8/16] RUN bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H "Content-Type: application/json"         -d '{"identity":"harbor-user@example.com","password":"harbor-pass-1234"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill "$(cat /tmp/pocketbase.pid)" || true; fi &&     sleep 1
+#11 1.559 curl: (22) The requested URL returned error: 400
+#11 1.735 Traceback (most recent call last):
+#11 1.735   File "<string>", line 1, in <module>
+#11 1.735   File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+#11 1.738     return _default_decoder.decode(s)
+#11 1.738            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+#11 1.738   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+#11 1.738     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+#11 1.738                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#11 1.738   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+#11 1.739     raise JSONDecodeError("Expecting value", s, err.value) from None
+#11 1.739 json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+#11 3.759 curl: (22) The requested URL returned error: 400
+#11 ERROR: process "/bin/sh -c bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H \"Content-Type: application/json\"         -d '{\"identity\":\"harbor-user@example.com\",\"password\":\"harbor-pass-1234\"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill \"$(cat /tmp/pocketbase.pid)\" || true; fi &&     sleep 1" did not complete successfully: exit code: 22
+------
+ > [main  8/16] RUN bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H "Content-Type: application/json"         -d '{"identity":"harbor-user@example.com","password":"harbor-pass-1234"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill "$(cat /tmp/pocketbase.pid)" || true; fi &&     sleep 1:
+1.735   File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+1.738     return _default_decoder.decode(s)
+1.738            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.738   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+1.738     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+1.738                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.738   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+1.739     raise JSONDecodeError("Expecting value", s, err.value) from None
+1.739 json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+3.759 curl: (22) The requested URL returned error: 400
+------
+failed to solve: process "/bin/sh -c bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H \"Content-Type: application/json\"         -d '{\"identity\":\"harbor-user@example.com\",\"password\":\"harbor-pass-1234\"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill \"$(cat /tmp/pocketbase.pid)\" || true; fi &&     sleep 1" did not complete successfully: exit code: 22
+. Stderr: None. 
+Failed to download artifact '/home/user' (best-effort)
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 160, in run
+    await self._prepare()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 187, in _prepare
+    await self._setup_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 612, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 618, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/usr/lib/python3.13/asyncio/tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 517, in start
+    await self._run_docker_compose_command(["build"])
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment sveltekit_cookie_auth_sync_middleware. Command: docker compose --project-name sveltekit_cookie_auth_sync_middl__gfjb3gz --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sveltekit_cookie_auth_sync_middleware/environment -f /tmp/tmppmu83ray/sveltekit_cookie_auth_sync_middl__GFJB3gz-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpzab7w1vm/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 7.14kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main  1/16] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main  3/16] RUN mkdir -p /opt/pocketbase &&     cd /opt/pocketbase &&     curl -fsSL -o pocketbase.zip         https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     rm pocketbase.zip &&     chmod +x /opt/pocketbase/pocketbase &&     ln -s /opt/pocketbase/pocketbase /usr/local/bin/pocketbase
+#5 CACHED
+
+#6 [main  4/16] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main  6/16] RUN cat > /usr/local/bin/start-pocketbase.sh <<'EOS'
+#7 CACHED
+
+#8 [main  2/16] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git unzip python3 python3-pip python3-pytest bash ripgrep &&     ln -s /usr/bin/python3 /usr/bin/python &&     curl -fsSL https://deb.nodesource.com/setup_24.x | bash - &&     apt-get install -y --no-install-recommends nodejs &&     pip3 install --break-system-packages pytest-json-ctrf pytest-xprocess requests &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [main  5/16] RUN mkdir -p /home/user/pb /home/user/pb/pb_data /home/user/pb/pb_migrations /home/user/pb/pb_hooks /home/user/pb/pb_public
+#9 CACHED
+
+#10 [main  7/16] RUN chmod +x /usr/local/bin/start-pocketbase.sh
+#10 CACHED
+
+#11 [main  8/16] RUN bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H "Content-Type: application/json"         -d '{"identity":"harbor-user@example.com","password":"harbor-pass-1234"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill "$(cat /tmp/pocketbase.pid)" || true; fi &&     sleep 1
+#11 1.559 curl: (22) The requested URL returned error: 400
+#11 1.735 Traceback (most recent call last):
+#11 1.735   File "<string>", line 1, in <module>
+#11 1.735   File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+#11 1.738     return _default_decoder.decode(s)
+#11 1.738            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+#11 1.738   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+#11 1.738     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+#11 1.738                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#11 1.738   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+#11 1.739     raise JSONDecodeError("Expecting value", s, err.value) from None
+#11 1.739 json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+#11 3.759 curl: (22) The requested URL returned error: 400
+#11 ERROR: process "/bin/sh -c bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H \"Content-Type: application/json\"         -d '{\"identity\":\"harbor-user@example.com\",\"password\":\"harbor-pass-1234\"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill \"$(cat /tmp/pocketbase.pid)\" || true; fi &&     sleep 1" did not complete successfully: exit code: 22
+------
+ > [main  8/16] RUN bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H "Content-Type: application/json"         -d '{"identity":"harbor-user@example.com","password":"harbor-pass-1234"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill "$(cat /tmp/pocketbase.pid)" || true; fi &&     sleep 1:
+1.735   File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+1.738     return _default_decoder.decode(s)
+1.738            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.738   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+1.738     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+1.738                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.738   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+1.739     raise JSONDecodeError("Expecting value", s, err.value) from None
+1.739 json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+3.759 curl: (22) The requested URL returned error: 400
+------
+failed to solve: process "/bin/sh -c bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H \"Content-Type: application/json\"         -d '{\"identity\":\"harbor-user@example.com\",\"password\":\"harbor-pass-1234\"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill \"$(cat /tmp/pocketbase.pid)\" || true; fi &&     sleep 1" did not complete successfully: exit code: 22
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/artifact_handler.py", line 195, in _download_artifact
+    await source_env.download_file(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 609, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker_unix.py", line 48, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment sveltekit_cookie_auth_sync_middleware. Command: docker compose --project-name sveltekit_cookie_auth_sync_middl__gfjb3gz --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sveltekit_cookie_auth_sync_middleware/environment -f /tmp/tmppmu83ray/sveltekit_cookie_auth_sync_middl__GFJB3gz-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpzab7w1vm/docker-compose-mounts.json cp main:/home/user jobs/2026-06-15__03-27-15/sveltekit_cookie_auth_sync_middl__GFJB3gz/artifacts/user. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__view_collection_user_post_count: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-vx4gsne > /logs/artifacts/run-id && echo view_collection_user_post_count__vx4Gsne > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Skipping image OS validation for hb__multi_tenant_org_docs_access_rules: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-xhrdyd6 > /logs/artifacts/run-id && echo multi_tenant_org_docs_access_rul__xHrdYd6 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command failed
+Trial multi_tenant_org_docs_access_rul__xHrdYd6 failed: Initial state test failed
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__file_thumbnail_view_rule_jsvm: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-vvxfev7 > /logs/artifacts/run-id && echo file_thumbnail_view_rule_jsvm__VvxFeV7 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase File Thumbnails with ViewRule and JSVM Whitelist
+
+## Background
+Build a PocketBase v0.31.0 photo service that hosts a `photos` collection with image thumbnails, enforces fine-grained file access via a ViewRule, and uses a JSVM hook to strictly restrict which thumb sizes can be served.
+
+## Goal
+Configure a PocketBase server that:
+- Exposes a `photos` base collection holding images with a small set of predeclared thumbnail sizes.
+- Allows file access only to the owner of the photo OR when the photo is marked public.
+- Refuses on-the-fly thumb generation for any thumb size that is not predeclared.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: `./pocketbase serve --http=0.0.0.0:8090 --dir=/home/user/myproject/pb_data`
+- Port: 8090
+- The `photos` collection MUST be a `base` collection with at least the following fields:
+  - `owner`: relation field to the built-in `users` collection (required).
+  - `image`: a single `file` field that accepts standard image MIME types and predeclares the thumbnail sizes `100x100` and `400x300t`.
+  - `is_public`: a `bool` field defaulting to `false`.
+- The `photos` collection ViewRule MUST be exactly:
+  `owner = @request.auth.id || is_public = true`
+- File download endpoint `GET /api/files/photos/<recordId>/<filename>` MUST behave as follows:
+  - With `?thumb=100x100` or `?thumb=400x300t`:
+    - Returns HTTP 200 and a `Content-Type` header that starts with `image/` when the requester is the owner of the record OR when the record's `is_public` is true.
+    - Returns HTTP 403 otherwise.
+  - With `?thumb=200x200` (or any other thumb size that is not predeclared on the field):
+    - Returns HTTP 400 with JSON body exactly `{"message":"unsupported thumb"}` (regardless of authentication state).
+  - Without any `thumb` query parameter:
+    - Returns HTTP 200 and the original image bytes when the ViewRule passes; returns HTTP 403 otherwise.
+- Initial-state setup that MUST be present before the server is started for evaluation:
+  - A superuser exists with email `admin@example.com` and password `Admin12345!`.
+  - The `users` auth collection allows password authentication.
+  - The `photos` collection is created with the schema and ViewRule described above.
+  - JSVM hooks are mounted from the `pb_hooks/` directory and contain the unsupported-thumb enforcement.
+
+
+EOF
+Command failed
+Trial view_collection_user_post_count__vx4Gsne failed: Initial state test failed
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__realtime_filtered_subscription_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-ongedcv > /logs/artifacts/run-id && echo realtime_filtered_subscription_j__ongedCv > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Filtered Realtime Subscription with the PocketBase JS SDK
+
+## Goal
+A PocketBase v0.31.0 server is already running locally with a pre-seeded `messages` collection (fields: `chat`, `body`). Build a Node.js CLI that uses the official `pocketbase` npm package (JS SDK) to open a realtime SSE subscription on the `messages` collection that only delivers events whose `chat` field equals the chat id passed on the command line.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Command: `node subscribe.js --chat <chatId>`
+- PocketBase server URL: `http://127.0.0.1:8090`. Superuser credentials are available via the env vars `PB_ADMIN_EMAIL` and `PB_ADMIN_PASSWORD`.
+- For every realtime event the script receives, it MUST write exactly one JSON object on its own line to stdout with the shape `{"action": "create|update|delete", "record": { ...record fields including id and chat... }}` and flush.
+- Server-side filtering MUST be used so that events for records with a different `chat` value never reach stdout.
+- When records are created in `messages` with `chat='A'`, `chat='B'`, `chat='A'` while the script is running with `--chat A`, the script MUST print exactly 2 JSON lines on stdout, each with `action: "create"` and `record.chat == "A"`, within 5 seconds of record creation. No event for `chat='B'` may appear.
+- Nothing besides the JSON event lines may be written to stdout (logs/debug output must go to stderr or be suppressed).
+- The script MUST exit with status 0 within 3 seconds when sent SIGTERM after subscribing successfully.
+
+
+EOF
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__password_strength_validator_jsvm: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-phsllhl > /logs/artifacts/run-id && echo password_strength_validator_jsvm__pHSLLhL > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command failed
+Trial password_strength_validator_jsvm__pHSLLhL failed: Initial state test failed
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__expand_nested_relations_dart: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-dvewuc2 > /logs/artifacts/run-id && echo expand_nested_relations_dart__DVEWuc2 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Skipping image OS validation for hb__audit_log_global_hook_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__rate_limited_signup_route_go: docker inspect returned 1
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: echo zr-p9aekxg > /logs/artifacts/run-id && echo audit_log_global_hook_go__P9AEKXg > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Audit Log via Global Hooks (PocketBase v0.31.0, Go)
+
+## Goal
+Build a Go PocketBase v0.31.0 application that registers global event hooks covering record create/update/delete across ALL non-system collections, writing one row per successful mutation to a dedicated `audit_log` collection.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- The PocketBase Go module `github.com/pocketbase/pocketbase@v0.31.0` is used.
+- Build command: `go build -o app .`
+- Start command: `./app serve --http=0.0.0.0:8090`
+- Port: 8090
+- The `posts` collection (base) exists with at least a `title` (text) field.
+- The `audit_log` collection (base) exists with these fields:
+  - `actor` (text)
+  - `action` (text)
+  - `collection` (text)
+  - `record` (text)
+  - `at` (date)
+  - `diff` (json)
+- For every successful create/update/delete mutation on a non-system collection, the app inserts exactly one row into the `audit_log` collection with the following semantics:
+  - `actor`: the authenticated user id, or the string `anon` when there is no authenticated user.
+  - `action`: one of `create`, `update`, `delete`.
+  - `collection`: the name of the mutated record's collection.
+  - `record`: the id of the mutated record.
+  - `at`: the timestamp of the audit row.
+  - `diff`: for `update`, a JSON object containing ONLY changed fields with the exact shape `{"<field>":{"old":<old_value>,"new":<new_value>}, ...}`. For `create` and `delete`, the value is an empty JSON object `{}`.
+- Mutations on the `audit_log` collection itself MUST NOT generate any audit rows (no infinite loops).
+- Mutations on PocketBase system collections (collection names starting with `_`, e.g. `_superusers`) MUST NOT generate audit rows.
+- Verification scenario: After authenticating as a regular user and performing, in order, (1) create a `posts` record with `title="Original Title"`, (2) update that record changing ONLY `title` to `"Updated Title"`, (3) delete that record, the `audit_log` collection MUST contain exactly 3 new rows referencing the created post id, in this chronological order:
+  1. `action=create`, `collection=posts`, `record=<posts_id>`, `actor=<user_id>`, `diff={}`
+  2. `action=update`, `collection=posts`, `record=<posts_id>`, `actor=<user_id>`, `diff={"title":{"old":"Original Title","new":"Updated Title"}}` (exactly this object, no other keys)
+  3. `action=delete`, `collection=posts`, `record=<posts_id>`, `actor=<user_id>`, `diff={}`
+- After the scenario above, the count of `audit_log` rows where `collection="audit_log"` MUST be 0.
+
+
+EOF
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-xgmd6db > /logs/artifacts/run-id && echo rate_limited_signup_route_go__XgMd6dB > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Per-IP Rate-Limited Signup on PocketBase
+
+## Goal
+Configure PocketBase v0.31.0 so that the user-signup endpoint `POST /api/collections/users/records` enforces a per-IP rate limit of 3 requests per 60 seconds. Excess requests must be rejected with a custom 429 response.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: bash /home/user/myproject/start.sh
+- Port: 8090
+- PocketBase v0.31.0 must be reachable at http://127.0.0.1:8090 and expose the built-in `users` auth collection.
+- The first 3 calls to `POST /api/collections/users/records` from the same client IP within any rolling 60-second window must be processed normally (the server may answer with status 200/201 for valid payloads or 400 for validation failures, but MUST NOT answer with 429).
+- The 4th call from the same IP within that 60-second window must return HTTP status `429` with:
+  - A response header `Retry-After` whose value is a positive integer (seconds, `>= 1`).
+  - A JSON response body that contains a top-level field `retryAfter` whose numeric value equals the `Retry-After` header value within ±2 seconds.
+- After waiting for the number of seconds advertised by `Retry-After`, a subsequent (5th) signup attempt from the same IP must again succeed (status 200/201 for a valid payload, or 400 for validation; not 429).
+- Other endpoints, e.g. `GET /api/collections/users/records`, MUST NOT be rate-limited by this rule: at least 10 consecutive GETs from the same IP within the same window must each return a non-`429` status.
+- The `users` collection's create rule must allow unauthenticated signup using JSON body `{ "email": "...", "password": "...", "passwordConfirm": "..." }` (i.e. open signup; the signup endpoint itself must be reachable without auth).
+
+
+EOF
+Command failed
+Trial expand_nested_relations_dart__DVEWuc2 failed: Initial state test failed
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__txbusy_retry_wallet_transfer_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-p4vo6bn > /logs/artifacts/run-id && echo txbusy_retry_wallet_transfer_go__P4Vo6bN > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Concurrent Wallet Transfer Endpoint
+
+## Goal
+A Go project that embeds PocketBase v0.31.0 is already scaffolded at `/home/user/myproject` with `wallets` and `transfers` collections seeded. Extend it so that authenticated users can move money between wallets via `POST /api/wallets/transfer` (body `{ "fromId": string, "toId": string, "amount": number }`) and the endpoint survives heavy concurrent load against the single-writer SQLite store.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: /home/user/myproject/myapp serve --http="0.0.0.0:8090" --dir=/home/user/myproject/pb_data
+- Port: 8090
+- API Endpoints:
+  - `POST /api/wallets/transfer` (requires `Authorization: <user-token>`):
+    - Request body:
+      ```json
+      { "fromId": string, "toId": string, "amount": number }
+      ```
+    - Success response (HTTP 200):
+      ```json
+      { "fromBalance": number, "toBalance": number }
+      ```
+    - Insufficient-funds response (HTTP 400): JSON with an error message; wallet balances unchanged.
+  - Unauthenticated requests must be rejected (HTTP 401 or 403).
+- Concurrency behavior: running 50 concurrent `$1` transfers from wallet A (initial balance 100) to wallet B (initial balance 0) using 10 worker threads must return HTTP 200 for every request, leave final A.balance == 50 and B.balance == 50, insert exactly 50 rows into the `transfers` collection, and complete in under 30 seconds without deadlock.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__s3_presigned_upload_route_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-mq8wrvr > /logs/artifacts/run-id && echo s3_presigned_upload_route_go__mq8WRvr > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# S3 Presigned Upload Routes for PocketBase (Go)
+
+## Goal
+Build a custom PocketBase v0.31.0 backend in Go that exposes two authenticated REST endpoints used by clients to upload files directly to an S3-compatible object store (local MinIO). The backend itself must never proxy the file bytes — it only mints short-lived presigned URLs and tracks pending vs. finalized uploads in its own SQLite collections.
+
+## Acceptance Criteria
+- Project path: `/home/user/myapp`
+- Start command: `./myapp serve --http=0.0.0.0:8090` (the executable named `myapp` must be produced by `go build` in the project directory; the verifier will (re)build it if missing).
+- Port: `8090`
+- The PocketBase application must use the `github.com/pocketbase/pocketbase` module at version `v0.31.0`.
+- A pre-seeded superuser is available for collection bootstrapping: `admin@example.com` / `1234567890`.
+- A pre-seeded regular auth user lives in the `users` collection: `user@example.com` / `password1234`.
+- A second regular auth user lives in the `users` collection: `other@example.com` / `password1234`.
+- The S3-compatible target is a local MinIO server reachable at `http://127.0.0.1:9000` with credentials `minioadmin` / `minioadmin`, region `us-east-1`, and a pre-created bucket named `uploads`. The Go process may read these from any environment variables it chooses, but the defaults above MUST work out of the box when the variables are unset.
+- Two collections MUST exist (the app may create them programmatically on boot or via migrations):
+  - `pending_upload` (type `base`) with fields:
+    - `user` (relation to `users`, required, single)
+    - `key` (text, required, unique)
+    - `expires_at` (date, required)
+  - `uploads` (type `base`) with fields:
+    - `user` (relation to `users`, required, single)
+    - `key` (text, required, unique)
+- Endpoint `POST /api/uploads/presign`:
+  - Requires a valid PocketBase auth token from the `users` collection. Unauthenticated requests MUST return HTTP `401`.
+  - On success returns HTTP `200` with JSON body containing AT LEAST the fields:
+    - `url` — a presigned S3 PUT URL whose host/path resolves to `http(s)://<minio-host>:<port>/uploads/<key>?...` (path-style addressing, with AWS SigV4 query parameters such as `X-Amz-Signature`).
+    - `key` — a server-generated object key (must look like a UUID, i.e. match `^[a-f0-9-]{16,}$`).
+    - `expiresAt` — an RFC3339 timestamp at least 299 seconds in the future and at most 360 seconds in the future at the moment the response is produced.
+  - The presigned URL MUST be valid for exactly 300 seconds (±5s tolerance) and MUST allow an HTTP `PUT` with arbitrary body to upload the object to the `uploads` bucket under the returned `key`.
+  - Before returning, the handler MUST create a record in `pending_upload` whose `user` equals the authenticated user's id, `key` equals the returned `key`, and `expires_at` equals the returned `expiresAt`.
+- Endpoint `POST /api/uploads/finalize`:
+  - Requires a valid PocketBase auth token from the `users` collection. Unauthenticated requests MUST return HTTP `401`.
+  - Accepts JSON body `{ "key": "<key>" }`.
+  - The handler MUST verify the object exists in the bucket via an S3 `HEAD` request. If the object does not exist, respond with HTTP `404`.
+  - If a `pending_upload` record for the given `key` does not exist OR belongs to a different user, respond with HTTP `404`.
+  - On success: delete the `pending_upload` row for that `key`, create a new `uploads` row with the same `user` and `key`, and respond with HTTP `200` and a JSON body that contains at least `{ "key": "<key>" }`.
+- The two endpoints MUST live under `/api/uploads/...` exactly as written above so the verifier can reach them.
+- The app may emit logs to stdout/stderr; no specific log format is required.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__realtime_per_auth_filter_jsvm: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-dbbur4c > /logs/artifacts/run-id && echo realtime_per_auth_filter_jsvm__dBbuR4c > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Per-Authenticated-User Realtime Filtering in PocketBase
+
+## Goal
+In the PocketBase project at `/home/user/myproject`, configure a `notifications` collection so that PocketBase's realtime Server-Sent Events (SSE) stream naturally delivers notification records only to the user named on the record. JSVM hooks at `pb_hooks/*.pb.js` may be used as a supporting mechanism, but the primary filtering MUST be enforced by collection API rules so that a generic SSE subscriber sees only the records it is authorized to see.
+
+## Acceptance Criteria
+- Project path: `/home/user/myproject`
+- Start command (run from the project path): `./pocketbase serve --http=0.0.0.0:8090`
+- Port: `8090`
+- A non-auth, non-view base collection named `notifications` exists with at least the following fields:
+  - `recipient`: relation to the built-in `users` collection, required, single (`maxSelect = 1`).
+  - `message`: text.
+- The `notifications` collection's `listRule` and `viewRule` are BOTH the exact expression `recipient = @request.auth.id` (other rules — create/update/delete — may stay restricted to superusers).
+- The pre-seeded `users` collection still contains the two regular accounts `alice@example.com` and `bob@example.com` (passwords pre-provisioned in `pb_data`). The verifier authenticates with these credentials via `POST /api/collections/users/auth-with-password`.
+- Realtime SSE behavior on `GET /api/realtime` followed by `POST /api/realtime` with `subscriptions = ["notifications"]`:
+  - When the subscriber sends an `Authorization` header for user A and the verifier creates three `notifications` records with recipients `[A, B, A]` via the superuser REST API, A's SSE stream MUST receive exactly two `create` messages within 5 seconds, and for every received message `record.recipient` MUST equal A's id.
+  - When the subscriber sends an `Authorization` header for user B in the same scenario, B's SSE stream MUST receive exactly one `create` message within 5 seconds, with `record.recipient` equal to B's id.
+  - When the subscriber sends NO `Authorization` header (anonymous), it MUST receive zero `create` messages for the `notifications` collection within 5 seconds.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Command failed
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Not retrying trial because the maximum number of retries has been reached
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached

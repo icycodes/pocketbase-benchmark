@@ -1,0 +1,64 @@
+Skipping image OS validation for hb__realtime_filtered_subscription_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-pkwmn5t > /logs/artifacts/run-id && echo realtime_filtered_subscription_j__Pkwmn5t > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Filtered Realtime Subscription with the PocketBase JS SDK
+
+## Goal
+A PocketBase v0.31.0 server is already running locally with a pre-seeded `messages` collection (fields: `chat`, `body`). Build a Node.js CLI that uses the official `pocketbase` npm package (JS SDK) to open a realtime SSE subscription on the `messages` collection that only delivers events whose `chat` field equals the chat id passed on the command line.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Command: `node subscribe.js --chat <chatId>`
+- PocketBase server URL: `http://127.0.0.1:8090`. Superuser credentials are available via the env vars `PB_ADMIN_EMAIL` and `PB_ADMIN_PASSWORD`.
+- For every realtime event the script receives, it MUST write exactly one JSON object on its own line to stdout with the shape `{"action": "create|update|delete", "record": { ...record fields including id and chat... }}` and flush.
+- Server-side filtering MUST be used so that events for records with a different `chat` value never reach stdout.
+- When records are created in `messages` with `chat='A'`, `chat='B'`, `chat='A'` while the script is running with `--chat A`, the script MUST print exactly 2 JSON lines on stdout, each with `action: "create"` and `record.chat == "A"`, within 5 seconds of record creation. No event for `chat='B'` may appear.
+- Nothing besides the JSON event lines may be written to stdout (logs/debug output must go to stderr or be suppressed).
+- The script MUST exit with status 0 within 3 seconds when sent SIGTERM after subscribing successfully.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

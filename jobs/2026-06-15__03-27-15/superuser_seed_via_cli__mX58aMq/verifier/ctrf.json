@@ -1,0 +1,79 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T03:36:04.549529+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 0,
+            "failed": 5,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781494383067,
+            "stop": 1781494564548
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_server_is_alive",
+                "status": "failed",
+                "duration": 180254,
+                "start": 1781494383927,
+                "stop": 1781494564181,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n>       first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n\ntests/test_final_state.py:84: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nusr/lib/python3.12/subprocess.py:550: in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\nusr/lib/python3.12/subprocess.py:1209: in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\nusr/lib/python3.12/subprocess.py:2116: in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Popen: returncode: 22 args: ['bash', 'setup.sh']>\nendtime = 1535424.224542742, orig_timeout = 180\nstdout_seq = [b'==> Creating / upserting superuser...\\n', b'Successfully saved superuser \"admin@example.com\"!\\n', b'==> Running mig...migrations to apply.\\n', b'==> Starting PocketBase server...\\n', b'==> Waiting for server to become healthy...\\n', ...]\nstderr_seq = [], skip_check_and_raise = False\n\n    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,\n                       skip_check_and_raise=False):\n        \"\"\"Convenience for checking if a timeout has expired.\"\"\"\n        if endtime is None:\n            return\n        if skip_check_and_raise or _time() > endtime:\n>           raise TimeoutExpired(\n                    self.args, orig_timeout,\n                    output=b''.join(stdout_seq) if stdout_seq else None,\n                    stderr=b''.join(stderr_seq) if stderr_seq else None)\nE           subprocess.TimeoutExpired: Command '['bash', 'setup.sh']' timed out after 180 seconds\n\nusr/lib/python3.12/subprocess.py:1253: TimeoutExpired"
+            },
+            {
+                "name": "test_final_state.py::test_superuser_authentication_works",
+                "status": "failed",
+                "duration": 97,
+                "start": 1781494564181,
+                "stop": 1781494564278,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n>       first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n\ntests/test_final_state.py:84: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nusr/lib/python3.12/subprocess.py:550: in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\nusr/lib/python3.12/subprocess.py:1209: in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\nusr/lib/python3.12/subprocess.py:2116: in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Popen: returncode: 22 args: ['bash', 'setup.sh']>\nendtime = 1535424.224542742, orig_timeout = 180\nstdout_seq = [b'==> Creating / upserting superuser...\\n', b'Successfully saved superuser \"admin@example.com\"!\\n', b'==> Running mig...migrations to apply.\\n', b'==> Starting PocketBase server...\\n', b'==> Waiting for server to become healthy...\\n', ...]\nstderr_seq = [], skip_check_and_raise = False\n\n    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,\n                       skip_check_and_raise=False):\n        \"\"\"Convenience for checking if a timeout has expired.\"\"\"\n        if endtime is None:\n            return\n        if skip_check_and_raise or _time() > endtime:\n>           raise TimeoutExpired(\n                    self.args, orig_timeout,\n                    output=b''.join(stdout_seq) if stdout_seq else None,\n                    stderr=b''.join(stderr_seq) if stderr_seq else None)\nE           subprocess.TimeoutExpired: Command '['bash', 'setup.sh']' timed out after 180 seconds\n\nusr/lib/python3.12/subprocess.py:1253: TimeoutExpired"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_one_superuser_exists",
+                "status": "failed",
+                "duration": 92,
+                "start": 1781494564279,
+                "stop": 1781494564371,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n>       first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n\ntests/test_final_state.py:84: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nusr/lib/python3.12/subprocess.py:550: in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\nusr/lib/python3.12/subprocess.py:1209: in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\nusr/lib/python3.12/subprocess.py:2116: in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Popen: returncode: 22 args: ['bash', 'setup.sh']>\nendtime = 1535424.224542742, orig_timeout = 180\nstdout_seq = [b'==> Creating / upserting superuser...\\n', b'Successfully saved superuser \"admin@example.com\"!\\n', b'==> Running mig...migrations to apply.\\n', b'==> Starting PocketBase server...\\n', b'==> Waiting for server to become healthy...\\n', ...]\nstderr_seq = [], skip_check_and_raise = False\n\n    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,\n                       skip_check_and_raise=False):\n        \"\"\"Convenience for checking if a timeout has expired.\"\"\"\n        if endtime is None:\n            return\n        if skip_check_and_raise or _time() > endtime:\n>           raise TimeoutExpired(\n                    self.args, orig_timeout,\n                    output=b''.join(stdout_seq) if stdout_seq else None,\n                    stderr=b''.join(stderr_seq) if stderr_seq else None)\nE           subprocess.TimeoutExpired: Command '['bash', 'setup.sh']' timed out after 180 seconds\n\nusr/lib/python3.12/subprocess.py:1253: TimeoutExpired"
+            },
+            {
+                "name": "test_final_state.py::test_tasks_collection_schema",
+                "status": "failed",
+                "duration": 86,
+                "start": 1781494564372,
+                "stop": 1781494564458,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n>       first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n\ntests/test_final_state.py:84: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nusr/lib/python3.12/subprocess.py:550: in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\nusr/lib/python3.12/subprocess.py:1209: in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\nusr/lib/python3.12/subprocess.py:2116: in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Popen: returncode: 22 args: ['bash', 'setup.sh']>\nendtime = 1535424.224542742, orig_timeout = 180\nstdout_seq = [b'==> Creating / upserting superuser...\\n', b'Successfully saved superuser \"admin@example.com\"!\\n', b'==> Running mig...migrations to apply.\\n', b'==> Starting PocketBase server...\\n', b'==> Waiting for server to become healthy...\\n', ...]\nstderr_seq = [], skip_check_and_raise = False\n\n    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,\n                       skip_check_and_raise=False):\n        \"\"\"Convenience for checking if a timeout has expired.\"\"\"\n        if endtime is None:\n            return\n        if skip_check_and_raise or _time() > endtime:\n>           raise TimeoutExpired(\n                    self.args, orig_timeout,\n                    output=b''.join(stdout_seq) if stdout_seq else None,\n                    stderr=b''.join(stderr_seq) if stderr_seq else None)\nE           subprocess.TimeoutExpired: Command '['bash', 'setup.sh']' timed out after 180 seconds\n\nusr/lib/python3.12/subprocess.py:1253: TimeoutExpired"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_five_seeded_tasks",
+                "status": "failed",
+                "duration": 89,
+                "start": 1781494564459,
+                "stop": 1781494564548,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n>       first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n\ntests/test_final_state.py:84: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nusr/lib/python3.12/subprocess.py:550: in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\nusr/lib/python3.12/subprocess.py:1209: in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\nusr/lib/python3.12/subprocess.py:2116: in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Popen: returncode: 22 args: ['bash', 'setup.sh']>\nendtime = 1535424.224542742, orig_timeout = 180\nstdout_seq = [b'==> Creating / upserting superuser...\\n', b'Successfully saved superuser \"admin@example.com\"!\\n', b'==> Running mig...migrations to apply.\\n', b'==> Starting PocketBase server...\\n', b'==> Waiting for server to become healthy...\\n', ...]\nstderr_seq = [], skip_check_and_raise = False\n\n    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,\n                       skip_check_and_raise=False):\n        \"\"\"Convenience for checking if a timeout has expired.\"\"\"\n        if endtime is None:\n            return\n        if skip_check_and_raise or _time() > endtime:\n>           raise TimeoutExpired(\n                    self.args, orig_timeout,\n                    output=b''.join(stdout_seq) if stdout_seq else None,\n                    stderr=b''.join(stderr_seq) if stderr_seq else None)\nE           subprocess.TimeoutExpired: Command '['bash', 'setup.sh']' timed out after 180 seconds\n\nusr/lib/python3.12/subprocess.py:1253: TimeoutExpired"
+            }
+        ]
+    }
+}

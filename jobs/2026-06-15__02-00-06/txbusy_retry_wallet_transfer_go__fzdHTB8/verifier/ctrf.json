@@ -1,0 +1,74 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T02:23:46.270783+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 4,
+            "passed": 1,
+            "failed": 3,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781490224946,
+            "stop": 1781490226270
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_single_transfer_succeeds",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 558,
+                "start": 1781490225173,
+                "stop": 1781490225731,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "server = None\n\n    def test_single_transfer_succeeds(server):\n        super_token = _superuser_token()\n        id_a, id_b = _wallet_ids(super_token)\n        _reset_state(super_token, id_a, id_b)\n    \n>       user_token = _user_token()\n\ntests/test_final_state.py:179: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _user_token() -> str:\n        r = requests.post(\n            f\"{BASE_URL}/api/collections/users/auth-with-password\",\n            json={\"identity\": TEST_USER_EMAIL, \"password\": TEST_USER_PASSWORD},\n            timeout=10,\n        )\n>       assert r.status_code == 200, (\n            f\"Failed to authenticate as tester user: {r.status_code} {r.text}\"\n        )\nE       AssertionError: Failed to authenticate as tester user: 400 {\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:75: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_unauthenticated_transfer_is_rejected",
+                "status": "passed",
+                "duration": 98,
+                "start": 1781490225731,
+                "stop": 1781490225829,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_50_concurrent_transfers_complete_without_deadlock",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 204,
+                "start": 1781490225829,
+                "stop": 1781490226033,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "server = None\n\n    def test_50_concurrent_transfers_complete_without_deadlock(server):\n        super_token = _superuser_token()\n        id_a, id_b = _wallet_ids(super_token)\n        _reset_state(super_token, id_a, id_b)\n    \n>       user_token = _user_token()\n\ntests/test_final_state.py:224: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _user_token() -> str:\n        r = requests.post(\n            f\"{BASE_URL}/api/collections/users/auth-with-password\",\n            json={\"identity\": TEST_USER_EMAIL, \"password\": TEST_USER_PASSWORD},\n            timeout=10,\n        )\n>       assert r.status_code == 200, (\n            f\"Failed to authenticate as tester user: {r.status_code} {r.text}\"\n        )\nE       AssertionError: Failed to authenticate as tester user: 400 {\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:75: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_insufficient_funds_returns_400_without_state_change",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 236,
+                "start": 1781490226033,
+                "stop": 1781490226269,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "server = None\n\n    def test_insufficient_funds_returns_400_without_state_change(server):\n        super_token = _superuser_token()\n        id_a, id_b = _wallet_ids(super_token)\n        _reset_state(super_token, id_a, id_b)\n    \n>       user_token = _user_token()\n\ntests/test_final_state.py:265: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _user_token() -> str:\n        r = requests.post(\n            f\"{BASE_URL}/api/collections/users/auth-with-password\",\n            json={\"identity\": TEST_USER_EMAIL, \"password\": TEST_USER_PASSWORD},\n            timeout=10,\n        )\n>       assert r.status_code == 200, (\n            f\"Failed to authenticate as tester user: {r.status_code} {r.text}\"\n        )\nE       AssertionError: Failed to authenticate as tester user: 400 {\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:75: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

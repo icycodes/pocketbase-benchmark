@@ -1,0 +1,38 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 6 items
+
+bootstrap/test_initial_state.py::test_pocketbase_binary_present PASSED
+bootstrap/test_initial_state.py::test_project_directory_layout PASSED
+bootstrap/test_initial_state.py::test_pocketbase_version_is_v031 FAILED
+bootstrap/test_initial_state.py::test_curl_available PASSED
+bootstrap/test_initial_state.py::test_server_can_start_and_is_healthy PASSED
+bootstrap/test_initial_state.py::test_bootstrapped_superuser_can_authenticate PASSED
+
+=================================== FAILURES ===================================
+_______________________ test_pocketbase_version_is_v031 ________________________
+
+    def test_pocketbase_version_is_v031():
+        result = subprocess.run(
+            [POCKETBASE_BIN, "--version"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            cwd=PROJECT_DIR,
+        )
+        assert result.returncode == 0, (
+            f"`pocketbase --version` failed with code {result.returncode}: {result.stderr}"
+        )
+        stdout = (result.stdout or "") + (result.stderr or "")
+>       assert "v0.31.0" in stdout, (
+            f"Expected PocketBase v0.31.0, got: {stdout.strip()!r}"
+        )
+E       AssertionError: Expected PocketBase v0.31.0, got: 'pocketbase version 0.31.0'
+E       assert 'v0.31.0' in 'pocketbase version 0.31.0\n'
+
+bootstrap/test_initial_state.py:133: AssertionError
+=========================== short test summary info ============================
+FAILED bootstrap/test_initial_state.py::test_pocketbase_version_is_v031 - Ass...
+========================= 1 failed, 5 passed in 1.00s ==========================

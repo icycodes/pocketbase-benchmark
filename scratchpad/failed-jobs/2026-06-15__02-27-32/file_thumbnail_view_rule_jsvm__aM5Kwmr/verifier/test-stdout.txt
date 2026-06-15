@@ -1,0 +1,55 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 11 items
+
+tests/test_final_state.py .F......F..                                    [100%]
+
+=================================== FAILURES ===================================
+________________ test_private_predeclared_thumb_owner_can_view _________________
+
+context = {'other_file_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3ODE...AiOjE3ODE0OTE2MTcsImlkIjoia3ZjeWdwY2lwamkwam5sIiwidHlwZSI6ImZpbGUifQ.5MijuqePvIuL1ofrnU2AifbGDfir1aIFbyFw0sF_dEo', ...}
+
+    def test_private_predeclared_thumb_owner_can_view(context):
+        url = _file_url(context["private_id"], context["private_file"])
+        r = requests.get(url, params={"thumb": "100x100", "token": context["owner_file_token"]}, timeout=15)
+>       assert r.status_code == 200, (
+            f"Owner should see private thumb 100x100: {r.status_code} {r.text[:200]}"
+        )
+E       AssertionError: Owner should see private thumb 100x100: 403 {"data":{},"message":"Unauthorized.","status":403}
+E         
+E       assert 403 == 200
+E        +  where 403 = <Response [403]>.status_code
+
+tests/test_final_state.py:231: AssertionError
+_______________________ test_original_download_owner_ok ________________________
+
+context = {'other_file_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3ODE...AiOjE3ODE0OTE2MTcsImlkIjoia3ZjeWdwY2lwamkwam5sIiwidHlwZSI6ImZpbGUifQ.5MijuqePvIuL1ofrnU2AifbGDfir1aIFbyFw0sF_dEo', ...}
+
+    def test_original_download_owner_ok(context):
+        url = _file_url(context["private_id"], context["private_file"])
+        r = requests.get(url, params={"token": context["owner_file_token"]}, timeout=15)
+>       assert r.status_code == 200, (
+            f"Owner should download original private file: {r.status_code} {r.text[:200]}"
+        )
+E       AssertionError: Owner should download original private file: 403 {"data":{},"message":"Unauthorized.","status":403}
+E         
+E       assert 403 == 200
+E        +  where 403 = <Response [403]>.status_code
+
+tests/test_final_state.py:308: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_photos_collection_schema
+PASSED tests/test_final_state.py::test_private_predeclared_thumb_other_user_forbidden
+PASSED tests/test_final_state.py::test_private_predeclared_thumb_anonymous_forbidden
+PASSED tests/test_final_state.py::test_public_predeclared_thumb_anonymous_ok
+PASSED tests/test_final_state.py::test_public_predeclared_thumb_other_user_ok
+PASSED tests/test_final_state.py::test_unsupported_thumb_public_record_returns_400
+PASSED tests/test_final_state.py::test_unsupported_thumb_private_record_with_owner_token_returns_400
+PASSED tests/test_final_state.py::test_original_download_anonymous_forbidden_on_private
+PASSED tests/test_final_state.py::test_original_download_anonymous_ok_on_public
+FAILED tests/test_final_state.py::test_private_predeclared_thumb_owner_can_view
+FAILED tests/test_final_state.py::test_original_download_owner_ok - Assertion...
+========================= 2 failed, 9 passed in 0.91s ==========================

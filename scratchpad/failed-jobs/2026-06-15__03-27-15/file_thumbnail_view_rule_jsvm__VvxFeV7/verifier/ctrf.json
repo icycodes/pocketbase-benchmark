@@ -1,0 +1,143 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T03:48:10.201893+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 11,
+            "passed": 6,
+            "failed": 5,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781495288988,
+            "stop": 1781495290201
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_photos_collection_schema",
+                "status": "passed",
+                "duration": 671,
+                "start": 1781495289366,
+                "stop": 1781495290037,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_private_predeclared_thumb_owner_can_view",
+                "status": "passed",
+                "duration": 11,
+                "start": 1781495290038,
+                "stop": 1781495290049,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_private_predeclared_thumb_other_user_forbidden",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 43,
+                "start": 1781495290049,
+                "stop": 1781495290092,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "context = {'other_file_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3ODE...AiOjE3ODE0OTU0NzAsImlkIjoiN25wOHRjZjRveHBvbzhnIiwidHlwZSI6ImZpbGUifQ.7Mh2kbdRros8cU9utkQyxkTFVcuZhoQDAxzUUkmK57k', ...}\n\n    def test_private_predeclared_thumb_other_user_forbidden(context):\n        url = _file_url(context[\"private_id\"], context[\"private_file\"])\n        r = requests.get(url, params={\"thumb\": \"100x100\", \"token\": context[\"other_file_token\"]}, timeout=15)\n>       assert r.status_code == 403, (\n            f\"Other user should be forbidden from private thumb 100x100: {r.status_code} {r.text[:200]}\"\n        )\nE       AssertionError: Other user should be forbidden from private thumb 100x100: 404 {\"data\":{},\"message\":\"The requested resource wasn't found.\",\"status\":404}\nE         \nE       assert 404 == 403\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:241: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_private_predeclared_thumb_anonymous_forbidden",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 16,
+                "start": 1781495290092,
+                "stop": 1781495290108,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "context = {'other_file_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3ODE...AiOjE3ODE0OTU0NzAsImlkIjoiN25wOHRjZjRveHBvbzhnIiwidHlwZSI6ImZpbGUifQ.7Mh2kbdRros8cU9utkQyxkTFVcuZhoQDAxzUUkmK57k', ...}\n\n    def test_private_predeclared_thumb_anonymous_forbidden(context):\n        url = _file_url(context[\"private_id\"], context[\"private_file\"])\n        r = requests.get(url, params={\"thumb\": \"100x100\"}, timeout=15)\n>       assert r.status_code == 403, (\n            f\"Anonymous user should be forbidden from private thumb 100x100: {r.status_code} {r.text[:200]}\"\n        )\nE       AssertionError: Anonymous user should be forbidden from private thumb 100x100: 404 {\"data\":{},\"message\":\"The requested resource wasn't found.\",\"status\":404}\nE         \nE       assert 404 == 403\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:249: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_public_predeclared_thumb_anonymous_ok",
+                "status": "passed",
+                "duration": 11,
+                "start": 1781495290109,
+                "stop": 1781495290120,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_public_predeclared_thumb_other_user_ok",
+                "status": "passed",
+                "duration": 5,
+                "start": 1781495290121,
+                "stop": 1781495290126,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_unsupported_thumb_public_record_returns_400",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 34,
+                "start": 1781495290126,
+                "stop": 1781495290160,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "context = {'other_file_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3ODE...AiOjE3ODE0OTU0NzAsImlkIjoiN25wOHRjZjRveHBvbzhnIiwidHlwZSI6ImZpbGUifQ.7Mh2kbdRros8cU9utkQyxkTFVcuZhoQDAxzUUkmK57k', ...}\n\n    def test_unsupported_thumb_public_record_returns_400(context):\n        url = _file_url(context[\"public_id\"], context[\"public_file\"])\n        r = requests.get(url, params={\"thumb\": \"200x200\"}, timeout=15)\n>       assert r.status_code == 400, (\n            f\"Unsupported thumb on public record must return 400: {r.status_code} {r.text[:200]}\"\n        )\nE       AssertionError: Unsupported thumb on public record must return 400: 200 \ufffdPNG\r\nE         \u001a\nE         \u0000\u0000\u0000\rIHDR\u0000\u0000\u0000\u0010\u0000\u0000\u0000\u0010\b\u0006\u0000\u0000\u0000\u001f\ufffd\ufffda\u0000\u0000\u0000\u0019IDATx\ufffdc\ufffd\ufffd\ufffd\ufffd\u0012\ufffd0j\ufffd\ufffd\u0001\ufffd\u0006\f\u0017\u0003\u00000\ufffd\ufffd\u0010\ufffd\ufffdL\ufffd\u0000\u0000\u0000\u0000IEND\ufffdB`\ufffd\nE       assert 200 == 400\nE        +  where 200 = <Response [200]>.status_code\n\ntests/test_final_state.py:281: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_unsupported_thumb_private_record_with_owner_token_returns_400",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 16,
+                "start": 1781495290160,
+                "stop": 1781495290176,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "context = {'other_file_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3ODE...AiOjE3ODE0OTU0NzAsImlkIjoiN25wOHRjZjRveHBvbzhnIiwidHlwZSI6ImZpbGUifQ.7Mh2kbdRros8cU9utkQyxkTFVcuZhoQDAxzUUkmK57k', ...}\n\n    def test_unsupported_thumb_private_record_with_owner_token_returns_400(context):\n        url = _file_url(context[\"private_id\"], context[\"private_file\"])\n        r = requests.get(url, params={\"thumb\": \"200x200\", \"token\": context[\"owner_file_token\"]}, timeout=15)\n>       assert r.status_code == 400, (\n            f\"Unsupported thumb on private record (owner token) must return 400: \"\n            f\"{r.status_code} {r.text[:200]}\"\n        )\nE       AssertionError: Unsupported thumb on private record (owner token) must return 400: 200 \ufffdPNG\r\nE         \u001a\nE         \u0000\u0000\u0000\rIHDR\u0000\u0000\u0000\u0010\u0000\u0000\u0000\u0010\b\u0006\u0000\u0000\u0000\u001f\ufffd\ufffda\u0000\u0000\u0000\u0019IDATx\ufffdc\ufffd\ufffd\ufffd\ufffd\u0012\ufffd0j\ufffd\ufffd\u0001\ufffd\u0006\f\u0017\u0003\u00000\ufffd\ufffd\u0010\ufffd\ufffdL\ufffd\u0000\u0000\u0000\u0000IEND\ufffdB`\ufffd\nE       assert 200 == 400\nE        +  where 200 = <Response [200]>.status_code\n\ntests/test_final_state.py:293: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_original_download_owner_ok",
+                "status": "passed",
+                "duration": 4,
+                "start": 1781495290176,
+                "stop": 1781495290180,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_original_download_anonymous_forbidden_on_private",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 15,
+                "start": 1781495290180,
+                "stop": 1781495290195,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "context = {'other_file_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3ODE...AiOjE3ODE0OTU0NzAsImlkIjoiN25wOHRjZjRveHBvbzhnIiwidHlwZSI6ImZpbGUifQ.7Mh2kbdRros8cU9utkQyxkTFVcuZhoQDAxzUUkmK57k', ...}\n\n    def test_original_download_anonymous_forbidden_on_private(context):\n        url = _file_url(context[\"private_id\"], context[\"private_file\"])\n        r = requests.get(url, timeout=15)\n>       assert r.status_code == 403, (\n            f\"Anonymous should be forbidden from original private file: \"\n            f\"{r.status_code} {r.text[:200]}\"\n        )\nE       AssertionError: Anonymous should be forbidden from original private file: 404 {\"data\":{},\"message\":\"The requested resource wasn't found.\",\"status\":404}\nE         \nE       assert 404 == 403\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:318: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_original_download_anonymous_ok_on_public",
+                "status": "passed",
+                "duration": 5,
+                "start": 1781495290196,
+                "stop": 1781495290201,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

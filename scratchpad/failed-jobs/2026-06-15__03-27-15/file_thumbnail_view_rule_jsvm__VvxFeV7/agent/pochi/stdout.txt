@@ -1,0 +1,40 @@
+- Initializing MCP connections...
+You
+# PocketBase File Thumbnails with ViewRule and JSVM Whitelist ## Background Build a PocketBase v0.31.0 photo service that hosts a `photos` collection with image thumbnails, enforces fine-grained file access via a ViewRule, and uses a JSVM hook to strictly restrict which thumb sizes can be served. ## Goal Configure a PocketBase server that: * Exposes a `photos` base collection holding images with a small set of predeclared thumbnail sizes. * Allows file access only to the owner of the photo OR when the photo is marked public. * Refuses on-the-fly thumb generation for any thumb size that is not predeclared. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: `./pocketbase serve --http=0.0.0.0:8090 --dir=/home/user/myproject/pb_data` * Port: 8090 * The `photos` collection MUST be a `base` collection with at least the following fields: * `owner`: relation field to the built-in `users` collection (required). * `image`: a single `file` field that accepts standard image MIME types and predeclares the thumbnail sizes `100x100` and `400x300t`. * `is_public`: a `bool` field defaulting to `false`. * The `photos` collection ViewRule MUST be exactly: `owner = @request.auth.id || is_public = true` * File download endpoint `GET /api/files/photos/<recordId>/<filename>` MUST behave as follows: * With `?thumb=100x100` or `?thumb=400x300t`: * Returns HTTP 200 and a `Content-Type` header that starts with `image/` when the requester is the owner of the record OR when the record's `is_public` is true. * Returns HTTP 403 otherwise. * With `?thumb=200x200` (or any other thumb size that is not predeclared on the field): * Returns HTTP 400 with JSON body exactly `{"message":"unsupported thumb"}` (regardless of authentication state). * Without any `thumb` query parameter: * Returns HTTP 200 and the original image bytes when the ViewRule passes; returns HTTP 403 otherwise. * Initial-state setup that MUST be present before the server is started for evaluation: * A superuser exists with email `admin@example.com` and password `Admin12345!`. * The `users` auth collection allows password authentication. * The `photos` collection is created with the schema and ViewRule described above. * JSVM hooks are mounted from the `pb_hooks/` directory and contain the unsupported-thumb enforcement.   
+
+Pochi
+💭 Thinking for 67197 characters   
+📋 Updating todo list (5 items) ✔ 
+💭 Thinking for 74 characters   
+💫 Executing mkdir -p /home/user/myproject && uname -m ✔ 
+💫 Executing which pocketbase 2>/dev/null; ls /home/user/myproject/ 2>/dev/null ✔ 
+💭 Thinking for 118 characters   
+💫 Executing pocketbase --version 2>/dev/null || /usr/local/bin/pocketbase --version 2>/dev/null ✔ 
+💫 Executing ls -la /home/user/myproject/ ✔ 
+💭 Thinking for 128 characters   
+💫 Executing ls -la /home/user/myproject/pb_hooks/ ✔ 
+💫 Executing ls -la /home/user/myproject/pb_migrations/ ✔ 
+💫 Executing ls -la /home/user/myproject/pb_data/ ✔ 
+💭 Thinking for 94 characters   
+📖 Reading /home/user/myproject/pb_hooks/main.pb.js ✔ 
+📖 Reading /home/user/myproject/pb_migrations/1700000000_create_photos_collection.js ✔ 
+💭 Thinking for 1120 characters   
+💫 Executing grep -n "onFileDownloadRequest\|FileDownloadRequest" /home/user/myproject/pb_data/types.d.ts | head -30 ✔ 
+💫 Executing grep -n "BadRequestError" /home/user/myproject/pb_data/types.d.ts | head -10 ✔ 
+💭 Thinking for 97 characters   
+💫 Executing grep -n -A 30 "interface FileDownloadRequestEvent" /home/user/myproject/pb_data/types.d.ts ✔ 
+💫 Executing grep -n -A 5 "class BadRequestError" /home/user/myproject/pb_data/types.d.ts ✔ 
+💭 Thinking for 156 characters   
+💫 Executing grep -n "interface RequestEvent\|type RequestEvent" /home/user/myproject/pb_data/types.d.ts | head -10 ✔ 
+💫 Executing grep -n "_sjyVsZq" /home/user/myproject/pb_data/types.d.ts ✔ 
+💭 Thinking for 65 characters   
+💫 Executing sed -n '9223,9260p' /home/user/myproject/pb_data/types.d.ts ✔ 
+💭 Thinking for 135 characters   
+💫 Executing grep -n -A 20 "interface RequestInfo " /home/user/myproject/pb_data/types.d.ts ✔ 
+💭 Thinking for 1169 characters   
+💫 Executing grep -n "queryParam\|request\.query\|requestInfo" /home/user/myproject/pb_data/types.d.ts | head -20 ✔ 
+💫 Executing grep -n "_TygojaDict" /home/user/myproject/pb_data/types.d.ts | head -5 ✔ 
+💭 Thinking for 6893 characters   
+💫 Executing grep -n "onBeforeServe\|routerAdd\|routerUse\|router\.add\|router\.use" /home/user/myproject/pb_data/types.d.ts | head -30 ✔ 
+💭 Thinking for 79 characters   
+💫 Executing sed -n '58,100p' /home/user/myproject/pb_data/types.d.ts ✔ 

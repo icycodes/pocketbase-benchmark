@@ -1,0 +1,89 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T04:00:16.616093+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 6,
+            "passed": 0,
+            "failed": 6,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781495921039,
+            "stop": 1781496016615
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_presign_requires_auth",
+                "status": "failed",
+                "duration": 94953,
+                "start": 1781495921591,
+                "stop": 1781496016544,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "xprocess = <xprocess.xprocess.XProcess object at 0x7f6d6084aff0>\n\n    @pytest.fixture(scope=\"session\")\n    def pb_app(xprocess):\n        _kill_port(PB_PORT)\n>       _ensure_built()\n\ntests/test_final_state.py:81: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _ensure_built() -> None:\n        \"\"\"If the agent did not build the binary, build it for them so we can run it.\"\"\"\n        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):\n            return\n        result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\", \".\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=300,\n        )\n>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (\n            \"The agent did not produce a usable binary and `go build` also failed.\\n\"\n            f\"stdout: {result.stdout}\\nstderr: {result.stderr}\"\n        )\nE       AssertionError: The agent did not produce a usable binary and `go build` also failed.\nE         stdout: \nE         stderr: # myapp\nE         ./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\nE         \nE       assert (1 == 0)\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='# myapp\\n./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\\n').returncode\n\ntests/test_final_state.py:57: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_finalize_requires_auth",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781496016544,
+                "stop": 1781496016558,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "xprocess = <xprocess.xprocess.XProcess object at 0x7f6d6084aff0>\n\n    @pytest.fixture(scope=\"session\")\n    def pb_app(xprocess):\n        _kill_port(PB_PORT)\n>       _ensure_built()\n\ntests/test_final_state.py:81: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _ensure_built() -> None:\n        \"\"\"If the agent did not build the binary, build it for them so we can run it.\"\"\"\n        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):\n            return\n        result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\", \".\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=300,\n        )\n>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (\n            \"The agent did not produce a usable binary and `go build` also failed.\\n\"\n            f\"stdout: {result.stdout}\\nstderr: {result.stderr}\"\n        )\nE       AssertionError: The agent did not produce a usable binary and `go build` also failed.\nE         stdout: \nE         stderr: # myapp\nE         ./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\nE         \nE       assert (1 == 0)\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='# myapp\\n./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\\n').returncode\n\ntests/test_final_state.py:57: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_presign_success_shape",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781496016558,
+                "stop": 1781496016572,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "xprocess = <xprocess.xprocess.XProcess object at 0x7f6d6084aff0>\n\n    @pytest.fixture(scope=\"session\")\n    def pb_app(xprocess):\n        _kill_port(PB_PORT)\n>       _ensure_built()\n\ntests/test_final_state.py:81: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _ensure_built() -> None:\n        \"\"\"If the agent did not build the binary, build it for them so we can run it.\"\"\"\n        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):\n            return\n        result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\", \".\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=300,\n        )\n>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (\n            \"The agent did not produce a usable binary and `go build` also failed.\\n\"\n            f\"stdout: {result.stdout}\\nstderr: {result.stderr}\"\n        )\nE       AssertionError: The agent did not produce a usable binary and `go build` also failed.\nE         stdout: \nE         stderr: # myapp\nE         ./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\nE         \nE       assert (1 == 0)\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='# myapp\\n./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\\n').returncode\n\ntests/test_final_state.py:57: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_full_upload_and_finalize_flow",
+                "status": "failed",
+                "duration": 15,
+                "start": 1781496016572,
+                "stop": 1781496016587,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "xprocess = <xprocess.xprocess.XProcess object at 0x7f6d6084aff0>\n\n    @pytest.fixture(scope=\"session\")\n    def pb_app(xprocess):\n        _kill_port(PB_PORT)\n>       _ensure_built()\n\ntests/test_final_state.py:81: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _ensure_built() -> None:\n        \"\"\"If the agent did not build the binary, build it for them so we can run it.\"\"\"\n        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):\n            return\n        result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\", \".\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=300,\n        )\n>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (\n            \"The agent did not produce a usable binary and `go build` also failed.\\n\"\n            f\"stdout: {result.stdout}\\nstderr: {result.stderr}\"\n        )\nE       AssertionError: The agent did not produce a usable binary and `go build` also failed.\nE         stdout: \nE         stderr: # myapp\nE         ./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\nE         \nE       assert (1 == 0)\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='# myapp\\n./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\\n').returncode\n\ntests/test_final_state.py:57: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_finalize_missing_object_returns_404",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781496016587,
+                "stop": 1781496016601,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "xprocess = <xprocess.xprocess.XProcess object at 0x7f6d6084aff0>\n\n    @pytest.fixture(scope=\"session\")\n    def pb_app(xprocess):\n        _kill_port(PB_PORT)\n>       _ensure_built()\n\ntests/test_final_state.py:81: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _ensure_built() -> None:\n        \"\"\"If the agent did not build the binary, build it for them so we can run it.\"\"\"\n        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):\n            return\n        result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\", \".\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=300,\n        )\n>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (\n            \"The agent did not produce a usable binary and `go build` also failed.\\n\"\n            f\"stdout: {result.stdout}\\nstderr: {result.stderr}\"\n        )\nE       AssertionError: The agent did not produce a usable binary and `go build` also failed.\nE         stdout: \nE         stderr: # myapp\nE         ./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\nE         \nE       assert (1 == 0)\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='# myapp\\n./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\\n').returncode\n\ntests/test_final_state.py:57: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_user_cannot_finalize_other_users_key",
+                "status": "failed",
+                "duration": 13,
+                "start": 1781496016602,
+                "stop": 1781496016615,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "xprocess = <xprocess.xprocess.XProcess object at 0x7f6d6084aff0>\n\n    @pytest.fixture(scope=\"session\")\n    def pb_app(xprocess):\n        _kill_port(PB_PORT)\n>       _ensure_built()\n\ntests/test_final_state.py:81: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _ensure_built() -> None:\n        \"\"\"If the agent did not build the binary, build it for them so we can run it.\"\"\"\n        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):\n            return\n        result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\", \".\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=300,\n        )\n>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (\n            \"The agent did not produce a usable binary and `go build` also failed.\\n\"\n            f\"stdout: {result.stdout}\\nstderr: {result.stderr}\"\n        )\nE       AssertionError: The agent did not produce a usable binary and `go build` also failed.\nE         stdout: \nE         stderr: # myapp\nE         ./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\nE         \nE       assert (1 == 0)\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='# myapp\\n./main.go:23:2: \"github.com/pocketbase/pocketbase/tools/hook\" imported and not used\\n').returncode\n\ntests/test_final_state.py:57: AssertionError"
+            }
+        ]
+    }
+}

@@ -1,0 +1,297 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 11 items
+
+tests/test_final_state.py EEEEEEEEEEE                                    [100%]
+
+==================================== ERRORS ====================================
+_______________ ERROR at setup of test_photos_collection_schema ________________
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+_______ ERROR at setup of test_private_predeclared_thumb_owner_can_view ________
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+____ ERROR at setup of test_private_predeclared_thumb_other_user_forbidden _____
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+_____ ERROR at setup of test_private_predeclared_thumb_anonymous_forbidden _____
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+_________ ERROR at setup of test_public_predeclared_thumb_anonymous_ok _________
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+________ ERROR at setup of test_public_predeclared_thumb_other_user_ok _________
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+______ ERROR at setup of test_unsupported_thumb_public_record_returns_400 ______
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+_ ERROR at setup of test_unsupported_thumb_private_record_with_owner_token_returns_400 _
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+______________ ERROR at setup of test_original_download_owner_ok _______________
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+___ ERROR at setup of test_original_download_anonymous_forbidden_on_private ____
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+_______ ERROR at setup of test_original_download_anonymous_ok_on_public ________
+
+    @pytest.fixture(scope="session")
+    def context():
+        _wait_for_server()
+>       su = _superuser_token()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser: 404 {"code":404,"message":"The requested resource wasn't found.","data":{}}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:67: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_photos_collection_schema - AssertionErr...
+ERROR tests/test_final_state.py::test_private_predeclared_thumb_owner_can_view
+ERROR tests/test_final_state.py::test_private_predeclared_thumb_other_user_forbidden
+ERROR tests/test_final_state.py::test_private_predeclared_thumb_anonymous_forbidden
+ERROR tests/test_final_state.py::test_public_predeclared_thumb_anonymous_ok
+ERROR tests/test_final_state.py::test_public_predeclared_thumb_other_user_ok
+ERROR tests/test_final_state.py::test_unsupported_thumb_public_record_returns_400
+ERROR tests/test_final_state.py::test_unsupported_thumb_private_record_with_owner_token_returns_400
+ERROR tests/test_final_state.py::test_original_download_owner_ok - AssertionE...
+ERROR tests/test_final_state.py::test_original_download_anonymous_forbidden_on_private
+ERROR tests/test_final_state.py::test_original_download_anonymous_ok_on_public
+============================== 11 errors in 1.53s ==============================

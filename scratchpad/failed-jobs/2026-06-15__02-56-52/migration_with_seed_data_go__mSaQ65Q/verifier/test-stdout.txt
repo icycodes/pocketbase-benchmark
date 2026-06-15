@@ -1,0 +1,207 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py EEEEEEE                                        [100%]
+
+==================================== ERRORS ====================================
+________________ ERROR at setup of test_01_migrate_up_succeeds _________________
+
+    @pytest.fixture(scope="module", autouse=True)
+    def _setup_clean_environment():
+        # Wipe any stale pb_data so migrations apply from scratch.
+        if os.path.isdir(PB_DATA_DIR):
+            shutil.rmtree(PB_DATA_DIR)
+>       _build_binary()
+
+tests/test_final_state.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary() -> None:
+        result = subprocess.run(
+            ["go", "build", "-o", BINARY_PATH, "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+        )
+>       assert result.returncode == 0, (
+            f"`go build` failed: stdout={result.stdout!r} stderr={result.stderr!r}"
+        )
+E       AssertionError: `go build` failed: stdout='' stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n'
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', '/home/user/myproject/app', '.'], returncode=1, stdout='', stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n').returncode
+
+tests/test_final_state.py:92: AssertionError
+___ ERROR at setup of test_02_categories_collection_has_three_seeded_records ___
+
+    @pytest.fixture(scope="module", autouse=True)
+    def _setup_clean_environment():
+        # Wipe any stale pb_data so migrations apply from scratch.
+        if os.path.isdir(PB_DATA_DIR):
+            shutil.rmtree(PB_DATA_DIR)
+>       _build_binary()
+
+tests/test_final_state.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary() -> None:
+        result = subprocess.run(
+            ["go", "build", "-o", BINARY_PATH, "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+        )
+>       assert result.returncode == 0, (
+            f"`go build` failed: stdout={result.stdout!r} stderr={result.stderr!r}"
+        )
+E       AssertionError: `go build` failed: stdout='' stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n'
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', '/home/user/myproject/app', '.'], returncode=1, stdout='', stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n').returncode
+
+tests/test_final_state.py:92: AssertionError
+_____ ERROR at setup of test_03_articles_collection_has_six_seeded_records _____
+
+    @pytest.fixture(scope="module", autouse=True)
+    def _setup_clean_environment():
+        # Wipe any stale pb_data so migrations apply from scratch.
+        if os.path.isdir(PB_DATA_DIR):
+            shutil.rmtree(PB_DATA_DIR)
+>       _build_binary()
+
+tests/test_final_state.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary() -> None:
+        result = subprocess.run(
+            ["go", "build", "-o", BINARY_PATH, "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+        )
+>       assert result.returncode == 0, (
+            f"`go build` failed: stdout={result.stdout!r} stderr={result.stderr!r}"
+        )
+E       AssertionError: `go build` failed: stdout='' stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n'
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', '/home/user/myproject/app', '.'], returncode=1, stdout='', stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n').returncode
+
+tests/test_final_state.py:92: AssertionError
+___________ ERROR at setup of test_04_category_name_field_is_unique ____________
+
+    @pytest.fixture(scope="module", autouse=True)
+    def _setup_clean_environment():
+        # Wipe any stale pb_data so migrations apply from scratch.
+        if os.path.isdir(PB_DATA_DIR):
+            shutil.rmtree(PB_DATA_DIR)
+>       _build_binary()
+
+tests/test_final_state.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary() -> None:
+        result = subprocess.run(
+            ["go", "build", "-o", BINARY_PATH, "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+        )
+>       assert result.returncode == 0, (
+            f"`go build` failed: stdout={result.stdout!r} stderr={result.stderr!r}"
+        )
+E       AssertionError: `go build` failed: stdout='' stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n'
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', '/home/user/myproject/app', '.'], returncode=1, stdout='', stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n').returncode
+
+tests/test_final_state.py:92: AssertionError
+____ ERROR at setup of test_05_articles_category_relation_required_cascade _____
+
+    @pytest.fixture(scope="module", autouse=True)
+    def _setup_clean_environment():
+        # Wipe any stale pb_data so migrations apply from scratch.
+        if os.path.isdir(PB_DATA_DIR):
+            shutil.rmtree(PB_DATA_DIR)
+>       _build_binary()
+
+tests/test_final_state.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary() -> None:
+        result = subprocess.run(
+            ["go", "build", "-o", BINARY_PATH, "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+        )
+>       assert result.returncode == 0, (
+            f"`go build` failed: stdout={result.stdout!r} stderr={result.stderr!r}"
+        )
+E       AssertionError: `go build` failed: stdout='' stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n'
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', '/home/user/myproject/app', '.'], returncode=1, stdout='', stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n').returncode
+
+tests/test_final_state.py:92: AssertionError
+__________ ERROR at setup of test_06_migrate_down_removes_collections __________
+
+    @pytest.fixture(scope="module", autouse=True)
+    def _setup_clean_environment():
+        # Wipe any stale pb_data so migrations apply from scratch.
+        if os.path.isdir(PB_DATA_DIR):
+            shutil.rmtree(PB_DATA_DIR)
+>       _build_binary()
+
+tests/test_final_state.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary() -> None:
+        result = subprocess.run(
+            ["go", "build", "-o", BINARY_PATH, "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+        )
+>       assert result.returncode == 0, (
+            f"`go build` failed: stdout={result.stdout!r} stderr={result.stderr!r}"
+        )
+E       AssertionError: `go build` failed: stdout='' stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n'
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', '/home/user/myproject/app', '.'], returncode=1, stdout='', stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n').returncode
+
+tests/test_final_state.py:92: AssertionError
+_ ERROR at setup of test_07_migrate_up_again_restores_seed_data_deterministically _
+
+    @pytest.fixture(scope="module", autouse=True)
+    def _setup_clean_environment():
+        # Wipe any stale pb_data so migrations apply from scratch.
+        if os.path.isdir(PB_DATA_DIR):
+            shutil.rmtree(PB_DATA_DIR)
+>       _build_binary()
+
+tests/test_final_state.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary() -> None:
+        result = subprocess.run(
+            ["go", "build", "-o", BINARY_PATH, "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+        )
+>       assert result.returncode == 0, (
+            f"`go build` failed: stdout={result.stdout!r} stderr={result.stderr!r}"
+        )
+E       AssertionError: `go build` failed: stdout='' stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n'
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', '/home/user/myproject/app', '.'], returncode=1, stdout='', stderr='# myproject\n./test_read.go:10:6: main redeclared in this block\n\t./main.go:11:6: other declaration of main\n').returncode
+
+tests/test_final_state.py:92: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_01_migrate_up_succeeds - AssertionError...
+ERROR tests/test_final_state.py::test_02_categories_collection_has_three_seeded_records
+ERROR tests/test_final_state.py::test_03_articles_collection_has_six_seeded_records
+ERROR tests/test_final_state.py::test_04_category_name_field_is_unique - Asse...
+ERROR tests/test_final_state.py::test_05_articles_category_relation_required_cascade
+ERROR tests/test_final_state.py::test_06_migrate_down_removes_collections - A...
+ERROR tests/test_final_state.py::test_07_migrate_up_again_restores_seed_data_deterministically
+============================== 7 errors in 0.90s ===============================

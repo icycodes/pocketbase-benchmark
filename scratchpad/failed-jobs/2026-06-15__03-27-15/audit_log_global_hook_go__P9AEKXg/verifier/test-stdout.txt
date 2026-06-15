@@ -1,0 +1,172 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py EEEEEEE                                        [100%]
+
+==================================== ERRORS ====================================
+_______ ERROR at setup of test_audit_log_has_exactly_three_rows_for_post _______
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f0614eac260>
+
+    @pytest.fixture(scope="session", autouse=True)
+    def app_server(xprocess):
+        build = subprocess.run(
+            ["go", "build", "-o", "app", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=600,
+        )
+>       assert build.returncode == 0, (
+            f"Failed to build the Go PocketBase app: {build.stderr}"
+        )
+E       AssertionError: Failed to build the Go PocketBase app: no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'app', '.'], returncode=1, stdout='', stderr='no Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:82: AssertionError
+____ ERROR at setup of test_audit_log_actions_in_order_create_update_delete ____
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f0614eac260>
+
+    @pytest.fixture(scope="session", autouse=True)
+    def app_server(xprocess):
+        build = subprocess.run(
+            ["go", "build", "-o", "app", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=600,
+        )
+>       assert build.returncode == 0, (
+            f"Failed to build the Go PocketBase app: {build.stderr}"
+        )
+E       AssertionError: Failed to build the Go PocketBase app: no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'app', '.'], returncode=1, stdout='', stderr='no Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:82: AssertionError
+____ ERROR at setup of test_audit_log_rows_reference_post_id_and_collection ____
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f0614eac260>
+
+    @pytest.fixture(scope="session", autouse=True)
+    def app_server(xprocess):
+        build = subprocess.run(
+            ["go", "build", "-o", "app", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=600,
+        )
+>       assert build.returncode == 0, (
+            f"Failed to build the Go PocketBase app: {build.stderr}"
+        )
+E       AssertionError: Failed to build the Go PocketBase app: no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'app', '.'], returncode=1, stdout='', stderr='no Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:82: AssertionError
+________ ERROR at setup of test_audit_log_rows_reference_actor_user_id _________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f0614eac260>
+
+    @pytest.fixture(scope="session", autouse=True)
+    def app_server(xprocess):
+        build = subprocess.run(
+            ["go", "build", "-o", "app", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=600,
+        )
+>       assert build.returncode == 0, (
+            f"Failed to build the Go PocketBase app: {build.stderr}"
+        )
+E       AssertionError: Failed to build the Go PocketBase app: no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'app', '.'], returncode=1, stdout='', stderr='no Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:82: AssertionError
+________ ERROR at setup of test_create_and_delete_rows_have_empty_diff _________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f0614eac260>
+
+    @pytest.fixture(scope="session", autouse=True)
+    def app_server(xprocess):
+        build = subprocess.run(
+            ["go", "build", "-o", "app", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=600,
+        )
+>       assert build.returncode == 0, (
+            f"Failed to build the Go PocketBase app: {build.stderr}"
+        )
+E       AssertionError: Failed to build the Go PocketBase app: no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'app', '.'], returncode=1, stdout='', stderr='no Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:82: AssertionError
+_____ ERROR at setup of test_update_row_diff_matches_title_change_exactly ______
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f0614eac260>
+
+    @pytest.fixture(scope="session", autouse=True)
+    def app_server(xprocess):
+        build = subprocess.run(
+            ["go", "build", "-o", "app", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=600,
+        )
+>       assert build.returncode == 0, (
+            f"Failed to build the Go PocketBase app: {build.stderr}"
+        )
+E       AssertionError: Failed to build the Go PocketBase app: no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'app', '.'], returncode=1, stdout='', stderr='no Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:82: AssertionError
+_______ ERROR at setup of test_no_audit_rows_reference_audit_log_itself ________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f0614eac260>
+
+    @pytest.fixture(scope="session", autouse=True)
+    def app_server(xprocess):
+        build = subprocess.run(
+            ["go", "build", "-o", "app", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=600,
+        )
+>       assert build.returncode == 0, (
+            f"Failed to build the Go PocketBase app: {build.stderr}"
+        )
+E       AssertionError: Failed to build the Go PocketBase app: no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'app', '.'], returncode=1, stdout='', stderr='no Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:82: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_audit_log_has_exactly_three_rows_for_post
+ERROR tests/test_final_state.py::test_audit_log_actions_in_order_create_update_delete
+ERROR tests/test_final_state.py::test_audit_log_rows_reference_post_id_and_collection
+ERROR tests/test_final_state.py::test_audit_log_rows_reference_actor_user_id
+ERROR tests/test_final_state.py::test_create_and_delete_rows_have_empty_diff
+ERROR tests/test_final_state.py::test_update_row_diff_matches_title_change_exactly
+ERROR tests/test_final_state.py::test_no_audit_rows_reference_audit_log_itself
+============================== 7 errors in 0.49s ===============================

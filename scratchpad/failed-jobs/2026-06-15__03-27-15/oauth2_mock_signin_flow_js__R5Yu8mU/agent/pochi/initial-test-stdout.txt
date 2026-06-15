@@ -1,0 +1,346 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 8 items
+
+bootstrap/test_initial_state.py::test_node_binary_available ERROR
+bootstrap/test_initial_state.py::test_pocketbase_binary_available ERROR
+bootstrap/test_initial_state.py::test_project_directory_exists ERROR
+bootstrap/test_initial_state.py::test_pocketbase_server_running ERROR
+bootstrap/test_initial_state.py::test_mock_oauth_server_running ERROR
+bootstrap/test_initial_state.py::test_mock_oauth_endpoints_respond ERROR
+bootstrap/test_initial_state.py::test_users_collection_has_mockoauth_provider_configured ERROR
+bootstrap/test_initial_state.py::test_users_collection_has_no_records_yet ERROR
+
+==================================== ERRORS ====================================
+_________________ ERROR at setup of test_node_binary_available _________________
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _start_services():
+        # Idempotently boot PocketBase + the mock OAuth2 server. The script
+        # detaches them via setsid so they persist beyond the pytest process.
+>       result = subprocess.run(
+            ["/usr/local/bin/start_services.sh"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+bootstrap/test_initial_state.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+usr/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+usr/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 0 args: ['/usr/local/bin/start_services.sh']>
+endtime = 1535043.562448698, orig_timeout = 120, stdout_seq = []
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/usr/local/bin/start_services.sh']' timed out after 120 seconds
+
+usr/lib/python3.12/subprocess.py:1253: TimeoutExpired
+______________ ERROR at setup of test_pocketbase_binary_available ______________
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _start_services():
+        # Idempotently boot PocketBase + the mock OAuth2 server. The script
+        # detaches them via setsid so they persist beyond the pytest process.
+>       result = subprocess.run(
+            ["/usr/local/bin/start_services.sh"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+bootstrap/test_initial_state.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+usr/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+usr/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 0 args: ['/usr/local/bin/start_services.sh']>
+endtime = 1535043.562448698, orig_timeout = 120, stdout_seq = []
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/usr/local/bin/start_services.sh']' timed out after 120 seconds
+
+usr/lib/python3.12/subprocess.py:1253: TimeoutExpired
+_______________ ERROR at setup of test_project_directory_exists ________________
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _start_services():
+        # Idempotently boot PocketBase + the mock OAuth2 server. The script
+        # detaches them via setsid so they persist beyond the pytest process.
+>       result = subprocess.run(
+            ["/usr/local/bin/start_services.sh"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+bootstrap/test_initial_state.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+usr/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+usr/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 0 args: ['/usr/local/bin/start_services.sh']>
+endtime = 1535043.562448698, orig_timeout = 120, stdout_seq = []
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/usr/local/bin/start_services.sh']' timed out after 120 seconds
+
+usr/lib/python3.12/subprocess.py:1253: TimeoutExpired
+_______________ ERROR at setup of test_pocketbase_server_running _______________
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _start_services():
+        # Idempotently boot PocketBase + the mock OAuth2 server. The script
+        # detaches them via setsid so they persist beyond the pytest process.
+>       result = subprocess.run(
+            ["/usr/local/bin/start_services.sh"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+bootstrap/test_initial_state.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+usr/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+usr/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 0 args: ['/usr/local/bin/start_services.sh']>
+endtime = 1535043.562448698, orig_timeout = 120, stdout_seq = []
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/usr/local/bin/start_services.sh']' timed out after 120 seconds
+
+usr/lib/python3.12/subprocess.py:1253: TimeoutExpired
+_______________ ERROR at setup of test_mock_oauth_server_running _______________
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _start_services():
+        # Idempotently boot PocketBase + the mock OAuth2 server. The script
+        # detaches them via setsid so they persist beyond the pytest process.
+>       result = subprocess.run(
+            ["/usr/local/bin/start_services.sh"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+bootstrap/test_initial_state.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+usr/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+usr/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 0 args: ['/usr/local/bin/start_services.sh']>
+endtime = 1535043.562448698, orig_timeout = 120, stdout_seq = []
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/usr/local/bin/start_services.sh']' timed out after 120 seconds
+
+usr/lib/python3.12/subprocess.py:1253: TimeoutExpired
+_____________ ERROR at setup of test_mock_oauth_endpoints_respond ______________
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _start_services():
+        # Idempotently boot PocketBase + the mock OAuth2 server. The script
+        # detaches them via setsid so they persist beyond the pytest process.
+>       result = subprocess.run(
+            ["/usr/local/bin/start_services.sh"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+bootstrap/test_initial_state.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+usr/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+usr/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 0 args: ['/usr/local/bin/start_services.sh']>
+endtime = 1535043.562448698, orig_timeout = 120, stdout_seq = []
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/usr/local/bin/start_services.sh']' timed out after 120 seconds
+
+usr/lib/python3.12/subprocess.py:1253: TimeoutExpired
+__ ERROR at setup of test_users_collection_has_mockoauth_provider_configured ___
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _start_services():
+        # Idempotently boot PocketBase + the mock OAuth2 server. The script
+        # detaches them via setsid so they persist beyond the pytest process.
+>       result = subprocess.run(
+            ["/usr/local/bin/start_services.sh"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+bootstrap/test_initial_state.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+usr/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+usr/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 0 args: ['/usr/local/bin/start_services.sh']>
+endtime = 1535043.562448698, orig_timeout = 120, stdout_seq = []
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/usr/local/bin/start_services.sh']' timed out after 120 seconds
+
+usr/lib/python3.12/subprocess.py:1253: TimeoutExpired
+__________ ERROR at setup of test_users_collection_has_no_records_yet __________
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _start_services():
+        # Idempotently boot PocketBase + the mock OAuth2 server. The script
+        # detaches them via setsid so they persist beyond the pytest process.
+>       result = subprocess.run(
+            ["/usr/local/bin/start_services.sh"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+bootstrap/test_initial_state.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+usr/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+usr/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 0 args: ['/usr/local/bin/start_services.sh']>
+endtime = 1535043.562448698, orig_timeout = 120, stdout_seq = []
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/usr/local/bin/start_services.sh']' timed out after 120 seconds
+
+usr/lib/python3.12/subprocess.py:1253: TimeoutExpired
+=========================== short test summary info ============================
+ERROR bootstrap/test_initial_state.py::test_node_binary_available - subproces...
+ERROR bootstrap/test_initial_state.py::test_pocketbase_binary_available - sub...
+ERROR bootstrap/test_initial_state.py::test_project_directory_exists - subpro...
+ERROR bootstrap/test_initial_state.py::test_pocketbase_server_running - subpr...
+ERROR bootstrap/test_initial_state.py::test_mock_oauth_server_running - subpr...
+ERROR bootstrap/test_initial_state.py::test_mock_oauth_endpoints_respond - su...
+ERROR bootstrap/test_initial_state.py::test_users_collection_has_mockoauth_provider_configured
+ERROR bootstrap/test_initial_state.py::test_users_collection_has_no_records_yet
+======================== 8 errors in 121.24s (0:02:01) =========================

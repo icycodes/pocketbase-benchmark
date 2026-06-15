@@ -1,0 +1,16 @@
+{
+    "task": [
+        "TEST_USER_EMAIL",
+        "TEST_USER_NAME",
+        "TEST_USER_PASSWORD",
+        "SUPERUSER_EMAIL",
+        "SUPERUSER_PASSWORD"
+    ],
+    "verifier": [
+        "TEST_USER_EMAIL",
+        "TEST_USER_NAME",
+        "TEST_USER_PASSWORD",
+        "SUPERUSER_EMAIL",
+        "SUPERUSER_PASSWORD"
+    ]
+}

@@ -1,0 +1,77 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T04:36:41.089124+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 4,
+            "passed": 0,
+            "failed": 4,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781498200451,
+            "stop": 1781498201088
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_notifications_collection_shape_and_rules",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 141,
+                "start": 1781498200632,
+                "stop": 1781498200773,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "pb_server = None\n\n    def test_notifications_collection_shape_and_rules(pb_server):\n>       admin_token = _auth_superuser()\n\ntests/test_final_state.py:319: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _auth_superuser() -> str:\n        r = requests.post(\n            f\"{PB_URL}/api/collections/_superusers/auth-with-password\",\n            json={\"identity\": SUPERUSER_EMAIL, \"password\": SUPERUSER_PASSWORD},\n            timeout=10,\n        )\n>       assert r.status_code == 200, f\"Superuser auth failed: {r.status_code} {r.text!r}\"\nE       AssertionError: Superuser auth failed: 400 '{\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\\n'\nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:108: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_realtime_alice_receives_only_her_own_events",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 103,
+                "start": 1781498200774,
+                "stop": 1781498200877,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "pb_server = None\n\n    def test_realtime_alice_receives_only_her_own_events(pb_server):\n>       admin_token = _auth_superuser()\n\ntests/test_final_state.py:392: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _auth_superuser() -> str:\n        r = requests.post(\n            f\"{PB_URL}/api/collections/_superusers/auth-with-password\",\n            json={\"identity\": SUPERUSER_EMAIL, \"password\": SUPERUSER_PASSWORD},\n            timeout=10,\n        )\n>       assert r.status_code == 200, f\"Superuser auth failed: {r.status_code} {r.text!r}\"\nE       AssertionError: Superuser auth failed: 400 '{\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\\n'\nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:108: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_realtime_bob_receives_only_his_own_event",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 106,
+                "start": 1781498200877,
+                "stop": 1781498200983,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "pb_server = None\n\n    def test_realtime_bob_receives_only_his_own_event(pb_server):\n>       admin_token = _auth_superuser()\n\ntests/test_final_state.py:431: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _auth_superuser() -> str:\n        r = requests.post(\n            f\"{PB_URL}/api/collections/_superusers/auth-with-password\",\n            json={\"identity\": SUPERUSER_EMAIL, \"password\": SUPERUSER_PASSWORD},\n            timeout=10,\n        )\n>       assert r.status_code == 200, f\"Superuser auth failed: {r.status_code} {r.text!r}\"\nE       AssertionError: Superuser auth failed: 400 '{\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\\n'\nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:108: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_realtime_anonymous_subscriber_receives_no_events",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 104,
+                "start": 1781498200984,
+                "stop": 1781498201088,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "pb_server = None\n\n    def test_realtime_anonymous_subscriber_receives_no_events(pb_server):\n>       admin_token = _auth_superuser()\n\ntests/test_final_state.py:468: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _auth_superuser() -> str:\n        r = requests.post(\n            f\"{PB_URL}/api/collections/_superusers/auth-with-password\",\n            json={\"identity\": SUPERUSER_EMAIL, \"password\": SUPERUSER_PASSWORD},\n            timeout=10,\n        )\n>       assert r.status_code == 200, f\"Superuser auth failed: {r.status_code} {r.text!r}\"\nE       AssertionError: Superuser auth failed: 400 '{\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\\n'\nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:108: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

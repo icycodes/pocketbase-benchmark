@@ -1,0 +1,56 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T02:26:58.522302+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 3,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781490227489,
+            "stop": 1781490418521
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_health_endpoint",
+                "status": "passed",
+                "duration": 121,
+                "start": 1781490227644,
+                "stop": 1781490227765,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_get_users_records_not_rate_limited",
+                "status": "passed",
+                "duration": 65040,
+                "start": 1781490227765,
+                "stop": 1781490292805,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_signup_rate_limit_behavior",
+                "status": "passed",
+                "duration": 125715,
+                "start": 1781490292806,
+                "stop": 1781490418521,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

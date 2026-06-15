@@ -1,0 +1,169 @@
+Trial sveltekit_cookie_auth_sync_middl__JDx2Y2E failed: Docker compose command failed for environment sveltekit_cookie_auth_sync_middleware. Command: docker compose --project-name sveltekit_cookie_auth_sync_middl__jdx2y2e --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sveltekit_cookie_auth_sync_middleware/environment -f /tmp/tmpfyle9jyy/sveltekit_cookie_auth_sync_middl__JDx2Y2E-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpb33jk5xy/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 7.14kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main  1/16] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main  2/16] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git unzip python3 python3-pip python3-pytest bash ripgrep &&     ln -s /usr/bin/python3 /usr/bin/python &&     curl -fsSL https://deb.nodesource.com/setup_24.x | bash - &&     apt-get install -y --no-install-recommends nodejs &&     pip3 install --break-system-packages pytest-json-ctrf pytest-xprocess requests &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main  3/16] RUN mkdir -p /opt/pocketbase &&     cd /opt/pocketbase &&     curl -fsSL -o pocketbase.zip         https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     rm pocketbase.zip &&     chmod +x /opt/pocketbase/pocketbase &&     ln -s /opt/pocketbase/pocketbase /usr/local/bin/pocketbase
+#6 CACHED
+
+#7 [main  5/16] RUN mkdir -p /home/user/pb /home/user/pb/pb_data /home/user/pb/pb_migrations /home/user/pb/pb_hooks /home/user/pb/pb_public
+#7 CACHED
+
+#8 [main  6/16] RUN cat > /usr/local/bin/start-pocketbase.sh <<'EOS'
+#8 CACHED
+
+#9 [main  4/16] RUN mkdir -p /home/user && chmod 0755 /home/user
+#9 CACHED
+
+#10 [main  7/16] RUN chmod +x /usr/local/bin/start-pocketbase.sh
+#10 CACHED
+
+#11 [main  8/16] RUN bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H "Content-Type: application/json"         -d '{"identity":"harbor-user@example.com","password":"harbor-pass-1234"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill "$(cat /tmp/pocketbase.pid)" || true; fi &&     sleep 1
+#11 1.410 curl: (22) The requested URL returned error: 400
+#11 1.493 Traceback (most recent call last):
+#11 1.493   File "<string>", line 1, in <module>
+#11 1.493   File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+#11 1.494     return _default_decoder.decode(s)
+#11 1.494            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+#11 1.494   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+#11 1.495     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+#11 1.495                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#11 1.495   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+#11 1.495     raise JSONDecodeError("Expecting value", s, err.value) from None
+#11 1.498 json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+#11 3.516 curl: (22) The requested URL returned error: 400
+#11 ERROR: process "/bin/sh -c bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H \"Content-Type: application/json\"         -d '{\"identity\":\"harbor-user@example.com\",\"password\":\"harbor-pass-1234\"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill \"$(cat /tmp/pocketbase.pid)\" || true; fi &&     sleep 1" did not complete successfully: exit code: 22
+------
+ > [main  8/16] RUN bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H "Content-Type: application/json"         -d '{"identity":"harbor-user@example.com","password":"harbor-pass-1234"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill "$(cat /tmp/pocketbase.pid)" || true; fi &&     sleep 1:
+1.493   File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+1.494     return _default_decoder.decode(s)
+1.494            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.494   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+1.495     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+1.495                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.495   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+1.495     raise JSONDecodeError("Expecting value", s, err.value) from None
+1.498 json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+3.516 curl: (22) The requested URL returned error: 400
+------
+failed to solve: process "/bin/sh -c bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H \"Content-Type: application/json\"         -d '{\"identity\":\"harbor-user@example.com\",\"password\":\"harbor-pass-1234\"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill \"$(cat /tmp/pocketbase.pid)\" || true; fi &&     sleep 1" did not complete successfully: exit code: 22
+. Stderr: None. 
+Failed to download artifact '/home/user' (best-effort)
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 160, in run
+    await self._prepare()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 187, in _prepare
+    await self._setup_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 612, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 618, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/usr/lib/python3.13/asyncio/tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 517, in start
+    await self._run_docker_compose_command(["build"])
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment sveltekit_cookie_auth_sync_middleware. Command: docker compose --project-name sveltekit_cookie_auth_sync_middl__jdx2y2e --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sveltekit_cookie_auth_sync_middleware/environment -f /tmp/tmpfyle9jyy/sveltekit_cookie_auth_sync_middl__JDx2Y2E-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpb33jk5xy/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 7.14kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main  1/16] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main  2/16] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git unzip python3 python3-pip python3-pytest bash ripgrep &&     ln -s /usr/bin/python3 /usr/bin/python &&     curl -fsSL https://deb.nodesource.com/setup_24.x | bash - &&     apt-get install -y --no-install-recommends nodejs &&     pip3 install --break-system-packages pytest-json-ctrf pytest-xprocess requests &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main  3/16] RUN mkdir -p /opt/pocketbase &&     cd /opt/pocketbase &&     curl -fsSL -o pocketbase.zip         https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     rm pocketbase.zip &&     chmod +x /opt/pocketbase/pocketbase &&     ln -s /opt/pocketbase/pocketbase /usr/local/bin/pocketbase
+#6 CACHED
+
+#7 [main  5/16] RUN mkdir -p /home/user/pb /home/user/pb/pb_data /home/user/pb/pb_migrations /home/user/pb/pb_hooks /home/user/pb/pb_public
+#7 CACHED
+
+#8 [main  6/16] RUN cat > /usr/local/bin/start-pocketbase.sh <<'EOS'
+#8 CACHED
+
+#9 [main  4/16] RUN mkdir -p /home/user && chmod 0755 /home/user
+#9 CACHED
+
+#10 [main  7/16] RUN chmod +x /usr/local/bin/start-pocketbase.sh
+#10 CACHED
+
+#11 [main  8/16] RUN bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H "Content-Type: application/json"         -d '{"identity":"harbor-user@example.com","password":"harbor-pass-1234"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill "$(cat /tmp/pocketbase.pid)" || true; fi &&     sleep 1
+#11 1.410 curl: (22) The requested URL returned error: 400
+#11 1.493 Traceback (most recent call last):
+#11 1.493   File "<string>", line 1, in <module>
+#11 1.493   File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+#11 1.494     return _default_decoder.decode(s)
+#11 1.494            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+#11 1.494   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+#11 1.495     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+#11 1.495                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#11 1.495   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+#11 1.495     raise JSONDecodeError("Expecting value", s, err.value) from None
+#11 1.498 json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+#11 3.516 curl: (22) The requested URL returned error: 400
+#11 ERROR: process "/bin/sh -c bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H \"Content-Type: application/json\"         -d '{\"identity\":\"harbor-user@example.com\",\"password\":\"harbor-pass-1234\"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill \"$(cat /tmp/pocketbase.pid)\" || true; fi &&     sleep 1" did not complete successfully: exit code: 22
+------
+ > [main  8/16] RUN bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H "Content-Type: application/json"         -d '{"identity":"harbor-user@example.com","password":"harbor-pass-1234"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill "$(cat /tmp/pocketbase.pid)" || true; fi &&     sleep 1:
+1.493   File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+1.494     return _default_decoder.decode(s)
+1.494            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.494   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+1.495     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+1.495                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.495   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+1.495     raise JSONDecodeError("Expecting value", s, err.value) from None
+1.498 json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+3.516 curl: (22) The requested URL returned error: 400
+------
+failed to solve: process "/bin/sh -c bash /usr/local/bin/start-pocketbase.sh &&     sleep 2 &&     curl -fsS -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password         -H \"Content-Type: application/json\"         -d '{\"identity\":\"harbor-user@example.com\",\"password\":\"harbor-pass-1234\"}' >/tmp/seed_check.json &&     if [ -f /tmp/pocketbase.pid ]; then kill \"$(cat /tmp/pocketbase.pid)\" || true; fi &&     sleep 1" did not complete successfully: exit code: 22
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/artifact_handler.py", line 195, in _download_artifact
+    await source_env.download_file(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 609, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker_unix.py", line 48, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment sveltekit_cookie_auth_sync_middleware. Command: docker compose --project-name sveltekit_cookie_auth_sync_middl__jdx2y2e --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sveltekit_cookie_auth_sync_middleware/environment -f /tmp/tmpfyle9jyy/sveltekit_cookie_auth_sync_middl__JDx2Y2E-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpb33jk5xy/docker-compose-mounts.json cp main:/home/user jobs/2026-06-15__02-27-32/sveltekit_cookie_auth_sync_middl__JDx2Y2E/artifacts/user. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 

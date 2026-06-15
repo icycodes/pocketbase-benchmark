@@ -1,0 +1,107 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 4 items
+
+tests/test_final_state.py F.FF                                           [100%]
+
+=================================== FAILURES ===================================
+________________________ test_single_transfer_succeeds _________________________
+
+server = None
+
+    def test_single_transfer_succeeds(server):
+        super_token = _superuser_token()
+        id_a, id_b = _wallet_ids(super_token)
+        _reset_state(super_token, id_a, id_b)
+    
+>       user_token = _user_token()
+
+tests/test_final_state.py:179: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _user_token() -> str:
+        r = requests.post(
+            f"{BASE_URL}/api/collections/users/auth-with-password",
+            json={"identity": TEST_USER_EMAIL, "password": TEST_USER_PASSWORD},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as tester user: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as tester user: 400 {"data":{},"message":"Failed to authenticate.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:75: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase_app$ /home/user/myproject/myapp serve --http=127.0.0.1:8090 --dir=/home/user/myproject/pb_data
+process 'pocketbase_app' started pid=2306
+pocketbase_app process startup detected
+____________ test_50_concurrent_transfers_complete_without_deadlock ____________
+
+server = None
+
+    def test_50_concurrent_transfers_complete_without_deadlock(server):
+        super_token = _superuser_token()
+        id_a, id_b = _wallet_ids(super_token)
+        _reset_state(super_token, id_a, id_b)
+    
+>       user_token = _user_token()
+
+tests/test_final_state.py:224: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _user_token() -> str:
+        r = requests.post(
+            f"{BASE_URL}/api/collections/users/auth-with-password",
+            json={"identity": TEST_USER_EMAIL, "password": TEST_USER_PASSWORD},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as tester user: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as tester user: 400 {"data":{},"message":"Failed to authenticate.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:75: AssertionError
+___________ test_insufficient_funds_returns_400_without_state_change ___________
+
+server = None
+
+    def test_insufficient_funds_returns_400_without_state_change(server):
+        super_token = _superuser_token()
+        id_a, id_b = _wallet_ids(super_token)
+        _reset_state(super_token, id_a, id_b)
+    
+>       user_token = _user_token()
+
+tests/test_final_state.py:265: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _user_token() -> str:
+        r = requests.post(
+            f"{BASE_URL}/api/collections/users/auth-with-password",
+            json={"identity": TEST_USER_EMAIL, "password": TEST_USER_PASSWORD},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as tester user: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as tester user: 400 {"data":{},"message":"Failed to authenticate.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:75: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_unauthenticated_transfer_is_rejected
+FAILED tests/test_final_state.py::test_single_transfer_succeeds - AssertionEr...
+FAILED tests/test_final_state.py::test_50_concurrent_transfers_complete_without_deadlock
+FAILED tests/test_final_state.py::test_insufficient_funds_returns_400_without_state_change
+========================= 3 failed, 1 passed in 1.32s ==========================

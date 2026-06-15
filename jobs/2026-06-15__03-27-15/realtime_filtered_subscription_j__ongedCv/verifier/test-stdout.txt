@@ -1,0 +1,104 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py ..F                                            [100%]
+
+=================================== FAILURES ===================================
+_____________________ test_filtered_subscription_behavior ______________________
+
+    def test_filtered_subscription_behavior():
+        """Launch the agent's script with --chat A, create A/B/A records, assert filter behavior."""
+        token = _superuser_token()
+        _clean_messages(token)
+    
+        env = os.environ.copy()
+        # Ensure node-side scripts flush stdout per line.
+        env.setdefault("NODE_NO_WARNINGS", "1")
+    
+        proc = subprocess.Popen(
+            ["node", SCRIPT_NAME, "--chat", "A"],
+            cwd=PROJECT_DIR,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            bufsize=1,  # line-buffered on our (parent) side
+            env=env,
+        )
+    
+        try:
+            # Allow the SSE subscription to be established.
+            time.sleep(3.0)
+    
+            # Confirm the process is still running.
+            if proc.poll() is not None:
+                stderr_out = (proc.stderr.read() if proc.stderr else "") or ""
+                pytest.fail(
+                    f"Subscriber script exited prematurely with code {proc.returncode}. "
+                    f"stderr:\n{stderr_out}"
+                )
+    
+            headers = {"Authorization": token}
+            # Create three records: A, B, A.
+            created_ids = []
+            for payload in (
+                {"chat": "A", "body": "hello-A1"},
+                {"chat": "B", "body": "hello-B1"},
+                {"chat": "A", "body": "hello-A2"},
+            ):
+                status, body = _http_post_json(
+                    f"{PB_URL}/api/collections/messages/records",
+                    payload,
+                    headers=headers,
+                )
+                assert status in (200, 201), f"Failed to create record {payload}: status={status} body={body}"
+                created_ids.append(json.loads(body)["id"])
+    
+            # Wait up to 5 seconds for events, then collect stdout lines.
+            deadline = time.time() + 5.0
+            lines = _read_available_lines(proc, deadline)
+    
+            # Filter out any blank lines.
+            non_empty = [ln for ln in lines if ln.strip()]
+    
+            # All lines must be valid JSON conforming to schema.
+            parsed = []
+            for ln in non_empty:
+                try:
+                    obj = json.loads(ln)
+                except json.JSONDecodeError as e:
+                    pytest.fail(f"Non-JSON stdout line emitted by script: {ln!r} ({e})")
+                assert isinstance(obj, dict), f"Stdout line is not a JSON object: {ln!r}"
+                assert "action" in obj, f"Missing 'action' key in JSON line: {ln!r}"
+                assert "record" in obj, f"Missing 'record' key in JSON line: {ln!r}"
+                assert isinstance(obj["record"], dict), f"'record' is not a JSON object: {ln!r}"
+                parsed.append(obj)
+    
+            # No events for chat=B may appear.
+            b_events = [p for p in parsed if p["record"].get("chat") == "B"]
+            assert not b_events, (
+                f"Subscriber leaked events for chat=B: {b_events}. The filter must block them."
+            )
+    
+            # Exactly 2 create events for chat=A.
+            create_a = [
+                p for p in parsed
+                if p["action"] == "create" and p["record"].get("chat") == "A"
+            ]
+>           assert len(create_a) == 2, (
+                f"Expected exactly 2 create events with chat=A, got {len(create_a)}. "
+                f"All parsed events: {parsed}"
+            )
+E           AssertionError: Expected exactly 2 create events with chat=A, got 1. All parsed events: [{'action': 'create', 'record': {'body': 'hello-A1', 'chat': 'A', 'collectionId': 'pbc_2605467279', 'collectionName': 'messages', 'id': 'jiat342n8829njo'}}]
+E           assert 1 == 2
+E            +  where 1 = len([{'action': 'create', 'record': {'body': 'hello-A1', 'chat': 'A', 'collectionId': 'pbc_2605467279', 'collectionName': 'messages', ...}}])
+
+tests/test_final_state.py:192: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_subscribe_script_exists
+PASSED tests/test_final_state.py::test_node_modules_installed
+FAILED tests/test_final_state.py::test_filtered_subscription_behavior - Asser...
+========================= 1 failed, 2 passed in 8.40s ==========================

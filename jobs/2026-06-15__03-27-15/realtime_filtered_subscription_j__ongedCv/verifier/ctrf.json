@@ -1,0 +1,59 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T03:50:28.644155+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 2,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781495420237,
+            "stop": 1781495428643
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_subscribe_script_exists",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781495420344,
+                "stop": 1781495420346,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_node_modules_installed",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781495420347,
+                "stop": 1781495420349,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_filtered_subscription_behavior",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 8293,
+                "start": 1781495420350,
+                "stop": 1781495428643,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_filtered_subscription_behavior():\n        \"\"\"Launch the agent's script with --chat A, create A/B/A records, assert filter behavior.\"\"\"\n        token = _superuser_token()\n        _clean_messages(token)\n    \n        env = os.environ.copy()\n        # Ensure node-side scripts flush stdout per line.\n        env.setdefault(\"NODE_NO_WARNINGS\", \"1\")\n    \n        proc = subprocess.Popen(\n            [\"node\", SCRIPT_NAME, \"--chat\", \"A\"],\n            cwd=PROJECT_DIR,\n            stdout=subprocess.PIPE,\n            stderr=subprocess.PIPE,\n            text=True,\n            bufsize=1,  # line-buffered on our (parent) side\n            env=env,\n        )\n    \n        try:\n            # Allow the SSE subscription to be established.\n            time.sleep(3.0)\n    \n            # Confirm the process is still running.\n            if proc.poll() is not None:\n                stderr_out = (proc.stderr.read() if proc.stderr else \"\") or \"\"\n                pytest.fail(\n                    f\"Subscriber script exited prematurely with code {proc.returncode}. \"\n                    f\"stderr:\\n{stderr_out}\"\n                )\n    \n            headers = {\"Authorization\": token}\n            # Create three records: A, B, A.\n            created_ids = []\n            for payload in (\n                {\"chat\": \"A\", \"body\": \"hello-A1\"},\n                {\"chat\": \"B\", \"body\": \"hello-B1\"},\n                {\"chat\": \"A\", \"body\": \"hello-A2\"},\n            ):\n                status, body = _http_post_json(\n                    f\"{PB_URL}/api/collections/messages/records\",\n                    payload,\n                    headers=headers,\n                )\n                assert status in (200, 201), f\"Failed to create record {payload}: status={status} body={body}\"\n                created_ids.append(json.loads(body)[\"id\"])\n    \n            # Wait up to 5 seconds for events, then collect stdout lines.\n            deadline = time.time() + 5.0\n            lines = _read_available_lines(proc, deadline)\n    \n            # Filter out any blank lines.\n            non_empty = [ln for ln in lines if ln.strip()]\n    \n            # All lines must be valid JSON conforming to schema.\n            parsed = []\n            for ln in non_empty:\n                try:\n                    obj = json.loads(ln)\n                except json.JSONDecodeError as e:\n                    pytest.fail(f\"Non-JSON stdout line emitted by script: {ln!r} ({e})\")\n                assert isinstance(obj, dict), f\"Stdout line is not a JSON object: {ln!r}\"\n                assert \"action\" in obj, f\"Missing 'action' key in JSON line: {ln!r}\"\n                assert \"record\" in obj, f\"Missing 'record' key in JSON line: {ln!r}\"\n                assert isinstance(obj[\"record\"], dict), f\"'record' is not a JSON object: {ln!r}\"\n                parsed.append(obj)\n    \n            # No events for chat=B may appear.\n            b_events = [p for p in parsed if p[\"record\"].get(\"chat\") == \"B\"]\n            assert not b_events, (\n                f\"Subscriber leaked events for chat=B: {b_events}. The filter must block them.\"\n            )\n    \n            # Exactly 2 create events for chat=A.\n            create_a = [\n                p for p in parsed\n                if p[\"action\"] == \"create\" and p[\"record\"].get(\"chat\") == \"A\"\n            ]\n>           assert len(create_a) == 2, (\n                f\"Expected exactly 2 create events with chat=A, got {len(create_a)}. \"\n                f\"All parsed events: {parsed}\"\n            )\nE           AssertionError: Expected exactly 2 create events with chat=A, got 1. All parsed events: [{'action': 'create', 'record': {'body': 'hello-A1', 'chat': 'A', 'collectionId': 'pbc_2605467279', 'collectionName': 'messages', 'id': 'jiat342n8829njo'}}]\nE           assert 1 == 2\nE            +  where 1 = len([{'action': 'create', 'record': {'body': 'hello-A1', 'chat': 'A', 'collectionId': 'pbc_2605467279', 'collectionName': 'messages', ...}}])\n\ntests/test_final_state.py:192: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

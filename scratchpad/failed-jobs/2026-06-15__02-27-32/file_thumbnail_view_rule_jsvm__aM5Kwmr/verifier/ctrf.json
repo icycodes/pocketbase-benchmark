@@ -1,0 +1,134 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T02:43:57.232173+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 11,
+            "passed": 9,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781491436319,
+            "stop": 1781491437232
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_photos_collection_schema",
+                "status": "passed",
+                "duration": 645,
+                "start": 1781491436479,
+                "stop": 1781491437124,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_private_predeclared_thumb_owner_can_view",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 43,
+                "start": 1781491437124,
+                "stop": 1781491437167,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "context = {'other_file_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3ODE...AiOjE3ODE0OTE2MTcsImlkIjoia3ZjeWdwY2lwamkwam5sIiwidHlwZSI6ImZpbGUifQ.5MijuqePvIuL1ofrnU2AifbGDfir1aIFbyFw0sF_dEo', ...}\n\n    def test_private_predeclared_thumb_owner_can_view(context):\n        url = _file_url(context[\"private_id\"], context[\"private_file\"])\n        r = requests.get(url, params={\"thumb\": \"100x100\", \"token\": context[\"owner_file_token\"]}, timeout=15)\n>       assert r.status_code == 200, (\n            f\"Owner should see private thumb 100x100: {r.status_code} {r.text[:200]}\"\n        )\nE       AssertionError: Owner should see private thumb 100x100: 403 {\"data\":{},\"message\":\"Unauthorized.\",\"status\":403}\nE         \nE       assert 403 == 200\nE        +  where 403 = <Response [403]>.status_code\n\ntests/test_final_state.py:231: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_private_predeclared_thumb_other_user_forbidden",
+                "status": "passed",
+                "duration": 5,
+                "start": 1781491437168,
+                "stop": 1781491437173,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_private_predeclared_thumb_anonymous_forbidden",
+                "status": "passed",
+                "duration": 5,
+                "start": 1781491437173,
+                "stop": 1781491437178,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_public_predeclared_thumb_anonymous_ok",
+                "status": "passed",
+                "duration": 14,
+                "start": 1781491437179,
+                "stop": 1781491437193,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_public_predeclared_thumb_other_user_ok",
+                "status": "passed",
+                "duration": 6,
+                "start": 1781491437193,
+                "stop": 1781491437199,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_unsupported_thumb_public_record_returns_400",
+                "status": "passed",
+                "duration": 4,
+                "start": 1781491437199,
+                "stop": 1781491437203,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_unsupported_thumb_private_record_with_owner_token_returns_400",
+                "status": "passed",
+                "duration": 3,
+                "start": 1781491437204,
+                "stop": 1781491437207,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_original_download_owner_ok",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 14,
+                "start": 1781491437208,
+                "stop": 1781491437222,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "context = {'other_file_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3ODE...AiOjE3ODE0OTE2MTcsImlkIjoia3ZjeWdwY2lwamkwam5sIiwidHlwZSI6ImZpbGUifQ.5MijuqePvIuL1ofrnU2AifbGDfir1aIFbyFw0sF_dEo', ...}\n\n    def test_original_download_owner_ok(context):\n        url = _file_url(context[\"private_id\"], context[\"private_file\"])\n        r = requests.get(url, params={\"token\": context[\"owner_file_token\"]}, timeout=15)\n>       assert r.status_code == 200, (\n            f\"Owner should download original private file: {r.status_code} {r.text[:200]}\"\n        )\nE       AssertionError: Owner should download original private file: 403 {\"data\":{},\"message\":\"Unauthorized.\",\"status\":403}\nE         \nE       assert 403 == 200\nE        +  where 403 = <Response [403]>.status_code\n\ntests/test_final_state.py:308: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_original_download_anonymous_forbidden_on_private",
+                "status": "passed",
+                "duration": 4,
+                "start": 1781491437222,
+                "stop": 1781491437226,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_original_download_anonymous_ok_on_public",
+                "status": "passed",
+                "duration": 4,
+                "start": 1781491437227,
+                "stop": 1781491437231,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

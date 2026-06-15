@@ -1,0 +1,165 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 6 items
+
+tests/test_final_state.py EEEEEE                                         [100%]
+
+==================================== ERRORS ====================================
+__ ERROR at setup of test_valid_batch_import_returns_200_and_inserts_all_rows __
+
+pb_server = None
+
+    @pytest.fixture(scope="session")
+    def super_token(pb_server):
+        email = os.environ.get("PB_SUPERUSER_EMAIL")
+        password = os.environ.get("PB_SUPERUSER_PASSWORD")
+        assert email and password, (
+            "PB_SUPERUSER_EMAIL / PB_SUPERUSER_PASSWORD env vars must be set."
+        )
+        r = requests.post(
+            SUPER_AUTH_URL,
+            json={"identity": email, "password": password},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Superuser auth failed: status={r.status_code}, body={r.text!r}"
+        )
+E       AssertionError: Superuser auth failed: status=400, body='{"data":{},"message":"Failed to authenticate.","status":400}\n'
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:109: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pb_server$ /home/user/myproject/myapp serve --http=0.0.0.0:8090
+process 'pb_server' started pid=4053
+pb_server process startup detected
+_________ ERROR at setup of test_invalid_price_rolls_back_entire_batch _________
+
+pb_server = None
+
+    @pytest.fixture(scope="session")
+    def super_token(pb_server):
+        email = os.environ.get("PB_SUPERUSER_EMAIL")
+        password = os.environ.get("PB_SUPERUSER_PASSWORD")
+        assert email and password, (
+            "PB_SUPERUSER_EMAIL / PB_SUPERUSER_PASSWORD env vars must be set."
+        )
+        r = requests.post(
+            SUPER_AUTH_URL,
+            json={"identity": email, "password": password},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Superuser auth failed: status={r.status_code}, body={r.text!r}"
+        )
+E       AssertionError: Superuser auth failed: status=400, body='{"data":{},"message":"Failed to authenticate.","status":400}\n'
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:109: AssertionError
+_________ ERROR at setup of test_duplicate_sku_within_file_rolls_back __________
+
+pb_server = None
+
+    @pytest.fixture(scope="session")
+    def super_token(pb_server):
+        email = os.environ.get("PB_SUPERUSER_EMAIL")
+        password = os.environ.get("PB_SUPERUSER_PASSWORD")
+        assert email and password, (
+            "PB_SUPERUSER_EMAIL / PB_SUPERUSER_PASSWORD env vars must be set."
+        )
+        r = requests.post(
+            SUPER_AUTH_URL,
+            json={"identity": email, "password": password},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Superuser auth failed: status={r.status_code}, body={r.text!r}"
+        )
+E       AssertionError: Superuser auth failed: status=400, body='{"data":{},"message":"Failed to authenticate.","status":400}\n'
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:109: AssertionError
+__________ ERROR at setup of test_unauthenticated_request_returns_401 __________
+
+pb_server = None
+
+    @pytest.fixture(scope="session")
+    def super_token(pb_server):
+        email = os.environ.get("PB_SUPERUSER_EMAIL")
+        password = os.environ.get("PB_SUPERUSER_PASSWORD")
+        assert email and password, (
+            "PB_SUPERUSER_EMAIL / PB_SUPERUSER_PASSWORD env vars must be set."
+        )
+        r = requests.post(
+            SUPER_AUTH_URL,
+            json={"identity": email, "password": password},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Superuser auth failed: status={r.status_code}, body={r.text!r}"
+        )
+E       AssertionError: Superuser auth failed: status=400, body='{"data":{},"message":"Failed to authenticate.","status":400}\n'
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:109: AssertionError
+___________ ERROR at setup of test_non_superuser_request_returns_403 ___________
+
+pb_server = None
+
+    @pytest.fixture(scope="session")
+    def super_token(pb_server):
+        email = os.environ.get("PB_SUPERUSER_EMAIL")
+        password = os.environ.get("PB_SUPERUSER_PASSWORD")
+        assert email and password, (
+            "PB_SUPERUSER_EMAIL / PB_SUPERUSER_PASSWORD env vars must be set."
+        )
+        r = requests.post(
+            SUPER_AUTH_URL,
+            json={"identity": email, "password": password},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Superuser auth failed: status={r.status_code}, body={r.text!r}"
+        )
+E       AssertionError: Superuser auth failed: status=400, body='{"data":{},"message":"Failed to authenticate.","status":400}\n'
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:109: AssertionError
+________ ERROR at setup of test_rerun_after_failed_batch_still_succeeds ________
+
+pb_server = None
+
+    @pytest.fixture(scope="session")
+    def super_token(pb_server):
+        email = os.environ.get("PB_SUPERUSER_EMAIL")
+        password = os.environ.get("PB_SUPERUSER_PASSWORD")
+        assert email and password, (
+            "PB_SUPERUSER_EMAIL / PB_SUPERUSER_PASSWORD env vars must be set."
+        )
+        r = requests.post(
+            SUPER_AUTH_URL,
+            json={"identity": email, "password": password},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Superuser auth failed: status={r.status_code}, body={r.text!r}"
+        )
+E       AssertionError: Superuser auth failed: status=400, body='{"data":{},"message":"Failed to authenticate.","status":400}\n'
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:109: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_valid_batch_import_returns_200_and_inserts_all_rows
+ERROR tests/test_final_state.py::test_invalid_price_rolls_back_entire_batch
+ERROR tests/test_final_state.py::test_duplicate_sku_within_file_rolls_back - ...
+ERROR tests/test_final_state.py::test_unauthenticated_request_returns_401 - A...
+ERROR tests/test_final_state.py::test_non_superuser_request_returns_403 - Ass...
+ERROR tests/test_final_state.py::test_rerun_after_failed_batch_still_succeeds
+============================== 6 errors in 0.85s ===============================

@@ -1,0 +1,68 @@
+Skipping image OS validation for hb__rate_limited_signup_route_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-2yxhjd2 > /logs/artifacts/run-id && echo rate_limited_signup_route_go__2yxHjD2 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.1-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Per-IP Rate-Limited Signup on PocketBase
+
+## Goal
+Configure PocketBase v0.31.0 so that the user-signup endpoint `POST /api/collections/users/records` enforces a per-IP rate limit of 3 requests per 60 seconds. Excess requests must be rejected with a custom 429 response.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: bash /home/user/myproject/start.sh
+- Port: 8090
+- PocketBase v0.31.0 must be reachable at http://127.0.0.1:8090 and expose the built-in `users` auth collection.
+- The first 3 calls to `POST /api/collections/users/records` from the same client IP within any rolling 60-second window must be processed normally (the server may answer with status 200/201 for valid payloads or 400 for validation failures, but MUST NOT answer with 429).
+- The 4th call from the same IP within that 60-second window must return HTTP status `429` with:
+  - A response header `Retry-After` whose value is a positive integer (seconds, `>= 1`).
+  - A JSON response body that contains a top-level field `retryAfter` whose numeric value equals the `Retry-After` header value within ±2 seconds.
+- After waiting for the number of seconds advertised by `Retry-After`, a subsequent (5th) signup attempt from the same IP must again succeed (status 200/201 for a valid payload, or 400 for validation; not 429).
+- Other endpoints, e.g. `GET /api/collections/users/records`, MUST NOT be rate-limited by this rule: at least 10 consecutive GETs from the same IP within the same window must each return a non-`429` status.
+- The `users` collection's create rule must allow unauthenticated signup using JSON body `{ "email": "...", "password": "...", "passwordConfirm": "..." }` (i.e. open signup; the signup endpoint itself must be reachable without auth).
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

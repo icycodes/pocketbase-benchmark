@@ -1,0 +1,72 @@
+Skipping image OS validation for hb__mailer_password_reset_override_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-nazdjbl > /logs/artifacts/run-id && echo mailer_password_reset_override_g__NaZdJbL > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.1-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase Go Mailer Hook: Override Password Reset Email
+
+## Goal
+Build a Go PocketBase v0.31.0 application that intercepts the password-reset email for the built-in `users` collection and replaces the default Subject and HTML body with custom branded content, while still delivering through the configured SMTP server.
+
+## Acceptance Criteria
+- Project path: `/home/user/myapp`
+- Start command: `cd /home/user/myapp && go run . serve --http=0.0.0.0:8090` (the verifier will (re)start this if not already running).
+- Port: `8090` (PocketBase HTTP API).
+- A real PocketBase v0.31.0 Go application (imports `github.com/pocketbase/pocketbase@v0.31.0`) running on port 8090 with the customized mailer hook registered.
+- SMTP must be configured to deliver outbound mail to the local Mailpit instance on `localhost:1025` (Mailpit HTTP UI/API on `localhost:8025`).
+- The `users` auth collection must contain a verified, seeded user whose credentials are provided through environment variables `TEST_USER_EMAIL` and `TEST_USER_NAME` (default value: `alice@example.com` / `Alice`).
+- API behavior:
+  - `POST /api/collections/users/request-password-reset` with body `{"email": "<TEST_USER_EMAIL>"}` returns HTTP `204` and causes exactly one email to be queued by Mailpit (`GET http://localhost:8025/api/v1/messages`).
+  - The queued message:
+    - `Subject` is **exactly** `Reset your acme.com password`.
+    - `To` contains the original recipient address (`<TEST_USER_EMAIL>`); the recipient must not be rewritten.
+    - HTML body is exactly of the form `Hi <NAME>! Use this link: <LINK>` where:
+      - `<NAME>` is the value of `e.Record.GetString("name")`, or the user's email when the `name` field is empty.
+      - `<LINK>` starts with `https://acme.com/reset?token=` and the `token` query parameter is the password-reset action token (a JWT in `header.payload.signature` form) that PocketBase generates for that send.
+- The hook handler must call `e.Next()` so the underlying mailer still actually delivers the message via SMTP.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

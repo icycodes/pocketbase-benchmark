@@ -1,0 +1,131 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 4 items
+
+tests/test_final_state.py FFFF                                           [100%]
+
+=================================== FAILURES ===================================
+________________________ test_single_transfer_succeeds _________________________
+
+server = None
+
+    def test_single_transfer_succeeds(server):
+        super_token = _superuser_token()
+        id_a, id_b = _wallet_ids(super_token)
+        _reset_state(super_token, id_a, id_b)
+    
+        user_token = _user_token()
+        r = requests.post(
+            f"{BASE_URL}/api/wallets/transfer",
+            json={"fromId": id_a, "toId": id_b, "amount": 10},
+            headers={"Authorization": user_token},
+            timeout=10,
+        )
+>       assert r.status_code == 200, (
+            f"Expected HTTP 200 for a valid transfer, got {r.status_code}: {r.text}"
+        )
+E       AssertionError: Expected HTTP 200 for a valid transfer, got 404: {"data":{},"message":"The requested resource wasn't found.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:186: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase_app$ /home/user/myproject/myapp serve --http=127.0.0.1:8090 --dir=/home/user/myproject/pb_data
+process 'pocketbase_app' started pid=2025
+pocketbase_app process startup detected
+__________________ test_unauthenticated_transfer_is_rejected ___________________
+
+server = None
+
+    def test_unauthenticated_transfer_is_rejected(server):
+        super_token = _superuser_token()
+        id_a, id_b = _wallet_ids(super_token)
+    
+        r = requests.post(
+            f"{BASE_URL}/api/wallets/transfer",
+            json={"fromId": id_a, "toId": id_b, "amount": 1},
+            timeout=10,
+        )
+>       assert r.status_code in (401, 403), (
+            f"Expected 401/403 for unauthenticated transfer, got {r.status_code}: {r.text}"
+        )
+E       AssertionError: Expected 401/403 for unauthenticated transfer, got 404: {"data":{},"message":"The requested resource wasn't found.","status":404}
+E         
+E       assert 404 in (401, 403)
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:214: AssertionError
+____________ test_50_concurrent_transfers_complete_without_deadlock ____________
+
+server = None
+
+    def test_50_concurrent_transfers_complete_without_deadlock(server):
+        super_token = _superuser_token()
+        id_a, id_b = _wallet_ids(super_token)
+        _reset_state(super_token, id_a, id_b)
+    
+        user_token = _user_token()
+    
+        def do_transfer():
+            return requests.post(
+                f"{BASE_URL}/api/wallets/transfer",
+                json={"fromId": id_a, "toId": id_b, "amount": 1},
+                headers={"Authorization": user_token},
+                timeout=30,
+            )
+    
+        start = time.monotonic()
+        statuses = []
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            futures = [executor.submit(do_transfer) for _ in range(50)]
+            for fut in as_completed(futures):
+                statuses.append(fut.result().status_code)
+        elapsed = time.monotonic() - start
+    
+        assert elapsed < 30, (
+            f"50 concurrent transfers must finish under 30s, took {elapsed:.2f}s."
+        )
+>       assert all(s == 200 for s in statuses), (
+            f"Expected every concurrent transfer to return HTTP 200, got statuses: {sorted(statuses)}."
+        )
+E       AssertionError: Expected every concurrent transfer to return HTTP 200, got statuses: [404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404].
+E       assert False
+E        +  where False = all(<generator object test_50_concurrent_transfers_complete_without_deadlock.<locals>.<genexpr> at 0x7fa6f4c4adc0>)
+
+tests/test_final_state.py:245: AssertionError
+___________ test_insufficient_funds_returns_400_without_state_change ___________
+
+server = None
+
+    def test_insufficient_funds_returns_400_without_state_change(server):
+        super_token = _superuser_token()
+        id_a, id_b = _wallet_ids(super_token)
+        _reset_state(super_token, id_a, id_b)
+    
+        user_token = _user_token()
+    
+        before_transfers = _transfers_count(super_token)
+        r = requests.post(
+            f"{BASE_URL}/api/wallets/transfer",
+            json={"fromId": id_a, "toId": id_b, "amount": 9999},
+            headers={"Authorization": user_token},
+            timeout=10,
+        )
+>       assert r.status_code == 400, (
+            f"Expected HTTP 400 for insufficient funds, got {r.status_code}: {r.text}"
+        )
+E       AssertionError: Expected HTTP 400 for insufficient funds, got 404: {"data":{},"message":"The requested resource wasn't found.","status":404}
+E         
+E       assert 404 == 400
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:274: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_single_transfer_succeeds - AssertionEr...
+FAILED tests/test_final_state.py::test_unauthenticated_transfer_is_rejected
+FAILED tests/test_final_state.py::test_50_concurrent_transfers_complete_without_deadlock
+FAILED tests/test_final_state.py::test_insufficient_funds_returns_400_without_state_change
+============================== 4 failed in 1.49s ===============================

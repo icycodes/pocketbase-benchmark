@@ -1,0 +1,59 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 11 items
+
+bootstrap/test_initial_state.py::test_node_binary_available PASSED
+bootstrap/test_initial_state.py::test_npm_binary_available PASSED
+bootstrap/test_initial_state.py::test_pocketbase_binary_available PASSED
+bootstrap/test_initial_state.py::test_project_directory_exists PASSED
+bootstrap/test_initial_state.py::test_pocketbase_sdk_installed PASSED
+bootstrap/test_initial_state.py::test_pocketbase_server_healthy 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+PASSED
+bootstrap/test_initial_state.py::test_batch_api_enabled_in_settings 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 200 475
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/settings HTTP/1.1" 200 985
+PASSED
+bootstrap/test_initial_state.py::test_orders_collection_exists 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 200 475
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/collections/orders HTTP/1.1" 200 815
+PASSED
+bootstrap/test_initial_state.py::test_order_items_collection_exists 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 200 475
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/collections/order_items HTTP/1.1" 200 1024
+PASSED
+bootstrap/test_initial_state.py::test_collections_are_initially_empty 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 200 475
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/collections/orders/records?perPage=1 HTTP/1.1" 200 64
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/collections/order_items/records?perPage=1 HTTP/1.1" 200 64
+PASSED
+bootstrap/test_initial_state.py::test_required_env_vars_present PASSED
+
+============================== 11 passed in 1.44s ==============================

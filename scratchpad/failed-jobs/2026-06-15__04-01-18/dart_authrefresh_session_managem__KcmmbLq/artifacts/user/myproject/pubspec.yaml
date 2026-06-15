@@ -1,0 +1,8 @@
+name: myproject
+description: A Dart CLI for PocketBase auth with persisted session.
+version: 1.0.0
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  pocketbase: ^0.20.0

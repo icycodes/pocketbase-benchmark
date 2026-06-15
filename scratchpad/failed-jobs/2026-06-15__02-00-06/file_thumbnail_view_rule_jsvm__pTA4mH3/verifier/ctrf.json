@@ -1,0 +1,139 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T02:21:49.269183+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 11,
+            "passed": 0,
+            "failed": 11,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781490048797,
+            "stop": 1781490109269
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_photos_collection_schema",
+                "status": "failed",
+                "duration": 60155,
+                "start": 1781490048970,
+                "stop": 1781490109125,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_private_predeclared_thumb_owner_can_view",
+                "status": "failed",
+                "duration": 16,
+                "start": 1781490109126,
+                "stop": 1781490109142,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_private_predeclared_thumb_other_user_forbidden",
+                "status": "failed",
+                "duration": 13,
+                "start": 1781490109143,
+                "stop": 1781490109156,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_private_predeclared_thumb_anonymous_forbidden",
+                "status": "failed",
+                "duration": 13,
+                "start": 1781490109157,
+                "stop": 1781490109170,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_public_predeclared_thumb_anonymous_ok",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781490109171,
+                "stop": 1781490109185,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_public_predeclared_thumb_other_user_ok",
+                "status": "failed",
+                "duration": 13,
+                "start": 1781490109185,
+                "stop": 1781490109198,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_unsupported_thumb_public_record_returns_400",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781490109198,
+                "stop": 1781490109212,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_unsupported_thumb_private_record_with_owner_token_returns_400",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781490109212,
+                "stop": 1781490109226,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_original_download_owner_ok",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781490109226,
+                "stop": 1781490109240,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_original_download_anonymous_forbidden_on_private",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781490109240,
+                "stop": 1781490109254,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            },
+            {
+                "name": "test_final_state.py::test_original_download_anonymous_ok_on_public",
+                "status": "failed",
+                "duration": 13,
+                "start": 1781490109255,
+                "stop": 1781490109268,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def context():\n>       _wait_for_server()\n\ntests/test_final_state.py:153: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntimeout_sec = 60.0\n\n    def _wait_for_server(timeout_sec: float = 60.0):\n        deadline = time.time() + timeout_sec\n        while time.time() < deadline:\n            try:\n                r = requests.get(f\"{PB_URL}/api/health\", timeout=2)\n                if r.status_code == 200:\n                    return\n            except Exception:\n                pass\n            time.sleep(1)\n>       raise RuntimeError(f\"PocketBase server at {PB_URL} did not become healthy.\")\nE       RuntimeError: PocketBase server at http://127.0.0.1:8090 did not become healthy.\n\ntests/test_final_state.py:58: RuntimeError"
+            }
+        ]
+    }
+}

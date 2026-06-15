@@ -1,0 +1,242 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 4 items
+
+tests/test_final_state.py EEEE                                           [100%]
+
+==================================== ERRORS ====================================
+_________________ ERROR at setup of test_pocketbase_reachable __________________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fae874f4e30>
+
+    @pytest.fixture(scope="session")
+    def start_pb(xprocess):
+        """Ensure the agent's PocketBase Go app is running on :8090."""
+        if _pb_health_ok():
+            yield
+            return
+    
+        class Starter(ProcessStarter):
+            name = "pb_app"
+            args = ["go", "run", ".", "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 240
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                return _pb_health_ok()
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.start_pb.<locals>.Starter object at 0x7fae86a2cf50>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 240                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pb_app$ go run . serve --http=0.0.0.0:8090
+process 'pb_app' started pid=1156
+__________ ERROR at setup of test_request_password_reset_returns_204 ___________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fae874f4e30>
+
+    @pytest.fixture(scope="session")
+    def start_pb(xprocess):
+        """Ensure the agent's PocketBase Go app is running on :8090."""
+        if _pb_health_ok():
+            yield
+            return
+    
+        class Starter(ProcessStarter):
+            name = "pb_app"
+            args = ["go", "run", ".", "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 240
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                return _pb_health_ok()
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.start_pb.<locals>.Starter object at 0x7fae86a2cf50>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 240                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+_______ ERROR at setup of test_exactly_one_email_with_overridden_content _______
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fae874f4e30>
+
+    @pytest.fixture(scope="session")
+    def start_pb(xprocess):
+        """Ensure the agent's PocketBase Go app is running on :8090."""
+        if _pb_health_ok():
+            yield
+            return
+    
+        class Starter(ProcessStarter):
+            name = "pb_app"
+            args = ["go", "run", ".", "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 240
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                return _pb_health_ok()
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.start_pb.<locals>.Starter object at 0x7fae86a2cf50>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 240                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+____________ ERROR at setup of test_empty_name_falls_back_to_email _____________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7fae874f4e30>
+
+    @pytest.fixture(scope="session")
+    def start_pb(xprocess):
+        """Ensure the agent's PocketBase Go app is running on :8090."""
+        if _pb_health_ok():
+            yield
+            return
+    
+        class Starter(ProcessStarter):
+            name = "pb_app"
+            args = ["go", "run", ".", "serve", "--http=0.0.0.0:8090"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 240
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                return _pb_health_ok()
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.start_pb.<locals>.Starter object at 0x7fae86a2cf50>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 240                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_pocketbase_reachable - TimeoutError: Th...
+ERROR tests/test_final_state.py::test_request_password_reset_returns_204 - Ti...
+ERROR tests/test_final_state.py::test_exactly_one_email_with_overridden_content
+ERROR tests/test_final_state.py::test_empty_name_falls_back_to_email - Timeou...
+======================== 4 errors in 240.60s (0:04:00) =========================

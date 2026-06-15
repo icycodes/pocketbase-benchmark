@@ -1,0 +1,58 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 5 items
+
+tests/test_final_state.py ...FF                                          [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_tasks_collection_schema _________________________
+
+admin_token = 'REDACTED'
+
+    def test_tasks_collection_schema(admin_token: str):
+        resp = requests.get(
+            TASKS_COLLECTION_URL,
+            headers={"Authorization": admin_token},
+            timeout=10,
+        )
+>       assert resp.status_code == 200, (
+            f"Expected GET {TASKS_COLLECTION_URL} to return 200, "
+            f"got {resp.status_code}: {resp.text}"
+        )
+E       AssertionError: Expected GET http://127.0.0.1:8090/api/collections/tasks to return 200, got 404: {"data":{},"message":"The requested resource wasn't found.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:196: AssertionError
+________________________ test_exactly_five_seeded_tasks ________________________
+
+admin_token = 'REDACTED'
+
+    def test_exactly_five_seeded_tasks(admin_token: str):
+        resp = requests.get(
+            TASKS_RECORDS_URL,
+            params={"perPage": 200, "sort": "title"},
+            headers={"Authorization": admin_token},
+            timeout=10,
+        )
+>       assert resp.status_code == 200, (
+            f"Expected GET {TASKS_RECORDS_URL} to return 200, "
+            f"got {resp.status_code}: {resp.text}"
+        )
+E       AssertionError: Expected GET http://127.0.0.1:8090/api/collections/tasks/records to return 200, got 404: {"data":{},"message":"Missing collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:246: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_server_is_alive
+PASSED tests/test_final_state.py::test_superuser_authentication_works
+PASSED tests/test_final_state.py::test_exactly_one_superuser_exists
+FAILED tests/test_final_state.py::test_tasks_collection_schema - AssertionErr...
+FAILED tests/test_final_state.py::test_exactly_five_seeded_tasks - AssertionE...
+========================= 2 failed, 3 passed in 2.64s ==========================

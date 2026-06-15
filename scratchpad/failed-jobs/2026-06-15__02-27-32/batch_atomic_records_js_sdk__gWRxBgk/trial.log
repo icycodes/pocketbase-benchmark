@@ -1,0 +1,62 @@
+Skipping image OS validation for hb__batch_atomic_records_js_sdk: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-gwrxbgk > /logs/artifacts/run-id && echo batch_atomic_records_js_sdk__gWRxBgk > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model anthropic/claude-4-6-sonnet --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Atomic Order + Items Creation with PocketBase JS SDK Batch API
+
+## Goal
+Write a Node.js script at `/home/user/myproject/app.js` that uses the PocketBase JavaScript SDK to atomically create one `orders` record together with N related `order_items` records in a single transactional batch request against the locally running PocketBase v0.31.0 server (Batch API enabled). The script must support a `--fail` mode where the entire batch must roll back.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Command: `node app.js --items <N>` exits with code 0 and prints exactly one line to stdout matching the regex `^ORDER:[a-z0-9]{15}$` (where the suffix is the id of the newly created order). After execution, the PocketBase server must contain exactly 1 new `orders` row with its `customer` field equal to the value of the `ZEALT_RUN_ID` environment variable, and exactly N new `order_items` rows whose `order` relation field references the printed order id.
+- Command: `node app.js --items <N> --fail` exits with code 1, emits the literal token `BATCH_ROLLED_BACK` on stderr, and produces NO new persisted `orders` or `order_items` rows (the batch must be fully rolled back).
+- The script must perform the writes using the SDK batch interface (`pb.createBatch()` + `batch.send()`); it must not fall back to issuing one create request per item.
+- Credentials and endpoint are available in the environment as `PB_URL`, `PB_ADMIN_EMAIL`, `PB_ADMIN_PASSWORD`; the `ZEALT_RUN_ID` value must be read from `$ZEALT_RUN_ID`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

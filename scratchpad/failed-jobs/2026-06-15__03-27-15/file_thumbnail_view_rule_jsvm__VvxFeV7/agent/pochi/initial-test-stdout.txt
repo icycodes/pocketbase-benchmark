@@ -1,0 +1,50 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 10 items
+
+bootstrap/test_initial_state.py::test_pocketbase_binary_available 
+-------------------------------- live log setup --------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+PASSED
+bootstrap/test_initial_state.py::test_pocketbase_version_is_v0_31 PASSED
+bootstrap/test_initial_state.py::test_project_directory_exists PASSED
+bootstrap/test_initial_state.py::test_pb_hooks_directory_exists PASSED
+bootstrap/test_initial_state.py::test_pb_hooks_directory_has_js_files PASSED
+bootstrap/test_initial_state.py::test_pocketbase_server_is_reachable 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+PASSED
+bootstrap/test_initial_state.py::test_superuser_can_authenticate 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 200 475
+PASSED
+bootstrap/test_initial_state.py::test_photos_collection_exists_with_required_schema 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 200 475
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/collections/photos HTTP/1.1" 200 1212
+PASSED
+bootstrap/test_initial_state.py::test_photos_view_rule_matches_specification 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 200 475
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/collections/photos HTTP/1.1" 200 1212
+PASSED
+bootstrap/test_initial_state.py::test_users_collection_allows_password_auth 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 200 475
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/collections/users HTTP/1.1" 200 None
+PASSED
+
+============================== 10 passed in 1.78s ==============================

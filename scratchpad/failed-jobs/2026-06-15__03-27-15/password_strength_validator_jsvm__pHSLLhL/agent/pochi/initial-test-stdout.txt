@@ -1,0 +1,91 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 7 items
+
+bootstrap/test_initial_state.py::test_pocketbase_binary_available 
+-------------------------------- live log setup --------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+PASSED
+bootstrap/test_initial_state.py::test_pocketbase_version_is_v0_31 PASSED
+bootstrap/test_initial_state.py::test_project_directory_exists PASSED
+bootstrap/test_initial_state.py::test_pb_hooks_directory_exists PASSED
+bootstrap/test_initial_state.py::test_pocketbase_server_is_reachable 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "GET /api/health HTTP/1.1" 200 51
+PASSED
+bootstrap/test_initial_state.py::test_users_collection_exists_with_email_and_password_fields 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 400 61
+FAILED
+bootstrap/test_initial_state.py::test_users_collection_allows_public_create 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 400 61
+FAILED
+
+=================================== FAILURES ===================================
+_________ test_users_collection_exists_with_email_and_password_fields __________
+
+    def test_users_collection_exists_with_email_and_password_fields():
+>       token = _superuser_token()
+
+bootstrap/test_initial_state.py:113: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser ({PB_ADMIN_EMAIL}): "
+            f"{r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser (admin@example.com): 400 {"data":{},"message":"Failed to authenticate.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+bootstrap/test_initial_state.py:68: AssertionError
+------------------------------ Captured log call -------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 400 61
+__________________ test_users_collection_allows_public_create __________________
+
+    def test_users_collection_allows_public_create():
+>       token = _superuser_token()
+
+bootstrap/test_initial_state.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _superuser_token() -> str:
+        r = requests.post(
+            f"{PB_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": PB_ADMIN_EMAIL, "password": PB_ADMIN_PASSWORD},
+            timeout=15,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to authenticate as superuser ({PB_ADMIN_EMAIL}): "
+            f"{r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to authenticate as superuser (admin@example.com): 400 {"data":{},"message":"Failed to authenticate.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+bootstrap/test_initial_state.py:68: AssertionError
+------------------------------ Captured log call -------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): 127.0.0.1:8090
+DEBUG    urllib3.connectionpool:connectionpool.py:544 http://127.0.0.1:8090 "POST /api/collections/_superusers/auth-with-password HTTP/1.1" 400 61
+=========================== short test summary info ============================
+FAILED bootstrap/test_initial_state.py::test_users_collection_exists_with_email_and_password_fields
+FAILED bootstrap/test_initial_state.py::test_users_collection_allows_public_create
+========================= 2 failed, 5 passed in 1.26s ==========================

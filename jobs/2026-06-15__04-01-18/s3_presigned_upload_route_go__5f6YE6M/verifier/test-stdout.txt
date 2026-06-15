@@ -1,0 +1,257 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 6 items
+
+tests/test_final_state.py EEEEEE                                         [100%]
+
+==================================== ERRORS ====================================
+_________________ ERROR at setup of test_presign_requires_auth _________________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f63327ed7c0>
+
+    @pytest.fixture(scope="session")
+    def pb_app(xprocess):
+        _kill_port(PB_PORT)
+>       _ensure_built()
+
+tests/test_final_state.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _ensure_built() -> None:
+        """If the agent did not build the binary, build it for them so we can run it."""
+        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):
+            return
+        result = subprocess.run(
+            ["go", "build", "-o", "myapp", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (
+            "The agent did not produce a usable binary and `go build` also failed.\n"
+            f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        )
+E       AssertionError: The agent did not produce a usable binary and `go build` also failed.
+E         stdout: 
+E         stderr: bootstrap.go:8:2: no required module provides package github.com/pocketbase/pocketbase/daos; to add it:
+E         	go get github.com/pocketbase/pocketbase/daos
+E         bootstrap.go:9:2: no required module provides package github.com/pocketbase/pocketbase/models; to add it:
+E         	go get github.com/pocketbase/pocketbase/models
+E         bootstrap.go:10:2: no required module provides package github.com/pocketbase/pocketbase/models/schema; to add it:
+E         	go get github.com/pocketbase/pocketbase/models/schema
+E         
+E       assert (1 == 0)
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='bootstrap.go:8:2: no requi...github.com/pocketbase/pocketbase/models/schema; to add it:\n\tgo get github.com/pocketbase/pocketbase/models/schema\n').returncode
+
+tests/test_final_state.py:57: AssertionError
+________________ ERROR at setup of test_finalize_requires_auth _________________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f63327ed7c0>
+
+    @pytest.fixture(scope="session")
+    def pb_app(xprocess):
+        _kill_port(PB_PORT)
+>       _ensure_built()
+
+tests/test_final_state.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _ensure_built() -> None:
+        """If the agent did not build the binary, build it for them so we can run it."""
+        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):
+            return
+        result = subprocess.run(
+            ["go", "build", "-o", "myapp", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (
+            "The agent did not produce a usable binary and `go build` also failed.\n"
+            f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        )
+E       AssertionError: The agent did not produce a usable binary and `go build` also failed.
+E         stdout: 
+E         stderr: bootstrap.go:8:2: no required module provides package github.com/pocketbase/pocketbase/daos; to add it:
+E         	go get github.com/pocketbase/pocketbase/daos
+E         bootstrap.go:9:2: no required module provides package github.com/pocketbase/pocketbase/models; to add it:
+E         	go get github.com/pocketbase/pocketbase/models
+E         bootstrap.go:10:2: no required module provides package github.com/pocketbase/pocketbase/models/schema; to add it:
+E         	go get github.com/pocketbase/pocketbase/models/schema
+E         
+E       assert (1 == 0)
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='bootstrap.go:8:2: no requi...github.com/pocketbase/pocketbase/models/schema; to add it:\n\tgo get github.com/pocketbase/pocketbase/models/schema\n').returncode
+
+tests/test_final_state.py:57: AssertionError
+_________________ ERROR at setup of test_presign_success_shape _________________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f63327ed7c0>
+
+    @pytest.fixture(scope="session")
+    def pb_app(xprocess):
+        _kill_port(PB_PORT)
+>       _ensure_built()
+
+tests/test_final_state.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _ensure_built() -> None:
+        """If the agent did not build the binary, build it for them so we can run it."""
+        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):
+            return
+        result = subprocess.run(
+            ["go", "build", "-o", "myapp", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (
+            "The agent did not produce a usable binary and `go build` also failed.\n"
+            f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        )
+E       AssertionError: The agent did not produce a usable binary and `go build` also failed.
+E         stdout: 
+E         stderr: bootstrap.go:8:2: no required module provides package github.com/pocketbase/pocketbase/daos; to add it:
+E         	go get github.com/pocketbase/pocketbase/daos
+E         bootstrap.go:9:2: no required module provides package github.com/pocketbase/pocketbase/models; to add it:
+E         	go get github.com/pocketbase/pocketbase/models
+E         bootstrap.go:10:2: no required module provides package github.com/pocketbase/pocketbase/models/schema; to add it:
+E         	go get github.com/pocketbase/pocketbase/models/schema
+E         
+E       assert (1 == 0)
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='bootstrap.go:8:2: no requi...github.com/pocketbase/pocketbase/models/schema; to add it:\n\tgo get github.com/pocketbase/pocketbase/models/schema\n').returncode
+
+tests/test_final_state.py:57: AssertionError
+_____________ ERROR at setup of test_full_upload_and_finalize_flow _____________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f63327ed7c0>
+
+    @pytest.fixture(scope="session")
+    def pb_app(xprocess):
+        _kill_port(PB_PORT)
+>       _ensure_built()
+
+tests/test_final_state.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _ensure_built() -> None:
+        """If the agent did not build the binary, build it for them so we can run it."""
+        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):
+            return
+        result = subprocess.run(
+            ["go", "build", "-o", "myapp", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (
+            "The agent did not produce a usable binary and `go build` also failed.\n"
+            f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        )
+E       AssertionError: The agent did not produce a usable binary and `go build` also failed.
+E         stdout: 
+E         stderr: bootstrap.go:8:2: no required module provides package github.com/pocketbase/pocketbase/daos; to add it:
+E         	go get github.com/pocketbase/pocketbase/daos
+E         bootstrap.go:9:2: no required module provides package github.com/pocketbase/pocketbase/models; to add it:
+E         	go get github.com/pocketbase/pocketbase/models
+E         bootstrap.go:10:2: no required module provides package github.com/pocketbase/pocketbase/models/schema; to add it:
+E         	go get github.com/pocketbase/pocketbase/models/schema
+E         
+E       assert (1 == 0)
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='bootstrap.go:8:2: no requi...github.com/pocketbase/pocketbase/models/schema; to add it:\n\tgo get github.com/pocketbase/pocketbase/models/schema\n').returncode
+
+tests/test_final_state.py:57: AssertionError
+__________ ERROR at setup of test_finalize_missing_object_returns_404 __________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f63327ed7c0>
+
+    @pytest.fixture(scope="session")
+    def pb_app(xprocess):
+        _kill_port(PB_PORT)
+>       _ensure_built()
+
+tests/test_final_state.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _ensure_built() -> None:
+        """If the agent did not build the binary, build it for them so we can run it."""
+        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):
+            return
+        result = subprocess.run(
+            ["go", "build", "-o", "myapp", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (
+            "The agent did not produce a usable binary and `go build` also failed.\n"
+            f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        )
+E       AssertionError: The agent did not produce a usable binary and `go build` also failed.
+E         stdout: 
+E         stderr: bootstrap.go:8:2: no required module provides package github.com/pocketbase/pocketbase/daos; to add it:
+E         	go get github.com/pocketbase/pocketbase/daos
+E         bootstrap.go:9:2: no required module provides package github.com/pocketbase/pocketbase/models; to add it:
+E         	go get github.com/pocketbase/pocketbase/models
+E         bootstrap.go:10:2: no required module provides package github.com/pocketbase/pocketbase/models/schema; to add it:
+E         	go get github.com/pocketbase/pocketbase/models/schema
+E         
+E       assert (1 == 0)
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='bootstrap.go:8:2: no requi...github.com/pocketbase/pocketbase/models/schema; to add it:\n\tgo get github.com/pocketbase/pocketbase/models/schema\n').returncode
+
+tests/test_final_state.py:57: AssertionError
+_________ ERROR at setup of test_user_cannot_finalize_other_users_key __________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f63327ed7c0>
+
+    @pytest.fixture(scope="session")
+    def pb_app(xprocess):
+        _kill_port(PB_PORT)
+>       _ensure_built()
+
+tests/test_final_state.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _ensure_built() -> None:
+        """If the agent did not build the binary, build it for them so we can run it."""
+        if os.path.isfile(PB_BIN) and os.access(PB_BIN, os.X_OK):
+            return
+        result = subprocess.run(
+            ["go", "build", "-o", "myapp", "."],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+>       assert result.returncode == 0 and os.path.isfile(PB_BIN), (
+            "The agent did not produce a usable binary and `go build` also failed.\n"
+            f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        )
+E       AssertionError: The agent did not produce a usable binary and `go build` also failed.
+E         stdout: 
+E         stderr: bootstrap.go:8:2: no required module provides package github.com/pocketbase/pocketbase/daos; to add it:
+E         	go get github.com/pocketbase/pocketbase/daos
+E         bootstrap.go:9:2: no required module provides package github.com/pocketbase/pocketbase/models; to add it:
+E         	go get github.com/pocketbase/pocketbase/models
+E         bootstrap.go:10:2: no required module provides package github.com/pocketbase/pocketbase/models/schema; to add it:
+E         	go get github.com/pocketbase/pocketbase/models/schema
+E         
+E       assert (1 == 0)
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='bootstrap.go:8:2: no requi...github.com/pocketbase/pocketbase/models/schema; to add it:\n\tgo get github.com/pocketbase/pocketbase/models/schema\n').returncode
+
+tests/test_final_state.py:57: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_presign_requires_auth - AssertionError:...
+ERROR tests/test_final_state.py::test_finalize_requires_auth - AssertionError...
+ERROR tests/test_final_state.py::test_presign_success_shape - AssertionError:...
+ERROR tests/test_final_state.py::test_full_upload_and_finalize_flow - Asserti...
+ERROR tests/test_final_state.py::test_finalize_missing_object_returns_404 - A...
+ERROR tests/test_final_state.py::test_user_cannot_finalize_other_users_key - ...
+============================== 6 errors in 1.05s ===============================

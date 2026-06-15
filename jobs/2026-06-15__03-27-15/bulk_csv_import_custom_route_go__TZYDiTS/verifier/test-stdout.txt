@@ -1,0 +1,203 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 6 items
+
+tests/test_final_state.py EEEEEE                                         [100%]
+
+==================================== ERRORS ====================================
+__ ERROR at setup of test_valid_batch_import_returns_200_and_inserts_all_rows __
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f3a74fc4410>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+>       _build_binary_if_missing()
+
+tests/test_final_state.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary_if_missing():
+        binary = os.path.join(PROJECT_DIR, "myapp")
+        if not os.path.isfile(binary):
+            result = subprocess.run(
+                ["go", "build", "-o", "myapp", "."],
+                cwd=PROJECT_DIR,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+>           assert result.returncode == 0, (
+                f"Failed to build the Go binary: stdout={result.stdout!r}, "
+                f"stderr={result.stderr!r}"
+            )
+E           AssertionError: Failed to build the Go binary: stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n'
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:37: AssertionError
+_________ ERROR at setup of test_invalid_price_rolls_back_entire_batch _________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f3a74fc4410>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+>       _build_binary_if_missing()
+
+tests/test_final_state.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary_if_missing():
+        binary = os.path.join(PROJECT_DIR, "myapp")
+        if not os.path.isfile(binary):
+            result = subprocess.run(
+                ["go", "build", "-o", "myapp", "."],
+                cwd=PROJECT_DIR,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+>           assert result.returncode == 0, (
+                f"Failed to build the Go binary: stdout={result.stdout!r}, "
+                f"stderr={result.stderr!r}"
+            )
+E           AssertionError: Failed to build the Go binary: stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n'
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:37: AssertionError
+_________ ERROR at setup of test_duplicate_sku_within_file_rolls_back __________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f3a74fc4410>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+>       _build_binary_if_missing()
+
+tests/test_final_state.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary_if_missing():
+        binary = os.path.join(PROJECT_DIR, "myapp")
+        if not os.path.isfile(binary):
+            result = subprocess.run(
+                ["go", "build", "-o", "myapp", "."],
+                cwd=PROJECT_DIR,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+>           assert result.returncode == 0, (
+                f"Failed to build the Go binary: stdout={result.stdout!r}, "
+                f"stderr={result.stderr!r}"
+            )
+E           AssertionError: Failed to build the Go binary: stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n'
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:37: AssertionError
+__________ ERROR at setup of test_unauthenticated_request_returns_401 __________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f3a74fc4410>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+>       _build_binary_if_missing()
+
+tests/test_final_state.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary_if_missing():
+        binary = os.path.join(PROJECT_DIR, "myapp")
+        if not os.path.isfile(binary):
+            result = subprocess.run(
+                ["go", "build", "-o", "myapp", "."],
+                cwd=PROJECT_DIR,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+>           assert result.returncode == 0, (
+                f"Failed to build the Go binary: stdout={result.stdout!r}, "
+                f"stderr={result.stderr!r}"
+            )
+E           AssertionError: Failed to build the Go binary: stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n'
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:37: AssertionError
+___________ ERROR at setup of test_non_superuser_request_returns_403 ___________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f3a74fc4410>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+>       _build_binary_if_missing()
+
+tests/test_final_state.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary_if_missing():
+        binary = os.path.join(PROJECT_DIR, "myapp")
+        if not os.path.isfile(binary):
+            result = subprocess.run(
+                ["go", "build", "-o", "myapp", "."],
+                cwd=PROJECT_DIR,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+>           assert result.returncode == 0, (
+                f"Failed to build the Go binary: stdout={result.stdout!r}, "
+                f"stderr={result.stderr!r}"
+            )
+E           AssertionError: Failed to build the Go binary: stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n'
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:37: AssertionError
+________ ERROR at setup of test_rerun_after_failed_batch_still_succeeds ________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f3a74fc4410>
+
+    @pytest.fixture(scope="session")
+    def pb_server(xprocess):
+        _seed_pb_data_if_missing()
+>       _build_binary_if_missing()
+
+tests/test_final_state.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _build_binary_if_missing():
+        binary = os.path.join(PROJECT_DIR, "myapp")
+        if not os.path.isfile(binary):
+            result = subprocess.run(
+                ["go", "build", "-o", "myapp", "."],
+                cwd=PROJECT_DIR,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+>           assert result.returncode == 0, (
+                f"Failed to build the Go binary: stdout={result.stdout!r}, "
+                f"stderr={result.stderr!r}"
+            )
+E           AssertionError: Failed to build the Go binary: stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n'
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp', '.'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:37: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_valid_batch_import_returns_200_and_inserts_all_rows
+ERROR tests/test_final_state.py::test_invalid_price_rolls_back_entire_batch
+ERROR tests/test_final_state.py::test_duplicate_sku_within_file_rolls_back - ...
+ERROR tests/test_final_state.py::test_unauthenticated_request_returns_401 - A...
+ERROR tests/test_final_state.py::test_non_superuser_request_returns_403 - Ass...
+ERROR tests/test_final_state.py::test_rerun_after_failed_batch_still_succeeds
+============================== 6 errors in 9.37s ===============================

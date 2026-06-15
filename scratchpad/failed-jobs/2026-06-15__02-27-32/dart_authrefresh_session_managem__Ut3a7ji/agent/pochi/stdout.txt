@@ -1,0 +1,74 @@
+- Initializing MCP connections...
+You
+# Dart PocketBase CLI: Persisted Session with authRefresh ## Goal Build a standalone Dart CLI at `/home/user/myproject` that authenticates against the local PocketBase v0.31.0 server (`http://127.0.0.1:8090`, `users` collection), persists the resulting auth token to a `session.json` file in the current working directory, and on subsequent runs refreshes that token using the official `pocketbase` pub package. A seed user is already provisioned: `user@example.com` / `password`. ## Acceptance Criteria - Entrypoint: `bin/app.dart`, runnable via `dart run bin/app.dart ...` from `/home/user/myproject`. - `dart run bin/app.dart login <email> <password>` - Writes `session.json` (in the current working directory) containing a non-empty PocketBase auth token. - Exits 0. - `dart run bin/app.dart refresh` - Loads `session.json`, calls `authRefresh()` on the `users` collection, and persists the new token back to `session.json` if it changed. - Stdout prints exactly two lines and nothing else: the authenticated user record id, then the token's `exp` claim as an integer epoch (seconds). - Exits 0. - `dart run bin/app.dart refresh` with a corrupted `session.json` (not valid JSON or missing the token): - Prints exactly `INVALID_SESSION` to stderr. - Exits 1.   
+
+Pochi
+💭 Thinking for 175 characters   
+📂 Listing files in /home/user ✔ 
+💫 Executing dart --version && which dart ✔ 
+📂 Listing files in /home/user/myproject ✔ 
+💫 Executing curl -s http://127.0.0.1:8090/api/health ✔ 
+PocketBase is healthy. Let me set up the project.   
+📋 Updating todo list (6 items) ✔ 
+✏️  Writing /home/user/myproject/pubspec.yaml ✔ 
+📋 Updating todo list (6 items) ✔ 
+✏️  Writing /home/user/myproject/bin/app.dart ✔ 
+📋 Updating todo list (5 items) ✔ 
+💫 Executing cd /home/user/myproject && dart pub get 2>&1 ✔ 
+📋 Updating todo list (4 items) ✔ 
+💫 Executing cd /home/user/myproject && dart run bin/app.dart login user@example.com password; echo "exit: $?" ✔ 
+💫 Executing cd /home/user/myproject && cat session.json | python3 -m json.tool ✔ 
+Login works and `session.json` contains a non-empty token. Now test refresh:   
+📋 Updating todo list (3 items) ✔ 
+💫 Executing cd /home/user/myproject && dart run bin/app.dart refresh; echo "exit: $?" ✔ 
+Exactly two lines: record id then `exp` epoch. Now verify the output line count rigorously and test the corrupted-session path:   
+💫 Executing cd /home/user/myproject && dart run bin/app.dart refresh 2>/dev/null | wc -l ✔ 
+📋 Updating todo list (2 items) ✔ 
+💫 Executing cd /home/user/myproject && echo "not json at all" > session.json && dart run bin/app.dart refresh; echo "exit: $?" ✔ 
+💫 Executing cd /home/user/myproject && echo '{"token":""}' > session.json && dart run bin/app.dart refresh 2>&1; echo "exit: $?" ✔ 
+💫 Executing cd /home/user/myproject && echo '{"no_token_key": true}' > session.json && dart run bin/app.dart refresh 2>&1; echo "exit: $?" ✔ 
+All corruption cases emit exactly `INVALID_SESSION` to stderr and exit 1. Let's do a final clean end-to-end run:   
+💫 Executing cd /home/user/myproject && rm -f session.json && dart run bin/app.dart login user@example.com password; echo "login exit: $?" && dart run bin/app.dart refresh; echo "refresh exit: $?" ✔ 
+📋 Updating todo list (1 items) ✔ 
+🎉 Task Completed
+The Dart CLI is complete at `/home/user/myproject`. Here's a summary of what was built:
+
+## Project layout
+```
+/home/user/myproject/
+├── pubspec.yaml       # declares pocketbase: ^0.20.0
+├── pubspec.lock
+└── bin/
+    └── app.dart       # single entrypoint
+```
+
+## How it works
+
+### `login <email> <password>`
+- Calls `pb.collection('users').authWithPassword(email, password)` via the official `pocketbase` pub package.
+- Writes `session.json` in the current working directory:
+  ```json
+  { "token": "<jwt>", "record": { …RecordModel fields… } }
+  ```
+- Exits 0.
+
+### `refresh`
+- Reads and validates `session.json`; any parse error or missing/empty `token` key → prints `INVALID_SESSION` to stderr, exits 1.
+- Restores the PocketBase auth store with the stored token + record so the SDK attaches the correct `Authorization` header.
+- Calls `pb.collection('users').authRefresh()`.
+- Persists the new token back to `session.json` only when it changed.
+- Decodes the JWT payload (base64url, no signature verification needed) to extract the `exp` claim.
+- Prints **exactly two lines** to stdout and nothing else:
+  1. The authenticated user record id.
+  2. The token `exp` as an integer epoch in seconds.
+- Exits 0.
+
+## Verified test results
+| Scenario | stdout | stderr | exit |
+|---|---|---|---|
+| `login user@example.com password` | *(silent)* | — | 0 |
+| `refresh` (valid session) | `sn00o2p477q7uo8\n1782095570` | — | 0 |
+| `refresh` (invalid JSON) | — | `INVALID_SESSION` | 1 |
+| `refresh` (empty token) | — | `INVALID_SESSION` | 1 |
+| `refresh` (missing token key) | — | `INVALID_SESSION` | 1 |   
+  

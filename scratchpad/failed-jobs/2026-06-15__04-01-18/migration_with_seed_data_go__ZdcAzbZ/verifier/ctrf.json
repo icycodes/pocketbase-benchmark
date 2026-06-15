@@ -1,0 +1,101 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T04:11:53.997368+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 7,
+            "passed": 4,
+            "failed": 3,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781496709232,
+            "stop": 1781496713997
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_01_migrate_up_succeeds",
+                "status": "passed",
+                "duration": 1226,
+                "start": 1781496709609,
+                "stop": 1781496710835,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_02_categories_collection_has_three_seeded_records",
+                "status": "passed",
+                "duration": 510,
+                "start": 1781496710836,
+                "stop": 1781496711346,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_03_articles_collection_has_six_seeded_records",
+                "status": "passed",
+                "duration": 507,
+                "start": 1781496711347,
+                "stop": 1781496711854,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_04_category_name_field_is_unique",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 540,
+                "start": 1781496711854,
+                "stop": 1781496712394,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_04_category_name_field_is_unique():\n        proc = _start_serve()\n        try:\n            # Authenticate as superuser to query collection schema.\n            email = os.environ.get(\"PB_SUPERUSER_EMAIL\", \"admin@example.com\")\n            password = os.environ.get(\"PB_SUPERUSER_PASSWORD\", \"Admin123!Admin123!\")\n            auth = requests.post(\n                f\"{BASE_URL}/api/collections/_superusers/auth-with-password\",\n                json={\"identity\": email, \"password\": password},\n                timeout=10,\n            )\n>           assert auth.status_code == 200, (\n                f\"Superuser auth failed ({auth.status_code}): {auth.text!r}\"\n            )\nE           AssertionError: Superuser auth failed (400): '{\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\\n'\nE           assert 400 == 200\nE            +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:220: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_05_articles_category_relation_required_cascade",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 518,
+                "start": 1781496712394,
+                "stop": 1781496712912,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_05_articles_category_relation_required_cascade():\n        proc = _start_serve()\n        try:\n            email = os.environ.get(\"PB_SUPERUSER_EMAIL\", \"admin@example.com\")\n            password = os.environ.get(\"PB_SUPERUSER_PASSWORD\", \"Admin123!Admin123!\")\n            auth = requests.post(\n                f\"{BASE_URL}/api/collections/_superusers/auth-with-password\",\n                json={\"identity\": email, \"password\": password},\n                timeout=10,\n            )\n>           assert auth.status_code == 200, (\n                f\"Superuser auth failed ({auth.status_code}): {auth.text!r}\"\n            )\nE           AssertionError: Superuser auth failed (400): '{\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\\n'\nE           assert 400 == 200\nE            +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:268: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_06_migrate_down_removes_collections",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 544,
+                "start": 1781496712912,
+                "stop": 1781496713456,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_06_migrate_down_removes_collections():\n        _run_cli([\"migrate\", \"down\", \"1\"])\n        proc = _start_serve()\n        try:\n            cat_resp = requests.get(\n                f\"{BASE_URL}/api/collections/categories/records\", timeout=10\n            )\n            art_resp = requests.get(\n                f\"{BASE_URL}/api/collections/articles/records\", timeout=10\n            )\n>           assert cat_resp.status_code == 404, (\n                f\"Expected 404 after down for /api/collections/categories/records, \"\n                f\"got {cat_resp.status_code}: {cat_resp.text!r}\"\n            )\nE           AssertionError: Expected 404 after down for /api/collections/categories/records, got 200: '{\"items\":[{\"collectionId\":\"pbc_3292755704\",\"collectionName\":\"categories\",\"id\":\"2fme5s1i1lhwdmf\",\"name\":\"Tech\"},{\"collectionId\":\"pbc_3292755704\",\"collectionName\":\"categories\",\"id\":\"8xg544fdkdbsqla\",\"name\":\"Life\"},{\"collectionId\":\"pbc_3292755704\",\"collectionName\":\"categories\",\"id\":\"i31dxz8u5uz7w7c\",\"name\":\"News\"}],\"page\":1,\"perPage\":30,\"totalItems\":3,\"totalPages\":1}\\n'\nE           assert 200 == 404\nE            +  where 200 = <Response [200]>.status_code\n\ntests/test_final_state.py:325: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_07_migrate_up_again_restores_seed_data_deterministically",
+                "status": "passed",
+                "duration": 540,
+                "start": 1781496713456,
+                "stop": 1781496713996,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

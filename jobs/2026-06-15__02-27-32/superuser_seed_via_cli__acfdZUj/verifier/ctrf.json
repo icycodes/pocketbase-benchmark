@@ -1,0 +1,79 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T02:31:11.228315+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 0,
+            "failed": 5,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781490669158,
+            "stop": 1781490671228
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_server_is_alive",
+                "status": "failed",
+                "duration": 1666,
+                "start": 1781490669512,
+                "stop": 1781490671178,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n        first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n>       assert first.returncode == 0, (\n            \"First invocation of `bash setup.sh` failed with non-zero exit code \"\n            f\"{first.returncode}.\\nstdout:\\n{first.stdout}\\nstderr:\\n{first.stderr}\"\n        )\nE       AssertionError: First invocation of `bash setup.sh` failed with non-zero exit code 22.\nE         stdout:\nE         [setup] Checking for a running PocketBase instance...\nE         [setup] Upserting superuser 'admin@example.com'...\nE         Successfully saved superuser \"admin@example.com\"!\nE         [setup] Starting PocketBase server in the background...\nE         [setup] PocketBase started (PID 1036), log: /home/user/myproject/pocketbase.log\nE         [setup] Waiting for PocketBase to become ready...\nE         [setup] Server is ready (attempt 2).\nE         [setup] Authenticating as superuser...\nE         [setup] Authentication successful.\nE         [setup] Seeding task records...\nE         \nE         stderr:\nE         \nE       assert 22 == 0\nE        +  where 22 = CompletedProcess(args=['bash', 'setup.sh'], returncode=22, stdout='[setup] Checking for a running PocketBase instance....tup] Authenticating as superuser...\\n[setup] Authentication successful.\\n[setup] Seeding task records...\\n', stderr='').returncode\n\ntests/test_final_state.py:91: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_superuser_authentication_works",
+                "status": "failed",
+                "duration": 11,
+                "start": 1781490671178,
+                "stop": 1781490671189,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n        first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n>       assert first.returncode == 0, (\n            \"First invocation of `bash setup.sh` failed with non-zero exit code \"\n            f\"{first.returncode}.\\nstdout:\\n{first.stdout}\\nstderr:\\n{first.stderr}\"\n        )\nE       AssertionError: First invocation of `bash setup.sh` failed with non-zero exit code 22.\nE         stdout:\nE         [setup] Checking for a running PocketBase instance...\nE         [setup] Upserting superuser 'admin@example.com'...\nE         Successfully saved superuser \"admin@example.com\"!\nE         [setup] Starting PocketBase server in the background...\nE         [setup] PocketBase started (PID 1036), log: /home/user/myproject/pocketbase.log\nE         [setup] Waiting for PocketBase to become ready...\nE         [setup] Server is ready (attempt 2).\nE         [setup] Authenticating as superuser...\nE         [setup] Authentication successful.\nE         [setup] Seeding task records...\nE         \nE         stderr:\nE         \nE       assert 22 == 0\nE        +  where 22 = CompletedProcess(args=['bash', 'setup.sh'], returncode=22, stdout='[setup] Checking for a running PocketBase instance....tup] Authenticating as superuser...\\n[setup] Authentication successful.\\n[setup] Seeding task records...\\n', stderr='').returncode\n\ntests/test_final_state.py:91: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_one_superuser_exists",
+                "status": "failed",
+                "duration": 11,
+                "start": 1781490671190,
+                "stop": 1781490671201,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n        first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n>       assert first.returncode == 0, (\n            \"First invocation of `bash setup.sh` failed with non-zero exit code \"\n            f\"{first.returncode}.\\nstdout:\\n{first.stdout}\\nstderr:\\n{first.stderr}\"\n        )\nE       AssertionError: First invocation of `bash setup.sh` failed with non-zero exit code 22.\nE         stdout:\nE         [setup] Checking for a running PocketBase instance...\nE         [setup] Upserting superuser 'admin@example.com'...\nE         Successfully saved superuser \"admin@example.com\"!\nE         [setup] Starting PocketBase server in the background...\nE         [setup] PocketBase started (PID 1036), log: /home/user/myproject/pocketbase.log\nE         [setup] Waiting for PocketBase to become ready...\nE         [setup] Server is ready (attempt 2).\nE         [setup] Authenticating as superuser...\nE         [setup] Authentication successful.\nE         [setup] Seeding task records...\nE         \nE         stderr:\nE         \nE       assert 22 == 0\nE        +  where 22 = CompletedProcess(args=['bash', 'setup.sh'], returncode=22, stdout='[setup] Checking for a running PocketBase instance....tup] Authenticating as superuser...\\n[setup] Authentication successful.\\n[setup] Seeding task records...\\n', stderr='').returncode\n\ntests/test_final_state.py:91: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_tasks_collection_schema",
+                "status": "failed",
+                "duration": 12,
+                "start": 1781490671201,
+                "stop": 1781490671213,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n        first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n>       assert first.returncode == 0, (\n            \"First invocation of `bash setup.sh` failed with non-zero exit code \"\n            f\"{first.returncode}.\\nstdout:\\n{first.stdout}\\nstderr:\\n{first.stderr}\"\n        )\nE       AssertionError: First invocation of `bash setup.sh` failed with non-zero exit code 22.\nE         stdout:\nE         [setup] Checking for a running PocketBase instance...\nE         [setup] Upserting superuser 'admin@example.com'...\nE         Successfully saved superuser \"admin@example.com\"!\nE         [setup] Starting PocketBase server in the background...\nE         [setup] PocketBase started (PID 1036), log: /home/user/myproject/pocketbase.log\nE         [setup] Waiting for PocketBase to become ready...\nE         [setup] Server is ready (attempt 2).\nE         [setup] Authenticating as superuser...\nE         [setup] Authentication successful.\nE         [setup] Seeding task records...\nE         \nE         stderr:\nE         \nE       assert 22 == 0\nE        +  where 22 = CompletedProcess(args=['bash', 'setup.sh'], returncode=22, stdout='[setup] Checking for a running PocketBase instance....tup] Authenticating as superuser...\\n[setup] Authentication successful.\\n[setup] Seeding task records...\\n', stderr='').returncode\n\ntests/test_final_state.py:91: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_five_seeded_tasks",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781490671213,
+                "stop": 1781490671227,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\", autouse=True)\n    def run_setup_twice_and_warm_server():\n        \"\"\"\n        Per the truth's Setup section:\n          1. Clean any leftover PocketBase state from the initial environment.\n          2. Run `bash setup.sh` twice; each invocation must exit 0.\n          3. Wait until the server is reachable on port 8090.\n        \"\"\"\n        assert os.path.isfile(SETUP_SCRIPT), (\n            f\"Expected setup.sh to exist at {SETUP_SCRIPT}, but it was not found.\"\n        )\n    \n        _stop_any_running_server()\n        if os.path.isdir(PB_DATA_DIR):\n            shutil.rmtree(PB_DATA_DIR)\n        if os.path.isdir(PB_MIGRATIONS_DIR):\n            shutil.rmtree(PB_MIGRATIONS_DIR)\n    \n        # First invocation\n        first = subprocess.run(\n            [\"bash\", \"setup.sh\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True,\n            timeout=180,\n        )\n>       assert first.returncode == 0, (\n            \"First invocation of `bash setup.sh` failed with non-zero exit code \"\n            f\"{first.returncode}.\\nstdout:\\n{first.stdout}\\nstderr:\\n{first.stderr}\"\n        )\nE       AssertionError: First invocation of `bash setup.sh` failed with non-zero exit code 22.\nE         stdout:\nE         [setup] Checking for a running PocketBase instance...\nE         [setup] Upserting superuser 'admin@example.com'...\nE         Successfully saved superuser \"admin@example.com\"!\nE         [setup] Starting PocketBase server in the background...\nE         [setup] PocketBase started (PID 1036), log: /home/user/myproject/pocketbase.log\nE         [setup] Waiting for PocketBase to become ready...\nE         [setup] Server is ready (attempt 2).\nE         [setup] Authenticating as superuser...\nE         [setup] Authentication successful.\nE         [setup] Seeding task records...\nE         \nE         stderr:\nE         \nE       assert 22 == 0\nE        +  where 22 = CompletedProcess(args=['bash', 'setup.sh'], returncode=22, stdout='[setup] Checking for a running PocketBase instance....tup] Authenticating as superuser...\\n[setup] Authentication successful.\\n[setup] Seeding task records...\\n', stderr='').returncode\n\ntests/test_final_state.py:91: AssertionError"
+            }
+        ]
+    }
+}

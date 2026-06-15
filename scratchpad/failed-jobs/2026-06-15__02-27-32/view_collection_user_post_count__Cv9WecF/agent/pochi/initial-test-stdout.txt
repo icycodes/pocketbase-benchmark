@@ -1,0 +1,371 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 6 items
+
+bootstrap/test_initial_state.py::test_go_toolchain_available ERROR
+bootstrap/test_initial_state.py::test_project_directory_exists ERROR
+bootstrap/test_initial_state.py::test_project_has_go_module_files ERROR
+bootstrap/test_initial_state.py::test_users_collection_exists ERROR
+bootstrap/test_initial_state.py::test_posts_collection_exists ERROR
+bootstrap/test_initial_state.py::test_user_post_stats_view_not_yet_present ERROR
+
+==================================== ERRORS ====================================
+________________ ERROR at setup of test_go_toolchain_available _________________
+
+    @pytest.fixture(scope="module", autouse=True)
+    def pocketbase_server():
+        """Apply migrations, ensure a superuser exists, and start the PocketBase
+        server in the background so the rest of the initial-state tests (and the
+        executor that runs afterwards) can talk to it."""
+        email = os.environ.get("POCKETBASE_SUPERUSER_EMAIL")
+        password = os.environ.get("POCKETBASE_SUPERUSER_PASSWORD")
+        assert email, "POCKETBASE_SUPERUSER_EMAIL env var must be provided."
+        assert password, "POCKETBASE_SUPERUSER_PASSWORD env var must be provided."
+    
+        # 1. Apply Go migrations (creates users + posts collections on first run).
+        migrate = subprocess.run(
+            ["go", "run", ".", "migrate", "up"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert migrate.returncode == 0, (
+            "Initial 'go run . migrate up' failed: "
+            f"stdout={migrate.stdout!r} stderr={migrate.stderr!r}"
+        )
+    
+        # 2. Ensure a superuser exists for API-based verification.
+        upsert = subprocess.run(
+            ["go", "run", ".", "superuser", "upsert", email, password],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert upsert.returncode == 0, (
+            "Initial 'superuser upsert' failed: "
+            f"stdout={upsert.stdout!r} stderr={upsert.stderr!r}"
+        )
+    
+        # 3. Start the server in the background, unless one is already running.
+        process = None
+        if not _server_already_running():
+            log_path = "/tmp/pocketbase_initial.log"
+            log_file = open(log_path, "w")
+            process = subprocess.Popen(
+                ["go", "run", ".", "serve", f"--http={PB_HOST}:{PB_PORT}"],
+                cwd=PROJECT_DIR,
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+            )
+    
+>       assert _wait_for_port(PB_HOST, PB_PORT, timeout=180.0), (
+            f"PocketBase did not start listening on {PB_HOST}:{PB_PORT} within 180s."
+        )
+E       AssertionError: PocketBase did not start listening on 127.0.0.1:8090 within 180s.
+E       assert False
+E        +  where False = _wait_for_port('127.0.0.1', 8090, timeout=180.0)
+
+bootstrap/test_initial_state.py:87: AssertionError
+_______________ ERROR at setup of test_project_directory_exists ________________
+
+    @pytest.fixture(scope="module", autouse=True)
+    def pocketbase_server():
+        """Apply migrations, ensure a superuser exists, and start the PocketBase
+        server in the background so the rest of the initial-state tests (and the
+        executor that runs afterwards) can talk to it."""
+        email = os.environ.get("POCKETBASE_SUPERUSER_EMAIL")
+        password = os.environ.get("POCKETBASE_SUPERUSER_PASSWORD")
+        assert email, "POCKETBASE_SUPERUSER_EMAIL env var must be provided."
+        assert password, "POCKETBASE_SUPERUSER_PASSWORD env var must be provided."
+    
+        # 1. Apply Go migrations (creates users + posts collections on first run).
+        migrate = subprocess.run(
+            ["go", "run", ".", "migrate", "up"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert migrate.returncode == 0, (
+            "Initial 'go run . migrate up' failed: "
+            f"stdout={migrate.stdout!r} stderr={migrate.stderr!r}"
+        )
+    
+        # 2. Ensure a superuser exists for API-based verification.
+        upsert = subprocess.run(
+            ["go", "run", ".", "superuser", "upsert", email, password],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert upsert.returncode == 0, (
+            "Initial 'superuser upsert' failed: "
+            f"stdout={upsert.stdout!r} stderr={upsert.stderr!r}"
+        )
+    
+        # 3. Start the server in the background, unless one is already running.
+        process = None
+        if not _server_already_running():
+            log_path = "/tmp/pocketbase_initial.log"
+            log_file = open(log_path, "w")
+            process = subprocess.Popen(
+                ["go", "run", ".", "serve", f"--http={PB_HOST}:{PB_PORT}"],
+                cwd=PROJECT_DIR,
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+            )
+    
+>       assert _wait_for_port(PB_HOST, PB_PORT, timeout=180.0), (
+            f"PocketBase did not start listening on {PB_HOST}:{PB_PORT} within 180s."
+        )
+E       AssertionError: PocketBase did not start listening on 127.0.0.1:8090 within 180s.
+E       assert False
+E        +  where False = _wait_for_port('127.0.0.1', 8090, timeout=180.0)
+
+bootstrap/test_initial_state.py:87: AssertionError
+______________ ERROR at setup of test_project_has_go_module_files ______________
+
+    @pytest.fixture(scope="module", autouse=True)
+    def pocketbase_server():
+        """Apply migrations, ensure a superuser exists, and start the PocketBase
+        server in the background so the rest of the initial-state tests (and the
+        executor that runs afterwards) can talk to it."""
+        email = os.environ.get("POCKETBASE_SUPERUSER_EMAIL")
+        password = os.environ.get("POCKETBASE_SUPERUSER_PASSWORD")
+        assert email, "POCKETBASE_SUPERUSER_EMAIL env var must be provided."
+        assert password, "POCKETBASE_SUPERUSER_PASSWORD env var must be provided."
+    
+        # 1. Apply Go migrations (creates users + posts collections on first run).
+        migrate = subprocess.run(
+            ["go", "run", ".", "migrate", "up"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert migrate.returncode == 0, (
+            "Initial 'go run . migrate up' failed: "
+            f"stdout={migrate.stdout!r} stderr={migrate.stderr!r}"
+        )
+    
+        # 2. Ensure a superuser exists for API-based verification.
+        upsert = subprocess.run(
+            ["go", "run", ".", "superuser", "upsert", email, password],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert upsert.returncode == 0, (
+            "Initial 'superuser upsert' failed: "
+            f"stdout={upsert.stdout!r} stderr={upsert.stderr!r}"
+        )
+    
+        # 3. Start the server in the background, unless one is already running.
+        process = None
+        if not _server_already_running():
+            log_path = "/tmp/pocketbase_initial.log"
+            log_file = open(log_path, "w")
+            process = subprocess.Popen(
+                ["go", "run", ".", "serve", f"--http={PB_HOST}:{PB_PORT}"],
+                cwd=PROJECT_DIR,
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+            )
+    
+>       assert _wait_for_port(PB_HOST, PB_PORT, timeout=180.0), (
+            f"PocketBase did not start listening on {PB_HOST}:{PB_PORT} within 180s."
+        )
+E       AssertionError: PocketBase did not start listening on 127.0.0.1:8090 within 180s.
+E       assert False
+E        +  where False = _wait_for_port('127.0.0.1', 8090, timeout=180.0)
+
+bootstrap/test_initial_state.py:87: AssertionError
+________________ ERROR at setup of test_users_collection_exists ________________
+
+    @pytest.fixture(scope="module", autouse=True)
+    def pocketbase_server():
+        """Apply migrations, ensure a superuser exists, and start the PocketBase
+        server in the background so the rest of the initial-state tests (and the
+        executor that runs afterwards) can talk to it."""
+        email = os.environ.get("POCKETBASE_SUPERUSER_EMAIL")
+        password = os.environ.get("POCKETBASE_SUPERUSER_PASSWORD")
+        assert email, "POCKETBASE_SUPERUSER_EMAIL env var must be provided."
+        assert password, "POCKETBASE_SUPERUSER_PASSWORD env var must be provided."
+    
+        # 1. Apply Go migrations (creates users + posts collections on first run).
+        migrate = subprocess.run(
+            ["go", "run", ".", "migrate", "up"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert migrate.returncode == 0, (
+            "Initial 'go run . migrate up' failed: "
+            f"stdout={migrate.stdout!r} stderr={migrate.stderr!r}"
+        )
+    
+        # 2. Ensure a superuser exists for API-based verification.
+        upsert = subprocess.run(
+            ["go", "run", ".", "superuser", "upsert", email, password],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert upsert.returncode == 0, (
+            "Initial 'superuser upsert' failed: "
+            f"stdout={upsert.stdout!r} stderr={upsert.stderr!r}"
+        )
+    
+        # 3. Start the server in the background, unless one is already running.
+        process = None
+        if not _server_already_running():
+            log_path = "/tmp/pocketbase_initial.log"
+            log_file = open(log_path, "w")
+            process = subprocess.Popen(
+                ["go", "run", ".", "serve", f"--http={PB_HOST}:{PB_PORT}"],
+                cwd=PROJECT_DIR,
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+            )
+    
+>       assert _wait_for_port(PB_HOST, PB_PORT, timeout=180.0), (
+            f"PocketBase did not start listening on {PB_HOST}:{PB_PORT} within 180s."
+        )
+E       AssertionError: PocketBase did not start listening on 127.0.0.1:8090 within 180s.
+E       assert False
+E        +  where False = _wait_for_port('127.0.0.1', 8090, timeout=180.0)
+
+bootstrap/test_initial_state.py:87: AssertionError
+________________ ERROR at setup of test_posts_collection_exists ________________
+
+    @pytest.fixture(scope="module", autouse=True)
+    def pocketbase_server():
+        """Apply migrations, ensure a superuser exists, and start the PocketBase
+        server in the background so the rest of the initial-state tests (and the
+        executor that runs afterwards) can talk to it."""
+        email = os.environ.get("POCKETBASE_SUPERUSER_EMAIL")
+        password = os.environ.get("POCKETBASE_SUPERUSER_PASSWORD")
+        assert email, "POCKETBASE_SUPERUSER_EMAIL env var must be provided."
+        assert password, "POCKETBASE_SUPERUSER_PASSWORD env var must be provided."
+    
+        # 1. Apply Go migrations (creates users + posts collections on first run).
+        migrate = subprocess.run(
+            ["go", "run", ".", "migrate", "up"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert migrate.returncode == 0, (
+            "Initial 'go run . migrate up' failed: "
+            f"stdout={migrate.stdout!r} stderr={migrate.stderr!r}"
+        )
+    
+        # 2. Ensure a superuser exists for API-based verification.
+        upsert = subprocess.run(
+            ["go", "run", ".", "superuser", "upsert", email, password],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert upsert.returncode == 0, (
+            "Initial 'superuser upsert' failed: "
+            f"stdout={upsert.stdout!r} stderr={upsert.stderr!r}"
+        )
+    
+        # 3. Start the server in the background, unless one is already running.
+        process = None
+        if not _server_already_running():
+            log_path = "/tmp/pocketbase_initial.log"
+            log_file = open(log_path, "w")
+            process = subprocess.Popen(
+                ["go", "run", ".", "serve", f"--http={PB_HOST}:{PB_PORT}"],
+                cwd=PROJECT_DIR,
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+            )
+    
+>       assert _wait_for_port(PB_HOST, PB_PORT, timeout=180.0), (
+            f"PocketBase did not start listening on {PB_HOST}:{PB_PORT} within 180s."
+        )
+E       AssertionError: PocketBase did not start listening on 127.0.0.1:8090 within 180s.
+E       assert False
+E        +  where False = _wait_for_port('127.0.0.1', 8090, timeout=180.0)
+
+bootstrap/test_initial_state.py:87: AssertionError
+_________ ERROR at setup of test_user_post_stats_view_not_yet_present __________
+
+    @pytest.fixture(scope="module", autouse=True)
+    def pocketbase_server():
+        """Apply migrations, ensure a superuser exists, and start the PocketBase
+        server in the background so the rest of the initial-state tests (and the
+        executor that runs afterwards) can talk to it."""
+        email = os.environ.get("POCKETBASE_SUPERUSER_EMAIL")
+        password = os.environ.get("POCKETBASE_SUPERUSER_PASSWORD")
+        assert email, "POCKETBASE_SUPERUSER_EMAIL env var must be provided."
+        assert password, "POCKETBASE_SUPERUSER_PASSWORD env var must be provided."
+    
+        # 1. Apply Go migrations (creates users + posts collections on first run).
+        migrate = subprocess.run(
+            ["go", "run", ".", "migrate", "up"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert migrate.returncode == 0, (
+            "Initial 'go run . migrate up' failed: "
+            f"stdout={migrate.stdout!r} stderr={migrate.stderr!r}"
+        )
+    
+        # 2. Ensure a superuser exists for API-based verification.
+        upsert = subprocess.run(
+            ["go", "run", ".", "superuser", "upsert", email, password],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert upsert.returncode == 0, (
+            "Initial 'superuser upsert' failed: "
+            f"stdout={upsert.stdout!r} stderr={upsert.stderr!r}"
+        )
+    
+        # 3. Start the server in the background, unless one is already running.
+        process = None
+        if not _server_already_running():
+            log_path = "/tmp/pocketbase_initial.log"
+            log_file = open(log_path, "w")
+            process = subprocess.Popen(
+                ["go", "run", ".", "serve", f"--http={PB_HOST}:{PB_PORT}"],
+                cwd=PROJECT_DIR,
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+            )
+    
+>       assert _wait_for_port(PB_HOST, PB_PORT, timeout=180.0), (
+            f"PocketBase did not start listening on {PB_HOST}:{PB_PORT} within 180s."
+        )
+E       AssertionError: PocketBase did not start listening on 127.0.0.1:8090 within 180s.
+E       assert False
+E        +  where False = _wait_for_port('127.0.0.1', 8090, timeout=180.0)
+
+bootstrap/test_initial_state.py:87: AssertionError
+=========================== short test summary info ============================
+ERROR bootstrap/test_initial_state.py::test_go_toolchain_available - Assertio...
+ERROR bootstrap/test_initial_state.py::test_project_directory_exists - Assert...
+ERROR bootstrap/test_initial_state.py::test_project_has_go_module_files - Ass...
+ERROR bootstrap/test_initial_state.py::test_users_collection_exists - Asserti...
+ERROR bootstrap/test_initial_state.py::test_posts_collection_exists - Asserti...
+ERROR bootstrap/test_initial_state.py::test_user_post_stats_view_not_yet_present
+======================== 6 errors in 185.99s (0:03:05) =========================
+pytest-xprocess reminder::Be sure to terminate the started process by running 'pytest --xkill' if you have not explicitly done so in your fixture with 'xprocess.getinfo(<process_name>).terminate()'.

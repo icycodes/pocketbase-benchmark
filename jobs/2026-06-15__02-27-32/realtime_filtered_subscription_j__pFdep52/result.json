@@ -1,0 +1,122 @@
+{
+    "id": "9d1ffd4d-23ce-48cb-bd0c-594fdabad79e",
+    "task_name": "realtime_filtered_subscription_js",
+    "trial_name": "realtime_filtered_subscription_j__pFdep52",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__02-27-32/realtime_filtered_subscription_j__pFdep52",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/realtime_filtered_subscription_js"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "fce826658a0532f1822bcb2cc6dbcda2393bc46b14958a21273b4c18aef1c2fd",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/realtime_filtered_subscription_js",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "realtime_filtered_subscription_j__pFdep52",
+        "trials_dir": "jobs/2026-06-15__02-27-32",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "anthropic/claude-4-6-sonnet",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "556e259b-c709-4a48-9634-9181bb5f02a4"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "claude-4-6-sonnet",
+            "provider": "anthropic"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 0,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 1.0
+        }
+    },
+    "exception_info": {
+        "exception_type": "NonZeroAgentExitCodeError",
+        "exception_message": "Command failed (exit 143): pochi --model anthropic/claude-4-6-sonnet --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# Filtered Realtime Subscription with the PocketBase JS SDK\n\n## Goal\nA PocketBase v0.31.0 server is already running locally with a pre-seeded `messages` collection (fields: `chat`, `body`). Build a Node.js CLI that uses the official `pocketbase` npm package (JS SDK) to open a realtime SSE subscription on the `messages` collection that only delivers events whose `chat` field equals the chat id passed on the command line.\n\n## Acceptance Criteria\n- Project path: /home/user/myproject\n- Command: `node subscribe.js --chat <chatId>`\n- PocketBase server URL: `http://127.0.0.1:8090`. Superuser credentials are available via the env vars `PB_ADMIN_EMAIL` and `PB_ADMIN_PASSWORD`.\n- For every realtime event the script receives, it MUST write exactly one JSON object on its own line to stdout with the shape `{\"action\": \"create|update|delete\", \"record\": { ...record fields including id and chat... }}` and flush.\n- Server-side filtering MUST be used so that events for records with a different `chat` value never reach stdout.\n- When records are created in `messages` with `chat='A'`, `chat='B'`, `chat='A'` while the script is running with `--chat A`, the script MUST print exactly 2 JSON lines on stdout, each with `action: \"create\"` and `record.chat == \"A\"`, within 5 seconds of record creation. No event for `chat='B'` may appear.\n- Nothing besides the JSON event lines may be written to stdout (logs/debug output must go to stderr or be suppressed).\n- The script MUST exit with status 0 within 3 seconds when sent SIGTERM after subscribing successfully.\n\n\nEOF\nstdout: \u001b[37m2026-06-15 02:34:20.946\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 02:34:21.080\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 02:34:21.387\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 02:34:21.496\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 02:34:21.535\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 02:34:22.913\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 63, in _run_agent\n    await self._run_agent_phase(\n    ...<4 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py\", line 238, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/usr/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 39, in wrapper\n    return await fn(self, instruction, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kweizh/zealt/zealt-agent/agents/pochi.py\", line 223, in run\n    await self.exec_as_agent(\n    ...<15 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 354, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 317, in _exec\n    raise NonZeroAgentExitCodeError(\n    ...<3 lines>...\n    )\nharbor.agents.installed.base.NonZeroAgentExitCodeError: Command failed (exit 143): pochi --model anthropic/claude-4-6-sonnet --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# Filtered Realtime Subscription with the PocketBase JS SDK\n\n## Goal\nA PocketBase v0.31.0 server is already running locally with a pre-seeded `messages` collection (fields: `chat`, `body`). Build a Node.js CLI that uses the official `pocketbase` npm package (JS SDK) to open a realtime SSE subscription on the `messages` collection that only delivers events whose `chat` field equals the chat id passed on the command line.\n\n## Acceptance Criteria\n- Project path: /home/user/myproject\n- Command: `node subscribe.js --chat <chatId>`\n- PocketBase server URL: `http://127.0.0.1:8090`. Superuser credentials are available via the env vars `PB_ADMIN_EMAIL` and `PB_ADMIN_PASSWORD`.\n- For every realtime event the script receives, it MUST write exactly one JSON object on its own line to stdout with the shape `{\"action\": \"create|update|delete\", \"record\": { ...record fields including id and chat... }}` and flush.\n- Server-side filtering MUST be used so that events for records with a different `chat` value never reach stdout.\n- When records are created in `messages` with `chat='A'`, `chat='B'`, `chat='A'` while the script is running with `--chat A`, the script MUST print exactly 2 JSON lines on stdout, each with `action: \"create\"` and `record.chat == \"A\"`, within 5 seconds of record creation. No event for `chat='B'` may appear.\n- Nothing besides the JSON event lines may be written to stdout (logs/debug output must go to stderr or be suppressed).\n- The script MUST exit with status 0 within 3 seconds when sent SIGTERM after subscribing successfully.\n\n\nEOF\nstdout: \u001b[37m2026-06-15 02:34:20.946\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 02:34:21.080\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 02:34:21.387\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 02:34:21.496\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 02:34:21.535\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 02:34:22.913\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None\n",
+        "occurred_at": "2026-06-15T02:37:07.330431"
+    },
+    "started_at": "2026-06-15T02:34:02.339901Z",
+    "finished_at": "2026-06-15T02:37:29.864971Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T02:34:02.343137Z",
+        "finished_at": "2026-06-15T02:34:04.960952Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T02:34:04.960990Z",
+        "finished_at": "2026-06-15T02:34:17.051793Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T02:34:17.051900Z",
+        "finished_at": "2026-06-15T02:37:07.328087Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-15T02:37:08.890727Z",
+        "finished_at": "2026-06-15T02:37:18.071844Z"
+    },
+    "step_results": null
+}

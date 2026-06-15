@@ -1,0 +1,104 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T03:35:24.944361+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 7,
+            "passed": 3,
+            "failed": 4,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781494516486,
+            "stop": 1781494524944
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_01_migrate_up_succeeds",
+                "status": "passed",
+                "duration": 1485,
+                "start": 1781494516891,
+                "stop": 1781494518376,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_02_categories_collection_has_three_seeded_records",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 1064,
+                "start": 1781494518376,
+                "stop": 1781494519440,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_02_categories_collection_has_three_seeded_records():\n        proc = _start_serve()\n        try:\n            resp = requests.get(\n                f\"{BASE_URL}/api/collections/categories/records\",\n                params={\"perPage\": 50},\n                timeout=10,\n            )\n>           assert resp.status_code == 200, (\n                f\"GET /api/collections/categories/records returned \"\n                f\"{resp.status_code}: {resp.text!r}\"\n            )\nE           AssertionError: GET /api/collections/categories/records returned 403: '{\"data\":{},\"message\":\"Only superusers can perform this action.\",\"status\":403}\\n'\nE           assert 403 == 200\nE            +  where 403 = <Response [403]>.status_code\n\ntests/test_final_state.py:146: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_03_articles_collection_has_six_seeded_records",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 1033,
+                "start": 1781494519441,
+                "stop": 1781494520474,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_03_articles_collection_has_six_seeded_records():\n        proc = _start_serve()\n        try:\n            resp = requests.get(\n                f\"{BASE_URL}/api/collections/articles/records\",\n                params={\"perPage\": 50},\n                timeout=10,\n            )\n>           assert resp.status_code == 200, (\n                f\"GET /api/collections/articles/records returned \"\n                f\"{resp.status_code}: {resp.text!r}\"\n            )\nE           AssertionError: GET /api/collections/articles/records returned 403: '{\"data\":{},\"message\":\"Only superusers can perform this action.\",\"status\":403}\\n'\nE           assert 403 == 200\nE            +  where 403 = <Response [403]>.status_code\n\ntests/test_final_state.py:174: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_04_category_name_field_is_unique",
+                "status": "passed",
+                "duration": 1141,
+                "start": 1781494520474,
+                "stop": 1781494521615,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_05_articles_category_relation_required_cascade",
+                "status": "passed",
+                "duration": 1139,
+                "start": 1781494521616,
+                "stop": 1781494522755,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_06_migrate_down_removes_collections",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 1093,
+                "start": 1781494522756,
+                "stop": 1781494523849,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_06_migrate_down_removes_collections():\n        _run_cli([\"migrate\", \"down\", \"1\"])\n        proc = _start_serve()\n        try:\n            cat_resp = requests.get(\n                f\"{BASE_URL}/api/collections/categories/records\", timeout=10\n            )\n            art_resp = requests.get(\n                f\"{BASE_URL}/api/collections/articles/records\", timeout=10\n            )\n>           assert cat_resp.status_code == 404, (\n                f\"Expected 404 after down for /api/collections/categories/records, \"\n                f\"got {cat_resp.status_code}: {cat_resp.text!r}\"\n            )\nE           AssertionError: Expected 404 after down for /api/collections/categories/records, got 403: '{\"data\":{},\"message\":\"Only superusers can perform this action.\",\"status\":403}\\n'\nE           assert 403 == 404\nE            +  where 403 = <Response [403]>.status_code\n\ntests/test_final_state.py:325: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_07_migrate_up_again_restores_seed_data_deterministically",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 1094,
+                "start": 1781494523849,
+                "stop": 1781494524943,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_07_migrate_up_again_restores_seed_data_deterministically():\n        _run_cli([\"migrate\", \"up\"])\n        proc = _start_serve()\n        try:\n            cat_resp = requests.get(\n                f\"{BASE_URL}/api/collections/categories/records\",\n                params={\"perPage\": 50},\n                timeout=10,\n            )\n>           assert cat_resp.status_code == 200, (\n                f\"GET categories after re-up returned {cat_resp.status_code}: \"\n                f\"{cat_resp.text!r}\"\n            )\nE           AssertionError: GET categories after re-up returned 403: '{\"data\":{},\"message\":\"Only superusers can perform this action.\",\"status\":403}\\n'\nE           assert 403 == 200\nE            +  where 403 = <Response [403]>.status_code\n\ntests/test_final_state.py:346: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

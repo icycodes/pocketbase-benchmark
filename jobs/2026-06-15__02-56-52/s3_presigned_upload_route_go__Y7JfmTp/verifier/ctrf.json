@@ -1,0 +1,83 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T03:18:20.640023+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 6,
+            "passed": 6,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781493499357,
+            "stop": 1781493500639
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_presign_requires_auth",
+                "status": "passed",
+                "duration": 134,
+                "start": 1781493499831,
+                "stop": 1781493499965,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_finalize_requires_auth",
+                "status": "passed",
+                "duration": 5,
+                "start": 1781493499965,
+                "stop": 1781493499970,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_presign_success_shape",
+                "status": "passed",
+                "duration": 295,
+                "start": 1781493499970,
+                "stop": 1781493500265,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_full_upload_and_finalize_flow",
+                "status": "passed",
+                "duration": 199,
+                "start": 1781493500265,
+                "stop": 1781493500464,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_finalize_missing_object_returns_404",
+                "status": "passed",
+                "duration": 26,
+                "start": 1781493500465,
+                "stop": 1781493500491,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_user_cannot_finalize_other_users_key",
+                "status": "passed",
+                "duration": 146,
+                "start": 1781493500492,
+                "stop": 1781493500638,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

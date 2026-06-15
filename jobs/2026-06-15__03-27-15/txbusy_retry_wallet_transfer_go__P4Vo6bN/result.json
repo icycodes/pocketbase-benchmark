@@ -1,0 +1,122 @@
+{
+    "id": "cb2a0db5-797a-464e-b964-54833b74879f",
+    "task_name": "txbusy_retry_wallet_transfer_go",
+    "trial_name": "txbusy_retry_wallet_transfer_go__P4Vo6bN",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__03-27-15/txbusy_retry_wallet_transfer_go__P4Vo6bN",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/txbusy_retry_wallet_transfer_go"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "d6a3c21357777a456450bbfba2a6d41632195ed95b3592d4617930dbe3860916",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/txbusy_retry_wallet_transfer_go",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "txbusy_retry_wallet_transfer_go__P4Vo6bN",
+        "trials_dir": "jobs/2026-06-15__03-27-15",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "zai/glm-5.1",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "b0addde0-993d-4276-b9e4-1020029c7352"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "glm-5.1",
+            "provider": "zai"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 0,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": {
+        "exception_type": "NonZeroAgentExitCodeError",
+        "exception_message": "Command failed (exit 143): pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# Concurrent Wallet Transfer Endpoint\n\n## Goal\nA Go project that embeds PocketBase v0.31.0 is already scaffolded at `/home/user/myproject` with `wallets` and `transfers` collections seeded. Extend it so that authenticated users can move money between wallets via `POST /api/wallets/transfer` (body `{ \"fromId\": string, \"toId\": string, \"amount\": number }`) and the endpoint survives heavy concurrent load against the single-writer SQLite store.\n\n## Acceptance Criteria\n- Project path: /home/user/myproject\n- Start command: /home/user/myproject/myapp serve --http=\"0.0.0.0:8090\" --dir=/home/user/myproject/pb_data\n- Port: 8090\n- API Endpoints:\n  - `POST /api/wallets/transfer` (requires `Authorization: <user-token>`):\n    - Request body:\n      ```json\n      { \"fromId\": string, \"toId\": string, \"amount\": number }\n      ```\n    - Success response (HTTP 200):\n      ```json\n      { \"fromBalance\": number, \"toBalance\": number }\n      ```\n    - Insufficient-funds response (HTTP 400): JSON with an error message; wallet balances unchanged.\n  - Unauthenticated requests must be rejected (HTTP 401 or 403).\n- Concurrency behavior: running 50 concurrent `$1` transfers from wallet A (initial balance 100) to wallet B (initial balance 0) using 10 worker threads must return HTTP 200 for every request, leave final A.balance == 50 and B.balance == 50, insert exactly 50 rows into the `transfers` collection, and complete in under 30 seconds without deadlock.\n\n\nEOF\nstdout: \u001b[37m2026-06-15 03:45:44.946\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 03:45:45.316\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 03:45:45.951\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 03:45:46.180\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 03:45:46.273\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 03:45:48.124\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 63, in _run_agent\n    await self._run_agent_phase(\n    ...<4 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py\", line 238, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/usr/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 39, in wrapper\n    return await fn(self, instruction, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kweizh/zealt/zealt-agent/agents/pochi.py\", line 223, in run\n    await self.exec_as_agent(\n    ...<15 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 354, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 317, in _exec\n    raise NonZeroAgentExitCodeError(\n    ...<3 lines>...\n    )\nharbor.agents.installed.base.NonZeroAgentExitCodeError: Command failed (exit 143): pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# Concurrent Wallet Transfer Endpoint\n\n## Goal\nA Go project that embeds PocketBase v0.31.0 is already scaffolded at `/home/user/myproject` with `wallets` and `transfers` collections seeded. Extend it so that authenticated users can move money between wallets via `POST /api/wallets/transfer` (body `{ \"fromId\": string, \"toId\": string, \"amount\": number }`) and the endpoint survives heavy concurrent load against the single-writer SQLite store.\n\n## Acceptance Criteria\n- Project path: /home/user/myproject\n- Start command: /home/user/myproject/myapp serve --http=\"0.0.0.0:8090\" --dir=/home/user/myproject/pb_data\n- Port: 8090\n- API Endpoints:\n  - `POST /api/wallets/transfer` (requires `Authorization: <user-token>`):\n    - Request body:\n      ```json\n      { \"fromId\": string, \"toId\": string, \"amount\": number }\n      ```\n    - Success response (HTTP 200):\n      ```json\n      { \"fromBalance\": number, \"toBalance\": number }\n      ```\n    - Insufficient-funds response (HTTP 400): JSON with an error message; wallet balances unchanged.\n  - Unauthenticated requests must be rejected (HTTP 401 or 403).\n- Concurrency behavior: running 50 concurrent `$1` transfers from wallet A (initial balance 100) to wallet B (initial balance 0) using 10 worker threads must return HTTP 200 for every request, leave final A.balance == 50 and B.balance == 50, insert exactly 50 rows into the `transfers` collection, and complete in under 30 seconds without deadlock.\n\n\nEOF\nstdout: \u001b[37m2026-06-15 03:45:44.946\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 03:45:45.316\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 03:45:45.951\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 03:45:46.180\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 03:45:46.273\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 03:45:48.124\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None\n",
+        "occurred_at": "2026-06-15T03:55:37.978617"
+    },
+    "started_at": "2026-06-15T03:45:12.859936Z",
+    "finished_at": "2026-06-15T03:55:54.019979Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T03:45:12.880602Z",
+        "finished_at": "2026-06-15T03:45:17.065730Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T03:45:17.065851Z",
+        "finished_at": "2026-06-15T03:45:38.519935Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T03:45:38.520192Z",
+        "finished_at": "2026-06-15T03:55:37.975710Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-15T03:55:39.673653Z",
+        "finished_at": "2026-06-15T03:55:42.077833Z"
+    },
+    "step_results": null
+}

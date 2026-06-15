@@ -1,0 +1,78 @@
+{
+    "id": "a28f2948-5dd0-4875-95eb-f51fcf8ba8f2",
+    "started_at": "2026-06-15T04:01:22.160294",
+    "updated_at": "2026-06-15T04:36:53.109683",
+    "finished_at": "2026-06-15T04:36:53.109683",
+    "n_total_trials": 20,
+    "stats": {
+        "n_completed_trials": 20,
+        "n_errored_trials": 18,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__deepseek-4-pro__pending-tasks": {
+                "n_trials": 13,
+                "n_errors": 18,
+                "metrics": [
+                    {
+                        "mean": 0.1
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "migration_with_seed_data_go__ZdcAzbZ",
+                            "mailer_password_reset_override_g__6QNJDqi",
+                            "superuser_seed_via_cli__zACe5B6",
+                            "bulk_csv_import_custom_route_go__em79xca",
+                            "file_thumbnail_view_rule_jsvm__ny2BdYM",
+                            "realtime_filtered_subscription_j__Pkwmn5t",
+                            "audit_log_global_hook_go__bYiQj2x",
+                            "rate_limited_signup_route_go__PERWRcd",
+                            "txbusy_retry_wallet_transfer_go__VBb8Fe3",
+                            "s3_presigned_upload_route_go__5f6YE6M",
+                            "realtime_per_auth_filter_jsvm__mkpbM54"
+                        ],
+                        "1.0": [
+                            "batch_atomic_records_js_sdk__uDtAcEN",
+                            "dart_authrefresh_session_managem__KcmmbLq"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "RuntimeError": [
+                        "cron_scheduled_archive_hook_go__8LsYMUb",
+                        "sveltekit_cookie_auth_sync_middl__ibNo9Ux"
+                    ],
+                    "AgentTimeoutError": [
+                        "migration_with_seed_data_go__ZdcAzbZ",
+                        "batch_atomic_records_js_sdk__uDtAcEN",
+                        "mailer_password_reset_override_g__6QNJDqi",
+                        "bulk_csv_import_custom_route_go__em79xca",
+                        "file_thumbnail_view_rule_jsvm__ny2BdYM",
+                        "realtime_filtered_subscription_j__Pkwmn5t",
+                        "audit_log_global_hook_go__bYiQj2x",
+                        "rate_limited_signup_route_go__PERWRcd",
+                        "txbusy_retry_wallet_transfer_go__VBb8Fe3",
+                        "s3_presigned_upload_route_go__5f6YE6M",
+                        "realtime_per_auth_filter_jsvm__mkpbM54"
+                    ],
+                    "InitialStateError": [
+                        "oauth2_mock_signin_flow_js__s8FXfix",
+                        "view_collection_user_post_count__EHi8Cij",
+                        "multi_tenant_org_docs_access_rul__68y3mz9",
+                        "password_strength_validator_jsvm__WxE5gRJ",
+                        "expand_nested_relations_dart__iksHhbD"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 88516,
+        "cost_usd": null
+    }
+}

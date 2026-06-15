@@ -1,0 +1,221 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py FFFFFF.                                        [100%]
+
+=================================== FAILURES ===================================
+________________ test_audit_log_has_exactly_three_rows_for_post ________________
+
+scenario_state = {'post_id': '9i7xj9k4kh3e2hf', 'user_id': 'dungqmsc1h8yv0o'}
+
+    def test_audit_log_has_exactly_three_rows_for_post(scenario_state):
+>       rows = _fetch_audit_rows_for_post(scenario_state["post_id"])
+
+tests/test_final_state.py:196: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+post_id = '9i7xj9k4kh3e2hf'
+
+    def _fetch_audit_rows_for_post(post_id: str):
+        token = _superuser_token()
+        r = requests.get(
+            f"{BASE_URL}/api/collections/audit_log/records",
+            params={
+                "filter": f'record="{post_id}"',
+                "sort": "created",
+                "perPage": 200,
+            },
+            headers={"Authorization": token},
+            timeout=30,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to query audit_log: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to query audit_log: 400 {"data":{},"message":"Something went wrong while processing your request.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:181: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pb_app$ ./app serve --http=0.0.0.0:8090
+process 'pb_app' started pid=5926
+pb_app process startup detected
+_____________ test_audit_log_actions_in_order_create_update_delete _____________
+
+scenario_state = {'post_id': '9i7xj9k4kh3e2hf', 'user_id': 'dungqmsc1h8yv0o'}
+
+    def test_audit_log_actions_in_order_create_update_delete(scenario_state):
+>       rows = _fetch_audit_rows_for_post(scenario_state["post_id"])
+
+tests/test_final_state.py:203: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+post_id = '9i7xj9k4kh3e2hf'
+
+    def _fetch_audit_rows_for_post(post_id: str):
+        token = _superuser_token()
+        r = requests.get(
+            f"{BASE_URL}/api/collections/audit_log/records",
+            params={
+                "filter": f'record="{post_id}"',
+                "sort": "created",
+                "perPage": 200,
+            },
+            headers={"Authorization": token},
+            timeout=30,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to query audit_log: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to query audit_log: 400 {"data":{},"message":"Something went wrong while processing your request.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:181: AssertionError
+_____________ test_audit_log_rows_reference_post_id_and_collection _____________
+
+scenario_state = {'post_id': '9i7xj9k4kh3e2hf', 'user_id': 'dungqmsc1h8yv0o'}
+
+    def test_audit_log_rows_reference_post_id_and_collection(scenario_state):
+>       rows = _fetch_audit_rows_for_post(scenario_state["post_id"])
+
+tests/test_final_state.py:211: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+post_id = '9i7xj9k4kh3e2hf'
+
+    def _fetch_audit_rows_for_post(post_id: str):
+        token = _superuser_token()
+        r = requests.get(
+            f"{BASE_URL}/api/collections/audit_log/records",
+            params={
+                "filter": f'record="{post_id}"',
+                "sort": "created",
+                "perPage": 200,
+            },
+            headers={"Authorization": token},
+            timeout=30,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to query audit_log: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to query audit_log: 400 {"data":{},"message":"Something went wrong while processing your request.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:181: AssertionError
+_________________ test_audit_log_rows_reference_actor_user_id __________________
+
+scenario_state = {'post_id': '9i7xj9k4kh3e2hf', 'user_id': 'dungqmsc1h8yv0o'}
+
+    def test_audit_log_rows_reference_actor_user_id(scenario_state):
+>       rows = _fetch_audit_rows_for_post(scenario_state["post_id"])
+
+tests/test_final_state.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+post_id = '9i7xj9k4kh3e2hf'
+
+    def _fetch_audit_rows_for_post(post_id: str):
+        token = _superuser_token()
+        r = requests.get(
+            f"{BASE_URL}/api/collections/audit_log/records",
+            params={
+                "filter": f'record="{post_id}"',
+                "sort": "created",
+                "perPage": 200,
+            },
+            headers={"Authorization": token},
+            timeout=30,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to query audit_log: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to query audit_log: 400 {"data":{},"message":"Something went wrong while processing your request.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:181: AssertionError
+_________________ test_create_and_delete_rows_have_empty_diff __________________
+
+scenario_state = {'post_id': '9i7xj9k4kh3e2hf', 'user_id': 'dungqmsc1h8yv0o'}
+
+    def test_create_and_delete_rows_have_empty_diff(scenario_state):
+>       rows = _fetch_audit_rows_for_post(scenario_state["post_id"])
+
+tests/test_final_state.py:230: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+post_id = '9i7xj9k4kh3e2hf'
+
+    def _fetch_audit_rows_for_post(post_id: str):
+        token = _superuser_token()
+        r = requests.get(
+            f"{BASE_URL}/api/collections/audit_log/records",
+            params={
+                "filter": f'record="{post_id}"',
+                "sort": "created",
+                "perPage": 200,
+            },
+            headers={"Authorization": token},
+            timeout=30,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to query audit_log: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to query audit_log: 400 {"data":{},"message":"Something went wrong while processing your request.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:181: AssertionError
+______________ test_update_row_diff_matches_title_change_exactly _______________
+
+scenario_state = {'post_id': '9i7xj9k4kh3e2hf', 'user_id': 'dungqmsc1h8yv0o'}
+
+    def test_update_row_diff_matches_title_change_exactly(scenario_state):
+>       rows = _fetch_audit_rows_for_post(scenario_state["post_id"])
+
+tests/test_final_state.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+post_id = '9i7xj9k4kh3e2hf'
+
+    def _fetch_audit_rows_for_post(post_id: str):
+        token = _superuser_token()
+        r = requests.get(
+            f"{BASE_URL}/api/collections/audit_log/records",
+            params={
+                "filter": f'record="{post_id}"',
+                "sort": "created",
+                "perPage": 200,
+            },
+            headers={"Authorization": token},
+            timeout=30,
+        )
+>       assert r.status_code == 200, (
+            f"Failed to query audit_log: {r.status_code} {r.text}"
+        )
+E       AssertionError: Failed to query audit_log: 400 {"data":{},"message":"Something went wrong while processing your request.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:181: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_no_audit_rows_reference_audit_log_itself
+FAILED tests/test_final_state.py::test_audit_log_has_exactly_three_rows_for_post
+FAILED tests/test_final_state.py::test_audit_log_actions_in_order_create_update_delete
+FAILED tests/test_final_state.py::test_audit_log_rows_reference_post_id_and_collection
+FAILED tests/test_final_state.py::test_audit_log_rows_reference_actor_user_id
+FAILED tests/test_final_state.py::test_create_and_delete_rows_have_empty_diff
+FAILED tests/test_final_state.py::test_update_row_diff_matches_title_change_exactly
+========================= 6 failed, 1 passed in 2.74s ==========================
