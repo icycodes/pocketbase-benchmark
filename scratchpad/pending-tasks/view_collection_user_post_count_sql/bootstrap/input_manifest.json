@@ -1,7 +1,0 @@
-{
-  "library_name": "PocketBase",
-  "task_name": "view_collection_user_post_count_sql",
-  "complexity_level": "Medium",
-  "research_plan_path": "plan.md",
-  "output_dir": "scratchpad/pending-tasks"
-}
