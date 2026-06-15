@@ -1,0 +1,47 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py .F                                             [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_generate_presigned_url __________________________
+
+start_app = None
+
+    def test_generate_presigned_url(start_app):
+        """Verify that a valid request returns a presigned URL in the correct format."""
+        run_id = os.environ.get("ZEALT_RUN_ID", "test-run-id")
+        response = requests.get("http://localhost:8090/api/s3-presign?filename=test_video.mp4")
+    
+        assert response.status_code == 200, f"Expected status 200, got {response.status_code}. Response: {response.text}"
+    
+        data = response.json()
+        assert "url" in data, f"Expected 'url' in response JSON, got {data}"
+    
+        url = data["url"]
+    
+        # Verify the URL format. AWS SDK might generate virtual-hosted style or path style.
+        # Virtual-hosted style: https://my-test-bucket.s3.us-east-1.amazonaws.com/uploads/<run-id>/test_video.mp4
+        # Path style: https://s3.us-east-1.amazonaws.com/my-test-bucket/uploads/<run-id>/test_video.mp4
+    
+        expected_path = f"uploads/{run_id}/test_video.mp4"
+>       assert expected_path in url, f"Expected path '{expected_path}' in URL, got {url}"
+E       AssertionError: Expected path 'uploads/zr-k7pqykq/test_video.mp4' in URL, got https://my-test-bucket.s3.us-east-1.amazonaws.com/uploads/test-run-123/test_video.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20260615%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260615T162847Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&x-id=PutObject&X-Amz-Signature=b5410d3b5e56b984a3e946899cf8d85dd391646f04671fbd603298c43fc52cb8
+E       assert 'uploads/zr-k7pqykq/test_video.mp4' in 'https://my-test-bucket.s3.us-east-1.amazonaws.com/uploads/test-run-123/test_video.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA25...Amz-SignedHeaders=host&x-id=PutObject&X-Amz-Signature=b5410d3b5e56b984a3e946899cf8d85dd391646f04671fbd603298c43fc52cb8'
+
+tests/test_final_state.py:63: AssertionError
+==================================== PASSES ====================================
+_______________________ test_missing_filename_parameter ________________________
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/start_app$ go run main.go serve --http=0.0.0.0:8090
+process 'start_app' started pid=1178
+start_app process startup detected
+---------------------------- Captured stderr setup -----------------------------
+go: warning: "all" matched no packages
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_missing_filename_parameter
+FAILED tests/test_final_state.py::test_generate_presigned_url - AssertionErro...
+=================== 1 failed, 1 passed in 149.58s (0:02:29) ====================

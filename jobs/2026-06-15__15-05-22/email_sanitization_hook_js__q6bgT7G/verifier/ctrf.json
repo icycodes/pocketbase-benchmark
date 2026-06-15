@@ -1,0 +1,71 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T15:38:24.848211+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 4,
+            "passed": 2,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781537903979,
+            "stop": 1781537904848
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_hook_file_exists",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 33,
+                "start": 1781537904141,
+                "stop": 1781537904174,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_hook_file_exists():\n        \"\"\"A *.pb.js hook file must be present in pb_hooks/.\"\"\"\n        matches = glob.glob(os.path.join(HOOKS_DIR, \"*.pb.js\"))\n>       assert matches, (\n            f\"Expected at least one '*.pb.js' hook file under {HOOKS_DIR}, found none.\"\n        )\nE       AssertionError: Expected at least one '*.pb.js' hook file under /home/user/myproject/pb_hooks, found none.\nE       assert []\n\ntests/test_final_state.py:82: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_sanitization_on_dirty_email",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 292,
+                "start": 1781537904174,
+                "stop": 1781537904466,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_pocketbase = None\n\n    def test_sanitization_on_dirty_email(start_pocketbase):\n        \"\"\"A mixed-case, whitespace-padded email must be persisted as trimmed + lowercase.\"\"\"\n        run_id = _run_id()\n        dirty_email = f\"  HARBOR-Sanitize-{run_id}@Example.COM  \"\n        expected_email = f\"harbor-sanitize-{run_id}@example.com\"\n    \n        create_resp = requests.post(\n            f\"{BASE_URL}/api/collections/users/records\",\n            json={\n                \"email\": dirty_email,\n                \"password\": PASSWORD,\n                \"passwordConfirm\": PASSWORD,\n            },\n            timeout=15,\n        )\n>       assert create_resp.status_code == 200, (\n            \"Expected HTTP 200 when creating a user with a dirty email, got \"\n            f\"{create_resp.status_code}: {create_resp.text}\"\n        )\nE       AssertionError: Expected HTTP 200 when creating a user with a dirty email, got 400: {\"data\":{\"email\":{\"code\":\"validation_is_email\",\"message\":\"Must be a valid email address.\"}},\"message\":\"Failed to create record.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:102: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_sanitization_idempotent_on_clean_email",
+                "status": "passed",
+                "duration": 262,
+                "start": 1781537904467,
+                "stop": 1781537904729,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_superusers_collection_not_affected",
+                "status": "passed",
+                "duration": 117,
+                "start": 1781537904730,
+                "stop": 1781537904847,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

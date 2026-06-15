@@ -1,0 +1,65 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T15:46:23.904771+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 0,
+            "failed": 3,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781538381161,
+            "stop": 1781538383904
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_create_post_active_subscription",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 2351,
+                "start": 1781538381504,
+                "stop": 1781538383855,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_pocketbase = None\n\n    def test_create_post_active_subscription(start_pocketbase):\n        \"\"\"Test creating a post with an active subscription.\"\"\"\n        payload = {\"title\": \"First Post\", \"author\": \"active_user\"}\n        response = requests.post(\"http://localhost:8090/api/collections/posts/records\", json=payload)\n    \n>       assert response.status_code == 200, f\"Expected status 200, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 200, got 404. Response: {\"data\":{},\"message\":\"Missing or invalid collection context.\",\"status\":404}\nE         \nE       assert 404 == 200\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:58: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_inactive_subscription",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 10,
+                "start": 1781538383856,
+                "stop": 1781538383866,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_pocketbase = None\n\n    def test_create_post_inactive_subscription(start_pocketbase):\n        \"\"\"Test creating a post with an inactive subscription.\"\"\"\n        payload = {\"title\": \"Second Post\", \"author\": \"inactive_user\"}\n        response = requests.post(\"http://localhost:8090/api/collections/posts/records\", json=payload)\n    \n>       assert response.status_code == 400, f\"Expected status 400, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 400, got 404. Response: {\"data\":{},\"message\":\"Missing or invalid collection context.\",\"status\":404}\nE         \nE       assert 404 == 400\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:68: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_missing_subscription",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 37,
+                "start": 1781538383867,
+                "stop": 1781538383904,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_pocketbase = None\n\n    def test_create_post_missing_subscription(start_pocketbase):\n        \"\"\"Test creating a post with a missing/error subscription.\"\"\"\n        payload = {\"title\": \"Third Post\", \"author\": \"unknown_user\"}\n        response = requests.post(\"http://localhost:8090/api/collections/posts/records\", json=payload)\n    \n>       assert response.status_code == 400, f\"Expected status 400, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 400, got 404. Response: {\"data\":{},\"message\":\"Missing or invalid collection context.\",\"status\":404}\nE         \nE       assert 404 == 400\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:75: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

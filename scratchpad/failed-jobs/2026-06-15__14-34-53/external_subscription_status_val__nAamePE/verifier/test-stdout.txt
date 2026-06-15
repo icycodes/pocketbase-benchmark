@@ -1,0 +1,88 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py F..                                            [100%]
+
+=================================== FAILURES ===================================
+_____________________ test_create_post_active_subscription _____________________
+
+start_pocketbase = None
+
+    def test_create_post_active_subscription(start_pocketbase):
+        """Test creating a post with an active subscription."""
+        payload = {"title": "First Post", "author": "active_user"}
+        response = requests.post("http://localhost:8090/api/collections/posts/records", json=payload)
+    
+>       assert response.status_code == 200, f"Expected status 200, got {response.status_code}. Response: {response.text}"
+E       AssertionError: Expected status 200, got 400. Response: {"code":400,"message":"User does not have an active subscription.","data":{}}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:58: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/mock_server$ python3 /home/user/mock_server.py
+process 'mock_server' started pid=7338
+mock_server process startup detected
+/tests/.pytest_cache/d/.xprocess/pocketbase$ go run main.go serve --http=0.0.0.0:8090
+process 'pocketbase' started pid=7351
+pocketbase process startup detected
+---------------------------- Captured stderr setup -----------------------------
+go: downloading github.com/stretchr/testify v1.8.2
+go: downloading github.com/go-sql-driver/mysql v1.7.1
+go: downloading github.com/frankban/quicktest v1.14.6
+go: downloading github.com/google/pprof v0.0.0-20250317173921-a4b03ec1a45e
+go: downloading modernc.org/fileutil v1.4.0
+go: downloading cloud.google.com/go/storage v1.35.1
+go: downloading github.com/google/go-cmp v0.6.0
+go: downloading github.com/Netflix/go-expect v0.0.0-20220104043353-73e0943537d2
+go: downloading github.com/creack/pty v1.1.17
+go: downloading github.com/hinshun/vt10x v0.0.0-20220119200601-820417d04eec
+go: downloading github.com/kr/pretty v0.3.1
+go: downloading golang.org/x/tools v0.45.0
+go: downloading modernc.org/cc/v4 v4.28.2
+go: downloading cloud.google.com/go v0.110.10
+go: downloading modernc.org/ccgo/v4 v4.34.0
+go: downloading modernc.org/goabi0 v0.2.0
+go: downloading github.com/davecgh/go-spew v1.1.1
+go: downloading github.com/pmezard/go-difflib v1.0.0
+go: downloading gopkg.in/yaml.v3 v3.0.1
+go: downloading cloud.google.com/go/compute/metadata v0.3.0
+go: downloading cloud.google.com/go/compute v1.23.4
+go: downloading cloud.google.com/go/iam v1.1.5
+go: downloading github.com/google/go-replayers/grpcreplay v1.1.0
+go: downloading github.com/google/go-replayers/httpreplay v1.2.0
+go: downloading github.com/rogpeppe/go-internal v1.9.0
+go: downloading github.com/kr/text v0.2.0
+go: downloading modernc.org/opt v0.2.0
+go: downloading modernc.org/sortutil v1.2.1
+go: downloading modernc.org/strutil v1.2.1
+go: downloading modernc.org/token v1.1.0
+go: downloading google.golang.org/genproto v0.0.0-20240205150955-31a09d347014
+go: downloading golang.org/x/mod v0.36.0
+go: downloading modernc.org/gc/v2 v2.6.5
+go: downloading google.golang.org/genproto/googleapis/api v0.0.0-20240205150955-31a09d347014
+go: downloading go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0
+go: downloading modernc.org/gc/v3 v3.1.2
+go: downloading go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.49.0
+go: downloading github.com/google/s2a-go v0.1.7
+go: downloading github.com/jmespath/go-jmespath/internal/testify v1.5.1
+go: downloading github.com/google/martian/v3 v3.3.2
+go: downloading github.com/googleapis/enterprise-certificate-proxy v0.3.2
+go: downloading go.opentelemetry.io/otel v1.24.0
+go: downloading github.com/felixge/httpsnoop v1.0.4
+go: downloading go.opentelemetry.io/otel/metric v1.24.0
+go: downloading go.opentelemetry.io/otel/trace v1.24.0
+go: downloading gopkg.in/yaml.v2 v2.2.8
+go: downloading github.com/hashicorp/golang-lru/v2 v2.0.7
+go: downloading github.com/go-logr/logr v1.4.1
+go: downloading github.com/go-logr/stdr v1.2.2
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_create_post_inactive_subscription
+PASSED tests/test_final_state.py::test_create_post_missing_subscription
+FAILED tests/test_final_state.py::test_create_post_active_subscription - Asse...
+========================= 1 failed, 2 passed in 2.94s ==========================

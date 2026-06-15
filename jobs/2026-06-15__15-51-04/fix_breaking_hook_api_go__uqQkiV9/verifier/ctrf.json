@@ -1,0 +1,49 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T16:18:56.766182+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 0,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781540335802,
+            "stop": 1781540336765
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_create_post_success",
+                "status": "failed",
+                "duration": 474,
+                "start": 1781540336286,
+                "stop": 1781540336760,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "xprocess = <xprocess.xprocess.XProcess object at 0x7f96db0eaa20>\n\n    @pytest.fixture(scope=\"session\")\n    def start_app(xprocess):\n        # Compile the Go application\n        compile_result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\", \"main.go\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True\n        )\n        if compile_result.returncode != 0:\n>           pytest.fail(f\"Failed to compile application: {compile_result.stderr}\")\nE           Failed: Failed to compile application: # command-line-arguments\nE           ./main.go:13:6: app.OnRecordBeforeCreateRequest undefined (type *pocketbase.PocketBase has no field or method OnRecordBeforeCreateRequest)\nE           ./main.go:19:29: undefined: core.Slugify\n\ntests/test_final_state.py:20: Failed"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_validation_error",
+                "status": "failed",
+                "duration": 4,
+                "start": 1781540336761,
+                "stop": 1781540336765,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "xprocess = <xprocess.xprocess.XProcess object at 0x7f96db0eaa20>\n\n    @pytest.fixture(scope=\"session\")\n    def start_app(xprocess):\n        # Compile the Go application\n        compile_result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\", \"main.go\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True\n        )\n        if compile_result.returncode != 0:\n>           pytest.fail(f\"Failed to compile application: {compile_result.stderr}\")\nE           Failed: Failed to compile application: # command-line-arguments\nE           ./main.go:13:6: app.OnRecordBeforeCreateRequest undefined (type *pocketbase.PocketBase has no field or method OnRecordBeforeCreateRequest)\nE           ./main.go:19:29: undefined: core.Slugify\n\ntests/test_final_state.py:20: Failed"
+            }
+        ]
+    }
+}

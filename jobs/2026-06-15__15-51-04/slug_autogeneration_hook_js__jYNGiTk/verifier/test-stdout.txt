@@ -1,0 +1,71 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py FFF                                            [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_create_post_valid_title _________________________
+
+start_app = None
+
+    def test_create_post_valid_title(start_app):
+        url = f"{BASE_URL}/api/collections/posts/records"
+        payload = {"title": "Hello PocketBase JSVM"}
+    
+        response = requests.post(url, json=payload)
+    
+        assert response.status_code == 200, f"Expected status 200, got {response.status_code}. Response: {response.text}"
+        data = response.json()
+        assert data.get("title") == "Hello PocketBase JSVM", f"Expected title to be 'Hello PocketBase JSVM', got {data.get('title')}"
+>       assert data.get("slug") == "hello-pocketbase-jsvm", f"Expected slug to be 'hello-pocketbase-jsvm', got {data.get('slug')}"
+E       AssertionError: Expected slug to be 'hello-pocketbase-jsvm', got 
+E       assert '' == 'hello-pocketbase-jsvm'
+E         - hello-pocketbase-jsvm
+
+tests/test_final_state.py:41: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase$ ./pocketbase serve --http=0.0.0.0:8090
+process 'pocketbase' started pid=1229
+pocketbase process startup detected
+_________________________ test_create_post_empty_title _________________________
+
+start_app = None
+
+    def test_create_post_empty_title(start_app):
+        url = f"{BASE_URL}/api/collections/posts/records"
+        payload = {"title": ""}
+    
+        response = requests.post(url, json=payload)
+    
+>       assert response.status_code == 400, f"Expected status 400 for empty title, got {response.status_code}. Response: {response.text}"
+E       AssertionError: Expected status 400 for empty title, got 200. Response: {"collectionId":"pbc_1125843985","collectionName":"posts","id":"n6obmhw364i4ywv","slug":"","title":""}
+E         
+E       assert 200 == 400
+E        +  where 200 = <Response [200]>.status_code
+
+tests/test_final_state.py:49: AssertionError
+________________________ test_create_post_missing_title ________________________
+
+start_app = None
+
+    def test_create_post_missing_title(start_app):
+        url = f"{BASE_URL}/api/collections/posts/records"
+        payload = {}
+    
+        response = requests.post(url, json=payload)
+    
+>       assert response.status_code == 400, f"Expected status 400 for missing title, got {response.status_code}. Response: {response.text}"
+E       AssertionError: Expected status 400 for missing title, got 200. Response: {"collectionId":"pbc_1125843985","collectionName":"posts","id":"qkrh34g21jbmc3z","slug":"","title":""}
+E         
+E       assert 200 == 400
+E        +  where 200 = <Response [200]>.status_code
+
+tests/test_final_state.py:60: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_create_post_valid_title - AssertionErr...
+FAILED tests/test_final_state.py::test_create_post_empty_title - AssertionErr...
+FAILED tests/test_final_state.py::test_create_post_missing_title - AssertionE...
+============================== 3 failed in 0.55s ===============================

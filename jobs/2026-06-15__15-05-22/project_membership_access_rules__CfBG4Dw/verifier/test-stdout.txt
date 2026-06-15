@@ -1,0 +1,437 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 13 items
+
+tests/test_final_state.py FEEEEEEEEEEEE                                  [100%]
+
+==================================== ERRORS ====================================
+______________ ERROR at setup of test_projects_collection_schema _______________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/start_pocketbase$ ./pocketbase serve --http=0.0.0.0:8090
+process 'start_pocketbase' started pid=554
+start_pocketbase process startup detected
+________________ ERROR at setup of test_tasks_collection_schema ________________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+___________ ERROR at setup of test_member_can_list_and_view_project ____________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+___________ ERROR at setup of test_outsider_is_blocked_from_project ____________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+_____________ ERROR at setup of test_guest_is_blocked_from_project _____________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+________________ ERROR at setup of test_member_can_create_task _________________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+______________ ERROR at setup of test_outsider_cannot_create_task ______________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+____________ ERROR at setup of test_member_can_list_and_view_tasks _____________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+__________ ERROR at setup of test_outsider_cannot_list_or_view_tasks ___________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+___________ ERROR at setup of test_member_can_update_and_delete_task ___________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+__________ ERROR at setup of test_outsider_cannot_modify_others_task ___________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+_____________ ERROR at setup of test_superuser_retains_full_access _____________
+
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def seeded_state(start_pocketbase) -> Dict[str, Any]:
+        """Set up superuser auth, three users, and a project membership for testing."""
+        run_id = _run_id()
+        superuser_token = _login_superuser()
+    
+        member_a = _register_and_login_user(f"member-a-{run_id}@example.com")
+        member_b = _register_and_login_user(f"member-b-{run_id}@example.com")
+        outsider = _register_and_login_user(f"outsider-{run_id}@example.com")
+    
+        project_resp = requests.post(
+            f"{BASE_URL}/api/collections/projects/records",
+            json={
+                "name": f"harbor-proj-{run_id}",
+                "members": [member_a["id"], member_b["id"]],
+            },
+            headers=_auth(superuser_token),
+            timeout=15,
+        )
+>       assert project_resp.status_code == 200, (
+            "Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. "
+            f"Got HTTP {project_resp.status_code}: {project_resp.text}"
+        )
+E       AssertionError: Superuser failed to seed project. The 'projects' collection may be missing or have an unexpected schema. Got HTTP 404: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:148: AssertionError
+=================================== FAILURES ===================================
+__________________________ test_migration_file_exists __________________________
+
+    def test_migration_file_exists():
+        """A *.js migration file must be present in pb_migrations/."""
+        matches = glob.glob(os.path.join(MIGRATIONS_DIR, "*.js"))
+>       assert matches, (
+            f"Expected at least one '*.js' migration file under {MIGRATIONS_DIR}, found none."
+        )
+E       AssertionError: Expected at least one '*.js' migration file under /home/user/myproject/pb_migrations, found none.
+E       assert []
+
+tests/test_final_state.py:169: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_projects_collection_schema - AssertionE...
+ERROR tests/test_final_state.py::test_tasks_collection_schema - AssertionErro...
+ERROR tests/test_final_state.py::test_member_can_list_and_view_project - Asse...
+ERROR tests/test_final_state.py::test_outsider_is_blocked_from_project - Asse...
+ERROR tests/test_final_state.py::test_guest_is_blocked_from_project - Asserti...
+ERROR tests/test_final_state.py::test_member_can_create_task - AssertionError...
+ERROR tests/test_final_state.py::test_outsider_cannot_create_task - Assertion...
+ERROR tests/test_final_state.py::test_member_can_list_and_view_tasks - Assert...
+ERROR tests/test_final_state.py::test_outsider_cannot_list_or_view_tasks - As...
+ERROR tests/test_final_state.py::test_member_can_update_and_delete_task - Ass...
+ERROR tests/test_final_state.py::test_outsider_cannot_modify_others_task - As...
+ERROR tests/test_final_state.py::test_superuser_retains_full_access - Asserti...
+FAILED tests/test_final_state.py::test_migration_file_exists - AssertionError...
+========================= 1 failed, 12 errors in 2.19s =========================

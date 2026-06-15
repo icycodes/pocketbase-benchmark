@@ -1,0 +1,65 @@
+- Initializing MCP connections...
+You
+# PocketBase JSVM Email Sanitization Hook ## Background https://pocketbase.io/ is a single-file Go backend that can be extended with server-side JavaScript using scripts placed inside a `pb_hooks/` directory. The runtime is based on Goja (ECMAScript 5.1) and executes hooks synchronously. A PocketBase v0.31.0 binary has been pre-extracted to `/home/user/myproject/pocketbase` and an initial superuser has been created so that the application is fully bootstrapped. Your job is to add a JavaScript hook that automatically sanitizes the `email` field on every new user-record creation request and then start the server. ## Requirements * Add a JavaScript hook file inside `/home/user/myproject/pb_hooks/`. The exact filename is up to you, but it must end with `.pb.js` so PocketBase picks it up at boot. * The hook must intercept incoming API requests that create records in the built-in `users` collection. * Before the record is persisted, the hook must rewrite the submitted `email` value so that it has all leading/trailing whitespace removed AND is fully lowercased. * Only the `users` collection should be affected. Other auth collections (such as `_superusers`) must NOT have their email modified by this hook. * The hook must work whether the submitted email is already clean or whether it contains surrounding whitespace and mixed casing. * Start the PocketBase server bound to all interfaces on TCP port 8090. ## Implementation Hints * PocketBase v0.31.0 uses the post-v0.23 hook API: handlers must propagate the chain (otherwise the operation is silently blocked). * The relevant request-level hook gives you access to the in-flight record via the event payload; the record exposes per-field getter/setter helpers. * Hook files placed under `pb_hooks/` with a `.pb.js` suffix are automatically loaded at server startup. They run inside an embedded JS engine that does NOT support `Promise` / `async / await`; keep the hook strictly synchronous. * You do NOT need to (re)create the superuser, modify the `users` collection schema, or write any client code - PocketBase ships with a usable `users` collection by default. ## Acceptance Criteria * Project path: `/home/user/myproject` * Start command: `./pocketbase serve --http=0.0.0.0:8090` * Port: 8090 * A hook file with the extension `.pb.js` exists under `/home/user/myproject/pb_hooks/`. * After the server is running, creating a new user through the public REST API `POST /api/collections/users/records` with a JSON body of the form ```json { "email": "<some email with surrounding whitespace and/or mixed casing>", "password": "<password>", "passwordConfirm": "<same password>" } ``` must return HTTP 200 and the resulting user record (queried after authenticating as that user via `POST /api/collections/users/auth-with-password`) must have its `email` field stored entirely in lowercase with no leading or trailing whitespace. * Submitting an already clean email must still succeed (no errors and no further modification). * The hook must NOT affect non-`users` auth collections: a superuser auth login via `POST /api/collections/_superusers/auth-with-password` with the original (mixed-case or whitespace-padded form of the existing) email must still fail, while logging in with the exact stored superuser email succeeds. In other words, the hook does not change behaviour for `_superusers`.   
+
+Pochi
+I'll start by exploring the project structure and understanding the PocketBase setup before creating the hook.   
+📋 Updating todo list (4 items) ✔ 
+📂 Listing files in /home/user/myproject recursively ✔ 
+📂 Listing files in /home/user/myproject/pb_hooks recursively ✔ 
+📂 Listing files in /home/user/myproject/pb_migrations recursively ✔ 
+The `pb_hooks/` directory is empty. Let me check the PocketBase version and understand the hook API by looking at available resources.   
+💫 Executing /home/user/myproject/pocketbase --version 2>&1 || /home/user/myproject/pocketbase version 2>&1 ✔ 
+Good, confirmed v0.31.0. Now let me check if there's a types.d.ts file or any documentation that describes the hook API available.   
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+The file is truncated. Let me search for the relevant hook API - specifically the `onRecordCreateRequest` or similar hooks.   
+🔍 Searching for onRecord.*Create|onRecordsCreate|RecordsCreateRequest in /home/user/myproject/pb_data ✔ 
+Let me look at the `RecordRequestEvent` type and the `onRecordCreateRequest` hook more closely, plus the `core.Record` interface to understand `set`/`get` methods.   
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+Now let me look at the `RecordRequestEvent` and `Record` interfaces to understand the available properties:   
+🔍 Searching for interface RecordRequestEvent|RecordRequestEvent extends in /home/user/myproject/pb_data ✔ 
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+Let me also check the `baseCollectionEventData` and the `next()` method on events:   
+🔍 Searching for baseCollectionEventData in /home/user/myproject/pb_data ✔ 
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+Now let me check the `Record` interface for the `set` and `get` methods:   
+🔍 Searching for interface Record \{|set\(|\.get\( in /home/user/myproject/pb_data ✔ 
+Let me look at the core Record interface around line 12586 and the `next()` method on hook events:   
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+Now let me check the `next()` method in hook events:   
+🔍 Searching for next\(\)|e\.next in /home/user/myproject/pb_data ✔ 
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+Now let me check the `hook.Event` interface for the `next()` method:   
+🔍 Searching for interface Event \{|namespace hook in /home/user/myproject/pb_data ✔ 
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+Now I have all the information needed. Let me also look at PocketBase docs for `onRecordCreateRequest` to confirm the pattern. Let me also check the `collection()` method on the record to filter by collection name:   
+🔍 Searching for collection\(\).*name|\.name in *.d.ts files in /home/user/myproject/pb_data ✔ 
+Let me check the Collection interface for the `name` property:   
+🔍 Searching for interface Collection \{|Collection.*name in /home/user/myproject/pb_data ✔ 
+Let me look at the Collection interface for the `name` property:   
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+The Collection type doesn't seem to have a direct `.name` property in the JSVM interface. But the record's `collection()` returns a Collection, and the hook accepts `tags` (collection names). Let me check the `onRecordCreateRequest` function signature more carefully - it supports `...tags` which are collection names or ids. Let me verify this by looking at the hook signature:   
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+Now let me look at how the global `onRecordCreateRequest` function is declared, specifically the `tags` parameter:   
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+I now have a complete picture. Here's what I need to do: 1. Use `onRecordCreateRequest` with the tag `"users"` to restrict it to the `users` collection only 2. In the handler, get the email from `e.record`, sanitize it (trim + lowercase), and set it back 3. Call `e.next()` to propagate the chain Let me now create the hook file:   
+📋 Updating todo list (4 items) ✔ 
+✏️  Writing /home/user/myproject/pb_hooks/email-sanitize.pb.js ✔ 
+📋 Updating todo list (4 items) ✔ 
+Now let me start the PocketBase server:   
+🛠️ Tool startBackgroundJob ✔ 
+🛠️ Tool readBackgroundJobOutput ✔ 
+Server started successfully. Now let me verify the hook works correctly by testing with the REST API.   
+📋 Updating todo list (4 items) ✔ 
+Let me run the verification tests. First, test creating a user with a messy email (whitespace + mixed case):   
+💫 Executing curl -s -X POST http://0.0.0.0:8090/api/collections/users/records -H "Content-Type: application/json" -d '{"email":"  Test.User@Example.COM  ","password":"test123456","passwordConfirm":"test123456"}' | python3 -m json.tool 2>/dev/null || curl -s -X POST http://0.0.0.0:8090/api/collections/users/records -H "Content-Type: application/json" -d '{"email":"  Test.User@Example.COM  ","password":"test123456","passwordConfirm":"test123456"}' ✔ 
+The user was created, but the email field is not shown in the response (PocketBase hides the email by default). Let me verify by authenticating as that user:   
+💫 Executing curl -s -X POST http://0.0.0.0:8090/api/collections/users/auth-with-password -H "Content-Type: application/json" -d '{"identity":"test.user@example.com","password":"test123456"}' | python3 -m json.tool ✔ 
+The email is stored as `test.user@example.com` (lowercase, no whitespace). The hook sanitized `" Test.User@Example.COM "` correctly. Now let me verify that the hook does NOT affect `_superusers`. Let me first check the existing superuser:   
+💫 Executing curl -s -X POST http://0.0.0.0:8090/api/collections/_superusers/auth-with-password -H "Content-Type: application/json" -d '{"identity":"  Test.Super@Example.COM  ","password":"test123456"}' | python3 -m json.tool ✔ 
+As expected, the whitespace-padded / mixed-case email fails for the superuser (since the hook does NOT sanitize `_superusers`). Let me also confirm that a clean email still works for creating a second user:   
+💫 Executing curl -s -X POST http://0.0.0.0:8090/api/collections/users/records -H "Content-Type: application/json" -d '{"email":"clean@example.com","password":"test123456","passwordConfirm":"test123456"}' | python3 -m json.tool ✔ 
+Clean email works too. Let me verify the stored email for this clean one:   
+💫 Executing curl -s -X POST http://0.0.0.0:8090/api/collections/users/auth-with-password -H "Content-Type: application/json" -d '{"identity":"clean@example.com","password":"test123456"}' | python3 -m json.tool ✔ 

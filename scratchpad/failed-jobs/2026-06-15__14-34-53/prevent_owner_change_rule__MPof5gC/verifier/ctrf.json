@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T14:51:56.300723+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781535114922,
+            "stop": 1781535116300
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_prevent_owner_change_rule",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 1219,
+                "start": 1781535115081,
+                "stop": 1781535116300,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_prevent_owner_change_rule(start_app):\n        # 1. Auth as superuser\n        resp = requests.post(f\"{PB_URL}/api/collections/_superusers/auth-with-password\", json={\n            \"identity\": \"admin@example.com\",\n            \"password\": \"admin123456\"\n        })\n        assert resp.status_code == 200, f\"Failed to auth as superuser: {resp.text}\"\n        admin_token = resp.json()[\"token\"]\n        admin_headers = {\"Authorization\": admin_token}\n    \n        # 2. Create userA and userB\n        respA = requests.post(f\"{PB_URL}/api/collections/users/records\", json={\n            \"email\": \"usera@example.com\",\n            \"password\": \"password123\",\n            \"passwordConfirm\": \"password123\"\n        }, headers=admin_headers)\n        assert respA.status_code == 200, f\"Failed to create userA: {respA.text}\"\n        userA_id = respA.json()[\"id\"]\n    \n        respB = requests.post(f\"{PB_URL}/api/collections/users/records\", json={\n            \"email\": \"userb@example.com\",\n            \"password\": \"password123\",\n            \"passwordConfirm\": \"password123\"\n        }, headers=admin_headers)\n        assert respB.status_code == 200, f\"Failed to create userB: {respB.text}\"\n        userB_id = respB.json()[\"id\"]\n    \n        # 3. Create a post owned by userA\n        resp_post = requests.post(f\"{PB_URL}/api/collections/posts/records\", json={\n            \"title\": \"Original Title\",\n            \"owner\": userA_id\n        }, headers=admin_headers)\n        assert resp_post.status_code == 200, f\"Failed to create post: {resp_post.text}\"\n        post_id = resp_post.json()[\"id\"]\n    \n        # 4. Authenticate as userA\n        resp_authA = requests.post(f\"{PB_URL}/api/collections/users/auth-with-password\", json={\n            \"identity\": \"usera@example.com\",\n            \"password\": \"password123\"\n        })\n        assert resp_authA.status_code == 200, f\"Failed to auth userA: {resp_authA.text}\"\n        userA_token = resp_authA.json()[\"token\"]\n        userA_headers = {\"Authorization\": userA_token}\n    \n        # 5. Authenticate as userB\n        resp_authB = requests.post(f\"{PB_URL}/api/collections/users/auth-with-password\", json={\n            \"identity\": \"userb@example.com\",\n            \"password\": \"password123\"\n        })\n        assert resp_authB.status_code == 200, f\"Failed to auth userB: {resp_authB.text}\"\n        userB_token = resp_authB.json()[\"token\"]\n        userB_headers = {\"Authorization\": userB_token}\n    \n        # Verification Step 2: Valid Update by Owner\n        patch1 = requests.patch(f\"{PB_URL}/api/collections/posts/records/{post_id}\", json={\n            \"title\": \"Updated Title\"\n        }, headers=userA_headers)\n        assert patch1.status_code == 200, f\"Valid update by owner failed: {patch1.text}\"\n    \n        # Verification Step 3: Invalid Update: Changing Owner\n        patch2 = requests.patch(f\"{PB_URL}/api/collections/posts/records/{post_id}\", json={\n            \"owner\": userB_id\n        }, headers=userA_headers)\n>       assert patch2.status_code in [400, 403], f\"Update changing owner should fail, got {patch2.status_code}\"\nE       AssertionError: Update changing owner should fail, got 404\nE       assert 404 in [400, 403]\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:102: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

@@ -1,0 +1,117 @@
+{
+    "id": "a4dac151-e93c-44e2-b205-fc714090c42e",
+    "task_name": "sveltekit_auth_cookie_sync_middleware_js",
+    "trial_name": "sveltekit_auth_cookie_sync_middl__Tkjmbn9",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__14-34-53/sveltekit_auth_cookie_sync_middl__Tkjmbn9",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sveltekit_auth_cookie_sync_middleware_js"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "42ebe0d78a08447fe9556324fdd70c0487108a2a781e4503367e39dae24b2334",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sveltekit_auth_cookie_sync_middleware_js",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "sveltekit_auth_cookie_sync_middl__Tkjmbn9",
+        "trials_dir": "jobs/2026-06-15__14-34-53",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "google/gemini-3.1-pro",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "15061d37-639f-4e30-aed9-fc7b987a4a4f"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "gemini-3.1-pro",
+            "provider": "google"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 51722,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-06-15T14:34:58.937892Z",
+    "finished_at": "2026-06-15T14:41:34.817819Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T14:34:59.204293Z",
+        "finished_at": "2026-06-15T14:35:03.214175Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T14:35:03.214250Z",
+        "finished_at": "2026-06-15T14:35:18.500019Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T14:35:18.500151Z",
+        "finished_at": "2026-06-15T14:38:09.661359Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-15T14:38:20.038410Z",
+        "finished_at": "2026-06-15T14:41:21.768336Z"
+    },
+    "step_results": null
+}

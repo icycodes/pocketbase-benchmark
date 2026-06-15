@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T16:32:00.047366+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781541118315,
+            "stop": 1781541120047
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_permissions",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 1390,
+                "start": 1781541118656,
+                "stop": 1781541120046,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "setup_data = {'org_id': '02oiky5coekk1wa', 'user_ids': {'u_editor@example.com': '2av1wj9t1a6yxsz', 'u_outsider@example.com': 'aox7trdytvkpepi', 'u_owner@example.com': '6nrip3kwj3pmwkc', 'u_viewer@example.com': 'zbxu9r72fr32f2t'}}\n\n    def test_permissions(setup_data):\n        org_id = setup_data[\"org_id\"]\n    \n        # Authenticate users\n        editor_token = auth_as(\"u_editor@example.com\")\n        viewer_token = auth_as(\"u_viewer@example.com\")\n        outsider_token = auth_as(\"u_outsider@example.com\")\n        owner_token = auth_as(\"u_owner@example.com\")\n    \n        # 1. Test Create (Editor)\n        r = requests.post(\n            f\"{BASE_URL}/api/collections/documents/records\",\n            json={\"title\": \"Doc 1\", \"content\": \"Content\", \"organization\": org_id},\n            headers={\"Authorization\": f\"Bearer {editor_token}\"}\n        )\n>       assert r.status_code == 200, f\"Editor should be able to create document. Got: {r.text}\"\nE       AssertionError: Editor should be able to create document. Got: {\"data\":{},\"message\":\"Failed to create record.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:109: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

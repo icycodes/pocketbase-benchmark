@@ -1,0 +1,15 @@
+- Initializing MCP connections...
+You
+# PocketBase Strict Email Sanitization Hook (JSVM) ## Background Ensure user email addresses are consistently formatted by sanitizing them before they are saved to the PocketBase database. We are using PocketBase as a standalone application with JSVM hooks. ## Requirements * Write a JSVM event hook that intercepts record creation on the `users` collection. * The hook must automatically lowercase the `email` field. * The hook must automatically trim leading and trailing whitespace from the `email` field. * The hook must allow the record creation to proceed after modification. ## Implementation Hints * Place the hook script in the `pb_hooks` directory. * Use PocketBase's JSVM event hooks to intercept the record creation request. * Read and modify the `email` field on the record object. * Remember that JSVM hook handlers must propagate execution to continue the middleware chain. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: ./pocketbase serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * POST `/api/collections/users/records`: When a new user is created, the `email` field is sanitized (lowercased and whitespace trimmed) before being saved.   
+
+Pochi
+💭 Thinking for 965 characters   
+💫 Executing mkdir -p /home/user/myproject/pb_hooks ✔ 
+💭 Thinking for 212 characters   
+✏️  Writing /home/user/myproject/pb_hooks/sanitize_email.pb.js ✔ 
+💭 Thinking for 637 characters   
+🎉 Task Completed
+I have created the PocketBase JSVM hook to intercept user record creation and sanitize the email address. 
+
+The hook is located in `/home/user/myproject/pb_hooks/sanitize_email.pb.js` and uses the `onRecordBeforeCreateRequest` event. It retrieves the `email` field from the record, trims any leading or trailing whitespace, converts it to lowercase, and then sets it back on the record before it gets saved to the database. Execution continues automatically after the hook completes.   
+  

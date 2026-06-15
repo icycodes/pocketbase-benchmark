@@ -1,0 +1,77 @@
+Skipping image OS validation for hb__fix_breaking_hook_api_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-uqqkiv9 > /logs/artifacts/run-id && echo fix_breaking_hook_api_go__uqQkiV9 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Fix Breaking Hook API Signature in PocketBase
+
+## Background
+You have a custom Go backend embedding PocketBase. The project was recently upgraded to PocketBase v0.31.0, but the custom event hooks are failing to compile and run because they use the older v0.22 API signature. In PocketBase v0.23.0+, there was a major API overhaul affecting hook registration and event propagation.
+
+## Requirements
+- Update `main.go` to fix the `OnRecordBeforeCreateRequest` hook for the `posts` collection.
+- The hook must use the new `.BindFunc()` registration method.
+- The hook handler must accept the new event type (`*core.RecordRequestEvent`).
+- The hook handler must check if the `title` is empty. If it is, return a bad request error.
+- The hook handler must generate a slug from the title using `core.Slugify(title)` and set it on the record's `slug` field.
+- The hook handler MUST call and return `e.Next()` to properly propagate the execution chain. If omitted, the record creation will be blocked.
+- The application must compile successfully and run.
+
+## Implementation Hints
+- Review the PocketBase v0.23+ upgrade guide for Go hooks.
+- Hook registration changed from `.Add()` to `.BindFunc()`.
+- Event handlers now receive a generic `*core.RecordRequestEvent` instead of specific event types.
+- Handlers must return `e.Next()` to continue the middleware chain.
+- Use `e.BadRequestError("Title cannot be empty", nil)` for validation errors instead of standard `fmt.Errorf`.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: go run main.go serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - POST `/api/collections/posts/records`: Accepts a JSON body with a `title` and creates a record with an auto-generated `slug`. Returns 200 OK.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

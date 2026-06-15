@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T14:51:02.671597+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781535062046,
+            "stop": 1781535062671
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_email_sanitization_on_create",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 463,
+                "start": 1781535062207,
+                "stop": 1781535062670,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_pocketbase = None\n\n    def test_email_sanitization_on_create(start_pocketbase):\n        # 1. Create User with Unsanitized Email\n        create_url = \"http://localhost:8090/api/collections/users/records\"\n        payload = {\n            \"email\": \"  John.Doe@EXAMPLE.com  \",\n            \"password\": \"secure_password123\",\n            \"passwordConfirm\": \"secure_password123\"\n        }\n    \n        response = requests.post(create_url, json=payload)\n>       assert response.status_code == 200, f\"Expected status 200 on user creation, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 200 on user creation, got 400. Response: {\"data\":{\"email\":{\"code\":\"validation_is_email\",\"message\":\"Must be a valid email address.\"}},\"message\":\"Failed to create record.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:42: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

@@ -1,0 +1,34 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 1 item
+
+tests/test_final_state.py E                                              [100%]
+
+==================================== ERRORS ====================================
+______________________ ERROR at setup of test_permissions ______________________
+
+start_app = None
+
+    @pytest.fixture(scope="session")
+    def setup_data(start_app):
+        # Authenticate as superuser
+        resp = requests.post(
+            f"{BASE_URL}/api/collections/_superusers/auth-with-password",
+            json={"identity": "admin@example.com", "password": "AdminPass123!"}
+        )
+>       assert resp.status_code == 200, f"Superuser login failed: {resp.text}"
+E       AssertionError: Superuser login failed: {"data":{},"message":"Failed to authenticate.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:45: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase_server$ ./pocketbase serve --http=0.0.0.0:8090
+process 'pocketbase_server' started pid=1319
+pocketbase_server process startup detected
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_permissions - AssertionError: Superuser...
+=============================== 1 error in 0.49s ===============================

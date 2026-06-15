@@ -1,0 +1,117 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 1 item
+
+tests/test_final_state.py F                                              [100%]
+
+=================================== FAILURES ===================================
+________________________ test_prevent_owner_change_rule ________________________
+
+start_app = None
+
+    def test_prevent_owner_change_rule(start_app):
+        # 1. Auth as superuser
+        resp = requests.post(f"{PB_URL}/api/collections/_superusers/auth-with-password", json={
+            "identity": "admin@example.com",
+            "password": "admin123456"
+        })
+        assert resp.status_code == 200, f"Failed to auth as superuser: {resp.text}"
+        admin_token = resp.json()["token"]
+        admin_headers = {"Authorization": admin_token}
+    
+        # 2. Create userA and userB
+        respA = requests.post(f"{PB_URL}/api/collections/users/records", json={
+            "email": "usera@example.com",
+            "password": "password123",
+            "passwordConfirm": "password123"
+        }, headers=admin_headers)
+        assert respA.status_code == 200, f"Failed to create userA: {respA.text}"
+        userA_id = respA.json()["id"]
+    
+        respB = requests.post(f"{PB_URL}/api/collections/users/records", json={
+            "email": "userb@example.com",
+            "password": "password123",
+            "passwordConfirm": "password123"
+        }, headers=admin_headers)
+        assert respB.status_code == 200, f"Failed to create userB: {respB.text}"
+        userB_id = respB.json()["id"]
+    
+        # 3. Create a post owned by userA
+        resp_post = requests.post(f"{PB_URL}/api/collections/posts/records", json={
+            "title": "Original Title",
+            "owner": userA_id
+        }, headers=admin_headers)
+        assert resp_post.status_code == 200, f"Failed to create post: {resp_post.text}"
+        post_id = resp_post.json()["id"]
+    
+        # 4. Authenticate as userA
+        resp_authA = requests.post(f"{PB_URL}/api/collections/users/auth-with-password", json={
+            "identity": "usera@example.com",
+            "password": "password123"
+        })
+        assert resp_authA.status_code == 200, f"Failed to auth userA: {resp_authA.text}"
+        userA_token = resp_authA.json()["token"]
+        userA_headers = {"Authorization": userA_token}
+    
+        # 5. Authenticate as userB
+        resp_authB = requests.post(f"{PB_URL}/api/collections/users/auth-with-password", json={
+            "identity": "userb@example.com",
+            "password": "password123"
+        })
+        assert resp_authB.status_code == 200, f"Failed to auth userB: {resp_authB.text}"
+        userB_token = resp_authB.json()["token"]
+        userB_headers = {"Authorization": userB_token}
+    
+        # Verification Step 2: Valid Update by Owner
+        patch1 = requests.patch(f"{PB_URL}/api/collections/posts/records/{post_id}", json={
+            "title": "Updated Title"
+        }, headers=userA_headers)
+        assert patch1.status_code == 200, f"Valid update by owner failed: {patch1.text}"
+    
+        # Verification Step 3: Invalid Update: Changing Owner
+        patch2 = requests.patch(f"{PB_URL}/api/collections/posts/records/{post_id}", json={
+            "owner": userB_id
+        }, headers=userA_headers)
+>       assert patch2.status_code in [400, 403], f"Update changing owner should fail, got {patch2.status_code}"
+E       AssertionError: Update changing owner should fail, got 404
+E       assert 404 in [400, 403]
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:102: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+[1.00ms] CREATE TABLE IF NOT EXISTS `_migrations` (file VARCHAR(255) PRIMARY KEY NOT NULL, applied INTEGER NOT NULL)
+[0.00ms] SELECT (1) FROM `_migrations` WHERE `file`='1640988000_aux_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM `_migrations` WHERE `file`='1640988000_init.go' LIMIT 1
+[0.00ms] SELECT (1) FROM `_migrations` WHERE `file`='1717233556_v0.23_migrate.go' LIMIT 1
+[0.00ms] SELECT (1) FROM `_migrations` WHERE `file`='1717233557_v0.23_migrate2.go' LIMIT 1
+[0.00ms] SELECT (1) FROM `_migrations` WHERE `file`='1717233558_v0.23_migrate3.go' LIMIT 1
+[0.00ms] SELECT (1) FROM `_migrations` WHERE `file`='1717233559_v0.23_migrate4.go' LIMIT 1
+[0.00ms] SELECT (1) FROM `_migrations` WHERE `file`='1763020353_update_default_auth_alert_templates.go' LIMIT 1
+[0.00ms] SELECT (1) FROM `_migrations` WHERE `file`='1778828400_normalize_indexes.go' LIMIT 1
+[1.00ms] SELECT `_collections`.* FROM `_collections` ORDER BY `rowid` ASC
+[0.00ms] SELECT `_params`.* FROM `_params` WHERE `id`='settings'
+[0.00ms] SELECT `_collections`.* FROM `_collections` ORDER BY `rowid` ASC
+[0.00ms] SELECT `_collections`.* FROM `_collections` WHERE `id`='posts' OR LOWER(`name`)='posts' LIMIT 1
+[0.00ms] UPDATE `_collections` SET `createRule`=NULL, `created`='2026-06-15 14:48:00.121Z', `deleteRule`=NULL, `fields`='[{"autogeneratePattern":"[a-z0-9]{15}","help":"","hidden":false,"id":"text3208210256","max":15,"min":15,"name":"id","pattern":"^[a-z0-9]+$","presentable":false,"primaryKey":true,"required":true,"system":true,"type":"text"},{"autogeneratePattern":"","help":"","hidden":false,"id":"text724990059","max":0,"min":0,"name":"title","pattern":"","presentable":false,"primaryKey":false,"required":true,"system":false,"type":"text"},{"cascadeDelete":false,"collectionId":"_pb_users_auth_","help":"","hidden":false,"id":"relation3479234172","maxSelect":1,"minSelect":0,"name":"owner","presentable":false,"required":true,"system":false,"type":"relation"}]', `id`='pbc_1125843985', `indexes`='[]', `listRule`=NULL, `name`='posts', `options`='{}', `system`=false, `type`='base', `updateRule`=0xc00050e910, `updated`='2026-06-15 14:51:55.384Z', `viewRule`=0xc00050e900 WHERE `id`='pbc_1125843985'
+[0.00ms] SELECT (1) FROM `sqlite_schema` WHERE (`type` IN ('table', 'view')) AND (LOWER(`name`)=LOWER('posts')) LIMIT 1
+[0.00ms] PRAGMA optimize
+[0.00ms] SELECT `_collections`.* FROM `_collections` WHERE `type`='view' ORDER BY `rowid` ASC
+[0.00ms] SELECT `_collections`.* FROM `_collections` ORDER BY `rowid` ASC
+[0.00ms] SELECT `_superusers`.* FROM `_superusers` WHERE `email`='admin@example.com' LIMIT 1
+[1.00ms] SELECT `_superusers`.* FROM `_superusers` WHERE `_superusers`.`id`='6o4iu1zjeybd9cv' LIMIT 1
+[0.00ms] SELECT `_collections`.* FROM `_collections` WHERE `type`='auth' ORDER BY `rowid` ASC
+[0.00ms] SELECT `users`.* FROM `users` WHERE `users`.`id`='6o4iu1zjeybd9cv' LIMIT 1
+[0.00ms] UPDATE `_superusers` SET `created`='2026-06-15 14:48:07.631Z', `email`='admin@example.com', `emailVisibility`=false, `id`='6o4iu1zjeybd9cv', `password`='$2a$10$Hoo.McEyuTlHRDuv57fxKuBZ2J.pgZmQkMe3QyhfL80G56ASljM0u', `tokenKey`='fAfNfbfQenkCRpa2cZ2k5CfeOH2C3MaDPjZCG3NuyR093LBIpL', `updated`='2026-06-15 14:51:55.478Z', `verified`=true WHERE `id`='6o4iu1zjeybd9cv'
+[0.00ms] SELECT `_otps`.* FROM `_otps` WHERE `collectionRef`='pbc_3142635823' AND `recordRef`='6o4iu1zjeybd9cv' ORDER BY `created` DESC
+[0.00ms] SELECT `_authOrigins`.* FROM `_authOrigins` WHERE `collectionRef`='pbc_3142635823' AND `recordRef`='6o4iu1zjeybd9cv' ORDER BY `created` DESC
+[0.00ms] DELETE FROM `_authOrigins` WHERE `id`='nneth31i6g8l3b8'
+[0.00ms] SELECT `_mfas`.* FROM `_mfas` WHERE `collectionRef`='pbc_3142635823' AND `recordRef`='6o4iu1zjeybd9cv' ORDER BY `created` DESC
+Successfully saved superuser "admin@example.com"!
+/tests/.pytest_cache/d/.xprocess/start_app$ go run main.go serve --http=0.0.0.0:8090
+process 'start_app' started pid=5199
+start_app process startup detected
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_prevent_owner_change_rule - AssertionE...
+============================== 1 failed in 1.37s ===============================

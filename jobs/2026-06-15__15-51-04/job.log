@@ -1,0 +1,2184 @@
+Skipping image OS validation for hb__api_rules_grantee_relational_table: docker inspect returned 1
+Skipping image OS validation for hb__transactional_withdrawal_hook_go: docker inspect returned 1
+Skipping image OS validation for hb__file_storage_thumbnail_generation: docker inspect returned 1
+Skipping image OS validation for hb__sveltekit_auth_cookie_sync_middleware_js: docker inspect returned 1
+Skipping image OS validation for hb__ssr_auth_sync_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-pjepfl5 > /logs/artifacts/run-id && echo api_rules_grantee_relational_tab__PjEpfL5 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: echo zr-gc2kbl4 > /logs/artifacts/run-id && echo ssr_auth_sync_js__gC2kBL4 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase API Rules: Relational Access Control
+
+## Background
+You are building a document management system using PocketBase standalone. You need to implement a relational access control model where a document can be edited by its owner OR by users who have been explicitly granted edit permissions via a separate relational table.
+
+## Requirements
+- Initialize a PocketBase project.
+- Create a `documents` collection with fields:
+  - `title` (text)
+  - `author` (relation to the `users` collection, single, required)
+- Create a `document_edit_permissions` collection with fields:
+  - `document` (relation to the `documents` collection, single, required)
+  - `grantee` (relation to the `users` collection, single, required)
+- Configure the API rules for the `documents` collection:
+  - **View Rule**: Allow anyone to view documents.
+  - **Update Rule**: Allow an authenticated user to update a document ONLY IF they are the `author` OR if their user ID exists as a `grantee` in a `document_edit_permissions` record that points to this document.
+- You may use JS migrations in the `pb_migrations` directory to programmatically define these collections and rules.
+
+## Implementation Hints
+- Download and extract the PocketBase standalone binary (v0.31.0) into the project directory.
+- Write a JS migration script in `pb_migrations/` to create the collections. When PocketBase starts, it will automatically apply the migration.
+- To check a back-relation in PocketBase API rules, use the syntax `[currentField].[referencedCollection]_via_[referencedField].[fieldToCheck]`. For example, to check if the current document's `id` is referenced by the `document` field of the `document_edit_permissions` collection, you can use `id.document_edit_permissions_via_document.grantee`.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: ./pocketbase serve --http="0.0.0.0:8090"
+- Port: 8090
+- The `documents` collection must exist with the correct fields.
+- The `document_edit_permissions` collection must exist with the correct fields.
+- The `View` API rule on `documents` must be public (allow anyone).
+- The `Update` API rule on `documents` must enforce that only the author or a grantee can update the document.
+
+
+EOF
+Running command: echo zr-kjpqynr > /logs/artifacts/run-id && echo transactional_withdrawal_hook_go__kjpqyNr > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Running command: echo zr-rret8tp > /logs/artifacts/run-id && echo file_storage_thumbnail_generatio__Rret8tp > /logs/artifacts/trial_id
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Running command: echo zr-ropgbfd > /logs/artifacts/run-id && echo sveltekit_auth_cookie_sync_middl__roPgbfD > /logs/artifacts/trial_id
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase Atomic Wallet Withdrawal Hook (Go)
+
+## Background
+[PocketBase](https://pocketbase.io/) is a single-file Go backend that uses an embedded SQLite database in WAL mode. SQLite WAL allows many concurrent readers but only a single writer. Because of this, any database mutation that has to span more than one row (such as moving money from a wallet to a ledger entry) must run inside a single transaction, and inside the transaction callback **every** database operation has to go through the transaction-scoped `core.App` instance that PocketBase hands to the callback (commonly named `txApp`). Reusing the global `app` instance from inside the transaction will deadlock the writer.
+
+Your job is to extend a pre-built PocketBase v0.31.0 Go application that already provisions a `wallets` collection and a `withdrawals` collection via a registered migration. You will add a **Go event hook** that wraps record creation on the `withdrawals` collection so that a withdrawal is only accepted when the wallet has sufficient funds, and so that the wallet's balance is debited **atomically** with the persisted withdrawal row.
+
+## Requirements
+- Register a Go event hook on the public **record create request** for the `withdrawals` collection (i.e. wrap the REST `POST /api/collections/withdrawals/records` endpoint, not internal `app.Save` calls).
+- Validate the incoming payload:
+  - The `amount` field must be present and strictly greater than `0`. Otherwise reject the request with HTTP `400 Bad Request` and DO NOT persist anything.
+  - The `wallet` field must reference an existing `wallets` record. Otherwise reject with HTTP `400 Bad Request` and DO NOT persist anything.
+  - The wallet's current `balance` must be greater than or equal to the submitted `amount`. Otherwise reject with HTTP `400 Bad Request` and DO NOT persist anything and DO NOT modify the wallet.
+- On valid input, run a single PocketBase transaction in which:
+  - The referenced wallet's `balance` is decreased by exactly `amount`.
+  - The withdrawal record is persisted with the submitted `wallet`, `amount`, and optional `note` values.
+  - If any step inside the transaction fails, both the balance change AND the withdrawal record must be rolled back so the database stays consistent.
+- The hook must continue to propagate the request chain so that PocketBase's default save logic runs for the withdrawal record; forgetting to propagate is a known v0.23+ pitfall and will block all writes.
+- Keep the resulting binary runnable as a standalone PocketBase backend (`./wallet-app serve --http=0.0.0.0:8090`). Do not remove the existing migration registration or change the schema of either collection.
+
+## Implementation Hints
+- PocketBase v0.31 uses the chained hook API. Register your handler with `app.OnRecordCreateRequest("withdrawals").BindFunc(...)` and remember the post-v0.23 propagation rule: return `e.Next()` from the success path or the chain is silently aborted.
+- The transaction-scoped app instance is exposed via `app.RunInTransaction(func(txApp core.App) error { ... })`. Inside the callback you **must** use `txApp` (not the captured outer `app` / `e.App`) for every DB lookup and save, or you will hit `SQLITE_BUSY` / deadlock the writer. The PocketBase docs explicitly call this out.
+- The cleanest pattern for hooks that need to extend a transaction across `e.Next()` is to temporarily re-point `e.App` at the `txApp` for the duration of the callback so that the downstream chain (which actually saves the withdrawal record) also runs inside the same transaction. Restore it before returning if you want, but the chain semantics expect the propagated app to be the transactional one.
+- Use `e.Record.GetString("wallet")`, `e.Record.GetFloat("amount")`, and `e.Record.GetString("note")` to read the incoming submission, and `txApp.FindRecordById("wallets", walletId)` to load the wallet inside the transaction.
+- Use `e.BadRequestError(message, nil)` to short-circuit with a 400 response. Returning a non-nil error from `RunInTransaction` rolls back automatically.
+- All API rules on both `wallets` and `withdrawals` are left open (`""`) by the bundled migration so that the verifier can interact with them without auth. You do not need to change them.
+- Build with `go build -o wallet-app .` from the project directory.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: cd /home/user/myproject && ./wallet-app serve --http=0.0.0.0:8090
+- Port: 8090
+- The PocketBase server must be reachable on port 8090 after start (`GET /api/health` returns HTTP 200).
+- The `wallets` and `withdrawals` collections (provisioned by the bundled migration) must remain available with the schemas declared by the migration. Do not alter their schemas or API rules.
+- API endpoints exercised by verification (provided by PocketBase, gated by your hook):
+  - `POST /api/collections/wallets/records`: Used by the verifier to seed wallets. Accepts a JSON body `{"owner": string, "balance": number}` and returns the created wallet record. This endpoint is NOT gated by your hook.
+  - `GET /api/collections/wallets/records/{id}`: Used by the verifier to read the current wallet balance.
+  - `POST /api/collections/withdrawals/records`: Subject to your hook.
+    - Request body shape:
+      ```json
+      {
+        "wallet": string,
+        "amount": number,
+        "note": string
+      }
+      ```
+    - On success: HTTP `200` with the created withdrawal record (including server-assigned `id`); the referenced wallet's `balance` must have been decreased by exactly the submitted `amount`; the new withdrawal row must be retrievable via `GET /api/collections/withdrawals/records/{id}`.
+    - On any validation failure (non-positive amount, unknown wallet, insufficient balance): HTTP `400`; the wallet's `balance` must be unchanged; no withdrawal row may exist for that request (verified via `GET /api/collections/withdrawals/records?filter=...`).
+  - `GET /api/collections/withdrawals/records`: Standard PocketBase list endpoint used to confirm rejected requests did not persist any row.
+- Atomicity rule (externally observable):
+  - For every accepted request, the `wallets` table and `withdrawals` table must agree: a successful response always implies both a debited wallet AND a persisted withdrawal row.
+  - For every rejected request, the `wallets` table and `withdrawals` table must both be unchanged.
+
+
+EOF
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# SSR Authentication Synchronization Middleware
+
+## Background
+In Server-Side Rendered (SSR) applications using PocketBase, authentication state needs to be synchronized between the client and server using cookies, as PocketBase is stateless and defaults to storing JWTs in the browser's `localStorage`.
+
+You have an empty Express project initialized at `/home/user/myproject` with `express`, `cookie-parser`, and `pocketbase` installed. A PocketBase backend is already running locally at `http://127.0.0.1:8090` with a test user (`test@example.com` / `secure_password`).
+
+## Requirements
+- Implement an Express.js server (`index.js`) with a middleware that synchronizes PocketBase authentication state via cookies.
+- The middleware must extract the PocketBase auth cookie (`pb_auth`) from the incoming request.
+- Load the cookie into a PocketBase SDK instance connected to `http://127.0.0.1:8090`.
+- Attempt to refresh the authentication state using the PocketBase API (`authRefresh()`).
+- Export the updated auth state to a cookie and attach it to the response headers.
+- Create a protected route `/profile` that returns the authenticated user's ID and email if successful, or a 401 Unauthorized error if the token is invalid or missing.
+
+## Implementation Hints
+- Use the PocketBase JavaScript SDK (`pocketbase`).
+- Use `pb.authStore.loadFromCookie()` to load the initial auth state from the request's `cookie` header.
+- Use `pb.collection('users').authRefresh()` to validate and refresh the token. Ensure you handle errors (e.g., if the token is expired or invalid, clear the auth store).
+- Use `pb.authStore.exportToCookie()` to get the serialized cookie string and set it in the response header (`Set-Cookie`).
+- Ensure the Express app is configured to parse cookies (e.g., using `cookie-parser`) or parse the header directly.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: node index.js
+- Port: 3000
+- API Endpoints:
+  - GET `/profile`:
+    - When a valid `pb_auth` cookie is provided in the request: Returns status 200 and a JSON object containing the user's `id` and `email`.
+      ```json
+      {
+        "id": "string",
+        "email": "string"
+      }
+      ```
+      The response MUST include a `Set-Cookie` header containing the refreshed `pb_auth` cookie.
+    - When no cookie or an invalid `pb_auth` cookie is provided: Returns status 401 and a JSON object containing an error message.
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+      The response MUST include a `Set-Cookie` header that clears or updates the `pb_auth` cookie to reflect the unauthenticated state.
+
+
+EOF
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase File Storage and Thumbnail Generation
+
+## Background
+PocketBase provides native file storage capabilities, including on-the-fly thumbnail generation for uploaded images. You need to write a Node.js script that interacts with a local PocketBase server to upload an image and retrieve its generated thumbnail.
+
+## Requirements
+- A local PocketBase server is running at `http://127.0.0.1:8090`.
+- An admin account exists with email `admin@example.com` and password `adminpassword`.
+- A collection named `gallery` has already been created. It contains a file field named `image` that is configured to support `100x100` thumbnails.
+- An image file `input.jpg` is provided in your project directory.
+- Write a Node.js script `run.js` that uses the PocketBase JS SDK to:
+  1. Authenticate as the admin.
+  2. Upload `input.jpg` to create a new record in the `gallery` collection.
+  3. Get the URL for the `100x100` thumbnail of the uploaded image.
+  4. Download the thumbnail and save it as `thumbnail.jpg` in the project directory.
+  5. Write the created record ID to `output.log`.
+
+## Implementation Hints
+- Use the `pocketbase` npm package to interact with the server.
+- To upload a file in Node.js, you may need to use `FormData` and `fs` (or `fs/promises`) to attach the file stream or blob.
+- Use `pb.files.getUrl()` to construct the thumbnail URL by passing the `thumb` option (e.g., `{'thumb': '100x100'}`).
+- Fetch the thumbnail URL and write the response buffer to `thumbnail.jpg`.
+
+## Acceptance Criteria
+- Project path: /home/user/pb-task
+- Ensure the script is executed and the artifacts exist.
+- Log file: /home/user/pb-task/output.log
+- The script must successfully upload `input.jpg` to the `gallery` collection.
+- The script must download the thumbnail and save it as `/home/user/pb-task/thumbnail.jpg`.
+- The saved thumbnail must be a valid image file and smaller than the original `input.jpg`.
+- The log file must contain the created record ID in the format: `Record ID: <id>`.
+
+
+EOF
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# SvelteKit Auth Cookie Sync Middleware
+
+## Background
+PocketBase is a single-file backend that provides out-of-the-box user authentication. Since PocketBase is stateless and defaults to storing JWTs in browser `localStorage`, Server-Side Rendered (SSR) frameworks like SvelteKit require middleware to sync auth state via cookies.
+
+## Requirements
+- Implement a SvelteKit `hooks.server.js` middleware to synchronize PocketBase authentication state using cookies.
+- The middleware must intercept incoming requests and initialize a new PocketBase instance for each request at `event.locals.pb` pointing to `http://127.0.0.1:8090`.
+- It must read the `pb_auth` cookie from the incoming request and load it into the PocketBase auth store.
+- It must attempt to refresh the authentication state using `authRefresh()` on the `users` collection.
+- If the token is invalid or expired, it must clear the auth store.
+- After the route handler executes, the middleware must write the updated auth state back to the response headers as a `pb_auth` cookie.
+
+## Implementation Hints
+- Use `event.locals` to pass the PocketBase instance to SvelteKit route handlers.
+- Read the cookie using `event.cookies.get('pb_auth')` or `pb.authStore.loadFromCookie()`.
+- Perform `pb.collection('users').authRefresh()` inside a try-catch block. If it throws, call `pb.authStore.clear()`.
+- Before returning the response, use `pb.authStore.exportToCookie()` to update the `pb_auth` cookie in the response headers. Note that `exportToCookie()` returns a raw cookie string, so you can append it to the response's `set-cookie` header.
+
+## Acceptance Criteria
+- Project path: /home/user/sveltekit-app
+- Start command: npm run dev -- --port 5173
+- Port: 5173
+- API Endpoints/Routes:
+  - GET `/` (or any route): When accessed with a valid `pb_auth` cookie, the server must refresh the token and return a new `pb_auth` cookie in the `set-cookie` response header. If accessed with an invalid or expired `pb_auth` cookie, the server must clear the auth state and return a `set-cookie` header that clears the `pb_auth` cookie (e.g., setting its expiration to the past or empty value).
+  - The `event.locals.pb.authStore.isValid` state must be correctly populated for downstream handlers.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Skipping image OS validation for hb__realtime_subscriptions_dart: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-xmqrssb > /logs/artifacts/run-id && echo realtime_subscriptions_dart__XmQRSSB > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command failed
+Trial realtime_subscriptions_dart__XmQRSSB failed: Initial state test failed
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__event_hooks_generate_slug_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-42pth5y > /logs/artifacts/run-id && echo event_hooks_generate_slug_go__42PTH5y > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase Go Event Hook: Programmatically Generate Slug
+
+## Background
+You are building a custom Go application that embeds PocketBase as a framework. You need to implement a server-side Go event hook that automatically generates a slug from a post's title before the record is saved to the database.
+
+## Requirements
+- Initialize a custom PocketBase application in Go.
+- Intercept record creation requests for the `posts` collection.
+- If the `title` field is empty, reject the request with a `BadRequestError` and the message "Title cannot be empty".
+- If the `title` is provided, programmatically generate a URL-friendly slug from the title and set it to the `slug` field of the record.
+- Ensure the hook execution chain is properly propagated so the record is saved.
+
+## Implementation Hints
+- Use `app.OnRecordBeforeCreateRequest("posts").BindFunc(...)` to register the event hook.
+- Use `e.Record.GetString("title")` to read the title and `e.Record.Set("slug", ...)` to update the slug.
+- Use `core.Slugify(...)` to generate the slug.
+- You must call `e.Next()` to continue the hook execution chain. Failing to do so will block the operation.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: go build -o myapp && ./myapp serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - POST `/api/collections/posts/records`: Accepts a JSON body with a `title`.
+    - If `title` is provided, returns 200 OK with the created record, which must include the generated `slug`.
+    - If `title` is missing or empty, returns 400 Bad Request with an error message.
+
+
+EOF
+Skipping image OS validation for hb__custom_go_executable_embedding: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-ttjbxxx > /logs/artifacts/run-id && echo custom_go_executable_embedding__tTJBxXx > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Custom Go Executable Embedding PocketBase
+
+## Background
+PocketBase can be used as a standalone application, but it can also be imported as a standard Go module, allowing developers to embed it directly inside custom Go applications and extend it with Go event hooks.
+
+## Requirements
+- Initialize a Go module in the project directory.
+- Embed PocketBase (v0.31.0) as a Go library.
+- Create a custom `main.go` that initializes the PocketBase application.
+- Add a Go event hook (`OnRecordBeforeCreateRequest`) for the `posts` collection.
+- The hook must intercept record creation:
+  - If the `title` field is empty or missing, return a 400 Bad Request error with the message "Title cannot be empty".
+  - If the `title` field is provided, programmatically generate a `slug` field by slugifying the title.
+  - Ensure the hook properly propagates execution to the next handler in the chain.
+- Build the Go application into an executable named `server`.
+
+## Implementation Hints
+- Initialize a Go module and fetch the `github.com/pocketbase/pocketbase` dependency (v0.31.0).
+- Use `pocketbase.New()` to create the app instance.
+- Use `app.OnRecordBeforeCreateRequest("posts").BindFunc(...)` to register the hook.
+- Inside the hook, read the title via `e.Record.GetString("title")` and set the slug via `e.Record.Set("slug", core.Slugify(title))`.
+- Remember to call `e.Next()` to continue the hook execution chain.
+- Build the application using `go build -o server`.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: ./server serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - `POST /api/collections/posts/records`: Creates a new post.
+    - If `title` is missing or empty, returns HTTP 400 with a message containing "Title cannot be empty".
+    - If `title` is provided, returns HTTP 200 with the created record, and the record must have the `slug` field correctly generated based on the title.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__word_count_hook_go: docker inspect returned 1
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__public_read_private_write_collection: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-7mppkuw > /logs/artifacts/run-id && echo word_count_hook_go__7MpPkUW > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Running command: echo zr-qgpdbvg > /logs/artifacts/run-id && echo public_read_private_write_collec__QGPdBVG > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase Collection Access Control
+
+## Background
+You are building a backend using PocketBase. You need to create a collection for storing contact information and configure its API access rules so that it is publicly readable but only writable by authenticated users.
+
+## Requirements
+- Create a new collection named `contacts_${run-id}` (where `${run-id}` is read from the `ZEALT_RUN_ID` environment variable).
+- The collection must have the following schema fields: `name` (text, required) and `email` (email, required).
+- Configure the API rules for the collection:
+  - **List/View (Read)**: Anyone (including guests) can read the entries.
+  - **Create/Update/Delete (Write)**: Only authenticated users can create, update, or delete entries.
+
+## Implementation Hints
+- You can implement this by writing a Go migration in the `pb_migrations` directory, a JS migration, or an initialization hook.
+- Read the `ZEALT_RUN_ID` environment variable to construct the collection name dynamically.
+- In PocketBase API rules, an empty string `""` allows public access, while `null` denies all access. To restrict access to authenticated users, use the `@request.auth.id != ""` condition.
+
+## Acceptance Criteria
+- Project path: `/home/user/pb-app`
+- Start command: `go run main.go serve --http="0.0.0.0:8090"`
+- Port: 8090
+- API Endpoints:
+  - GET `/api/collections/contacts_${run-id}/records`: Returns status 200 OK (public access).
+  - POST `/api/collections/contacts_${run-id}/records` (unauthenticated): Returns an error status (e.g., 400 or 403) due to API rule restrictions.
+  - POST `/api/collections/contacts_${run-id}/records` (authenticated): Returns status 200 OK with the created record.
+
+
+EOF
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase: Auto-Compute Word Count and Reading Time (Go Event Hooks)
+
+## Background
+You are extending a PocketBase v0.31.0 application written in Go that hosts a small blog backend. A starter project lives at `/home/user/myproject` and already includes:
+
+- A `go.mod` file that pins `github.com/pocketbase/pocketbase v0.31.0`.
+- A `main.go` entry point that constructs the PocketBase app and starts it (you must extend it).
+- A `migrations/` package that programmatically creates a base collection named `articles` with the following fields:
+  - `title` (text, required)
+  - `content` (text)
+  - `word_count` (number, integer)
+  - `reading_time_minutes` (number, integer)
+
+Your job is to plug in PocketBase event hooks so that whenever an `articles` record is created or updated through the REST API, the server automatically derives the `word_count` and `reading_time_minutes` values from the submitted `content` field.
+
+## Requirements
+- Implement Go event hooks for the `articles` collection that run on both record create and record update REST requests.
+- The hooks must set `word_count` to the number of whitespace-separated words found in the submitted `content` value (an empty or whitespace-only content yields 0 words).
+- The hooks must set `reading_time_minutes` to `ceil(word_count / 200)` (so 0 words -> 0 minutes, 1-200 words -> 1 minute, 201-400 words -> 2 minutes, etc.).
+- The computed values must overwrite anything the client supplied for `word_count` or `reading_time_minutes`, so clients cannot bypass the calculation.
+- The hook chain must continue normally so the record is persisted; if you stop the chain the record will never be saved.
+- Provision a superuser using the `superuser upsert` subcommand of the compiled binary, then start the server on `0.0.0.0:8090`.
+
+## Implementation Hints
+- Use the PocketBase v0.31 hook API (`BindFunc`) and remember to call `e.Next()` from your handler so the request continues through the middleware chain.
+- `OnRecordCreateRequest("articles")` and `OnRecordUpdateRequest("articles")` are the relevant hooks for REST traffic.
+- `e.Record.GetString("content")` returns the submitted text; `e.Record.Set(...)` writes the derived fields back onto the record before it is saved.
+- The standard library `strings.Fields` plus `math.Ceil` are enough to compute the word count and the rounded-up reading time.
+- Build the binary with `go build -o app .` and then run `./app superuser upsert admin@example.com SuperSecret123` to create the admin account before `./app serve --http=0.0.0.0:8090`.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: cd /home/user/myproject && ./app serve --http=0.0.0.0:8090
+- Port: 8090
+- The superuser `admin@example.com` (password `SuperSecret123`) must exist so the verifier can authenticate via `POST /api/collections/_superusers/auth-with-password`.
+- The `articles` collection (already provisioned by the bundled migration) must remain available with its `word_count` and `reading_time_minutes` integer fields.
+- API behavior:
+  - `POST /api/collections/articles/records` with a JSON body containing `title` and `content` must return `201 Created`, and the response body must include `word_count` equal to the number of whitespace-separated words in `content`, and `reading_time_minutes` equal to `ceil(word_count / 200)`.
+  - `PATCH /api/collections/articles/records/{id}` with a new `content` value must return `200 OK`, and the response body must reflect the recomputed `word_count` and `reading_time_minutes` for the new content.
+  - Client-supplied `word_count` or `reading_time_minutes` values in the request body must be overwritten by the hook (the response must reflect the values derived from `content`).
+
+
+EOF
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__prevent_owner_change_rule: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-voonu3c > /logs/artifacts/run-id && echo prevent_owner_change_rule__VooNu3C > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase API Rules: Prevent Changing Owner
+
+## Background
+PocketBase uses SQL-like API rules to secure collection endpoints. You need to configure an Update API rule for a `posts` collection that ensures only the owner can update the record, and strictly prevents the `owner` field itself from being modified during the update.
+
+## Requirements
+- Initialize a PocketBase Go application in `/home/user/myproject`.
+- Create a `posts` collection with at least the following fields:
+  - `title` (type: text)
+  - `owner` (type: relation, targeting the built-in `users` collection)
+- Configure the **Update API rule** for the `posts` collection to enforce two conditions:
+  1. The user performing the update must be the `owner` of the record.
+  2. The `owner` field cannot be modified in the update request.
+
+## Implementation Hints
+- You can define the collection and rules using PocketBase's Go migrations (`pb_migrations`).
+- In the API rule expression, use `@request.auth.id` to check the current user, and the `:isset` modifier on `@request.body` to ensure a field is not being changed.
+- Make sure the application starts a standard PocketBase server on port 8090.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: go run main.go serve --http="0.0.0.0:8090"
+- Port: 8090
+- Endpoints & Behavior:
+  - The `posts` collection is accessible via the standard PocketBase REST API.
+  - An authenticated user can update the `title` of a post they own.
+  - An authenticated user receives a 400 or 403 error if they attempt to update the `owner` field of a post they own.
+  - An authenticated user receives a 404 or 403 error if they attempt to update a post they do not own.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__fix_breaking_hook_api_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-uqqkiv9 > /logs/artifacts/run-id && echo fix_breaking_hook_api_go__uqQkiV9 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Fix Breaking Hook API Signature in PocketBase
+
+## Background
+You have a custom Go backend embedding PocketBase. The project was recently upgraded to PocketBase v0.31.0, but the custom event hooks are failing to compile and run because they use the older v0.22 API signature. In PocketBase v0.23.0+, there was a major API overhaul affecting hook registration and event propagation.
+
+## Requirements
+- Update `main.go` to fix the `OnRecordBeforeCreateRequest` hook for the `posts` collection.
+- The hook must use the new `.BindFunc()` registration method.
+- The hook handler must accept the new event type (`*core.RecordRequestEvent`).
+- The hook handler must check if the `title` is empty. If it is, return a bad request error.
+- The hook handler must generate a slug from the title using `core.Slugify(title)` and set it on the record's `slug` field.
+- The hook handler MUST call and return `e.Next()` to properly propagate the execution chain. If omitted, the record creation will be blocked.
+- The application must compile successfully and run.
+
+## Implementation Hints
+- Review the PocketBase v0.23+ upgrade guide for Go hooks.
+- Hook registration changed from `.Add()` to `.BindFunc()`.
+- Event handlers now receive a generic `*core.RecordRequestEvent` instead of specific event types.
+- Handlers must return `e.Next()` to continue the middleware chain.
+- Use `e.BadRequestError("Title cannot be empty", nil)` for validation errors instead of standard `fmt.Errorf`.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: go run main.go serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - POST `/api/collections/posts/records`: Accepts a JSON body with a `title` and creates a record with an auto-generated `slug`. Returns 200 OK.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Trial transactional_ledger_hook_go__DhpYDrg failed: Docker compose command failed for environment transactional_ledger_hook_go. Command: docker compose --project-name transactional_ledger_hook_go__dhpydrg --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/transactional_ledger_hook_go/environment -f /tmp/tmpr1q_mtti/transactional_ledger_hook_go__DhpYDrg-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpsytb0zhx/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.12kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main 1/6] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main 2/6] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep golang-go unzip &&     ln -s /usr/bin/python3 /usr/bin/python &&     pip3 install --break-system-packages pytest-json-ctrf requests pytest-xprocess &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main 3/6] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main 4/6] RUN mkdir -p /home/user/myproject &&     cd /home/user/myproject &&     cat >main.go <<'EOF'
+#7 CACHED
+
+#8 [main 5/6] RUN cd /home/user/myproject &&     go mod init myproject &&     go get github.com/pocketbase/pocketbase@v0.31.0 &&     go mod tidy
+#8 CACHED
+
+#9 [main 6/6] RUN curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H "Content-Type: application/json" -d '{"identity":"test@example.com","password":"password12345"}' | grep -o '"token":"[^"]*' | cut -d'"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"wallets","type":"base","fields":[{"name":"balance","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"ledger","type":"base","fields":[{"name":"wallet_id","type":"relation","relationOptions":{"collectionId":"wallets","cascadeDelete":false}},{"name":"amount","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletrich00000","balance":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletpoor00000","balance":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip
+#9 0.296   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+#9 0.296                                  Dload  Upload   Total   Spent    Left  Speed
+#9 0.296   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+#9 0.694   0 12.0M    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 12.0M  100 12.0M    0     0  21.4M      0 --:--:-- --:--:-- --:--:-- 74.5M
+#9 0.865 Archive:  pocketbase.zip
+#9 0.865   inflating: CHANGELOG.md            
+#9 0.865   inflating: LICENSE.md              
+#9 0.865   inflating: pocketbase              
+#9 1.224 Error: unknown command "admin" for "pocketbase"
+#9 1.224 Run 'pocketbase --help' for usage.
+#9 1.315 2026/06/15 16:10:32 Server started at http://127.0.0.1:8090
+#9 1.315 ├─ REST API:  http://127.0.0.1:8090/api/
+#9 1.315 └─ Dashboard: http://127.0.0.1:8090/_/
+#9 1.400 
+#9 1.400 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+#9 1.400 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+#9 1.400 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+#9 1.400 
+#9 3.308 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+#9 3.320 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+#9 3.332 {"data":{},"message":"Missing or invalid collection context.","status":404}
+#9 3.344 {"data":{},"message":"Missing or invalid collection context.","status":404}
+#9 3.346 /bin/sh: 1: kill: No such process
+#9 3.346 
+#9 ERROR: process "/bin/sh -c curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H \"Content-Type: application/json\" -d '{\"identity\":\"test@example.com\",\"password\":\"password12345\"}' | grep -o '\"token\":\"[^\"]*' | cut -d'\"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"wallets\",\"type\":\"base\",\"fields\":[{\"name\":\"balance\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"ledger\",\"type\":\"base\",\"fields\":[{\"name\":\"wallet_id\",\"type\":\"relation\",\"relationOptions\":{\"collectionId\":\"wallets\",\"cascadeDelete\":false}},{\"name\":\"amount\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletrich00000\",\"balance\":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletpoor00000\",\"balance\":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip" did not complete successfully: exit code: 1
+------
+ > [main 6/6] RUN curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H "Content-Type: application/json" -d '{"identity":"test@example.com","password":"password12345"}' | grep -o '"token":"[^"]*' | cut -d'"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"wallets","type":"base","fields":[{"name":"balance","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"ledger","type":"base","fields":[{"name":"wallet_id","type":"relation","relationOptions":{"collectionId":"wallets","cascadeDelete":false}},{"name":"amount","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletrich00000","balance":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletpoor00000","balance":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip:
+1.400 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+1.400 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+1.400 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+1.400 
+3.308 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+3.320 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+3.332 {"data":{},"message":"Missing or invalid collection context.","status":404}
+3.344 {"data":{},"message":"Missing or invalid collection context.","status":404}
+3.346 /bin/sh: 1: kill: No such process
+3.346 
+------
+failed to solve: process "/bin/sh -c curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H \"Content-Type: application/json\" -d '{\"identity\":\"test@example.com\",\"password\":\"password12345\"}' | grep -o '\"token\":\"[^\"]*' | cut -d'\"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"wallets\",\"type\":\"base\",\"fields\":[{\"name\":\"balance\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"ledger\",\"type\":\"base\",\"fields\":[{\"name\":\"wallet_id\",\"type\":\"relation\",\"relationOptions\":{\"collectionId\":\"wallets\",\"cascadeDelete\":false}},{\"name\":\"amount\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletrich00000\",\"balance\":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletpoor00000\",\"balance\":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip" did not complete successfully: exit code: 1
+. Stderr: None. 
+Failed to download artifact '/home/user' (best-effort)
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 160, in run
+    await self._prepare()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 187, in _prepare
+    await self._setup_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 612, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 618, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/usr/lib/python3.13/asyncio/tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 517, in start
+    await self._run_docker_compose_command(["build"])
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment transactional_ledger_hook_go. Command: docker compose --project-name transactional_ledger_hook_go__dhpydrg --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/transactional_ledger_hook_go/environment -f /tmp/tmpr1q_mtti/transactional_ledger_hook_go__DhpYDrg-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpsytb0zhx/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.12kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main 1/6] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main 2/6] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep golang-go unzip &&     ln -s /usr/bin/python3 /usr/bin/python &&     pip3 install --break-system-packages pytest-json-ctrf requests pytest-xprocess &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main 3/6] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main 4/6] RUN mkdir -p /home/user/myproject &&     cd /home/user/myproject &&     cat >main.go <<'EOF'
+#7 CACHED
+
+#8 [main 5/6] RUN cd /home/user/myproject &&     go mod init myproject &&     go get github.com/pocketbase/pocketbase@v0.31.0 &&     go mod tidy
+#8 CACHED
+
+#9 [main 6/6] RUN curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H "Content-Type: application/json" -d '{"identity":"test@example.com","password":"password12345"}' | grep -o '"token":"[^"]*' | cut -d'"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"wallets","type":"base","fields":[{"name":"balance","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"ledger","type":"base","fields":[{"name":"wallet_id","type":"relation","relationOptions":{"collectionId":"wallets","cascadeDelete":false}},{"name":"amount","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletrich00000","balance":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletpoor00000","balance":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip
+#9 0.296   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+#9 0.296                                  Dload  Upload   Total   Spent    Left  Speed
+#9 0.296   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+#9 0.694   0 12.0M    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 12.0M  100 12.0M    0     0  21.4M      0 --:--:-- --:--:-- --:--:-- 74.5M
+#9 0.865 Archive:  pocketbase.zip
+#9 0.865   inflating: CHANGELOG.md            
+#9 0.865   inflating: LICENSE.md              
+#9 0.865   inflating: pocketbase              
+#9 1.224 Error: unknown command "admin" for "pocketbase"
+#9 1.224 Run 'pocketbase --help' for usage.
+#9 1.315 2026/06/15 16:10:32 Server started at http://127.0.0.1:8090
+#9 1.315 ├─ REST API:  http://127.0.0.1:8090/api/
+#9 1.315 └─ Dashboard: http://127.0.0.1:8090/_/
+#9 1.400 
+#9 1.400 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+#9 1.400 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+#9 1.400 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+#9 1.400 
+#9 3.308 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+#9 3.320 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+#9 3.332 {"data":{},"message":"Missing or invalid collection context.","status":404}
+#9 3.344 {"data":{},"message":"Missing or invalid collection context.","status":404}
+#9 3.346 /bin/sh: 1: kill: No such process
+#9 3.346 
+#9 ERROR: process "/bin/sh -c curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H \"Content-Type: application/json\" -d '{\"identity\":\"test@example.com\",\"password\":\"password12345\"}' | grep -o '\"token\":\"[^\"]*' | cut -d'\"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"wallets\",\"type\":\"base\",\"fields\":[{\"name\":\"balance\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"ledger\",\"type\":\"base\",\"fields\":[{\"name\":\"wallet_id\",\"type\":\"relation\",\"relationOptions\":{\"collectionId\":\"wallets\",\"cascadeDelete\":false}},{\"name\":\"amount\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletrich00000\",\"balance\":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletpoor00000\",\"balance\":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip" did not complete successfully: exit code: 1
+------
+ > [main 6/6] RUN curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H "Content-Type: application/json" -d '{"identity":"test@example.com","password":"password12345"}' | grep -o '"token":"[^"]*' | cut -d'"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"wallets","type":"base","fields":[{"name":"balance","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"ledger","type":"base","fields":[{"name":"wallet_id","type":"relation","relationOptions":{"collectionId":"wallets","cascadeDelete":false}},{"name":"amount","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletrich00000","balance":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletpoor00000","balance":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip:
+1.400 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+1.400 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+1.400 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+1.400 
+3.308 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+3.320 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+3.332 {"data":{},"message":"Missing or invalid collection context.","status":404}
+3.344 {"data":{},"message":"Missing or invalid collection context.","status":404}
+3.346 /bin/sh: 1: kill: No such process
+3.346 
+------
+failed to solve: process "/bin/sh -c curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H \"Content-Type: application/json\" -d '{\"identity\":\"test@example.com\",\"password\":\"password12345\"}' | grep -o '\"token\":\"[^\"]*' | cut -d'\"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"wallets\",\"type\":\"base\",\"fields\":[{\"name\":\"balance\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"ledger\",\"type\":\"base\",\"fields\":[{\"name\":\"wallet_id\",\"type\":\"relation\",\"relationOptions\":{\"collectionId\":\"wallets\",\"cascadeDelete\":false}},{\"name\":\"amount\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletrich00000\",\"balance\":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletpoor00000\",\"balance\":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip" did not complete successfully: exit code: 1
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/artifact_handler.py", line 195, in _download_artifact
+    await source_env.download_file(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 609, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker_unix.py", line 48, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment transactional_ledger_hook_go. Command: docker compose --project-name transactional_ledger_hook_go__dhpydrg --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/transactional_ledger_hook_go/environment -f /tmp/tmpr1q_mtti/transactional_ledger_hook_go__DhpYDrg-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpsytb0zhx/docker-compose-mounts.json cp main:/home/user jobs/2026-06-15__15-51-04/transactional_ledger_hook_go__DhpYDrg/artifacts/user. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__slug_autogeneration_hook_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-jyngitk > /logs/artifacts/run-id && echo slug_autogeneration_hook_js__jYNGiTk > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Programmatically Generate Slug with JSVM Hook
+
+## Background
+PocketBase allows extending its functionality using JavaScript (ES5) via an embedded Goja engine. In this task, you will create a JSVM event hook to automatically generate a URL-friendly slug from a post's title before the record is saved to the database.
+
+## Requirements
+- Ensure the `posts` collection exists. If it doesn't, create it with a `title` (text) and `slug` (text) field. Make sure the collection allows public create access (or at least allows guests to create records) so it can be tested without authentication.
+- Intercept record creation for the `posts` collection using a JSVM hook.
+- If the `title` field is missing or empty, reject the request with a `BadRequestError` and the message "Title cannot be empty".
+- If a `title` is provided, programmatically generate a slug from it and assign it to the `slug` field of the record.
+- Ensure the hook properly propagates execution to the next handler in the chain so the record gets saved.
+
+## Implementation Hints
+- Create a JavaScript file inside the `pb_hooks` directory (e.g., `pb_hooks/posts.pb.js`).
+- Use the `onRecordBeforeCreateRequest` hook and bind it specifically to the `posts` collection.
+- The record data can be accessed and modified via the event object.
+- Use PocketBase's built-in `$String.slugify()` method to generate the slug.
+- Remember that PocketBase v0.23+ requires calling the next handler in the chain to continue execution.
+
+## Acceptance Criteria
+- Project path: /home/user/pocketbase_app
+- Start command: ./pocketbase serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - POST `/api/collections/posts/records`: Creates a new post.
+    - When providing a valid `title`, the response should be a 200 OK and the returned record object must contain a `slug` field with the slugified version of the title.
+    - When providing an empty `title` (or omitting it), the response must be a 400 Bad Request with an error message indicating that the title cannot be empty.
+
+EOF
+Skipping image OS validation for hb__email_sanitization_hook_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-qlf9bjv > /logs/artifacts/run-id && echo email_sanitization_hook_js__QLF9bjV > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase JSVM Email Sanitization Hook
+
+## Background
+[PocketBase](https://pocketbase.io/) is a single-file Go backend that can be extended with server-side JavaScript using scripts placed inside a `pb_hooks/` directory. The runtime is based on Goja (ECMAScript 5.1) and executes hooks synchronously.
+
+A PocketBase v0.31.0 binary has been pre-extracted to `/home/user/myproject/pocketbase` and an initial superuser has been created so that the application is fully bootstrapped. Your job is to add a JavaScript hook that automatically sanitizes the `email` field on every new user-record creation request and then start the server.
+
+## Requirements
+- Add a JavaScript hook file inside `/home/user/myproject/pb_hooks/`. The exact filename is up to you, but it must end with `.pb.js` so PocketBase picks it up at boot.
+- The hook must intercept incoming API requests that create records in the built-in `users` collection.
+- Before the record is persisted, the hook must rewrite the submitted `email` value so that it has all leading/trailing whitespace removed AND is fully lowercased.
+- Only the `users` collection should be affected. Other auth collections (such as `_superusers`) must NOT have their email modified by this hook.
+- The hook must work whether the submitted email is already clean or whether it contains surrounding whitespace and mixed casing.
+- Start the PocketBase server bound to all interfaces on TCP port 8090.
+
+## Implementation Hints
+- PocketBase v0.31.0 uses the post-v0.23 hook API: handlers must propagate the chain (otherwise the operation is silently blocked).
+- The relevant request-level hook gives you access to the in-flight record via the event payload; the record exposes per-field getter/setter helpers.
+- Hook files placed under `pb_hooks/` with a `.pb.js` suffix are automatically loaded at server startup. They run inside an embedded JS engine that does NOT support `Promise` / `async / await`; keep the hook strictly synchronous.
+- You do NOT need to (re)create the superuser, modify the `users` collection schema, or write any client code - PocketBase ships with a usable `users` collection by default.
+
+## Acceptance Criteria
+- Project path: `/home/user/myproject`
+- Start command: `./pocketbase serve --http=0.0.0.0:8090`
+- Port: 8090
+- A hook file with the extension `.pb.js` exists under `/home/user/myproject/pb_hooks/`.
+- After the server is running, creating a new user through the public REST API `POST /api/collections/users/records` with a JSON body of the form
+
+  ```json
+  {
+    "email": "<some email with surrounding whitespace and/or mixed casing>",
+    "password": "<password>",
+    "passwordConfirm": "<same password>"
+  }
+  ```
+
+  must return HTTP 200 and the resulting user record (queried after authenticating as that user via `POST /api/collections/users/auth-with-password`) must have its `email` field stored entirely in lowercase with no leading or trailing whitespace.
+- Submitting an already clean email must still succeed (no errors and no further modification).
+- The hook must NOT affect non-`users` auth collections: a superuser auth login via `POST /api/collections/_superusers/auth-with-password` with the original (mixed-case or whitespace-padded form of the existing) email must still fail, while logging in with the exact stored superuser email succeeds. In other words, the hook does not change behaviour for `_superusers`.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__strict_email_sanitization_hook_jsvm: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-dalhw9b > /logs/artifacts/run-id && echo strict_email_sanitization_hook_j__daLHw9b > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase Strict Email Sanitization Hook (JSVM)
+
+## Background
+Ensure user email addresses are consistently formatted by sanitizing them before they are saved to the PocketBase database. We are using PocketBase as a standalone application with JSVM hooks.
+
+## Requirements
+- Write a JSVM event hook that intercepts record creation on the `users` collection.
+- The hook must automatically lowercase the `email` field.
+- The hook must automatically trim leading and trailing whitespace from the `email` field.
+- The hook must allow the record creation to proceed after modification.
+
+## Implementation Hints
+- Place the hook script in the `pb_hooks` directory.
+- Use PocketBase's JSVM event hooks to intercept the record creation request.
+- Read and modify the `email` field on the record object.
+- Remember that JSVM hook handlers must propagate execution to continue the middleware chain.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: ./pocketbase serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - POST `/api/collections/users/records`: When a new user is created, the `email` field is sanitized (lowercased and whitespace trimmed) before being saved.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Skipping image OS validation for hb__project_membership_access_rules_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-3ybpvml > /logs/artifacts/run-id && echo project_membership_access_rules__3YbpvmL > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase Multi-Tenant Membership Access Control (JS Migration)
+
+## Background
+[PocketBase](https://pocketbase.io/) is a single-file Go backend that uses an embedded SQLite database. Schema and access control can be provisioned programmatically by dropping a JavaScript migration file into `pb_migrations/`. When the server starts it will automatically apply every new migration inside a transaction.
+
+A PocketBase v0.31.0 binary has been pre-extracted to `/home/user/myproject/pocketbase` and an initial superuser has already been created so the application is fully bootstrapped. Your job is to provision two new application collections - `projects` and `tasks` - and wire their API rules so that membership in a project transitively grants access to that project's tasks. After the migration is in place, start the server.
+
+This exercises PocketBase's relational [API Rules](https://pocketbase.io/docs/api-rules-and-filters/) and the nested-relation join syntax that lets you express multi-tenant access in a single line.
+
+## Requirements
+- Add a JavaScript migration file inside `/home/user/myproject/pb_migrations/`. The exact filename is up to you, but it must end with `.js` so PocketBase picks it up at boot.
+- The migration MUST create the following two **base** collections (both empty, with the schema below):
+  1. `projects` collection:
+     - `name`: `text` field, required, non-empty.
+     - `members`: multi-`relation` field pointing to the built-in `users` auth collection, required, with no upper bound on number of selected members (i.e. multi-select).
+  2. `tasks` collection:
+     - `title`: `text` field, required, non-empty.
+     - `description`: `text` field, optional.
+     - `project`: single-`relation` field pointing to the `projects` collection, required.
+- The migration MUST set the API rules on both collections so that membership in a project transitively controls access to its tasks:
+  - For `projects`:
+    - `listRule` and `viewRule`: only authenticated users that are listed in the project's `members` field can list/view it.
+    - `createRule`: any authenticated user can create a project.
+    - `updateRule` and `deleteRule`: only authenticated users that are listed in the project's `members` field can update/delete it.
+  - For `tasks`:
+    - All five rules (`listRule`, `viewRule`, `createRule`, `updateRule`, `deleteRule`) must require the requester to be authenticated AND to be a member of the task's parent project (via the `project` relation's `members` field).
+- Guests (unauthenticated requests) MUST NOT be able to list, view, create, update or delete any record from either collection.
+- Superusers retain unrestricted access (PocketBase already grants this; do not break it).
+- Start the PocketBase server bound to all interfaces on TCP port 8090.
+
+## Implementation Hints
+- PocketBase v0.31 uses the JS migration API documented at [JS Migrations](https://pocketbase.io/docs/js-migrations/). A migration file is a single `migrate((app) => { ... }, (app) => { ... })` call; the second callback is the down/rollback.
+- Collections are created by instantiating `new Collection({...})` (see [Collections](https://pocketbase.io/docs/collections/)) and saving via `app.save(collection)`. Field definitions follow the `{ name, type, required, ... }` shape, and the relation field type accepts `collectionId` plus `minSelect` / `maxSelect` options. To target the built-in users collection, resolve its id at migration time via `app.findCollectionByNameOrId("users").id`.
+- API rules are simple string expressions evaluated by PocketBase. Multi-relation membership can be expressed with the "any-of" operator `?=`. For a back-/nested-relation reference, dot syntax is supported: e.g. `relField.members.id ?= @request.auth.id`. See the [API Rules & Filters](https://pocketbase.io/docs/api-rules-and-filters/) docs.
+- Rules left as `null` are locked to superusers only - that is what `guests are blocked` looks like by default. To allow non-superuser access you have to set a non-null string rule.
+- The migration must be idempotent enough that PocketBase's automatic application succeeds on a fresh `pb_data` (you do not need to handle re-runs - migrations are recorded in `_migrations` and skipped once applied).
+- You do NOT need to write any Go code, JSVM hooks, or client-side code. You also do not need to modify the existing `users` collection.
+
+## Acceptance Criteria
+- Project path: `/home/user/myproject`
+- Start command: `./pocketbase serve --http=0.0.0.0:8090`
+- Port: 8090
+- A migration file with the extension `.js` exists under `/home/user/myproject/pb_migrations/`.
+- After the server has started, the PocketBase REST API exposes two new application collections (`projects` and `tasks`) with the schemas described in Requirements. Their fields can be inspected by an authenticated superuser via `GET /api/collections/{projects|tasks}`.
+- API endpoints exercised by verification (all under `http://127.0.0.1:8090`):
+  - `POST /api/collections/_superusers/auth-with-password` - used by the verifier to obtain a superuser token for seeding test data.
+  - `POST /api/collections/users/records` - used by the verifier to register regular users.
+  - `POST /api/collections/users/auth-with-password` - used by the verifier to obtain per-user tokens.
+  - `POST /api/collections/projects/records` - subject to the project rules above.
+  - `GET  /api/collections/projects/records` and `GET /api/collections/projects/records/{id}` - subject to the project rules above.
+  - `PATCH /api/collections/projects/records/{id}` and `DELETE /api/collections/projects/records/{id}` - subject to the project rules above.
+  - `POST /api/collections/tasks/records` - subject to the task rules above.
+  - `GET /api/collections/tasks/records` and `GET /api/collections/tasks/records/{id}` - subject to the task rules above.
+  - `PATCH /api/collections/tasks/records/{id}` and `DELETE /api/collections/tasks/records/{id}` - subject to the task rules above.
+- Externally observable access behaviour:
+  - An authenticated user that is in a project's `members` list can list/view that project and any task whose `project` references it, and can create/update/delete tasks of that project.
+  - An authenticated user that is NOT in a project's `members` list cannot see that project or any of its tasks (the project does not appear in their list response and direct `GET .../records/{id}` returns 404), and cannot create/update/delete tasks for that project (request is rejected with 400 or 404).
+  - Guest (no `Authorization` header) requests to either collection's list/create endpoints return a non-2xx response or an empty result set, and direct view/update/delete by id returns a non-2xx response.
+  - Superusers (using their auth token) can still list and view every record on both collections.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__s3_direct_upload_presigned_url_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-k7pqykq > /logs/artifacts/run-id && echo s3_direct_upload_presigned_url_g__K7PQYKq > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# S3 Presigned URL Generator for Large Files
+
+## Background
+When PocketBase is configured with S3 storage, file uploads are proxied through the server. For large files (e.g., >20MB), this buffering can cause memory exhaustion. A robust resolution is to implement direct-to-bucket uploads using S3 presigned URLs, bypassing PocketBase's default file proxy for the upload phase.
+
+## Requirements
+- Create a custom Go application embedding PocketBase.
+- Implement a custom REST API route `GET /api/s3-presign`.
+- The route must accept a query parameter `filename`.
+- The route must generate and return an AWS S3 presigned URL for a `PUT` operation, allowing a client to upload a file directly to the S3 bucket.
+- The S3 object key must be formatted as `uploads/<run-id>/<filename>`, where `<run-id>` is read from the `ZEALT_RUN_ID` environment variable.
+- The application should read S3 configuration from the environment variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_BUCKET`.
+
+## Implementation Hints
+- Initialize a Go module and add PocketBase as a dependency.
+- Use `app.OnBeforeServe().BindFunc(...)` to register a new `GET` route `/api/s3-presign` on the PocketBase router.
+- Use the AWS SDK for Go (e.g., `github.com/aws/aws-sdk-go` or v2) to configure an S3 client and generate a presigned `PutObject` request.
+- Extract the `filename` from the request query parameters. If missing, return a 400 Bad Request error.
+- Return the generated URL in a JSON response.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: go run main.go serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - GET `/api/s3-presign?filename=<filename>`: Returns status 200 and a JSON object containing the presigned URL.
+
+    ```json
+    // Response
+    {
+      "url": "https://..."
+    }
+    ```
+  - GET `/api/s3-presign`: Returns status 400 if the `filename` query parameter is missing.
+- The returned URL must be a valid S3 presigned URL containing the correct bucket name, region, object key (`uploads/<run-id>/<filename>`), and AWS signature parameters.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__slug_autogeneration_hook_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-woj3h9l > /logs/artifacts/run-id && echo slug_autogeneration_hook_go__Woj3H9L > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command failed
+Trial slug_autogeneration_hook_go__Woj3H9L failed: Initial state test failed
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__custom_json_route_handler_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-yntrh59 > /logs/artifacts/run-id && echo custom_json_route_handler_js__YntRH59 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Custom JSON Route Handler (PocketBase JSVM)
+
+## Background
+PocketBase (v0.31.0) ships with an embedded JavaScript engine (Goja) that lets you extend the server without writing Go. By dropping `*.pb.js` files into the `pb_hooks/` directory you can register custom HTTP routes that respond alongside the built-in REST API. In this task you will use this capability to add a small public greeting endpoint to a running PocketBase instance.
+
+The PocketBase server is already installed and configured to run from the project directory. Your job is to extend it with a single JSVM file that exposes a new HTTP endpoint.
+
+## Requirements
+- Add a JSVM hook script under `pb_hooks/` that registers a single custom HTTP route.
+- The route must:
+  - Use the HTTP `GET` method.
+  - Be reachable at the path `/api/myapp/hello/{name}` (where `{name}` is a path parameter).
+  - Be accessible to unauthenticated guests (no auth middleware).
+  - Respond with HTTP status `200` and a JSON body of the shape `{"message": "Hello, <name>!"}`, where `<name>` is the exact value captured from the path parameter.
+- The route must coexist with the standard PocketBase API; do NOT remove or break any built-in routes.
+
+## Implementation Hints
+- PocketBase auto-loads any `*.pb.js` file from the `pb_hooks/` directory on `serve` startup. You do not need to restart the binary manually after a healthy startup — the verifier will start it for you.
+- Use the top-level `routerAdd(method, path, handler)` function exposed to the JSVM. For path parameters, refer to the standard `net/http.ServeMux` style (`{name}`), and read the value via `e.request.pathValue("name")`.
+- Return a JSON response using `e.json(status, body)`.
+- The JSVM is synchronous (powered by Goja / ECMAScript 5.1). Do NOT use `async`/`await`, Promises, or `fetch` — keep the handler purely synchronous.
+- Do NOT attach any auth middleware (such as `$apis.requireAuth()`); the endpoint must work for guests.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command (run by the verifier): `./pocketbase serve --http="0.0.0.0:8090" --dir=./pb_data --hooksDir=./pb_hooks --migrationsDir=./pb_migrations`
+- Port: 8090
+- API Endpoints:
+  - GET `/api/myapp/hello/{name}`:
+    - Status: `200`
+    - Response body (JSON):
+
+      ```json
+      {
+        "message": "Hello, <name>!"
+      }
+      ```
+
+    - `<name>` must be the exact value of the `{name}` path segment from the request URL.
+    - Must succeed for unauthenticated (guest) clients.
+- The standard PocketBase health endpoint `GET /api/health` must continue to return status `200`.
+- The custom route handler must be implemented as a JSVM file inside `/home/user/myproject/pb_hooks/`.
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__jsvm_concurrency_error_handling_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-9u6expd > /logs/artifacts/run-id && echo jsvm_concurrency_error_handling__9u6EXPD > /logs/artifacts/trial_id
+Command failed
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command failed
+Trial jsvm_concurrency_error_handling__9u6EXPD failed: Initial state test failed
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__multi_tenant_organization_permissions: docker inspect returned 1
+Not retrying trial because the maximum number of retries has been reached
+Running command: apt-get update && apt-get install -y curl ripgrep
+Trial sqlite_write_concurrency_deadloc__M5mzxHe failed: Docker compose command failed for environment sqlite_write_concurrency_deadlock_js. Command: docker compose --project-name sqlite_write_concurrency_deadloc__m5mzxhe --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sqlite_write_concurrency_deadlock_js/environment -f /tmp/tmpqbnprr0_/sqlite_write_concurrency_deadloc__M5mzxHe-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmp8b6szf9n/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.08kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main 1/6] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main 2/6] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep unzip &&     ln -s /usr/bin/python3 /usr/bin/python &&     pip3 install --break-system-packages pytest-json-ctrf requests pytest-xprocess &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main 3/6] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main 4/6] RUN mkdir -p /home/user/pocketbase_app &&     cd /home/user/pocketbase_app &&     curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     rm pocketbase.zip &&     mkdir -p pb_hooks pb_migrations pb_public
+#7 CACHED
+
+#8 [main 5/6] RUN cd /home/user/pocketbase_app &&     cat > init_db.py <<'EOF'
+#8 CACHED
+
+#9 [main 6/6] RUN cd /home/user/pocketbase_app &&     python3 init_db.py &&     rm init_db.py
+#9 0.631 2026/06/15 16:21:41 Server started at http://127.0.0.1:8090
+#9 0.631 ├─ REST API:  http://127.0.0.1:8090/api/
+#9 0.631 └─ Dashboard: http://127.0.0.1:8090/_/
+#9 0.723 
+#9 0.723 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+#9 0.723 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+#9 0.723 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+#9 0.723 
+#9 3.547 Traceback (most recent call last):
+#9 3.547   File "/home/user/pocketbase_app/init_db.py", line 18, in <module>
+#9 3.547     token = resp["token"]
+#9 3.547             ~~~~^^^^^^^^^
+#9 3.547 KeyError: 'token'
+#9 ERROR: process "/bin/sh -c cd /home/user/pocketbase_app &&     python3 init_db.py &&     rm init_db.py" did not complete successfully: exit code: 1
+------
+ > [main 6/6] RUN cd /home/user/pocketbase_app &&     python3 init_db.py &&     rm init_db.py:
+0.723 
+0.723 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+0.723 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+0.723 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+0.723 
+3.547 Traceback (most recent call last):
+3.547   File "/home/user/pocketbase_app/init_db.py", line 18, in <module>
+3.547     token = resp["token"]
+3.547             ~~~~^^^^^^^^^
+3.547 KeyError: 'token'
+------
+failed to solve: process "/bin/sh -c cd /home/user/pocketbase_app &&     python3 init_db.py &&     rm init_db.py" did not complete successfully: exit code: 1
+. Stderr: None. 
+Failed to download artifact '/home/user' (best-effort)
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 160, in run
+    await self._prepare()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 187, in _prepare
+    await self._setup_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 612, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 618, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/usr/lib/python3.13/asyncio/tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 517, in start
+    await self._run_docker_compose_command(["build"])
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment sqlite_write_concurrency_deadlock_js. Command: docker compose --project-name sqlite_write_concurrency_deadloc__m5mzxhe --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sqlite_write_concurrency_deadlock_js/environment -f /tmp/tmpqbnprr0_/sqlite_write_concurrency_deadloc__M5mzxHe-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmp8b6szf9n/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.08kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main 1/6] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main 2/6] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep unzip &&     ln -s /usr/bin/python3 /usr/bin/python &&     pip3 install --break-system-packages pytest-json-ctrf requests pytest-xprocess &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main 3/6] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main 4/6] RUN mkdir -p /home/user/pocketbase_app &&     cd /home/user/pocketbase_app &&     curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     rm pocketbase.zip &&     mkdir -p pb_hooks pb_migrations pb_public
+#7 CACHED
+
+#8 [main 5/6] RUN cd /home/user/pocketbase_app &&     cat > init_db.py <<'EOF'
+#8 CACHED
+
+#9 [main 6/6] RUN cd /home/user/pocketbase_app &&     python3 init_db.py &&     rm init_db.py
+#9 0.631 2026/06/15 16:21:41 Server started at http://127.0.0.1:8090
+#9 0.631 ├─ REST API:  http://127.0.0.1:8090/api/
+#9 0.631 └─ Dashboard: http://127.0.0.1:8090/_/
+#9 0.723 
+#9 0.723 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+#9 0.723 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+#9 0.723 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+#9 0.723 
+#9 3.547 Traceback (most recent call last):
+#9 3.547   File "/home/user/pocketbase_app/init_db.py", line 18, in <module>
+#9 3.547     token = resp["token"]
+#9 3.547             ~~~~^^^^^^^^^
+#9 3.547 KeyError: 'token'
+#9 ERROR: process "/bin/sh -c cd /home/user/pocketbase_app &&     python3 init_db.py &&     rm init_db.py" did not complete successfully: exit code: 1
+------
+ > [main 6/6] RUN cd /home/user/pocketbase_app &&     python3 init_db.py &&     rm init_db.py:
+0.723 
+0.723 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+0.723 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+0.723 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+0.723 
+3.547 Traceback (most recent call last):
+3.547   File "/home/user/pocketbase_app/init_db.py", line 18, in <module>
+3.547     token = resp["token"]
+3.547             ~~~~^^^^^^^^^
+3.547 KeyError: 'token'
+------
+failed to solve: process "/bin/sh -c cd /home/user/pocketbase_app &&     python3 init_db.py &&     rm init_db.py" did not complete successfully: exit code: 1
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/artifact_handler.py", line 195, in _download_artifact
+    await source_env.download_file(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 609, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker_unix.py", line 48, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment sqlite_write_concurrency_deadlock_js. Command: docker compose --project-name sqlite_write_concurrency_deadloc__m5mzxhe --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/sqlite_write_concurrency_deadlock_js/environment -f /tmp/tmpqbnprr0_/sqlite_write_concurrency_deadloc__M5mzxHe-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmp8b6szf9n/docker-compose-mounts.json cp main:/home/user jobs/2026-06-15__15-51-04/sqlite_write_concurrency_deadloc__M5mzxHe/artifacts/user. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__relational_access_control_rule: docker inspect returned 1
+Not retrying trial because the maximum number of retries has been reached
+Skipping image OS validation for hb__external_subscription_status_validator_go: docker inspect returned 1
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-eeu6dsf > /logs/artifacts/run-id && echo multi_tenant_organization_permis__EeU6dSf > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Multi-Tenant Organization Permissions in PocketBase
+
+## Background
+PocketBase allows defining powerful SQL-like API rules to control access to records. In a multi-tenant B2B application, users belong to organizations with specific roles, and resources belong to those organizations. You need to configure a PocketBase schema and API rules to enforce these multi-tenant access controls.
+
+## Requirements
+- Initialize a standalone PocketBase project.
+- Create a JS migration file in `pb_migrations` that creates three collections:
+  1. `organizations`: Contains a `name` (text) field.
+  2. `organization_members`: Contains `user` (relation to `users` collection), `organization` (relation to `organizations` collection), and `role` (select field with options: `owner`, `editor`, `viewer`).
+  3. `documents`: Contains `title` (text), `content` (text), and `organization` (relation to `organizations`).
+- Configure the following API rules for the `documents` collection:
+  - **List/View**: A user can read a document only if they have an `organization_members` record linking them to the document's organization (regardless of role).
+  - **Create**: A user can create a document only if they have an `owner` or `editor` role in the organization they are assigning the document to.
+  - **Update**: A user can update a document only if they have an `owner` or `editor` role in the document's organization.
+  - **Delete**: A user can delete a document only if they have an `owner` role in the document's organization.
+
+## Implementation Hints
+- Download and use the PocketBase v0.31.0 linux-amd64 binary.
+- Place your schema creation logic inside a JavaScript migration file in the `pb_migrations` directory. PocketBase will run this migration automatically on startup.
+- Use the `@collection.organization_members...` syntax in your API rules to query the membership and role of the requesting user (`@request.auth.id`).
+- Ensure you check `@request.body.organization` for creation rules and the existing `organization` field for update/delete rules.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: ./pocketbase serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - The PocketBase REST API must be active and the collections (`organizations`, `organization_members`, `documents`) must exist.
+  - The API rules on the `documents` collection must correctly enforce the role-based access control described in the requirements.
+
+
+EOF
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-arq4ani > /logs/artifacts/run-id && echo relational_access_control_rule__arQ4ani > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Relational Access Control Rule in PocketBase
+
+## Background
+Configure API rules in PocketBase to enforce relational access control. You need to create collections for `projects` and `tasks`, and restrict access to tasks based on project membership.
+
+## Requirements
+- Initialize a PocketBase standalone application.
+- Create a `projects` collection with fields: `name` (text) and `members` (relation to `users` collection, multiple).
+- Create a `tasks` collection with fields: `title` (text) and `project` (relation to `projects` collection, single).
+- Configure the `listRule` and `viewRule` on the `tasks` collection so that users can only list and view tasks if they are assigned to the parent `project` via the `members` relational field.
+- The `listRule` and `viewRule` for `projects` can be set to allow members to view them, or left open for testing, but the primary requirement is the `tasks` collection rules.
+- Implement this using JS migrations in the `pb_migrations` directory so that it runs automatically when the server starts.
+
+## Implementation Hints
+- Download the PocketBase binary (v0.31.0 for linux amd64) and extract it to the project path.
+- Create a JS migration file in the `pb_migrations` directory to programmatically create the collections and set the API rules.
+- The API rule for relational checks uses dot notation (e.g., `@request.auth.id ?= project.members`).
+- Ensure the PocketBase server binds to `0.0.0.0:8090`.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: ./pocketbase serve --http="0.0.0.0:8090"
+- Port: 8090
+- Collections:
+  - `projects` collection exists with `name` (text) and `members` (relation to `users`).
+  - `tasks` collection exists with `title` (text) and `project` (relation to `projects`).
+- API Rules:
+  - A user authenticated via the REST API can list and view a task ONLY IF they are in the `members` array of the task's parent project.
+  - A user cannot list or view tasks belonging to projects they are not members of.
+
+
+EOF
+Running command: echo zr-rk9qbfx > /logs/artifacts/run-id && echo external_subscription_status_val__Rk9qBFx > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# External Subscription Status Validator (Go Hook)
+
+## Background
+You are building a custom backend using PocketBase as a Go framework. You need to implement a business rule that restricts users from creating new posts unless they have an active subscription, which is managed by an external billing system.
+
+## Requirements
+- Initialize a custom PocketBase Go application.
+- Implement a Go-based `OnRecordBeforeCreateRequest` hook for the `posts` collection.
+- The hook must extract the `author` field (a string representing the user ID) from the record being created.
+- The hook must make an HTTP GET request to an external mock REST API at `http://localhost:8080/api/subscription?userId=<author_id>`.
+- If the external API responds with a JSON payload `{"status": "active"}`, the hook should allow the record creation to proceed.
+- If the external API responds with any other status (e.g., `{"status": "inactive"}`), or if the request fails, the hook must reject the creation with a `BadRequestError`.
+
+## Implementation Hints
+- Create a `main.go` file and initialize PocketBase using `pocketbase.New()`.
+- Use `app.OnRecordBeforeCreateRequest("posts").BindFunc(...)` to register the hook.
+- Inside the hook, use `e.Record.GetString("author")` to get the author's ID.
+- Use Go's standard `net/http` and `encoding/json` packages to query and parse the external API response.
+- Use `e.BadRequestError(...)` to block the request if validation fails.
+- Remember to call `e.Next()` to continue the hook execution chain when validation succeeds.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: go run main.go serve --http="0.0.0.0:8090"
+- Port: 8090
+- Endpoints:
+  - POST `/api/collections/posts/records`
+    - Request Body: JSON object containing `title` and `author` (e.g., `{"title": "My Post", "author": "user123"}`).
+    - Expected Behavior: If the mock API at `http://localhost:8080` returns `{"status": "active"}` for the given `author`, the record is created successfully (200 OK). If it returns `{"status": "inactive"}`, the request is rejected with a 400 Bad Request error.
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached

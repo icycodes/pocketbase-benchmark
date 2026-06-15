@@ -1,0 +1,35 @@
+- Initializing MCP connections...
+You
+# PocketBase Strict Email Sanitization Hook (JSVM) ## Background Ensure user email addresses are consistently formatted by sanitizing them before they are saved to the PocketBase database. We are using PocketBase as a standalone application with JSVM hooks. ## Requirements * Write a JSVM event hook that intercepts record creation on the `users` collection. * The hook must automatically lowercase the `email` field. * The hook must automatically trim leading and trailing whitespace from the `email` field. * The hook must allow the record creation to proceed after modification. ## Implementation Hints * Place the hook script in the `pb_hooks` directory. * Use PocketBase's JSVM event hooks to intercept the record creation request. * Read and modify the `email` field on the record object. * Remember that JSVM hook handlers must propagate execution to continue the middleware chain. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: ./pocketbase serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * POST `/api/collections/users/records`: When a new user is created, the `email` field is sanitized (lowercased and whitespace trimmed) before being saved.   
+
+Pochi
+I'll start by exploring the project structure to understand the existing setup.   
+📂 Listing files in /home/user/myproject recursively ✔ 
+🔍 Searching for pb_hooks/**/* in /home/user/myproject ✔ 
+The `pb_hooks` directory exists but is empty. Let me check if there's a `users` collection and look at the migrations to understand the schema.   
+📂 Listing files in /home/user/myproject/pb_hooks recursively ✔ 
+📂 Listing files in /home/user/myproject/pb_migrations recursively ✔ 
+The project is a fresh PocketBase setup. The `users` collection is built into PocketBase by default. Now I'll create the JSVM hook file.   
+✏️  Writing /home/user/myproject/pb_hooks/users.pb.js ✔ 
+📋 Updating todo list (1 items) ✔ 
+📖 Reading /home/user/myproject/pb_hooks/users.pb.js ✔ 
+📋 Updating todo list (1 items) ✔ 
+🎉 Task Completed
+The PocketBase JSVM hook has been created at `/home/user/myproject/pb_hooks/users.pb.js`.
+
+**What it does:**
+
+- Intercepts `onRecordCreateRequest` for the `users` collection
+- Reads the `email` field from the incoming record
+- Applies `.toLowerCase().trim()` to sanitize the email (lowercases + strips whitespace)
+- Calls `e.next()` to propagate execution and allow the record to be saved
+
+**How it works:**
+
+When a record is created via `POST /api/collections/users/records`, the hook fires before the record is persisted. If an email like `"  User@Example.COM  "` is submitted, it will be transformed to `"user@example.com"` before being written to the database.
+
+To start the server:
+```
+cd /home/user/myproject && ./pocketbase serve --http="0.0.0.0:8090"
+```   
+  

@@ -1,0 +1,21 @@
+- Initializing MCP connections...
+You
+# SSR Authentication Synchronization Middleware ## Background In Server-Side Rendered (SSR) applications using PocketBase, authentication state needs to be synchronized between the client and server using cookies, as PocketBase is stateless and defaults to storing JWTs in the browser's `localStorage`. You have an empty Express project initialized at `/home/user/myproject` with `express`, `cookie-parser`, and `pocketbase` installed. A PocketBase backend is already running locally at `http://127.0.0.1:8090` with a test user (`test@example.com` / `secure_password`). ## Requirements * Implement an Express.js server (`index.js`) with a middleware that synchronizes PocketBase authentication state via cookies. * The middleware must extract the PocketBase auth cookie (`pb_auth`) from the incoming request. * Load the cookie into a PocketBase SDK instance connected to `http://127.0.0.1:8090`. * Attempt to refresh the authentication state using the PocketBase API (`authRefresh()`). * Export the updated auth state to a cookie and attach it to the response headers. * Create a protected route `/profile` that returns the authenticated user's ID and email if successful, or a 401 Unauthorized error if the token is invalid or missing. ## Implementation Hints * Use the PocketBase JavaScript SDK (`pocketbase`). * Use `pb.authStore.loadFromCookie()` to load the initial auth state from the request's `cookie` header. * Use `pb.collection('users').authRefresh()` to validate and refresh the token. Ensure you handle errors (e.g., if the token is expired or invalid, clear the auth store). * Use `pb.authStore.exportToCookie()` to get the serialized cookie string and set it in the response header (`Set-Cookie`). * Ensure the Express app is configured to parse cookies (e.g., using `cookie-parser`) or parse the header directly. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: node index.js * Port: 3000 * API Endpoints: * GET `/profile`: * When a valid `pb_auth` cookie is provided in the request: Returns status 200 and a JSON object containing the user's `id` and `email`. ```json { "id": "string", "email": "string" } ``` The response MUST include a `Set-Cookie` header containing the refreshed `pb_auth` cookie. * When no cookie or an invalid `pb_auth` cookie is provided: Returns status 401 and a JSON object containing an error message. ```json { "error": "Unauthorized" } ``` The response MUST include a `Set-Cookie` header that clears or updates the `pb_auth` cookie to reflect the unauthenticated state.   
+
+Pochi
+💭 Thinking for 316 characters   
+📂 Listing files in /home/user/myproject recursively ✔ 
+💭 Thinking for 139 characters   
+📖 Reading /home/user/myproject/package.json ✔ 
+💭 Thinking for 1068 characters   
+✏️  Writing /home/user/myproject/index.js ✔ 
+💭 Thinking for 74 characters   
+Now let me verify the server starts and test the endpoints:   
+🛠️ Tool startBackgroundJob ✔ 
+🛠️ Tool readBackgroundJobOutput ✔ 
+💭 Thinking for 163 characters   
+Server is running. Let me test the unauthenticated casefirst:   
+💫 Executing curl -s -i http://127.0.0.1:3000/profile ✔ 
+💭 Thinking for 137 characters   
+The PocketBase SDK export might be different in v0.27+. Let me check:   
+💫 Executing cd /home/user/myproject && node -e "const pb = require('pocketbase'); console.log(typeof pb, Object.keys(pb))" ✔ 

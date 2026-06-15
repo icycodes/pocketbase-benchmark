@@ -1,0 +1,36 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py F..                                            [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_create_post_valid_title _________________________
+
+start_app = None
+
+    def test_create_post_valid_title(start_app):
+        url = f"{BASE_URL}/api/collections/posts/records"
+        payload = {"title": "Hello PocketBase JSVM"}
+    
+        response = requests.post(url, json=payload)
+    
+>       assert response.status_code == 200, f"Expected status 200, got {response.status_code}. Response: {response.text}"
+E       AssertionError: Expected status 200, got 400. Response: {"data":{},"message":"Something went wrong while processing your request.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:38: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase$ ./pocketbase serve --http=0.0.0.0:8090
+process 'pocketbase' started pid=1061
+pocketbase process startup detected
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_create_post_empty_title
+PASSED tests/test_final_state.py::test_create_post_missing_title
+FAILED tests/test_final_state.py::test_create_post_valid_title - AssertionErr...
+========================= 1 failed, 2 passed in 0.36s ==========================

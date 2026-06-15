@@ -1,0 +1,59 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T15:26:33.335380+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 0,
+            "failed": 3,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781537184127,
+            "stop": 1781537193335
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_create_post_with_valid_title",
+                "status": "failed",
+                "duration": 8827,
+                "start": 1781537184498,
+                "stop": 1781537193325,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def build_app():\n        \"\"\"Build the Go application before starting it.\"\"\"\n        result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True\n        )\n>       assert result.returncode == 0, f\"Failed to build the Go app: {result.stderr}\"\nE       AssertionError: Failed to build the Go app: go: downloading go1.24.0 (linux/amd64)\nE         no Go files in /home/user/myproject\nE         \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\\nno Go files in /home/user/myproject\\n').returncode\n\ntests/test_final_state.py:21: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_with_empty_title",
+                "status": "failed",
+                "duration": 5,
+                "start": 1781537193325,
+                "stop": 1781537193330,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def build_app():\n        \"\"\"Build the Go application before starting it.\"\"\"\n        result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True\n        )\n>       assert result.returncode == 0, f\"Failed to build the Go app: {result.stderr}\"\nE       AssertionError: Failed to build the Go app: go: downloading go1.24.0 (linux/amd64)\nE         no Go files in /home/user/myproject\nE         \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\\nno Go files in /home/user/myproject\\n').returncode\n\ntests/test_final_state.py:21: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_without_title_field",
+                "status": "failed",
+                "duration": 4,
+                "start": 1781537193330,
+                "stop": 1781537193334,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def build_app():\n        \"\"\"Build the Go application before starting it.\"\"\"\n        result = subprocess.run(\n            [\"go\", \"build\", \"-o\", \"myapp\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True\n        )\n>       assert result.returncode == 0, f\"Failed to build the Go app: {result.stderr}\"\nE       AssertionError: Failed to build the Go app: go: downloading go1.24.0 (linux/amd64)\nE         no Go files in /home/user/myproject\nE         \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\\nno Go files in /home/user/myproject\\n').returncode\n\ntests/test_final_state.py:21: AssertionError"
+            }
+        ]
+    }
+}

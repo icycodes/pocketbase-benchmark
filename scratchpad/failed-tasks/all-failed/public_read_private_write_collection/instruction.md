@@ -1,0 +1,26 @@
+# PocketBase Collection Access Control
+
+## Background
+You are building a backend using PocketBase. You need to create a collection for storing contact information and configure its API access rules so that it is publicly readable but only writable by authenticated users.
+
+## Requirements
+- Create a new collection named `contacts_${run-id}` (where `${run-id}` is read from the `ZEALT_RUN_ID` environment variable).
+- The collection must have the following schema fields: `name` (text, required) and `email` (email, required).
+- Configure the API rules for the collection:
+  - **List/View (Read)**: Anyone (including guests) can read the entries.
+  - **Create/Update/Delete (Write)**: Only authenticated users can create, update, or delete entries.
+
+## Implementation Hints
+- You can implement this by writing a Go migration in the `pb_migrations` directory, a JS migration, or an initialization hook.
+- Read the `ZEALT_RUN_ID` environment variable to construct the collection name dynamically.
+- In PocketBase API rules, an empty string `""` allows public access, while `null` denies all access. To restrict access to authenticated users, use the `@request.auth.id != ""` condition.
+
+## Acceptance Criteria
+- Project path: `/home/user/pb-app`
+- Start command: `go run main.go serve --http="0.0.0.0:8090"`
+- Port: 8090
+- API Endpoints:
+  - GET `/api/collections/contacts_${run-id}/records`: Returns status 200 OK (public access).
+  - POST `/api/collections/contacts_${run-id}/records` (unauthenticated): Returns an error status (e.g., 400 or 403) due to API rule restrictions.
+  - POST `/api/collections/contacts_${run-id}/records` (authenticated): Returns status 200 OK with the created record.
+

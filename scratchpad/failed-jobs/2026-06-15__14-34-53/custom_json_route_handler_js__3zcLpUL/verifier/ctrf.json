@@ -1,0 +1,74 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T14:54:03.277769+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781535242948,
+            "stop": 1781535243277
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_pb_hooks_contains_pb_js_file",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781535243125,
+                "stop": 1781535243127,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_health_endpoint_still_works",
+                "status": "passed",
+                "duration": 120,
+                "start": 1781535243127,
+                "stop": 1781535243247,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_custom_route_returns_greeting_for_world",
+                "status": "passed",
+                "duration": 4,
+                "start": 1781535243248,
+                "stop": 1781535243252,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_custom_route_reflects_path_parameter",
+                "status": "passed",
+                "duration": 6,
+                "start": 1781535243252,
+                "stop": 1781535243258,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_custom_route_accessible_without_auth",
+                "status": "passed",
+                "duration": 19,
+                "start": 1781535243258,
+                "stop": 1781535243277,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

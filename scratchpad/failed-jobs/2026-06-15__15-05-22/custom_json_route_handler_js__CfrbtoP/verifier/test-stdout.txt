@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 5 items
+
+tests/test_final_state.py .....                                          [100%]
+
+==================================== PASSES ====================================
+_______________________ test_health_endpoint_still_works _______________________
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase_server$ /home/user/myproject/pocketbase serve --http=0.0.0.0:8090 --dir=./pb_data --hooksDir=./pb_hooks --migrationsDir=./pb_migrations
+process 'pocketbase_server' started pid=441
+pocketbase_server process startup detected
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_pb_hooks_contains_pb_js_file
+PASSED tests/test_final_state.py::test_health_endpoint_still_works
+PASSED tests/test_final_state.py::test_custom_route_returns_greeting_for_world
+PASSED tests/test_final_state.py::test_custom_route_reflects_path_parameter
+PASSED tests/test_final_state.py::test_custom_route_accessible_without_auth
+============================== 5 passed in 0.58s ===============================

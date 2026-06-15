@@ -1,0 +1,161 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T14:55:11.220702+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 13,
+            "passed": 8,
+            "failed": 5,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781535309051,
+            "stop": 1781535311220
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_migration_file_exists",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781535309432,
+                "stop": 1781535309434,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_projects_collection_schema",
+                "status": "passed",
+                "duration": 1386,
+                "start": 1781535309435,
+                "stop": 1781535310821,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_tasks_collection_schema",
+                "status": "passed",
+                "duration": 10,
+                "start": 1781535310821,
+                "stop": 1781535310831,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_member_can_list_and_view_project",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 97,
+                "start": 1781535310832,
+                "stop": 1781535310929,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}\n\n    def test_member_can_list_and_view_project(seeded_state):\n        project_id = seeded_state[\"project_id\"]\n        run_id = seeded_state[\"run_id\"]\n        expected_name = f\"harbor-proj-{run_id}\"\n    \n        for who in (\"member_a\", \"member_b\"):\n            token = seeded_state[who][\"token\"]\n            list_resp = requests.get(\n                f\"{BASE_URL}/api/collections/projects/records\",\n                headers=_auth(token),\n                timeout=15,\n            )\n            assert list_resp.status_code == 200, (\n                f\"{who} expected to list projects (HTTP 200), got \"\n                f\"{list_resp.status_code}: {list_resp.text}\"\n            )\n            items = list_resp.json().get(\"items\", [])\n            ids = [it.get(\"id\") for it in items]\n>           assert project_id in ids, (\n                f\"{who} should see project {project_id} in their list response, got ids={ids}.\"\n            )\nE           AssertionError: member_a should see project 2knopsupewy5y6o in their list response, got ids=[].\nE           assert '2knopsupewy5y6o' in []\n\ntests/test_final_state.py:312: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_outsider_is_blocked_from_project",
+                "status": "passed",
+                "duration": 17,
+                "start": 1781535310929,
+                "stop": 1781535310946,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_guest_is_blocked_from_project",
+                "status": "passed",
+                "duration": 7,
+                "start": 1781535310947,
+                "stop": 1781535310954,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_member_can_create_task",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 39,
+                "start": 1781535310955,
+                "stop": 1781535310994,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}\n\n    def test_member_can_create_task(seeded_state):\n        token = seeded_state[\"member_a\"][\"token\"]\n        project_id = seeded_state[\"project_id\"]\n        run_id = seeded_state[\"run_id\"]\n        title = f\"task-by-a-{run_id}\"\n    \n        resp = requests.post(\n            f\"{BASE_URL}/api/collections/tasks/records\",\n            json={\n                \"title\": title,\n                \"description\": \"created by member A\",\n                \"project\": project_id,\n            },\n            headers=_auth(token),\n            timeout=15,\n        )\n>       assert resp.status_code == 200, (\n            \"memberA should be able to create a task in their own project (HTTP 200), got \"\n            f\"{resp.status_code}: {resp.text}\"\n        )\nE       AssertionError: memberA should be able to create a task in their own project (HTTP 200), got 400: {\"data\":{},\"message\":\"Failed to create record.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:393: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_outsider_cannot_create_task",
+                "status": "passed",
+                "duration": 12,
+                "start": 1781535310994,
+                "stop": 1781535311006,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_member_can_list_and_view_tasks",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 51,
+                "start": 1781535311008,
+                "stop": 1781535311059,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}\n\n    def test_member_can_list_and_view_tasks(seeded_state):\n        task_id = seeded_state.get(\"task_id\")\n>       assert task_id, \"task_id missing from seeded_state; predecessor test must have failed.\"\nE       AssertionError: task_id missing from seeded_state; predecessor test must have failed.\nE       assert None\n\ntests/test_final_state.py:451: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_outsider_cannot_list_or_view_tasks",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 33,
+                "start": 1781535311059,
+                "stop": 1781535311092,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}\n\n    def test_outsider_cannot_list_or_view_tasks(seeded_state):\n        task_id = seeded_state.get(\"task_id\")\n>       assert task_id, \"task_id missing from seeded_state; predecessor test must have failed.\"\nE       AssertionError: task_id missing from seeded_state; predecessor test must have failed.\nE       assert None\n\ntests/test_final_state.py:487: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_member_can_update_and_delete_task",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 28,
+                "start": 1781535311092,
+                "stop": 1781535311120,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}\n\n    def test_member_can_update_and_delete_task(seeded_state):\n        task_id = seeded_state.get(\"task_id\")\n>       assert task_id, \"task_id missing from seeded_state; predecessor test must have failed.\"\nE       AssertionError: task_id missing from seeded_state; predecessor test must have failed.\nE       assert None\n\ntests/test_final_state.py:519: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_outsider_cannot_modify_others_task",
+                "status": "passed",
+                "duration": 27,
+                "start": 1781535311121,
+                "stop": 1781535311148,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_superuser_retains_full_access",
+                "status": "passed",
+                "duration": 70,
+                "start": 1781535311149,
+                "stop": 1781535311219,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

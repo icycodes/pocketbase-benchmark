@@ -1,0 +1,90 @@
+{
+    "id": "c3aa6b68-030e-4024-a225-69133db2a674",
+    "started_at": "2026-06-15T15:05:24.708136",
+    "updated_at": "2026-06-15T15:50:59.751542",
+    "finished_at": "2026-06-15T15:50:59.751542",
+    "n_total_trials": 25,
+    "stats": {
+        "n_completed_trials": 25,
+        "n_errored_trials": 23,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__glm-5.1__pending-tasks": {
+                "n_trials": 20,
+                "n_errors": 23,
+                "metrics": [
+                    {
+                        "mean": 0.04
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "api_rules_grantee_relational_tab__vPfedH6",
+                            "transactional_withdrawal_hook_go__vwsXLSL",
+                            "file_storage_thumbnail_generatio__oMwTSSB",
+                            "sveltekit_auth_cookie_sync_middl__hZWdmLb",
+                            "ssr_auth_sync_js__cqUNcbC",
+                            "event_hooks_generate_slug_go__y3RtWPh",
+                            "custom_go_executable_embedding__pPUC3vw",
+                            "word_count_hook_go__ZdUzMUK",
+                            "public_read_private_write_collec__2NW5Wb3",
+                            "prevent_owner_change_rule__NKV6sfu",
+                            "fix_breaking_hook_api_go__7TRx4Vv",
+                            "slug_autogeneration_hook_js__oFsyFFh",
+                            "email_sanitization_hook_js__q6bgT7G",
+                            "strict_email_sanitization_hook_j__65hr6rW",
+                            "project_membership_access_rules__CfBG4Dw",
+                            "s3_direct_upload_presigned_url_g__tk5hwey",
+                            "multi_tenant_organization_permis__WQgWZ7d",
+                            "relational_access_control_rule__9AJiAHM",
+                            "external_subscription_status_val__YyzkkMU"
+                        ],
+                        "1.0": [
+                            "custom_json_route_handler_js__CfrbtoP"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "AgentTimeoutError": [
+                        "api_rules_grantee_relational_tab__vPfedH6",
+                        "transactional_withdrawal_hook_go__vwsXLSL",
+                        "file_storage_thumbnail_generatio__oMwTSSB",
+                        "sveltekit_auth_cookie_sync_middl__hZWdmLb",
+                        "ssr_auth_sync_js__cqUNcbC",
+                        "event_hooks_generate_slug_go__y3RtWPh",
+                        "custom_go_executable_embedding__pPUC3vw",
+                        "word_count_hook_go__ZdUzMUK",
+                        "public_read_private_write_collec__2NW5Wb3",
+                        "prevent_owner_change_rule__NKV6sfu",
+                        "fix_breaking_hook_api_go__7TRx4Vv",
+                        "slug_autogeneration_hook_js__oFsyFFh",
+                        "email_sanitization_hook_js__q6bgT7G",
+                        "strict_email_sanitization_hook_j__65hr6rW",
+                        "project_membership_access_rules__CfBG4Dw",
+                        "s3_direct_upload_presigned_url_g__tk5hwey",
+                        "multi_tenant_organization_permis__WQgWZ7d",
+                        "relational_access_control_rule__9AJiAHM"
+                    ],
+                    "InitialStateError": [
+                        "realtime_subscriptions_dart__yhsz87q",
+                        "slug_autogeneration_hook_go__wDk8G6A",
+                        "jsvm_concurrency_error_handling__EMmjECU"
+                    ],
+                    "RuntimeError": [
+                        "transactional_ledger_hook_go__8sQT3XP",
+                        "sqlite_write_concurrency_deadloc__szeWA4K"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 35927,
+        "cost_usd": null
+    }
+}

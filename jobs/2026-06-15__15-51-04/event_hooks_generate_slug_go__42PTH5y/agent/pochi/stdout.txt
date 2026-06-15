@@ -1,0 +1,68 @@
+- Initializing MCP connections...
+You
+# PocketBase Go Event Hook: Programmatically Generate Slug ## Background You are building a custom Go application that embeds PocketBase as a framework. You need to implement a server-side Go event hook that automatically generates a slug from a post's title before the record is saved to the database. ## Requirements * Initialize a custom PocketBase application in Go. * Intercept record creation requests for the `posts` collection. * If the `title` field is empty, reject the request with a `BadRequestError` and the message "Title cannot be empty". * If the `title` is provided, programmatically generate a URL-friendly slug from the title and set it to the `slug` field of the record. * Ensure the hook execution chain is properly propagated so the record is saved. ## Implementation Hints * Use `app.OnRecordBeforeCreateRequest("posts").BindFunc(...)` to register the event hook. * Use `e.Record.GetString("title")` to read the title and `e.Record.Set("slug", ...)` to update the slug. * Use `core.Slugify(...)` to generate the slug. * You must call `e.Next()` to continue the hook execution chain. Failing to do so will block the operation. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: go build -o myapp && ./myapp serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * POST `/api/collections/posts/records`: Accepts a JSON body with a `title`. * If `title` is provided, returns 200 OK with the created record, which must include the generated `slug`. * If `title` is missing or empty, returns 400 Bad Request with an error message.   
+
+Pochi
+Let me start by exploring the project structure and understanding what's already in place.   
+📂 Listing files in /home/user/myproject recursively ✔ 
+📖 Reading /home/user/myproject/go.mod ✔ 
+📖 Reading /home/user/myproject/go.sum ✔ 
+The project has PocketBase v0.31.0 as a dependency but no `main.go` yet. Let me check the PocketBase v0.31.0 API to understand the correct import paths and function signatures.   
+📋 Updating todo list (2 items) ✔ 
+Let me check the PocketBase v0.31.0 source for the correct API:   
+🔍 Searching for **/pocketbase*/**/*.go in /root/go ✔ 
+Now let me look at the key files for understanding the API:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/pocketbase.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/events.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/app.go ✔ 
+The file is truncated. Let me read the rest of it to find the `OnRecordBeforeCreateRequest` method:   
+🔍 Searching for OnRecordBeforeCreateRequest in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core ✔ 
+🔍 Searching for func Slugify in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0 ✔ 
+🔍 Searching for Slugify in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0 ✔ 
+🔍 Searching for OnRecordBeforeCreate in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0 ✔ 
+🔍 Searching for Record.*Create.*Event in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core ✔ 
+🔍 Searching for RecordCreateEvent in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0 ✔ 
+Now I can see the API uses `OnRecordCreateRequest` (not `OnRecordBeforeCreateRequest`) and `RecordRequestEvent`. Let me look at the relevant API endpoints and the `RecordRequestEvent` type more closely, plus find the `Slugify` function:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/base.go ✔ 
+🔍 Searching for slugify|Slugify|slug in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0 ✔ 
+There's no `Slugify` function in PocketBase v0.31.0. Let me check the `tools/validators` package and also look at how the `field_text.go` handles the `:autogenerate` pattern to understand slug generation:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/field_text.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/inflector/inflector.go ✔ 
+Now let me check the `RecordRequestEvent` type and how the `BadRequestError` works in PocketBase:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/apis/api_error_aliases.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/events.go ✔ 
+Now let me check the router's BadRequestError:   
+🔍 Searching for NewBadRequestError in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/router ✔ 
+Now let me also check how the `hook.Hook` works with `BindFunc`:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/hook/hook.go ✔ 
+Now let me check the `TaggedHook` to understand how tags work:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/hook/tagged.go ✔ 
+Now let me check how the Record CRUD API works to understand the flow. Let me look at the record create API:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/apis/record_crud.go ✔ 
+Let me look at the `recordCreate` function:   
+🔍 Searching for func recordCreate\b in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/apis ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/apis/record_crud.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/apis/record_crud.go ✔ 
+Now I have a comprehensive understanding of the API. The flow is: 1. The `recordCreate` function creates a `RecordRequestEvent` and triggers `OnRecordCreateRequest` 2. The event has `Record`, `Collection`, and `RequestEvent` fields 3. Inside the one-off handler, it calls `form.Submit()` which saves the record So the hook needs to: 1. Check if the title is empty → return `BadRequestError` 2. Generate a slug from the title → set it on the record 3. Call `e.Next()` to continue the chain Now let me also check how `core.Slugify` is available. Since there's no `Slugify` in PocketBase v0.31.0, I'll need to implement it manually or use the `inflector.Snakecase` approach combined with some regex. Let me check what's available:   
+🔍 Searching for func.*[Ss]lug in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0 ✔ 
+No `Slugify` function exists in PocketBase v0.31.0. I need to implement it manually. A typical slugify function: 1. Converts to lowercase 2. Replaces non-alphanumeric characters with hyphens 3. Removes duplicate hyphens 4. Trims leading/trailing hyphens Now let me also check how the `RequestEvent`'s `BadRequestError` works:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/router/event.go ✔ 
+🔍 Searching for func.*BadRequestError in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/router ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/router/event.go ✔ 
+Now I have all the information I need. Let me also check how the `Record` `GetString` and `Set` methods work:   
+🔍 Searching for func.*Record.*GetString in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core ✔ 
+🔍 Searching for func.*Record.*Set\b in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core ✔ 
+Good. Now I have all the pieces. Let me create the `main.go`:   
+✏️  Writing /home/user/myproject/main.go ✔ 
+📋 Updating todo list (2 items) ✔ 
+Now let me build the application:   
+💫 Executing cd /home/user/myproject && go build -o myapp 2>&1 ✔ 
+Build succeeded. Now let me start the app in the background and test it:   
+🛠️ Tool startBackgroundJob ✔ 
+🛠️ Tool readBackgroundJobOutput ✔ 
+The server is running. Now I need to create a `posts` collection first via the API. But first, let me create a superuser so I can authenticate:   
+💫 Executing cd /home/user/myproject && ./myapp superuser upsert admin@example.com admin123456 2>&1 ✔ 
+Now let me authenticate and create the `posts` collection:   
+💫 Executing curl -s -X POST 'http://0.0.0.0:8090/api/admins/auth-with-password' \
+  -H 'Content-Type: application/json' \
+  -d '{"identity":"admin@example.com","password":"admin123456"}' 2>&1 ✔ 

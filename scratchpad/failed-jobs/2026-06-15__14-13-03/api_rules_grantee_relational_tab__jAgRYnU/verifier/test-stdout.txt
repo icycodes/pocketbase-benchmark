@@ -1,0 +1,34 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 1 item
+
+tests/test_final_state.py E                                              [100%]
+
+==================================== ERRORS ====================================
+__________ ERROR at setup of test_api_rules_grantee_relational_table ___________
+
+start_app = None, setup_admin = ('admin@example.com', 'Admin12345678!')
+
+    @pytest.fixture(scope="session")
+    def admin_token(start_app, setup_admin):
+        email, password = setup_admin
+        resp = requests.post(f"{PB_URL}/api/admins/auth-with-password", json={
+            "identity": email,
+            "password": password
+        })
+>       assert resp.status_code == 200, f"Failed to authenticate admin: {resp.text}"
+E       AssertionError: Failed to authenticate admin: {"data":{},"message":"The requested resource wasn't found.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:51: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase$ ./pocketbase serve --http=0.0.0.0:8090
+process 'pocketbase' started pid=1306
+pocketbase process startup detected
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_api_rules_grantee_relational_table - As...
+=============================== 1 error in 0.45s ===============================

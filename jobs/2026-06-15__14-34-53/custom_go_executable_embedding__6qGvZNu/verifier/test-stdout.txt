@@ -1,0 +1,49 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py FF                                             [100%]
+
+=================================== FAILURES ===================================
+__________________________ test_hook_with_empty_title __________________________
+
+start_app = None
+
+    def test_hook_with_empty_title(start_app):
+        url = "http://127.0.0.1:8090/api/collections/posts/records"
+        payload = {"content": "Test content without title"}
+        response = requests.post(url, json=payload)
+    
+>       assert response.status_code == 400, f"Expected status 400 for empty title, got {response.status_code}. Response: {response.text}"
+E       AssertionError: Expected status 400 for empty title, got 404. Response: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 400
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:44: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/start_app$ ./server serve --http=0.0.0.0:8090
+process 'start_app' started pid=3756
+start_app process startup detected
+__________________________ test_hook_with_valid_title __________________________
+
+start_app = None
+
+    def test_hook_with_valid_title(start_app):
+        url = "http://127.0.0.1:8090/api/collections/posts/records"
+        payload = {"title": "My Awesome Post", "content": "This is a test post."}
+        response = requests.post(url, json=payload)
+    
+>       assert response.status_code == 200, f"Expected status 200 for valid title, got {response.status_code}. Response: {response.text}"
+E       AssertionError: Expected status 200 for valid title, got 404. Response: {"data":{},"message":"Missing or invalid collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:52: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_hook_with_empty_title - AssertionError...
+FAILED tests/test_final_state.py::test_hook_with_valid_title - AssertionError...
+============================== 2 failed in 0.57s ===============================

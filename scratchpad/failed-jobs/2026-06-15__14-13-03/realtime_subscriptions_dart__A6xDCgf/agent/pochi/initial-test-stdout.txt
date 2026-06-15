@@ -1,0 +1,35 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 4 items
+
+bootstrap/test_initial_state.py::test_dart_binary_available PASSED
+bootstrap/test_initial_state.py::test_pocketbase_binary_available PASSED
+bootstrap/test_initial_state.py::test_pocketbase_server_running_and_setup PASSED
+bootstrap/test_initial_state.py::test_posts_collection_exists FAILED
+
+=================================== FAILURES ===================================
+_________________________ test_posts_collection_exists _________________________
+
+    def test_posts_collection_exists():
+        # We can query the collections API. It requires admin auth, but we can just check if the collection exists by trying to list its records (which might be forbidden, but returns 403 instead of 404).
+        try:
+            req = urllib.request.Request("http://127.0.0.1:8090/api/collections/posts/records")
+            urllib.request.urlopen(req)
+            exists = True
+        except urllib.error.HTTPError as e:
+            # 400 or 403 means the collection exists but we don't have permission or query is wrong. 404 means it doesn't exist.
+            exists = e.code != 404
+        except Exception:
+            exists = False
+    
+>       assert exists, "The 'posts' collection does not exist in PocketBase."
+E       AssertionError: The 'posts' collection does not exist in PocketBase.
+E       assert False
+
+bootstrap/test_initial_state.py:57: AssertionError
+=========================== short test summary info ============================
+FAILED bootstrap/test_initial_state.py::test_posts_collection_exists - Assert...
+========================= 1 failed, 3 passed in 1.14s ==========================
+pytest-xprocess reminder::Be sure to terminate the started process by running 'pytest --xkill' if you have not explicitly done so in your fixture with 'xprocess.getinfo(<process_name>).terminate()'.

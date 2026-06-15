@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T14:24:54.569581+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781533493964,
+            "stop": 1781533494569
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_email_sanitization_on_create",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 459,
+                "start": 1781533494109,
+                "stop": 1781533494568,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_pocketbase = None\n\n    def test_email_sanitization_on_create(start_pocketbase):\n        # 1. Create User with Unsanitized Email\n        create_url = \"http://localhost:8090/api/collections/users/records\"\n        payload = {\n            \"email\": \"  John.Doe@EXAMPLE.com  \",\n            \"password\": \"secure_password123\",\n            \"passwordConfirm\": \"secure_password123\"\n        }\n    \n        response = requests.post(create_url, json=payload)\n        assert response.status_code == 200, f\"Expected status 200 on user creation, got {response.status_code}. Response: {response.text}\"\n    \n        data = response.json()\n>       assert \"email\" in data, \"Response JSON does not contain 'email' field.\"\nE       AssertionError: Response JSON does not contain 'email' field.\nE       assert 'email' in {'avatar': '', 'collectionId': '_pb_users_auth_', 'collectionName': 'users', 'created': '2026-06-15 14:24:54.492Z', ...}\n\ntests/test_final_state.py:45: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

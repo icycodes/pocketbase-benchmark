@@ -1,0 +1,39 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T14:45:20.914356+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781534720433,
+            "stop": 1781534720914
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_api_rules_grantee_relational_table",
+                "status": "failed",
+                "duration": 172,
+                "start": 1781534720741,
+                "stop": 1781534720913,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None, setup_admin = ('admin@example.com', 'Admin12345678!')\n\n    @pytest.fixture(scope=\"session\")\n    def admin_token(start_app, setup_admin):\n        email, password = setup_admin\n        resp = requests.post(f\"{PB_URL}/api/admins/auth-with-password\", json={\n            \"identity\": email,\n            \"password\": password\n        })\n>       assert resp.status_code == 200, f\"Failed to authenticate admin: {resp.text}\"\nE       AssertionError: Failed to authenticate admin: {\"data\":{},\"message\":\"The requested resource wasn't found.\",\"status\":404}\nE         \nE       assert 404 == 200\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:51: AssertionError"
+            }
+        ]
+    }
+}

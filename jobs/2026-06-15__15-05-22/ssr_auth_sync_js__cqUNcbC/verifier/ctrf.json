@@ -1,0 +1,65 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T15:15:55.730184+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 0,
+            "failed": 3,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781536555061,
+            "stop": 1781536555729
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_valid_token_request",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 269,
+                "start": 1781536555438,
+                "stop": 1781536555707,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_valid_token_request(start_app):\n        # 1. Log in to PocketBase to get a valid token\n        auth_resp = requests.post(\n            f\"{PB_URL}/api/collections/users/auth-with-password\",\n            json={\"identity\": \"test@example.com\", \"password\": \"secure_password\"},\n            timeout=5\n        )\n        assert auth_resp.status_code == 200, f\"Failed to login to PocketBase: {auth_resp.text}\"\n        auth_data = auth_resp.json()\n        token = auth_data[\"token\"]\n        user_id = auth_data[\"record\"][\"id\"]\n    \n        # 2. Construct the cookie string\n        auth_store_state = {\n            \"token\": token,\n            \"model\": auth_data[\"record\"]\n        }\n        cookie_val = urllib.parse.quote(json.dumps(auth_store_state))\n        cookies = {\"pb_auth\": cookie_val}\n    \n        # 3. Request /profile\n        resp = requests.get(f\"{APP_URL}/profile\", cookies=cookies, timeout=5)\n    \n        # 4. Verify response\n>       assert resp.status_code == 200, f\"Expected 200 OK, got {resp.status_code}. Body: {resp.text}\"\nE       AssertionError: Expected 200 OK, got 500. Body: <!DOCTYPE html>\nE         <html lang=\"en\">\nE         <head>\nE         <meta charset=\"utf-8\">\nE         <title>Error</title>\nE         </head>\nE         <body>\nE         <pre>TypeError: PocketBase is not a constructor<br> &nbsp; &nbsp;at /home/user/myproject/index.js:13:14<br> &nbsp; &nbsp;at Layer.handleRequest (/home/user/myproject/node_modules/router/lib/layer.js:152:17)<br> &nbsp; &nbsp;at trimPrefix (/home/user/myproject/node_modules/router/index.js:342:13)<br> &nbsp; &nbsp;at /home/user/myproject/node_modules/router/index.js:297:9<br> &nbsp; &nbsp;at processParams (/home/user/myproject/node_modules/router/index.js:582:12)<br> &nbsp; &nbsp;at next (/home/user/myproject/node_modules/router/index.js:291:5)<br> &nbsp; &nbsp;at cookieParser (/home/user/myproject/node_modules/cookie-parser/index.js:71:5)<br> &nbsp; &nbsp;at Layer.handleRequest (/home/user/myproject/node_modules/router/lib/layer.js:152:17)<br> &nbsp; &nbsp;at trimPrefix (/home/user/myproject/node_modules/router/index.js:342:13)<br> &nbsp; &nbsp;at /home/user/myproject/node_modules/router/index.js:297:9</pre>\nE         </body>\nE         </html>\nE         \nE       assert 500 == 200\nE        +  where 500 = <Response [500]>.status_code\n\ntests/test_final_state.py:59: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_invalid_token_request",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 9,
+                "start": 1781536555708,
+                "stop": 1781536555717,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_invalid_token_request(start_app):\n        cookies = {\"pb_auth\": \"invalid_token_string\"}\n        resp = requests.get(f\"{APP_URL}/profile\", cookies=cookies, timeout=5)\n    \n>       assert resp.status_code == 401, f\"Expected 401 Unauthorized, got {resp.status_code}\"\nE       AssertionError: Expected 401 Unauthorized, got 500\nE       assert 500 == 401\nE        +  where 500 = <Response [500]>.status_code\n\ntests/test_final_state.py:74: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_missing_token_request",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 12,
+                "start": 1781536555717,
+                "stop": 1781536555729,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_missing_token_request(start_app):\n        resp = requests.get(f\"{APP_URL}/profile\", timeout=5)\n    \n>       assert resp.status_code == 401, f\"Expected 401 Unauthorized, got {resp.status_code}\"\nE       AssertionError: Expected 401 Unauthorized, got 500\nE       assert 500 == 401\nE        +  where 500 = <Response [500]>.status_code\n\ntests/test_final_state.py:87: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

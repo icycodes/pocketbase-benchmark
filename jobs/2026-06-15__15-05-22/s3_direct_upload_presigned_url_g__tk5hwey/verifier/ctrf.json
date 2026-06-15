@@ -1,0 +1,50 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T15:47:31.529086+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 1,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781538450714,
+            "stop": 1781538451528
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_missing_filename_parameter",
+                "status": "passed",
+                "duration": 382,
+                "start": 1781538451089,
+                "stop": 1781538451471,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_generate_presigned_url",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 56,
+                "start": 1781538451472,
+                "stop": 1781538451528,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_generate_presigned_url(start_app):\n        \"\"\"Verify that a valid request returns a presigned URL in the correct format.\"\"\"\n        run_id = os.environ.get(\"ZEALT_RUN_ID\", \"test-run-id\")\n        response = requests.get(\"http://localhost:8090/api/s3-presign?filename=test_video.mp4\")\n    \n        assert response.status_code == 200, f\"Expected status 200, got {response.status_code}. Response: {response.text}\"\n    \n        data = response.json()\n        assert \"url\" in data, f\"Expected 'url' in response JSON, got {data}\"\n    \n        url = data[\"url\"]\n    \n        # Verify the URL format. AWS SDK might generate virtual-hosted style or path style.\n        # Virtual-hosted style: https://my-test-bucket.s3.us-east-1.amazonaws.com/uploads/<run-id>/test_video.mp4\n        # Path style: https://s3.us-east-1.amazonaws.com/my-test-bucket/uploads/<run-id>/test_video.mp4\n    \n        expected_path = f\"uploads/{run_id}/test_video.mp4\"\n>       assert expected_path in url, f\"Expected path '{expected_path}' in URL, got {url}\"\nE       AssertionError: Expected path 'uploads/zr-tk5hwey/test_video.mp4' in URL, got https://my-test-bucket.s3.us-east-1.amazonaws.com/uploads/test-run-123/test_video.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20260615%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260615T154731Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&x-id=PutObject&X-Amz-Signature=61308aaff200a7708521459aa4841fab3fb7b9a9267b028f7869776ebaefa4ba\nE       assert 'uploads/zr-tk5hwey/test_video.mp4' in 'https://my-test-bucket.s3.us-east-1.amazonaws.com/uploads/test-run-123/test_video.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA25...Amz-SignedHeaders=host&x-id=PutObject&X-Amz-Signature=61308aaff200a7708521459aa4841fab3fb7b9a9267b028f7869776ebaefa4ba'\n\ntests/test_final_state.py:63: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

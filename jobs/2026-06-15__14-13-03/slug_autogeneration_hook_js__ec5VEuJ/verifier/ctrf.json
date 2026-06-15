@@ -1,0 +1,59 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T14:23:55.948259+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 2,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781533435583,
+            "stop": 1781533435948
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_create_post_valid_title",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 152,
+                "start": 1781533435767,
+                "stop": 1781533435919,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_create_post_valid_title(start_app):\n        url = f\"{BASE_URL}/api/collections/posts/records\"\n        payload = {\"title\": \"Hello PocketBase JSVM\"}\n    \n        response = requests.post(url, json=payload)\n    \n>       assert response.status_code == 200, f\"Expected status 200, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 200, got 400. Response: {\"data\":{},\"message\":\"Something went wrong while processing your request.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:38: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_empty_title",
+                "status": "passed",
+                "duration": 4,
+                "start": 1781533435920,
+                "stop": 1781533435924,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_missing_title",
+                "status": "passed",
+                "duration": 22,
+                "start": 1781533435925,
+                "stop": 1781533435947,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

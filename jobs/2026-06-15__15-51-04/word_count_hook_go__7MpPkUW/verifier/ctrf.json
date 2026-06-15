@@ -1,0 +1,74 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T16:10:50.475174+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781539849299,
+            "stop": 1781539850473
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_short_article_word_count",
+                "status": "passed",
+                "duration": 465,
+                "start": 1781539849922,
+                "stop": 1781539850387,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_long_article_word_count",
+                "status": "passed",
+                "duration": 12,
+                "start": 1781539850388,
+                "stop": 1781539850400,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_hook_overrides_client_supplied_counters",
+                "status": "passed",
+                "duration": 10,
+                "start": 1781539850402,
+                "stop": 1781539850412,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_update_recomputes_counters",
+                "status": "passed",
+                "duration": 15,
+                "start": 1781539850413,
+                "stop": 1781539850428,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_empty_content_yields_zero",
+                "status": "passed",
+                "duration": 43,
+                "start": 1781539850429,
+                "stop": 1781539850472,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

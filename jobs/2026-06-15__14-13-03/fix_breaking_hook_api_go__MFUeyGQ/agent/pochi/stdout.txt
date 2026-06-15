@@ -1,0 +1,69 @@
+- Initializing MCP connections...
+You
+# Fix Breaking Hook API Signature in PocketBase ## Background You have a custom Go backend embedding PocketBase. The project was recently upgraded to PocketBase v0.31.0, but the custom event hooks are failing to compile and run because they use the older v0.22 API signature. In PocketBase v0.23.0+, there was a major API overhaul affecting hook registration and event propagation. ## Requirements * Update `main.go` to fix the `OnRecordBeforeCreateRequest` hook for the `posts` collection. * The hook must use the new `.BindFunc()` registration method. * The hook handler must accept the new event type (`*core.RecordRequestEvent`). * The hook handler must check if the `title` is empty. If it is, return a bad request error. * The hook handler must generate a slug from the title using `core.Slugify(title)` and set it on the record's `slug` field. * The hook handler MUST call and return `e.Next()` to properly propagate the execution chain. If omitted, the record creation will be blocked. * The application must compile successfully and run. ## Implementation Hints * Review the PocketBase v0.23+ upgrade guide for Go hooks. * Hook registration changed from `.Add()` to `.BindFunc()`. * Event handlers now receive a generic `*core.RecordRequestEvent` instead of specific event types. * Handlers must return `e.Next()` to continue the middleware chain. * Use `e.BadRequestError("Title cannot be empty", nil)` for validation errors instead of standard `fmt.Errorf`. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: go run main.go serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * POST `/api/collections/posts/records`: Accepts a JSON body with a `title` and creates a record with an auto-generated `slug`. Returns 200 OK.   
+
+Pochi
+💭 Thinking for 86 characters   
+📂 Listing files in /home/user/myproject recursively ✔ 
+📖 Reading /home/user/myproject/main.go ✔ 
+📖 Reading /home/user/myproject/go.mod ✔ 
+The issue is clear. The `main.go` uses the old v0.22 API. I'll now fix it to use the v0.23+ API as required.   
+🔧 Applying diff to /home/user/myproject/main.go ✔ 
+Now let's verify the file looks correct and then try to build it:   
+📖 Reading /home/user/myproject/main.go ✔ 
+💫 Executing go build ./... ✖ "Command exited with code 1"
+`core.Slugify` doesn't exist in v0.31.0. Let me find the correct slugify utility:   
+💫 Executing grep -r "Slugify\|slugify\|slug" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/ --include="*.go" -l 2>/dev/null | head -20 ✔ 
+💫 Executing find /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0 -name "*.go" | xargs grep -l "Slugify\|slugify" 2>/dev/null | head -20 ✔ 
+💫 Executing grep -n "Slugify\|slugify\|slug" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/record_query.go /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/field_text.go /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/app.go 2>/dev/null ✔ 
+💫 Executing find /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0 -name "*.go" | xargs grep -l "func.*[Ss]lug" 2>/dev/null | head -10 ✔ 
+💫 Executing find /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools -name "*.go" | head -20 && ls /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/ ✔ 
+💫 Executing grep -n "func\|Slug\|slug" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/inflector/inflector.go | head -40 ✔ 
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/inflector/inflector.go ✔ 
+There's no `Slugify` in the inflector package either. The hint in the requirements mentions `core.Slugify`, but it doesn't exist. Let me check what's actually available in the `core` package and the `security` tools package for generating slugs:   
+💫 Executing grep -rn "func.*[Ss]lug\|func.*[Ss]anitize\|func.*[Ss]nakecase\|func.*[Ll]owercase" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/ --include="*.go" 2>/dev/null | grep -v "_test.go" ✔ 
+No `Slugify` exists in this version. The requirement says to use `core.Slugify(title)` — since it doesn't exist, I'll implement slug generation inline using `strings` and `regexp`, producing the same hyphenated-lowercase result a typical slugify would:   
+💫 Executing grep -rn "func.*Encode\|func.*Normalize\|func.*ToLower" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/ --include="*.go" 2>/dev/null | grep -v "_test.go" | head -20 ✔ 
+💫 Executing grep -rn "BadRequestError\|RequestEvent\|RecordRequestEvent" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/ --include="*.go" 2>/dev/null | grep -v "_test.go" | head -20 ✔ 
+💫 Executing grep -n "RecordCreateRequest\|RecordRequestEvent\|BadRequestError" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/base.go | head -30 ✔ 
+💫 Executing grep -rn "BadRequestError\|func.*Error" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/router/ --include="*.go" 2>/dev/null | grep -v "_test.go" | head -20 ✔ 
+Now I can see that `BadRequestError` is on the event (via `e.BadRequestError`). Let me check if that method exists on `RecordRequestEvent`:   
+💫 Executing grep -n "BadRequestError\|func.*Event" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/record_request_event.go 2>/dev/null | head -20; find /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/ -name "*event*" | head -10 ✔ 
+💫 Executing grep -n "BadRequestError\|RecordRequestEvent\|func\|Next\b" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/event_request.go | head -40 ✔ 
+💫 Executing grep -n "BadRequestError\|RecordRequestEvent\|type.*Event\|func.*Next" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/events.go | head -40 ✔ 
+💫 Executing sed -n '466,480p' /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/events.go ✔ 
+💫 Executing grep -n "BadRequestError\|func.*Bad\|func.*Next" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/router/event.go | head -20 ✔ 
+`BadRequestError` is a method on `router.Event`. Let me check if `RequestEvent` embeds `router.Event` (which would make it available on `RecordRequestEvent` too):   
+💫 Executing head -50 /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/event_request.go ✔ 
+`RequestEvent` embeds `router.Event`, so `e.BadRequestError(...)` is valid on `*core.RecordRequestEvent`. Now let me check the `hook.Event` for the `Next()` method:   
+💫 Executing grep -n "func.*Next\|type Event" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/hook/hook.go | head -20 ✔ 
+💫 Executing find /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/hook/ -name "*.go" | xargs grep -n "func.*Next\|type Event" 2>/dev/null | grep -v "_test.go" | head -20 ✔ 
+Both `e.Next()` and `e.BadRequestError()` are valid. The only remaining problem is `core.Slugify` which doesn't exist. I'll implement the slug generation manually using `strings` and `regexp`. Let me update `main.go`:   
+🔧 Applying diff to /home/user/myproject/main.go ✔ 
+💫 Executing go build ./... ✔ 
+The project compiles cleanly. Now let's start the server and verify the endpoint works:   
+🛠️ Tool startBackgroundJob ✔ 
+💫 Executing sleep 4 && curl -s -X POST http://localhost:8090/api/collections/posts/records -H "Content-Type: application/json" -d '{"title":"Hello World"}' | head -200 ✔ 
+The record was created with `slug: "hello-world"`. Let's also verify the empty-title validation returns a 400:   
+💫 Executing curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:8090/api/collections/posts/records -H "Content-Type: application/json" -d '{"title":""}' ✔ 
+Both cases work correctly. Let me kill the background server:   
+🛠️ Tool killBackgroundJob ✔ 
+🎉 Task Completed
+The `main.go` has been fixed to use the PocketBase v0.23+ hook API. Here's a summary of every change made:
+
+| Old (v0.22) | New (v0.31) |
+|---|---|
+| `OnRecordBeforeCreateRequest("posts").Add(...)` | `OnRecordCreateRequest("posts").BindFunc(...)` |
+| Handler receives `*core.RecordCreateEvent` | Handler receives `*core.RecordRequestEvent` |
+| Returns `fmt.Errorf(...)` for validation | Returns `e.BadRequestError("Title cannot be empty", nil)` |
+| `title + "-slug"` hardcoded suffix | Proper `slugify()` helper (lowercase + non-alnum → `-`) |
+| Returns `nil` (blocks chain) | Returns `e.Next()` to propagate the middleware chain |
+
+`core.Slugify` does not exist in v0.31.0, so a local `slugify()` function was implemented using `regexp` and `strings` — producing identical output (e.g. `"Hello World"` → `"hello-world"`).
+
+**Verified behaviour:**
+- `POST /api/collections/posts/records` with `{"title":"Hello World"}` → `200 OK` with `"slug":"hello-world"`
+- Same endpoint with `{"title":""}` → `400 Bad Request`   
+- Waiting for background jobs to complete (timeout: 60000ms)...
+✖ Async wait timeout reached. Remaining: 1 job(s)
+  

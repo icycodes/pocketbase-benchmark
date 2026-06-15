@@ -1,0 +1,122 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 13 items
+
+tests/test_final_state.py ...F..F.FFF..                                  [100%]
+
+=================================== FAILURES ===================================
+____________________ test_member_can_list_and_view_project _____________________
+
+seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}
+
+    def test_member_can_list_and_view_project(seeded_state):
+        project_id = seeded_state["project_id"]
+        run_id = seeded_state["run_id"]
+        expected_name = f"harbor-proj-{run_id}"
+    
+        for who in ("member_a", "member_b"):
+            token = seeded_state[who]["token"]
+            list_resp = requests.get(
+                f"{BASE_URL}/api/collections/projects/records",
+                headers=_auth(token),
+                timeout=15,
+            )
+            assert list_resp.status_code == 200, (
+                f"{who} expected to list projects (HTTP 200), got "
+                f"{list_resp.status_code}: {list_resp.text}"
+            )
+            items = list_resp.json().get("items", [])
+            ids = [it.get("id") for it in items]
+>           assert project_id in ids, (
+                f"{who} should see project {project_id} in their list response, got ids={ids}."
+            )
+E           AssertionError: member_a should see project 2knopsupewy5y6o in their list response, got ids=[].
+E           assert '2knopsupewy5y6o' in []
+
+tests/test_final_state.py:312: AssertionError
+_________________________ test_member_can_create_task __________________________
+
+seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}
+
+    def test_member_can_create_task(seeded_state):
+        token = seeded_state["member_a"]["token"]
+        project_id = seeded_state["project_id"]
+        run_id = seeded_state["run_id"]
+        title = f"task-by-a-{run_id}"
+    
+        resp = requests.post(
+            f"{BASE_URL}/api/collections/tasks/records",
+            json={
+                "title": title,
+                "description": "created by member A",
+                "project": project_id,
+            },
+            headers=_auth(token),
+            timeout=15,
+        )
+>       assert resp.status_code == 200, (
+            "memberA should be able to create a task in their own project (HTTP 200), got "
+            f"{resp.status_code}: {resp.text}"
+        )
+E       AssertionError: memberA should be able to create a task in their own project (HTTP 200), got 400: {"data":{},"message":"Failed to create record.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:393: AssertionError
+_____________________ test_member_can_list_and_view_tasks ______________________
+
+seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}
+
+    def test_member_can_list_and_view_tasks(seeded_state):
+        task_id = seeded_state.get("task_id")
+>       assert task_id, "task_id missing from seeded_state; predecessor test must have failed."
+E       AssertionError: task_id missing from seeded_state; predecessor test must have failed.
+E       assert None
+
+tests/test_final_state.py:451: AssertionError
+___________________ test_outsider_cannot_list_or_view_tasks ____________________
+
+seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}
+
+    def test_outsider_cannot_list_or_view_tasks(seeded_state):
+        task_id = seeded_state.get("task_id")
+>       assert task_id, "task_id missing from seeded_state; predecessor test must have failed."
+E       AssertionError: task_id missing from seeded_state; predecessor test must have failed.
+E       assert None
+
+tests/test_final_state.py:487: AssertionError
+____________________ test_member_can_update_and_delete_task ____________________
+
+seeded_state = {'member_a': {'email': 'member-a-zr-6gujzwy@example.com', 'id': 'v4uv7lp6w0xcxtr', 'token': 'eyJhbGciOiJIUzI1NiIsInR5c...GFibGUiOnRydWUsInR5cGUiOiJhdXRoIn0.J5EurSa7nRPvqZ68Wwh4wFokTs0aD8nhKqFR18va_3E'}, 'project_id': '2knopsupewy5y6o', ...}
+
+    def test_member_can_update_and_delete_task(seeded_state):
+        task_id = seeded_state.get("task_id")
+>       assert task_id, "task_id missing from seeded_state; predecessor test must have failed."
+E       AssertionError: task_id missing from seeded_state; predecessor test must have failed.
+E       assert None
+
+tests/test_final_state.py:519: AssertionError
+==================================== PASSES ====================================
+_______________________ test_projects_collection_schema ________________________
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/start_pocketbase$ ./pocketbase serve --http=0.0.0.0:8090
+process 'start_pocketbase' started pid=1303
+start_pocketbase process startup detected
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_migration_file_exists
+PASSED tests/test_final_state.py::test_projects_collection_schema
+PASSED tests/test_final_state.py::test_tasks_collection_schema
+PASSED tests/test_final_state.py::test_outsider_is_blocked_from_project
+PASSED tests/test_final_state.py::test_guest_is_blocked_from_project
+PASSED tests/test_final_state.py::test_outsider_cannot_create_task
+PASSED tests/test_final_state.py::test_outsider_cannot_modify_others_task
+PASSED tests/test_final_state.py::test_superuser_retains_full_access
+FAILED tests/test_final_state.py::test_member_can_list_and_view_project - Ass...
+FAILED tests/test_final_state.py::test_member_can_create_task - AssertionErro...
+FAILED tests/test_final_state.py::test_member_can_list_and_view_tasks - Asser...
+FAILED tests/test_final_state.py::test_outsider_cannot_list_or_view_tasks - A...
+FAILED tests/test_final_state.py::test_member_can_update_and_delete_task - As...
+========================= 5 failed, 8 passed in 2.17s ==========================

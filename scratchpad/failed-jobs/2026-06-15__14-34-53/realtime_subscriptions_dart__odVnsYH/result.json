@@ -1,0 +1,115 @@
+{
+    "id": "3ddf37ef-409a-488e-9834-8a46e74f5fb9",
+    "task_name": "realtime_subscriptions_dart",
+    "trial_name": "realtime_subscriptions_dart__odVnsYH",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__14-34-53/realtime_subscriptions_dart__odVnsYH",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/realtime_subscriptions_dart"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "b479c756bfd898c149e041396052b1db10e473473bcd424fd530000702935648",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/realtime_subscriptions_dart",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "realtime_subscriptions_dart__odVnsYH",
+        "trials_dir": "jobs/2026-06-15__14-34-53",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "google/gemini-3.1-pro",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "15061d37-639f-4e30-aed9-fc7b987a4a4f"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "gemini-3.1-pro",
+            "provider": "google"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": null,
+    "exception_info": {
+        "exception_type": "InitialStateError",
+        "exception_message": "Initial state test failed",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/kweizh/zealt/zealt-agent/agents/pochi.py\", line 208, in run\n    await self.exec_as_agent(\n    ...<9 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 354, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 317, in _exec\n    raise NonZeroAgentExitCodeError(\n    ...<3 lines>...\n    )\nharbor.agents.installed.base.NonZeroAgentExitCodeError: Command failed (exit 1): if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi\nstdout: ============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0\nrootdir: /bootstrap\nplugins: xprocess-1.0.2, json-ctrf-0.5.2\ncollected 4 items\n\nbootstrap/test_initial_state.py::test_dart_binary_available PASSED\nbootstrap/test_initial_state.py::test_pocketbase_binary_available PASSED\nbootstrap/test_initial_state.py::test_pocketbase_server_running_and_setup PASSED\nbootstrap/test_initial_state.py::test_posts_collection_exists FAILED\n\n=================================== FAILURES ===================================\n_________________________ test_posts_collection_exists _________________________\n\n    def test_posts_collection_exists():\n        # We can query the collections API. It requires admin auth, but we can just check if the collection exists by trying to list its records (which might be forbidden, but returns 403 instead of 404).\n        try:\n            req = urllib.request.Request(\"http://127.0.0.1:8090/api ... [truncated]\nstderr: None\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py\", line 161, in run\n    await self._run()\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 33, in _run\n    await self._run_agent()\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 63, in _run_agent\n    await self._run_agent_phase(\n    ...<4 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py\", line 238, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/usr/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 39, in wrapper\n    return await fn(self, instruction, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kweizh/zealt/zealt-agent/agents/pochi.py\", line 220, in run\n    raise InitialStateError(\"Initial state test failed\") from e\nagents.pochi.InitialStateError: Initial state test failed\n",
+        "occurred_at": "2026-06-15T14:37:11.385878"
+    },
+    "started_at": "2026-06-15T14:36:53.176611Z",
+    "finished_at": "2026-06-15T14:37:24.620642Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T14:36:53.179466Z",
+        "finished_at": "2026-06-15T14:36:55.749836Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T14:36:55.749876Z",
+        "finished_at": "2026-06-15T14:37:07.992511Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T14:37:07.992874Z",
+        "finished_at": "2026-06-15T14:37:10.535637Z"
+    },
+    "verifier": null,
+    "step_results": null
+}

@@ -1,0 +1,146 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T16:25:10.977291+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 13,
+            "passed": 13,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781540709637,
+            "stop": 1781540710977
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_migration_file_exists",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781540709857,
+                "stop": 1781540709859,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_projects_collection_schema",
+                "status": "passed",
+                "duration": 989,
+                "start": 1781540709859,
+                "stop": 1781540710848,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_tasks_collection_schema",
+                "status": "passed",
+                "duration": 9,
+                "start": 1781540710848,
+                "stop": 1781540710857,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_member_can_list_and_view_project",
+                "status": "passed",
+                "duration": 20,
+                "start": 1781540710858,
+                "stop": 1781540710878,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_outsider_is_blocked_from_project",
+                "status": "passed",
+                "duration": 9,
+                "start": 1781540710878,
+                "stop": 1781540710887,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_guest_is_blocked_from_project",
+                "status": "passed",
+                "duration": 5,
+                "start": 1781540710887,
+                "stop": 1781540710892,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_member_can_create_task",
+                "status": "passed",
+                "duration": 7,
+                "start": 1781540710892,
+                "stop": 1781540710899,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_outsider_cannot_create_task",
+                "status": "passed",
+                "duration": 11,
+                "start": 1781540710899,
+                "stop": 1781540710910,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_member_can_list_and_view_tasks",
+                "status": "passed",
+                "duration": 10,
+                "start": 1781540710911,
+                "stop": 1781540710921,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_outsider_cannot_list_or_view_tasks",
+                "status": "passed",
+                "duration": 11,
+                "start": 1781540710921,
+                "stop": 1781540710932,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_member_can_update_and_delete_task",
+                "status": "passed",
+                "duration": 16,
+                "start": 1781540710933,
+                "stop": 1781540710949,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_outsider_cannot_modify_others_task",
+                "status": "passed",
+                "duration": 17,
+                "start": 1781540710949,
+                "stop": 1781540710966,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_superuser_retains_full_access",
+                "status": "passed",
+                "duration": 10,
+                "start": 1781540710966,
+                "stop": 1781540710976,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

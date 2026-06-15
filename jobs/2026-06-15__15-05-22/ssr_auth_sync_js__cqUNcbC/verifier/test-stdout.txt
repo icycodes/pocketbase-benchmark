@@ -1,0 +1,89 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py FFF                                            [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_valid_token_request ___________________________
+
+start_app = None
+
+    def test_valid_token_request(start_app):
+        # 1. Log in to PocketBase to get a valid token
+        auth_resp = requests.post(
+            f"{PB_URL}/api/collections/users/auth-with-password",
+            json={"identity": "test@example.com", "password": "secure_password"},
+            timeout=5
+        )
+        assert auth_resp.status_code == 200, f"Failed to login to PocketBase: {auth_resp.text}"
+        auth_data = auth_resp.json()
+        token = auth_data["token"]
+        user_id = auth_data["record"]["id"]
+    
+        # 2. Construct the cookie string
+        auth_store_state = {
+            "token": token,
+            "model": auth_data["record"]
+        }
+        cookie_val = urllib.parse.quote(json.dumps(auth_store_state))
+        cookies = {"pb_auth": cookie_val}
+    
+        # 3. Request /profile
+        resp = requests.get(f"{APP_URL}/profile", cookies=cookies, timeout=5)
+    
+        # 4. Verify response
+>       assert resp.status_code == 200, f"Expected 200 OK, got {resp.status_code}. Body: {resp.text}"
+E       AssertionError: Expected 200 OK, got 500. Body: <!DOCTYPE html>
+E         <html lang="en">
+E         <head>
+E         <meta charset="utf-8">
+E         <title>Error</title>
+E         </head>
+E         <body>
+E         <pre>TypeError: PocketBase is not a constructor<br> &nbsp; &nbsp;at /home/user/myproject/index.js:13:14<br> &nbsp; &nbsp;at Layer.handleRequest (/home/user/myproject/node_modules/router/lib/layer.js:152:17)<br> &nbsp; &nbsp;at trimPrefix (/home/user/myproject/node_modules/router/index.js:342:13)<br> &nbsp; &nbsp;at /home/user/myproject/node_modules/router/index.js:297:9<br> &nbsp; &nbsp;at processParams (/home/user/myproject/node_modules/router/index.js:582:12)<br> &nbsp; &nbsp;at next (/home/user/myproject/node_modules/router/index.js:291:5)<br> &nbsp; &nbsp;at cookieParser (/home/user/myproject/node_modules/cookie-parser/index.js:71:5)<br> &nbsp; &nbsp;at Layer.handleRequest (/home/user/myproject/node_modules/router/lib/layer.js:152:17)<br> &nbsp; &nbsp;at trimPrefix (/home/user/myproject/node_modules/router/index.js:342:13)<br> &nbsp; &nbsp;at /home/user/myproject/node_modules/router/index.js:297:9</pre>
+E         </body>
+E         </html>
+E         
+E       assert 500 == 200
+E        +  where 500 = <Response [500]>.status_code
+
+tests/test_final_state.py:59: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/start_app$ node index.js
+process 'start_app' started pid=624
+start_app process startup detected
+__________________________ test_invalid_token_request __________________________
+
+start_app = None
+
+    def test_invalid_token_request(start_app):
+        cookies = {"pb_auth": "invalid_token_string"}
+        resp = requests.get(f"{APP_URL}/profile", cookies=cookies, timeout=5)
+    
+>       assert resp.status_code == 401, f"Expected 401 Unauthorized, got {resp.status_code}"
+E       AssertionError: Expected 401 Unauthorized, got 500
+E       assert 500 == 401
+E        +  where 500 = <Response [500]>.status_code
+
+tests/test_final_state.py:74: AssertionError
+__________________________ test_missing_token_request __________________________
+
+start_app = None
+
+    def test_missing_token_request(start_app):
+        resp = requests.get(f"{APP_URL}/profile", timeout=5)
+    
+>       assert resp.status_code == 401, f"Expected 401 Unauthorized, got {resp.status_code}"
+E       AssertionError: Expected 401 Unauthorized, got 500
+E       assert 500 == 401
+E        +  where 500 = <Response [500]>.status_code
+
+tests/test_final_state.py:87: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_valid_token_request - AssertionError: ...
+FAILED tests/test_final_state.py::test_invalid_token_request - AssertionError...
+FAILED tests/test_final_state.py::test_missing_token_request - AssertionError...
+============================== 3 failed in 0.66s ===============================

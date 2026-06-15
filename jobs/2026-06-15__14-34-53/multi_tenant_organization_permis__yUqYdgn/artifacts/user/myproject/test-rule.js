@@ -1,0 +1,1 @@
+const pb = require('pocketbase');

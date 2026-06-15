@@ -1,0 +1,28 @@
+# Fix Breaking Hook API Signature in PocketBase
+
+## Background
+You have a custom Go backend embedding PocketBase. The project was recently upgraded to PocketBase v0.31.0, but the custom event hooks are failing to compile and run because they use the older v0.22 API signature. In PocketBase v0.23.0+, there was a major API overhaul affecting hook registration and event propagation.
+
+## Requirements
+- Update `main.go` to fix the `OnRecordBeforeCreateRequest` hook for the `posts` collection.
+- The hook must use the new `.BindFunc()` registration method.
+- The hook handler must accept the new event type (`*core.RecordRequestEvent`).
+- The hook handler must check if the `title` is empty. If it is, return a bad request error.
+- The hook handler must generate a slug from the title using `core.Slugify(title)` and set it on the record's `slug` field.
+- The hook handler MUST call and return `e.Next()` to properly propagate the execution chain. If omitted, the record creation will be blocked.
+- The application must compile successfully and run.
+
+## Implementation Hints
+- Review the PocketBase v0.23+ upgrade guide for Go hooks.
+- Hook registration changed from `.Add()` to `.BindFunc()`.
+- Event handlers now receive a generic `*core.RecordRequestEvent` instead of specific event types.
+- Handlers must return `e.Next()` to continue the middleware chain.
+- Use `e.BadRequestError("Title cannot be empty", nil)` for validation errors instead of standard `fmt.Errorf`.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: go run main.go serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - POST `/api/collections/posts/records`: Accepts a JSON body with a `title` and creates a record with an auto-generated `slug`. Returns 200 OK.
+

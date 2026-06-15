@@ -1,0 +1,59 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T15:57:24.316084+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 2,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781539044122,
+            "stop": 1781539044315
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_output_log_exists_and_contains_record_id",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781539044161,
+                "stop": 1781539044163,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_record_exists_in_pocketbase",
+                "status": "passed",
+                "duration": 134,
+                "start": 1781539044163,
+                "stop": 1781539044297,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_thumbnail_file_exists_and_valid",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 18,
+                "start": 1781539044297,
+                "stop": 1781539044315,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_thumbnail_file_exists_and_valid():\n        assert os.path.isfile(THUMBNAIL_FILE), f\"Thumbnail file not found at {THUMBNAIL_FILE}\"\n    \n        thumb_size = os.path.getsize(THUMBNAIL_FILE)\n        assert thumb_size > 0, \"Thumbnail file is empty (0 bytes)\"\n    \n        assert os.path.isfile(INPUT_FILE), f\"Original input file not found at {INPUT_FILE}\"\n        input_size = os.path.getsize(INPUT_FILE)\n    \n>       assert thumb_size < input_size, f\"Thumbnail size ({thumb_size} bytes) is not smaller than original input size ({input_size} bytes)\"\nE       AssertionError: Thumbnail size (793 bytes) is not smaller than original input size (757 bytes)\nE       assert 793 < 757\n\ntests/test_final_state.py:63: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

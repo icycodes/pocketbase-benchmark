@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py ..F                                            [100%]
+
+=================================== FAILURES ===================================
+_____________________ test_thumbnail_file_exists_and_valid _____________________
+
+    def test_thumbnail_file_exists_and_valid():
+        assert os.path.isfile(THUMBNAIL_FILE), f"Thumbnail file not found at {THUMBNAIL_FILE}"
+    
+        thumb_size = os.path.getsize(THUMBNAIL_FILE)
+        assert thumb_size > 0, "Thumbnail file is empty (0 bytes)"
+    
+        assert os.path.isfile(INPUT_FILE), f"Original input file not found at {INPUT_FILE}"
+        input_size = os.path.getsize(INPUT_FILE)
+    
+>       assert thumb_size < input_size, f"Thumbnail size ({thumb_size} bytes) is not smaller than original input size ({input_size} bytes)"
+E       AssertionError: Thumbnail size (793 bytes) is not smaller than original input size (757 bytes)
+E       assert 793 < 757
+
+tests/test_final_state.py:63: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_output_log_exists_and_contains_record_id
+PASSED tests/test_final_state.py::test_record_exists_in_pocketbase
+FAILED tests/test_final_state.py::test_thumbnail_file_exists_and_valid - Asse...
+========================= 1 failed, 2 passed in 0.19s ==========================

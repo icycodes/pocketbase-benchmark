@@ -1,0 +1,94 @@
+Skipping image OS validation for hb__ssr_auth_sync_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-xkvx3gn > /logs/artifacts/run-id && echo ssr_auth_sync_js__xKVX3GN > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.1-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# SSR Authentication Synchronization Middleware
+
+## Background
+In Server-Side Rendered (SSR) applications using PocketBase, authentication state needs to be synchronized between the client and server using cookies, as PocketBase is stateless and defaults to storing JWTs in the browser's `localStorage`.
+
+You have an empty Express project initialized at `/home/user/myproject` with `express`, `cookie-parser`, and `pocketbase` installed. A PocketBase backend is already running locally at `http://127.0.0.1:8090` with a test user (`test@example.com` / `secure_password`).
+
+## Requirements
+- Implement an Express.js server (`index.js`) with a middleware that synchronizes PocketBase authentication state via cookies.
+- The middleware must extract the PocketBase auth cookie (`pb_auth`) from the incoming request.
+- Load the cookie into a PocketBase SDK instance connected to `http://127.0.0.1:8090`.
+- Attempt to refresh the authentication state using the PocketBase API (`authRefresh()`).
+- Export the updated auth state to a cookie and attach it to the response headers.
+- Create a protected route `/profile` that returns the authenticated user's ID and email if successful, or a 401 Unauthorized error if the token is invalid or missing.
+
+## Implementation Hints
+- Use the PocketBase JavaScript SDK (`pocketbase`).
+- Use `pb.authStore.loadFromCookie()` to load the initial auth state from the request's `cookie` header.
+- Use `pb.collection('users').authRefresh()` to validate and refresh the token. Ensure you handle errors (e.g., if the token is expired or invalid, clear the auth store).
+- Use `pb.authStore.exportToCookie()` to get the serialized cookie string and set it in the response header (`Set-Cookie`).
+- Ensure the Express app is configured to parse cookies (e.g., using `cookie-parser`) or parse the header directly.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command: node index.js
+- Port: 3000
+- API Endpoints:
+  - GET `/profile`:
+    - When a valid `pb_auth` cookie is provided in the request: Returns status 200 and a JSON object containing the user's `id` and `email`.
+      ```json
+      {
+        "id": "string",
+        "email": "string"
+      }
+      ```
+      The response MUST include a `Set-Cookie` header containing the refreshed `pb_auth` cookie.
+    - When no cookie or an invalid `pb_auth` cookie is provided: Returns status 401 and a JSON object containing an error message.
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+      The response MUST include a `Set-Cookie` header that clears or updates the `pb_auth` cookie to reflect the unauthenticated state.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

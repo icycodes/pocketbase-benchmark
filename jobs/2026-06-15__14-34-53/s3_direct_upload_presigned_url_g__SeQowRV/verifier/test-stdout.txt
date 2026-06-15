@@ -1,0 +1,44 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py ..                                             [100%]
+
+==================================== PASSES ====================================
+_______________________ test_missing_filename_parameter ________________________
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/start_app$ go run main.go serve --http=0.0.0.0:8090
+process 'start_app' started pid=3406
+start_app process startup detected
+---------------------------- Captured stderr setup -----------------------------
+go: downloading github.com/stretchr/testify v1.4.0
+go: downloading github.com/go-sql-driver/mysql v1.4.1
+go: downloading github.com/frankban/quicktest v1.14.6
+go: downloading github.com/google/pprof v0.0.0-20260604005048-7023385849c0
+go: downloading modernc.org/fileutil v1.4.0
+go: downloading golang.org/x/tools v0.45.0
+go: downloading modernc.org/cc/v4 v4.28.2
+go: downloading modernc.org/ccgo/v4 v4.34.0
+go: downloading modernc.org/goabi0 v0.2.0
+go: downloading github.com/davecgh/go-spew v1.1.0
+go: downloading github.com/pmezard/go-difflib v1.0.0
+go: downloading gopkg.in/yaml.v2 v2.2.2
+go: downloading google.golang.org/appengine v1.6.5
+go: downloading github.com/google/go-cmp v0.5.9
+go: downloading github.com/kr/pretty v0.3.1
+go: downloading modernc.org/opt v0.2.0
+go: downloading modernc.org/sortutil v1.2.1
+go: downloading modernc.org/strutil v1.2.1
+go: downloading modernc.org/token v1.1.0
+go: downloading golang.org/x/mod v0.36.0
+go: downloading modernc.org/gc/v2 v2.6.5
+go: downloading github.com/kr/text v0.2.0
+go: downloading github.com/rogpeppe/go-internal v1.9.0
+go: downloading modernc.org/gc/v3 v3.1.2
+go: downloading github.com/hashicorp/golang-lru/v2 v2.0.7
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_missing_filename_parameter
+PASSED tests/test_final_state.py::test_generate_presigned_url
+============================== 2 passed in 3.83s ===============================

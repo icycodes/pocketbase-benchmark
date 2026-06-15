@@ -1,0 +1,73 @@
+{
+    "id": "4324ec44-0315-40f2-ac11-0e4689bfc055",
+    "started_at": "2026-06-15T13:45:39.608898",
+    "updated_at": "2026-06-15T14:13:00.299334",
+    "finished_at": "2026-06-15T14:13:00.299334",
+    "n_total_trials": 25,
+    "stats": {
+        "n_completed_trials": 25,
+        "n_errored_trials": 6,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__gemini-3.5-flash__pending-tasks": {
+                "n_trials": 20,
+                "n_errors": 6,
+                "metrics": [
+                    {
+                        "mean": 0.44
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "api_rules_grantee_relational_tab__MV2tgH8",
+                            "sveltekit_auth_cookie_sync_middl__oRTY4Px",
+                            "public_read_private_write_collec__ZoYLjom",
+                            "prevent_owner_change_rule__AA8PEv8",
+                            "fix_breaking_hook_api_go__bBWLhzn",
+                            "strict_email_sanitization_hook_j__wVvSCHs",
+                            "s3_direct_upload_presigned_url_g__ttNQeTA",
+                            "relational_access_control_rule__qofN7r6",
+                            "external_subscription_status_val__Jpw3aNK"
+                        ],
+                        "1.0": [
+                            "transactional_withdrawal_hook_go__RkAvagr",
+                            "file_storage_thumbnail_generatio__GEBVHna",
+                            "ssr_auth_sync_js__HeHGgCP",
+                            "event_hooks_generate_slug_go__AJ5WRxY",
+                            "custom_go_executable_embedding__a2KAt3h",
+                            "word_count_hook_go__7JteXp5",
+                            "slug_autogeneration_hook_js__Tjn2ay5",
+                            "email_sanitization_hook_js__9trr9UX",
+                            "project_membership_access_rules__xEjGi9A",
+                            "custom_json_route_handler_js__eNPEr3a",
+                            "multi_tenant_organization_permis__oNcczZF"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "InitialStateError": [
+                        "realtime_subscriptions_dart__uj4s4Yj",
+                        "slug_autogeneration_hook_go__NmivAnk",
+                        "jsvm_concurrency_error_handling__Rzehb8R"
+                    ],
+                    "RuntimeError": [
+                        "transactional_ledger_hook_go__J5t7bre",
+                        "sqlite_write_concurrency_deadloc__6Ft67U9"
+                    ],
+                    "AgentTimeoutError": [
+                        "slug_autogeneration_hook_js__Tjn2ay5"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 1445341,
+        "cost_usd": null
+    }
+}

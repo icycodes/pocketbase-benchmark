@@ -1,0 +1,176 @@
+- Initializing MCP connections...
+You
+# S3 Presigned URL Generator for Large Files ## Background When PocketBase is configured with S3 storage, file uploads are proxied through the server. For large files (e.g., >20MB), this buffering can cause memory exhaustion. A robust resolution is to implement direct-to-bucket uploads using S3 presigned URLs, bypassing PocketBase's default file proxy for the upload phase. ## Requirements * Create a custom Go application embedding PocketBase. * Implement a custom REST API route `GET /api/s3-presign`. * The route must accept a query parameter `filename`. * The route must generate and return an AWS S3 presigned URL for a `PUT` operation, allowing a client to upload a file directly to the S3 bucket. * The S3 object key must be formatted as `uploads/<run-id>/<filename>`, where `<run-id>` is read from the `ZEALT_RUN_ID` environment variable. * The application should read S3 configuration from the environment variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_BUCKET`. ## Implementation Hints * Initialize a Go module and add PocketBase as a dependency. * Use `app.OnBeforeServe().BindFunc(...)` to register a new `GET` route `/api/s3-presign` on the PocketBase router. * Use the AWS SDK for Go (e.g., `github.com/aws/aws-sdk-go` or v2) to configure an S3 client and generate a presigned `PutObject` request. * Extract the `filename` from the request query parameters. If missing, return a 400 Bad Request error. * Return the generated URL in a JSON response. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: go run main.go serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * GET `/api/s3-presign?filename=<filename>`: Returns status 200 and a JSON object containing the presigned URL. ```json // Response { "url": "https://..." } ``` * GET `/api/s3-presign`: Returns status 400 if the `filename` query parameter is missing. * The returned URL must be a valid S3 presigned URL containing the correct bucket name, region, object key (`uploads/<run-id>/<filename>`), and AWS signature parameters.   
+
+Pochi
+💭 Thinking for 751 characters   
+💫 Executing mkdir -p /home/user/myproject && cd /home/user/myproject && go mod init myproject && go get github.com/pocketbase/pocketbase github.com/aws/aws-sdk-go-v2/aws github.com/aws/aws-sdk-go-v2/config github.com/aws/aws-sdk-go-v2/credentials github.com/aws/aws-sdk-go-v2/service/s3 ✔ 
+💭 Thinking for 1192 characters   
+💫 Executing cat << 'EOF' > /home/user/myproject/main.go
+package main
+
+import (
+	"log"
+
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/core"
+)
+
+func main() {
+	app := pocketbase.New()
+
+	app.OnServe().BindFunc(func(e *core.ServeEvent) error {
+		e.Router.GET("/api/s3-presign", func(e *core.RequestEvent) error {
+			return e.String(200, "ok")
+		})
+		return e.Next()
+	})
+
+	if err := app.Start(); err != nil {
+		log.Fatal(err)
+	}
+}
+EOF
+go build -o testapp main.go
+ ✔ 
+💭 Thinking for 312 characters   
+💫 Executing cat << 'EOF' > /home/user/myproject/main.go
+package main
+
+import (
+	"log"
+
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/core"
+)
+
+func main() {
+	app := pocketbase.New()
+
+	app.OnServe().BindFunc(func(e *core.ServeEvent) error {
+		e.Router.GET("/api/s3-presign", func(e *core.RequestEvent) error {
+			filename := e.Request.URL.Query().Get("filename")
+			return e.JSON(200, map[string]string{"url": filename})
+		})
+		return e.Next()
+	})
+
+	if err := app.Start(); err != nil {
+		log.Fatal(err)
+	}
+}
+EOF
+go build -o testapp main.go
+ ✔ 
+💫 Executing cat << 'EOF' > /home/user/myproject/main.go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"time"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/core"
+)
+
+func main() {
+	app := pocketbase.New()
+
+	app.OnServe().BindFunc(func(e *core.ServeEvent) error {
+		e.Router.GET("/api/s3-presign", func(reqEvent *core.RequestEvent) error {
+			filename := reqEvent.Request.URL.Query().Get("filename")
+			if filename == "" {
+				return reqEvent.JSON(http.StatusBadRequest, map[string]string{
+					"error": "filename query parameter is required",
+				})
+			}
+
+			runID := os.Getenv("ZEALT_RUN_ID")
+			if runID == "" {
+				runID = "default"
+			}
+
+			region := os.Getenv("AWS_REGION")
+			accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
+			secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
+			bucket := os.Getenv("AWS_BUCKET")
+
+			cfg, err := config.LoadDefaultConfig(context.TODO(),
+				config.WithRegion(region),
+				config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(accessKey, secretKey, "")),
+			)
+			if err != nil {
+				return reqEvent.JSON(http.StatusInternalServerError, map[string]string{
+					"error": "failed to load AWS config",
+				})
+			}
+
+			client := s3.NewFromConfig(cfg)
+			presignClient := s3.NewPresignClient(client)
+
+			key := fmt.Sprintf("uploads/%s/%s", runID, filename)
+
+			presignedReq, err := presignClient.PresignPutObject(context.TODO(), &s3.PutObjectInput{
+				Bucket: aws.String(bucket),
+				Key:    aws.String(key),
+			}, func(po *s3.PresignOptions) {
+				po.Expires = 15 * time.Minute
+			})
+
+			if err != nil {
+				return reqEvent.JSON(http.StatusInternalServerError, map[string]string{
+					"error": "failed to generate presigned URL",
+				})
+			}
+
+			return reqEvent.JSON(http.StatusOK, map[string]string{
+				"url": presignedReq.URL,
+			})
+		})
+
+		return e.Next()
+	})
+
+	if err := app.Start(); err != nil {
+		log.Fatal(err)
+	}
+}
+EOF
+go build -o testapp main.go
+ ✔ 
+🛠️ Tool startBackgroundJob ✔ 
+💭 Thinking for 163 characters   
+💫 Executing sleep 2 && curl -s "http://localhost:8090/api/s3-presign?filename=test.txt" ✔ 
+💭 Thinking for 275 characters   
+💫 Executing curl -s -i "http://localhost:8090/api/s3-presign" ✔ 
+💭 Thinking for 261 characters   
+🛠️ Tool killBackgroundJob ✔ 
+💭 Thinking for 98 characters   
+🎉 Task Completed
+I have implemented the requested PocketBase custom application in Go.
+
+The project is located at `/home/user/myproject`.
+
+Here are the details of the implementation:
+1. **PocketBase embedding**: Initialized a Go module and integrated `github.com/pocketbase/pocketbase` to create the application.
+2. **AWS SDK**: Integrated `github.com/aws/aws-sdk-go-v2` suite to configure the S3 client using environment variables (`AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_BUCKET`).
+3. **Custom Route**: Added a custom `GET /api/s3-presign` route.
+   - It checks for the `filename` query parameter, returning a `400 Bad Request` if it's missing.
+   - It reads the `ZEALT_RUN_ID` environment variable to construct the S3 object key format: `uploads/<run-id>/<filename>`.
+   - It generates a 15-minute S3 presigned URL for a `PUT` operation using the AWS SDK's `PresignPutObject` method.
+   - It returns the generated URL as a JSON object `{"url": "https://..."}` with a 200 OK status.
+
+You can run the application with:
+```bash
+cd /home/user/myproject
+go run main.go serve --http="0.0.0.0:8090"
+```   
+  

@@ -1,0 +1,55 @@
+- Initializing MCP connections...
+You
+# S3 Presigned URL Generator for Large Files ## Background When PocketBase is configured with S3 storage, file uploads are proxied through the server. For large files (e.g., >20MB), this buffering can cause memory exhaustion. A robust resolution is to implement direct-to-bucket uploads using S3 presigned URLs, bypassing PocketBase's default file proxy for the upload phase. ## Requirements * Create a custom Go application embedding PocketBase. * Implement a custom REST API route `GET /api/s3-presign`. * The route must accept a query parameter `filename`. * The route must generate and return an AWS S3 presigned URL for a `PUT` operation, allowing a client to upload a file directly to the S3 bucket. * The S3 object key must be formatted as `uploads/<run-id>/<filename>`, where `<run-id>` is read from the `ZEALT_RUN_ID` environment variable. * The application should read S3 configuration from the environment variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_BUCKET`. ## Implementation Hints * Initialize a Go module and add PocketBase as a dependency. * Use `app.OnBeforeServe().BindFunc(...)` to register a new `GET` route `/api/s3-presign` on the PocketBase router. * Use the AWS SDK for Go (e.g., `github.com/aws/aws-sdk-go` or v2) to configure an S3 client and generate a presigned `PutObject` request. * Extract the `filename` from the request query parameters. If missing, return a 400 Bad Request error. * Return the generated URL in a JSON response. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: go run main.go serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * GET `/api/s3-presign?filename=<filename>`: Returns status 200 and a JSON object containing the presigned URL. ```json // Response { "url": "https://..." } ``` * GET `/api/s3-presign`: Returns status 400 if the `filename` query parameter is missing. * The returned URL must be a valid S3 presigned URL containing the correct bucket name, region, object key (`uploads/<run-id>/<filename>`), and AWS signature parameters.   
+
+Pochi
+I'll start by examining the project structure and then implement the solution.   
+📂 Listing files in /home/user/myproject ✔ 
+📋 Updating todo list (3 items) ✔ 
+📋 Updating todo list (3 items) ✔ 
+💫 Executing cd /home/user/myproject && go mod init myproject ✔ 
+💫 Executing cd /home/user/myproject && go get github.com/pocketbase/pocketbase@latest && go get github.com/aws/aws-sdk-go-v2@latest && go get github.com/aws/aws-sdk-go-v2/config@latest && go get github.com/aws/aws-sdk-go-v2/service/s3@latest && go get github.com/aws/aws-sdk-go-v2/credentials@latest ✔ 
+📋 Updating todo list (3 items) ✔ 
+Now let me check the PocketBase API for the correct `OnBeforeServe` hook signature:   
+🔍 Searching for OnBeforeServe in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+🔍 Searching for *.go in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/pocketbase.go ✔ 
+Now let me check the core.App interface to understand `OnBeforeServe`:   
+🔍 Searching for OnBeforeServe in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core ✔ 
+🔍 Searching for *.go in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/events.go ✔ 
+Now let me check the router to see how to add routes:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router/router.go ✔ 
+Now let me check the ServeEvent and how routes are registered:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/app.go ✔ 
+Let me check the ServeEvent and how routes work in the existing codebase. Let me look at how the serve command sets up routes:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/app.go ✔ 
+Now I have enough understanding. Let me look at the `apis` package for the `RequestEvent` type:   
+🔍 Searching for type RequestEvent struct in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/event_request.go ✔ 
+Now let me check how existing routes are added in the PocketBase serve command:   
+🔍 Searching for *.go in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/cmd ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/cmd/serve.go ✔ 
+Now let me look at the apis package to see how Serve works and how routes are registered:   
+🔍 Searching for func Serve\( in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/serve.go ✔ 
+Now let me see how the router is created in the apis package:   
+🔍 Searching for func NewRouter\( in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/base.go ✔ 
+Now I have a thorough understanding of the PocketBase architecture. Let me also check the router group to understand how `GET` routes are added:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router/router_group.go ✖ "ENOENT: no such file or directory, open '/root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router/router_group.go'"
+🔍 Searching for *.go in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router/group.go ✔ 
+Now I have all the information I need. Let me create the `main.go` file. The key approach is: 1. Create a custom `PocketBase` app 2. Use `app.OnServe().BindFunc(...)` to register the `/api/s3-presign` route on the router 3. The route handler reads the `filename` query param, creates an S3 presigned URL with the key `uploads/<ZEALT_RUN_ID>/<filename>`, and returns it as JSON Let me also check the S3 presign API for AWS SDK v2:   
+🔍 Searching for func NewPresignClient in *.go files in /root/go/pkg/mod/github.com/aws/aws-sdk-go-v2/service/s3@v1.103.3 ✔ 
+🔍 Searching for func.*PresignPutObject in *.go files in /root/go/pkg/mod/github.com/aws/aws-sdk-go-v2/service/s3@v1.103.3 ✔ 
+📖 Reading /root/go/pkg/mod/github.com/aws/aws-sdk-go-v2/service/s3@v1.103.3/api_op_PutObject.go ✔ 
+Now let me write the `main.go` file:   
+✏️  Writing /home/user/myproject/main.go ✔ 
+📋 Updating todo list (3 items) ✔ 
+💫 Executing cd /home/user/myproject && go build -o myproject . ✖ "Command exited with code 1"
+💫 Executing cd /home/user/myproject && go mod tidy ✔ 
+💫 Executing cd /home/user/myproject && go build -o myproject . ✔ 
+The build succeeds. Let me verify the binary exists and do a quick smoke test:   
+💫 Executing ls -la /home/user/myproject/myproject ✔ 
+Now let me do a quick functional test by starting the server and hitting the endpoint:   

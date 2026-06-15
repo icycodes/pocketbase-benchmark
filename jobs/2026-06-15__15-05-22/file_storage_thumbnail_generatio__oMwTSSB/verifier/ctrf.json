@@ -1,0 +1,65 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T15:15:52.159145+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 0,
+            "failed": 3,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781536552030,
+            "stop": 1781536552158
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_output_log_exists_and_contains_record_id",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 36,
+                "start": 1781536552101,
+                "stop": 1781536552137,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_output_log_exists_and_contains_record_id():\n>       get_record_id()\n\ntests/test_final_state.py:24: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def get_record_id():\n        if not os.path.isfile(OUTPUT_LOG):\n>           pytest.fail(f\"Log file not found at {OUTPUT_LOG}\")\nE           Failed: Log file not found at /home/user/pb-task/output.log\n\ntests/test_final_state.py:15: Failed",
+                "message": "The test failed in the call phase"
+            },
+            {
+                "name": "test_final_state.py::test_record_exists_in_pocketbase",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 11,
+                "start": 1781536552137,
+                "stop": 1781536552148,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_record_exists_in_pocketbase():\n>       record_id = get_record_id()\n\ntests/test_final_state.py:27: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def get_record_id():\n        if not os.path.isfile(OUTPUT_LOG):\n>           pytest.fail(f\"Log file not found at {OUTPUT_LOG}\")\nE           Failed: Log file not found at /home/user/pb-task/output.log\n\ntests/test_final_state.py:15: Failed",
+                "message": "The test failed in the call phase"
+            },
+            {
+                "name": "test_final_state.py::test_thumbnail_file_exists_and_valid",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 10,
+                "start": 1781536552148,
+                "stop": 1781536552158,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_thumbnail_file_exists_and_valid():\n>       assert os.path.isfile(THUMBNAIL_FILE), f\"Thumbnail file not found at {THUMBNAIL_FILE}\"\nE       AssertionError: Thumbnail file not found at /home/user/pb-task/thumbnail.jpg\nE       assert False\nE        +  where False = <function isfile at 0x7fc9b1714220>('/home/user/pb-task/thumbnail.jpg')\nE        +    where <function isfile at 0x7fc9b1714220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:55: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

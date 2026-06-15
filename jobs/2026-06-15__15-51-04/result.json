@@ -1,0 +1,89 @@
+{
+    "id": "418b6e93-f1e7-474c-a13a-c3a02286b717",
+    "started_at": "2026-06-15T15:51:10.113354",
+    "updated_at": "2026-06-15T16:33:17.759939",
+    "finished_at": "2026-06-15T16:33:17.759939",
+    "n_total_trials": 25,
+    "stats": {
+        "n_completed_trials": 25,
+        "n_errored_trials": 20,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__deepseek-4-pro__pending-tasks": {
+                "n_trials": 20,
+                "n_errors": 20,
+                "metrics": [
+                    {
+                        "mean": 0.2
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "api_rules_grantee_relational_tab__PjEpfL5",
+                            "file_storage_thumbnail_generatio__Rret8tp",
+                            "sveltekit_auth_cookie_sync_middl__roPgbfD",
+                            "ssr_auth_sync_js__gC2kBL4",
+                            "event_hooks_generate_slug_go__42PTH5y",
+                            "custom_go_executable_embedding__tTJBxXx",
+                            "public_read_private_write_collec__QGPdBVG",
+                            "prevent_owner_change_rule__VooNu3C",
+                            "fix_breaking_hook_api_go__uqQkiV9",
+                            "slug_autogeneration_hook_js__jYNGiTk",
+                            "strict_email_sanitization_hook_j__daLHw9b",
+                            "s3_direct_upload_presigned_url_g__K7PQYKq",
+                            "multi_tenant_organization_permis__EeU6dSf",
+                            "relational_access_control_rule__arQ4ani",
+                            "external_subscription_status_val__Rk9qBFx"
+                        ],
+                        "1.0": [
+                            "transactional_withdrawal_hook_go__kjpqyNr",
+                            "word_count_hook_go__7MpPkUW",
+                            "email_sanitization_hook_js__QLF9bjV",
+                            "project_membership_access_rules__3YbpvmL",
+                            "custom_json_route_handler_js__YntRH59"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "AgentTimeoutError": [
+                        "api_rules_grantee_relational_tab__PjEpfL5",
+                        "transactional_withdrawal_hook_go__kjpqyNr",
+                        "ssr_auth_sync_js__gC2kBL4",
+                        "event_hooks_generate_slug_go__42PTH5y",
+                        "custom_go_executable_embedding__tTJBxXx",
+                        "public_read_private_write_collec__QGPdBVG",
+                        "prevent_owner_change_rule__VooNu3C",
+                        "fix_breaking_hook_api_go__uqQkiV9",
+                        "slug_autogeneration_hook_js__jYNGiTk",
+                        "email_sanitization_hook_js__QLF9bjV",
+                        "project_membership_access_rules__3YbpvmL",
+                        "s3_direct_upload_presigned_url_g__K7PQYKq",
+                        "multi_tenant_organization_permis__EeU6dSf",
+                        "relational_access_control_rule__arQ4ani"
+                    ],
+                    "InitialStateError": [
+                        "realtime_subscriptions_dart__XmQRSSB",
+                        "slug_autogeneration_hook_go__Woj3H9L",
+                        "jsvm_concurrency_error_handling__9u6EXPD"
+                    ],
+                    "RuntimeError": [
+                        "transactional_ledger_hook_go__DhpYDrg",
+                        "sqlite_write_concurrency_deadloc__M5mzxHe"
+                    ],
+                    "NonZeroAgentExitCodeError": [
+                        "custom_json_route_handler_js__YntRH59"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 160731,
+        "cost_usd": null
+    }
+}

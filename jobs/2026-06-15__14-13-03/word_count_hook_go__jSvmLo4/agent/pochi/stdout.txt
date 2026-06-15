@@ -1,0 +1,81 @@
+- Initializing MCP connections...
+You
+# PocketBase: Auto-Compute Word Count and Reading Time (Go Event Hooks) ## Background You are extending a PocketBase v0.31.0 application written in Go that hosts a small blog backend. A starter project lives at `/home/user/myproject` and already includes: * A `go.mod` file that pins `github.com/pocketbase/pocketbase v0.31.0`. * A `main.go` entry point that constructs the PocketBase app and starts it (you must extend it). * A `migrations/` package that programmatically creates a base collection named `articles` with the following fields: * `title` (text, required) * `content` (text) * `word_count` (number, integer) * `reading_time_minutes` (number, integer) Your job is to plug in PocketBase event hooks so that whenever an `articles` record is created or updated through the REST API, the server automatically derives the `word_count` and `reading_time_minutes` values from the submitted `content` field. ## Requirements * Implement Go event hooks for the `articles` collection that run on both record create and record update REST requests. * The hooks must set `word_count` to the number of whitespace-separated words found in the submitted `content` value (an empty or whitespace-only content yields 0 words). * The hooks must set `reading_time_minutes` to `ceil(word_count / 200)` (so 0 words -> 0 minutes, 1-200 words -> 1 minute, 201-400 words -> 2 minutes, etc.). * The computed values must overwrite anything the client supplied for `word_count` or `reading_time_minutes`, so clients cannot bypass the calculation. * The hook chain must continue normally so the record is persisted; if you stop the chain the record will never be saved. * Provision a superuser using the `superuser upsert` subcommand of the compiled binary, then start the server on `0.0.0.0:8090`. ## Implementation Hints * Use the PocketBase v0.31 hook API (`BindFunc`) and remember to call `e.Next()` from your handler so the request continues through the middleware chain. * `OnRecordCreateRequest("articles")` and `OnRecordUpdateRequest("articles")` are the relevant hooks for REST traffic. * `e.Record.GetString("content")` returns the submitted text; `e.Record.Set(...)` writes the derived fields back onto the record before it is saved. * The standard library `strings.Fields` plus `math.Ceil` are enough to compute the word count and the rounded-up reading time. * Build the binary with `go build -o app .` and then run `./app superuser upsert admin@example.com SuperSecret123` to create the admin account before `./app serve --http=0.0.0.0:8090`. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: cd /home/user/myproject && ./app serve --http=0.0.0.0:8090 * Port: 8090 * The superuser `admin@example.com` (password `SuperSecret123`) must exist so the verifier can authenticate via `POST /api/collections/_superusers/auth-with-password`. * The `articles` collection (already provisioned by the bundled migration) must remain available with its `word_count` and `reading_time_minutes` integer fields. * API behavior: * `POST /api/collections/articles/records` with a JSON body containing `title` and `content` must return `201 Created`, and the response body must include `word_count` equal to the number of whitespace-separated words in `content`, and `reading_time_minutes` equal to `ceil(word_count / 200)`. * `PATCH /api/collections/articles/records/{id}` with a new `content` value must return `200 OK`, and the response body must reflect the recomputed `word_count` and `reading_time_minutes` for the new content. * Client-supplied `word_count` or `reading_time_minutes` values in the request body must be overwritten by the hook (the response must reflect the values derived from `content`).   
+
+Pochi
+💭 Thinking for 83 characters   
+📂 Listing files in /home/user/myproject recursively ✔ 
+📖 Reading /home/user/myproject/main.go ✔ 
+📖 Reading /home/user/myproject/go.mod ✔ 
+📖 Reading /home/user/myproject/migrations/0001_create_articles.go ✔ 
+📋 Updating todo list (4 items) ✔ 
+Now I'll implement the hooks in `main.go`:   
+✏️  Writing /home/user/myproject/main.go ✔ 
+📋 Updating todo list (4 items) ✔ 
+💫 Executing cd /home/user/myproject && go build -o app . ✔ 
+Build succeeded. Now provision the superuser:   
+📋 Updating todo list (4 items) ✔ 
+💫 Executing cd /home/user/myproject && ./app superuser upsert admin@example.com SuperSecret123 ✔ 
+Superuser created. Now start the server:   
+📋 Updating todo list (4 items) ✔ 
+🛠️ Tool startBackgroundJob ✔ 
+🛠️ Tool readBackgroundJobOutput ✔ 
+Server is running. Let me do a quick smoke test to verify the hooks work correctly:   
+💫 Executing TOKEN=$(curl -s -X POST http://localhost:8090/api/collections/_superusers/auth-with-password \
+  -H "Content-Type: application/json" \
+  -d '{"identity":"admin@example.com","password":"SuperSecret123"}' | grep -o '"token":"[^"]*"' | cut -d'"' -f4) && \
+echo "Auth token obtained: ${TOKEN:0:20}..." && \
+RESULT=$(curl -s -X POST http://localhost:8090/api/collections/articles/records \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"title":"Test Article","content":"one two three four five","word_count":999,"reading_time_minutes":999}') && \
+echo "Response: $RESULT" ✔ 
+The hook correctly overrode the client-supplied `word_count: 999` and `reading_time_minutes: 999` with the computed values: `word_count: 5` and `reading_time_minutes: 1` (ceil(5/200) = 1). Let me also verify the PATCH (update) path:   
+💫 Executing TOKEN=$(curl -s -X POST http://localhost:8090/api/collections/_superusers/auth-with-password \
+  -H "Content-Type: application/json" \
+  -d '{"identity":"admin@example.com","password":"SuperSecret123"}' | grep -o '"token":"[^"]*"' | cut -d'"' -f4) && \
+RECORD_ID=$(curl -s -X POST http://localhost:8090/api/collections/articles/records \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"title":"Update Test","content":"hello world"}' | grep -o '"id":"[^"]*"' | cut -d'"' -f4) && \
+echo "Created record id: $RECORD_ID" && \
+PATCH_RESULT=$(curl -s -X PATCH http://localhost:8090/api/collections/articles/records/$RECORD_ID \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d "{\"content\":\"$(python3 -c "print(' '.join(['word']*350))")\",\"word_count\":1,\"reading_time_minutes\":1}") && \
+echo "Patch response: $PATCH_RESULT" ✔ 
+The PATCH also works perfectly: 350 words → `word_count: 350`, `reading_time_minutes: 2` (ceil(350/200) = 2), overriding the client-supplied values of 1.   
+📋 Updating todo list (4 items) ✔ 
+🎉 Task Completed
+The PocketBase application is fully implemented and running. Here's a summary of what was done:
+
+## Changes Made
+
+**`/home/user/myproject/main.go`** — Replaced the TODO stub with two event hooks:
+
+- `OnRecordCreateRequest("articles")` — fires on `POST /api/collections/articles/records`
+- `OnRecordUpdateRequest("articles")` — fires on `PATCH /api/collections/articles/records/{id}`
+
+Both hooks:
+1. Read `content` via `e.Record.GetString("content")`
+2. Compute `word_count` using `strings.Fields` (whitespace-split word count)
+3. Compute `reading_time_minutes` as `ceil(word_count / 200)` using `math.Ceil` (0 words → 0 minutes)
+4. Overwrite whatever the client sent for `word_count` / `reading_time_minutes` with `e.Record.Set(...)`
+5. Call `e.Next()` so the chain continues and the record is persisted
+
+## Server Status
+
+| Step | Result |
+|---|---|
+| `go build -o app .` | ✅ Success |
+| `./app superuser upsert admin@example.com SuperSecret123` | ✅ Superuser created |
+| `./app serve --http=0.0.0.0:8090` | ✅ Running |
+
+## Verified Behavior
+
+- **POST** with `content: "one two three four five"` + bogus `word_count: 999` → response has `word_count: 5`, `reading_time_minutes: 1` ✅
+- **PATCH** with 350-word content + bogus `word_count: 1` → response has `word_count: 350`, `reading_time_minutes: 2` ✅
+- Client-supplied computed fields are always overwritten by the hooks ✅   
+- Waiting for background jobs to complete (timeout: 60000ms)...
+✖ Async wait timeout reached. Remaining: 1 job(s)
+  

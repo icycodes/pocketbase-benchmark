@@ -1,0 +1,61 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 4 items
+
+tests/test_final_state.py FF..                                           [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_hook_file_exists _____________________________
+
+    def test_hook_file_exists():
+        """A *.pb.js hook file must be present in pb_hooks/."""
+        matches = glob.glob(os.path.join(HOOKS_DIR, "*.pb.js"))
+>       assert matches, (
+            f"Expected at least one '*.pb.js' hook file under {HOOKS_DIR}, found none."
+        )
+E       AssertionError: Expected at least one '*.pb.js' hook file under /home/user/myproject/pb_hooks, found none.
+E       assert []
+
+tests/test_final_state.py:82: AssertionError
+_______________________ test_sanitization_on_dirty_email _______________________
+
+start_pocketbase = None
+
+    def test_sanitization_on_dirty_email(start_pocketbase):
+        """A mixed-case, whitespace-padded email must be persisted as trimmed + lowercase."""
+        run_id = _run_id()
+        dirty_email = f"  HARBOR-Sanitize-{run_id}@Example.COM  "
+        expected_email = f"harbor-sanitize-{run_id}@example.com"
+    
+        create_resp = requests.post(
+            f"{BASE_URL}/api/collections/users/records",
+            json={
+                "email": dirty_email,
+                "password": PASSWORD,
+                "passwordConfirm": PASSWORD,
+            },
+            timeout=15,
+        )
+>       assert create_resp.status_code == 200, (
+            "Expected HTTP 200 when creating a user with a dirty email, got "
+            f"{create_resp.status_code}: {create_resp.text}"
+        )
+E       AssertionError: Expected HTTP 200 when creating a user with a dirty email, got 400: {"data":{"email":{"code":"validation_is_email","message":"Must be a valid email address."}},"message":"Failed to create record.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:102: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/start_pocketbase$ ./pocketbase serve --http=0.0.0.0:8090
+process 'start_pocketbase' started pid=670
+start_pocketbase process startup detected
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_sanitization_idempotent_on_clean_email
+PASSED tests/test_final_state.py::test_superusers_collection_not_affected
+FAILED tests/test_final_state.py::test_hook_file_exists - AssertionError: Exp...
+FAILED tests/test_final_state.py::test_sanitization_on_dirty_email - Assertio...
+========================= 2 failed, 2 passed in 0.86s ==========================

@@ -1,0 +1,117 @@
+{
+    "id": "2dfcea98-c9dc-4022-971e-bb10ad5c7fb0",
+    "task_name": "external_subscription_status_validator_go",
+    "trial_name": "external_subscription_status_val__Rk9qBFx",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__15-51-04/external_subscription_status_val__Rk9qBFx",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/external_subscription_status_validator_go"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "d5d030cc7403ea34cc857fb616ce34bcde54a00ee2f2df67323a99049d9c86af",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/external_subscription_status_validator_go",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "external_subscription_status_val__Rk9qBFx",
+        "trials_dir": "jobs/2026-06-15__15-51-04",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "deepseek/deepseek-4-pro",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "418b6e93-f1e7-474c-a13a-c3a02286b717"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "deepseek-4-pro",
+            "provider": "deepseek"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 31405,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-06-15T16:21:47.145751Z",
+    "finished_at": "2026-06-15T16:29:15.985210Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T16:21:47.151819Z",
+        "finished_at": "2026-06-15T16:21:50.170501Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T16:21:50.170535Z",
+        "finished_at": "2026-06-15T16:22:03.669030Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T16:22:03.669186Z",
+        "finished_at": "2026-06-15T16:28:56.395426Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-15T16:28:57.789807Z",
+        "finished_at": "2026-06-15T16:29:03.035628Z"
+    },
+    "step_results": null
+}

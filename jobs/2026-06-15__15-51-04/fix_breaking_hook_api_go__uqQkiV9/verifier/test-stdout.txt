@@ -1,0 +1,53 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py EE                                             [100%]
+
+==================================== ERRORS ====================================
+__________________ ERROR at setup of test_create_post_success __________________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f96db0eaa20>
+
+    @pytest.fixture(scope="session")
+    def start_app(xprocess):
+        # Compile the Go application
+        compile_result = subprocess.run(
+            ["go", "build", "-o", "myapp", "main.go"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True
+        )
+        if compile_result.returncode != 0:
+>           pytest.fail(f"Failed to compile application: {compile_result.stderr}")
+E           Failed: Failed to compile application: # command-line-arguments
+E           ./main.go:13:6: app.OnRecordBeforeCreateRequest undefined (type *pocketbase.PocketBase has no field or method OnRecordBeforeCreateRequest)
+E           ./main.go:19:29: undefined: core.Slugify
+
+tests/test_final_state.py:20: Failed
+_____________ ERROR at setup of test_create_post_validation_error ______________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f96db0eaa20>
+
+    @pytest.fixture(scope="session")
+    def start_app(xprocess):
+        # Compile the Go application
+        compile_result = subprocess.run(
+            ["go", "build", "-o", "myapp", "main.go"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True
+        )
+        if compile_result.returncode != 0:
+>           pytest.fail(f"Failed to compile application: {compile_result.stderr}")
+E           Failed: Failed to compile application: # command-line-arguments
+E           ./main.go:13:6: app.OnRecordBeforeCreateRequest undefined (type *pocketbase.PocketBase has no field or method OnRecordBeforeCreateRequest)
+E           ./main.go:19:29: undefined: core.Slugify
+
+tests/test_final_state.py:20: Failed
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_create_post_success - Failed: Failed to...
+ERROR tests/test_final_state.py::test_create_post_validation_error - Failed: ...
+============================== 2 errors in 0.95s ===============================

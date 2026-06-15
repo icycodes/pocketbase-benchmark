@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+bootstrap/test_initial_state.py::test_node_available PASSED
+bootstrap/test_initial_state.py::test_project_dir_and_input_image_exist PASSED
+bootstrap/test_initial_state.py::test_pocketbase_running_and_configured Successfully saved superuser "admin@example.com"!
+PASSED
+
+============================== 3 passed in 2.46s ===============================

@@ -1,0 +1,117 @@
+{
+    "id": "4b80153b-2a1e-49f1-be71-b32867c0aa2c",
+    "task_name": "public_read_private_write_collection",
+    "trial_name": "public_read_private_write_collec__VX5NMp6",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__14-13-03/public_read_private_write_collec__VX5NMp6",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/public_read_private_write_collection"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "d1b6cada085a2623f9ba150df50a3e4e7886e26ba7a5e175a5c4f2eff6e9a0f6",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/public_read_private_write_collection",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "public_read_private_write_collec__VX5NMp6",
+        "trials_dir": "jobs/2026-06-15__14-13-03",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "anthropic/claude-4-6-sonnet",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "1fd7572e-e41f-4461-8484-a844e8c83dc4"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "claude-4-6-sonnet",
+            "provider": "anthropic"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 22540,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-06-15T14:18:48.018381Z",
+    "finished_at": "2026-06-15T14:25:53.608843Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T14:18:48.025666Z",
+        "finished_at": "2026-06-15T14:18:51.289366Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T14:18:51.289434Z",
+        "finished_at": "2026-06-15T14:19:08.178070Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T14:19:08.178209Z",
+        "finished_at": "2026-06-15T14:22:36.982150Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-15T14:22:39.062095Z",
+        "finished_at": "2026-06-15T14:25:41.007226Z"
+    },
+    "step_results": null
+}

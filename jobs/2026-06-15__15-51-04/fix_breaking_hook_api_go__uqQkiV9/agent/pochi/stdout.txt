@@ -1,0 +1,76 @@
+- Initializing MCP connections...
+You
+# Fix Breaking Hook API Signature in PocketBase ## Background You have a custom Go backend embedding PocketBase. The project was recently upgraded to PocketBase v0.31.0, but the custom event hooks are failing to compile and run because they use the older v0.22 API signature. In PocketBase v0.23.0+, there was a major API overhaul affecting hook registration and event propagation. ## Requirements * Update `main.go` to fix the `OnRecordBeforeCreateRequest` hook for the `posts` collection. * The hook must use the new `.BindFunc()` registration method. * The hook handler must accept the new event type (`*core.RecordRequestEvent`). * The hook handler must check if the `title` is empty. If it is, return a bad request error. * The hook handler must generate a slug from the title using `core.Slugify(title)` and set it on the record's `slug` field. * The hook handler MUST call and return `e.Next()` to properly propagate the execution chain. If omitted, the record creation will be blocked. * The application must compile successfully and run. ## Implementation Hints * Review the PocketBase v0.23+ upgrade guide for Go hooks. * Hook registration changed from `.Add()` to `.BindFunc()`. * Event handlers now receive a generic `*core.RecordRequestEvent` instead of specific event types. * Handlers must return `e.Next()` to continue the middleware chain. * Use `e.BadRequestError("Title cannot be empty", nil)` for validation errors instead of standard `fmt.Errorf`. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: go run main.go serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * POST `/api/collections/posts/records`: Accepts a JSON body with a `title` and creates a record with an auto-generated `slug`. Returns 200 OK.   
+
+Pochi
+I'll start by examining the current state of the project to understand the codebase and the issues.   
+📂 Listing files in /home/user/myproject recursively ✔ 
+📖 Reading /home/user/myproject/main.go ✔ 
+📖 Reading /home/user/myproject/go.mod ✔ 
+Now I can see the issues clearly. The project is on PocketBase v0.31.0 but the hook in `main.go` uses the old v0.22 API pattern: 1. `.Add()` should be `.BindFunc()` 2. `*core.RecordCreateEvent` should be `*core.RecordRequestEvent` 3. Error returns should use `e.BadRequestError()` instead of `fmt.Errorf` 4. The handler must call and return `e.Next()` 5. Slug should use `core.Slugify(title)` instead of manual concatenation Let me fix all of these:   
+📋 Updating todo list (2 items) ✔ 
+🔧 Applying diff to /home/user/myproject/main.go ✔ 
+📋 Updating todo list (2 items) ✔ 
+💫 Executing cd /home/user/myproject && go build -o /dev/null . 2>&1 ✖ "Command execution timed out after 60 seconds."
+The build timed out due to downloading Go. Let me try with a longer timeout:   
+💫 Executing cd /home/user/myproject && go build -o /dev/null . 2>&1 ✖ "Command exited with code 1"
+There are two issues. Let me check the actual PocketBase v0.31.0 API to understand the correct method names:   
+❯ Explore PocketBase v0.31.0 API (explore)
+| 📋 Updating todo list (0 items)
+| 📋 Updating todo list (4 items)
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/apis
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/app.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/events.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/event_request.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/base.go
+| 📋 Updating todo list (0 items)
+| 📋 Updating todo list (4 items)
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/app.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/apis/api_error_aliases.go
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/hook
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/hook/hook.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/hook/event.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/hook/tagged.go
+| 🔍 Searching for  in .
+| 🔍 Searching for func Slugify in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/router
+| 🔍 Searching for  in .
+| 🔍 Searching for [Ss]lug in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/router/error.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/router/event.go
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/inflector
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/app.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/tools/inflector/inflector.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/app.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/app.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/app.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.31.0/core/app.go
+| 📋 Updating todo list (0 items)
+| 📋 Updating todo list (4 items)

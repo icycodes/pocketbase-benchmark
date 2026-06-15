@@ -1,0 +1,40 @@
+- Initializing MCP connections...
+You
+# PocketBase Strict Email Sanitization Hook (JSVM) ## Background Ensure user email addresses are consistently formatted by sanitizing them before they are saved to the PocketBase database. We are using PocketBase as a standalone application with JSVM hooks. ## Requirements * Write a JSVM event hook that intercepts record creation on the `users` collection. * The hook must automatically lowercase the `email` field. * The hook must automatically trim leading and trailing whitespace from the `email` field. * The hook must allow the record creation to proceed after modification. ## Implementation Hints * Place the hook script in the `pb_hooks` directory. * Use PocketBase's JSVM event hooks to intercept the record creation request. * Read and modify the `email` field on the record object. * Remember that JSVM hook handlers must propagate execution to continue the middleware chain. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: ./pocketbase serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * POST `/api/collections/users/records`: When a new user is created, the `email` field is sanitized (lowercased and whitespace trimmed) before being saved.   
+
+Pochi
+💭 Thinking for 91 characters   
+📂 Listing files in /home/user/myproject ✔ 
+📂 Listing files in /home/user/myproject/pb_hooks ✔ 
+The `pb_hooks` directory is empty. I'll create the JSVM hook script there.   
+✏️  Writing /home/user/myproject/pb_hooks/sanitize_email.pb.js ✔ 
+🎉 Task Completed
+Created `/home/user/myproject/pb_hooks/sanitize_email.pb.js` with the following hook:
+
+```js
+onRecordCreateRequest((e) => {
+    const email = e.record.get("email");
+
+    if (typeof email === "string") {
+        e.record.set("email", email.trim().toLowerCase());
+    }
+
+    e.next();
+}, "users");
+```
+
+**How it works:**
+
+- `onRecordCreateRequest` — intercepts every `POST /api/collections/users/records` request before the record is persisted.
+- The second argument `"users"` scopes the hook exclusively to the `users` collection.
+- `e.record.get("email")` reads the raw email value submitted by the client.
+- `.trim().toLowerCase()` removes surrounding whitespace and normalises case.
+- `e.record.set("email", ...)` writes the sanitized value back onto the record object.
+- `e.next()` propagates execution through the remaining middleware chain so the record creation proceeds normally.
+
+PocketBase auto-loads all `*.pb.js` files from `pb_hooks/` on startup, so no additional registration is required. Start the server with:
+
+```
+./pocketbase serve --http="0.0.0.0:8090"
+```   
+  

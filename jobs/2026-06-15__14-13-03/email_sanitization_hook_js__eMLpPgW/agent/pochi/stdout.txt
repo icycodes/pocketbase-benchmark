@@ -1,0 +1,57 @@
+- Initializing MCP connections...
+You
+# PocketBase JSVM Email Sanitization Hook ## Background https://pocketbase.io/ is a single-file Go backend that can be extended with server-side JavaScript using scripts placed inside a `pb_hooks/` directory. The runtime is based on Goja (ECMAScript 5.1) and executes hooks synchronously. A PocketBase v0.31.0 binary has been pre-extracted to `/home/user/myproject/pocketbase` and an initial superuser has been created so that the application is fully bootstrapped. Your job is to add a JavaScript hook that automatically sanitizes the `email` field on every new user-record creation request and then start the server. ## Requirements * Add a JavaScript hook file inside `/home/user/myproject/pb_hooks/`. The exact filename is up to you, but it must end with `.pb.js` so PocketBase picks it up at boot. * The hook must intercept incoming API requests that create records in the built-in `users` collection. * Before the record is persisted, the hook must rewrite the submitted `email` value so that it has all leading/trailing whitespace removed AND is fully lowercased. * Only the `users` collection should be affected. Other auth collections (such as `_superusers`) must NOT have their email modified by this hook. * The hook must work whether the submitted email is already clean or whether it contains surrounding whitespace and mixed casing. * Start the PocketBase server bound to all interfaces on TCP port 8090. ## Implementation Hints * PocketBase v0.31.0 uses the post-v0.23 hook API: handlers must propagate the chain (otherwise the operation is silently blocked). * The relevant request-level hook gives you access to the in-flight record via the event payload; the record exposes per-field getter/setter helpers. * Hook files placed under `pb_hooks/` with a `.pb.js` suffix are automatically loaded at server startup. They run inside an embedded JS engine that does NOT support `Promise` / `async / await`; keep the hook strictly synchronous. * You do NOT need to (re)create the superuser, modify the `users` collection schema, or write any client code - PocketBase ships with a usable `users` collection by default. ## Acceptance Criteria * Project path: `/home/user/myproject` * Start command: `./pocketbase serve --http=0.0.0.0:8090` * Port: 8090 * A hook file with the extension `.pb.js` exists under `/home/user/myproject/pb_hooks/`. * After the server is running, creating a new user through the public REST API `POST /api/collections/users/records` with a JSON body of the form ```json { "email": "<some email with surrounding whitespace and/or mixed casing>", "password": "<password>", "passwordConfirm": "<same password>" } ``` must return HTTP 200 and the resulting user record (queried after authenticating as that user via `POST /api/collections/users/auth-with-password`) must have its `email` field stored entirely in lowercase with no leading or trailing whitespace. * Submitting an already clean email must still succeed (no errors and no further modification). * The hook must NOT affect non-`users` auth collections: a superuser auth login via `POST /api/collections/_superusers/auth-with-password` with the original (mixed-case or whitespace-padded form of the existing) email must still fail, while logging in with the exact stored superuser email succeeds. In other words, the hook does not change behaviour for `_superusers`.   
+
+Pochi
+💭 Thinking for 860 characters   
+📂 Listing files in /home/user/myproject ✔ 
+✏️  Writing /home/user/myproject/pb_hooks/sanitize_email.pb.js ✔ 
+🛠️ Tool startBackgroundJob ✔ 
+🛠️ Tool readBackgroundJobOutput ✔ 
+Server is up. Let me run a quick end-to-end test to confirm the hook works correctly.   
+💫 Executing 
+# 1. Create a user with padded/mixed-case email
+CREATE=$(curl -s -X POST http://localhost:8090/api/collections/users/records \
+  -H "Content-Type: application/json" \
+  -d '{"email":"  TeSt.User@Example.COM  ","password":"Password1234!","passwordConfirm":"Password1234!"}')
+echo "CREATE response: $CREATE"
+
+# 2. Authenticate as that user using the already-clean email to retrieve the stored record
+AUTH=$(curl -s -X POST http://localhost:8090/api/collections/users/auth-with-password \
+  -H "Content-Type: application/json" \
+  -d '{"identity":"test.user@example.com","password":"Password1234!"}')
+echo "AUTH response: $AUTH"
+
+# Extract stored email
+echo "$AUTH" | grep -o '"email":"[^"]*"'
+ ✔ 
+The hook works perfectly. The stored email is `test.user@example.com` — fully trimmed and lowercased from the input ` TeSt.User@Example.COM `.   
+🎉 Task Completed
+The implementation is complete and verified.
+
+**Hook file:** `/home/user/myproject/pb_hooks/sanitize_email.pb.js`
+
+```js
+onRecordCreateRequest((e) => {
+    if (e.collection.name === "users") {
+        var email = e.record.get("email");
+        if (typeof email === "string" && email.length > 0) {
+            e.record.set("email", email.trim().toLowerCase());
+        }
+    }
+    e.next();
+});
+```
+
+**How it works:**
+- `onRecordCreateRequest` fires before every record-create API call and receives the in-flight event `e`.
+- The guard `e.collection.name === "users"` ensures the hook only touches the `users` collection; `_superusers` and any other auth collections are left untouched.
+- `e.record.get("email")` / `e.record.set("email", …)` read and rewrite the field before it hits the database.
+- `e.next()` propagates the handler chain — omitting this would silently block all record creation.
+
+**Server is running** at `http://0.0.0.0:8090` (started with `./pocketbase serve --http=0.0.0.0:8090`).
+
+**End-to-end test confirmed:** posting `"email": "  TeSt.User@Example.COM  "` resulted in the record being stored as `test.user@example.com` — whitespace trimmed and fully lowercased.   
+- Waiting for background jobs to complete (timeout: 60000ms)...
+✖ Async wait timeout reached. Remaining: 1 job(s)
+  

@@ -1,0 +1,187 @@
+- Initializing MCP connections...
+You
+# Multi-Tenant Organization Permissions in PocketBase ## Background PocketBase allows defining powerful SQL-like API rules to control access to records. In a multi-tenant B2B application, users belong to organizations with specific roles, and resources belong to those organizations. You need to configure a PocketBase schema and API rules to enforce these multi-tenant access controls. ## Requirements * Initialize a standalone PocketBase project. * Create a JS migration file in `pb_migrations` that creates three collections: 1. `organizations`: Contains a `name` (text) field. 2. `organization_members`: Contains `user` (relation to `users` collection), `organization` (relation to `organizations` collection), and `role` (select field with options: `owner`, `editor`, `viewer`). 3. `documents`: Contains `title` (text), `content` (text), and `organization` (relation to `organizations`). * Configure the following API rules for the `documents` collection: * **List/View**: A user can read a document only if they have an `organization_members` record linking them to the document's organization (regardless of role). * **Create**: A user can create a document only if they have an `owner` or `editor` role in the organization they are assigning the document to. * **Update**: A user can update a document only if they have an `owner` or `editor` role in the document's organization. * **Delete**: A user can delete a document only if they have an `owner` role in the document's organization. ## Implementation Hints * Download and use the PocketBase v0.31.0 linux-amd64 binary. * Place your schema creation logic inside a JavaScript migration file in the `pb_migrations` directory. PocketBase will run this migration automatically on startup. * Use the `@collection.organization_members...` syntax in your API rules to query the membership and role of the requesting user (`@request.auth.id`). * Ensure you check `@request.body.organization` for creation rules and the existing `organization` field for update/delete rules. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: ./pocketbase serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * The PocketBase REST API must be active and the collections (`organizations`, `organization_members`, `documents`) must exist. * The API rules on the `documents` collection must correctly enforce the role-based access control described in the requirements.   
+
+Pochi
+💭 Thinking for 583 characters   
+💫 Executing mkdir -p /home/user/myproject && cd /home/user/myproject && wget https://github.com/pocketbase/pocketbase/releases/download/v0.22.21/pocketbase_0.22.21_linux_amd64.zip -O pb.zip || wget https://github.com/pocketbase/pocketbase/releases/download/v0.22.22/pocketbase_0.22.22_linux_amd64.zip -O pb.zip || wget https://github.com/pocketbase/pocketbase/releases/download/v0.23.0/pocketbase_0.23.0_linux_amd64.zip -O pb.zip ✔ 
+💭 Thinking for 122 characters   
+💫 Executing unzip pb.zip -d /home/user/myproject ✖ "Command exited with code 9"
+💭 Thinking for 204 characters   
+💫 Executing cd /home/user/myproject && unzip pb.zip ✖ "Command exited with code 1"
+💭 Thinking for 227 characters   
+💫 Executing cd /home/user/myproject && unzip -o pb.zip ✔ 
+💭 Thinking for 1643 characters   
+💫 Executing cat << 'EOF' > /home/user/myproject/test.js
+const pb = require('pocketbase');
+EOF
+ ✔ 
+💭 Thinking for 1081 characters   
+💫 Executing cd /home/user/myproject && ./pocketbase migrate create "init" ✔ 
+💫 Executing cd /home/user/myproject && echo "y" | ./pocketbase migrate create "init" ✔ 
+💫 Executing cd /home/user/myproject && ./pocketbase migrate create init 2>&1 < /dev/null ✔ 
+💫 Executing cd /home/user/myproject && ./pocketbase migrate create --help ✔ 
+💭 Thinking for 588 characters   
+💫 Executing cd /home/user/myproject && ./pocketbase serve > /dev/null 2>&1 & sleep 2 && curl http://127.0.0.1:8090/api/collections ✔ 
+💭 Thinking for 525 characters   
+💫 Executing cd /home/user/myproject && ./pocketbase --version ✔ 
+💭 Thinking for 287 characters   
+💫 Executing mkdir -p /home/user/myproject/pb_migrations && cat << 'EOF' > /home/user/myproject/pb_migrations/1690000000_init.js
+migrate((db) => {
+  const dao = new Dao(db);
+
+  const organizations = new Collection({
+    id: "orgs00000000000",
+    name: "organizations",
+    type: "base",
+    system: false,
+    schema: [
+      {
+        id: "orgs_name",
+        name: "name",
+        type: "text",
+        required: true,
+      }
+    ]
+  });
+  dao.saveCollection(organizations);
+
+  const organization_members = new Collection({
+    id: "org_members0000",
+    name: "organization_members",
+    type: "base",
+    system: false,
+    schema: [
+      {
+        id: "orgm_user",
+        name: "user",
+        type: "relation",
+        required: true,
+        options: {
+          collectionId: "_pb_users_auth_",
+          cascadeDelete: true,
+          minSelect: null,
+          maxSelect: 1,
+        }
+      },
+      {
+        id: "orgm_org",
+        name: "organization",
+        type: "relation",
+        required: true,
+        options: {
+          collectionId: "orgs00000000000",
+          cascadeDelete: true,
+          minSelect: null,
+          maxSelect: 1,
+        }
+      },
+      {
+        id: "orgm_role",
+        name: "role",
+        type: "select",
+        required: true,
+        options: {
+          maxSelect: 1,
+          values: ["owner", "editor", "viewer"]
+        }
+      }
+    ]
+  });
+  dao.saveCollection(organization_members);
+
+  const documents = new Collection({
+    id: "docs00000000000",
+    name: "documents",
+    type: "base",
+    system: false,
+    schema: [
+      {
+        id: "docs_title",
+        name: "title",
+        type: "text",
+        required: true,
+      },
+      {
+        id: "docs_content",
+        name: "content",
+        type: "text",
+      },
+      {
+        id: "docs_org",
+        name: "organization",
+        type: "relation",
+        required: true,
+        options: {
+          collectionId: "orgs00000000000",
+          cascadeDelete: true,
+          minSelect: null,
+          maxSelect: 1,
+        }
+      }
+    ],
+    listRule: "@collection.organization_members.organization ?= organization && @collection.organization_members.user ?= @request.auth.id",
+    viewRule: "@collection.organization_members.organization ?= organization && @collection.organization_members.user ?= @request.auth.id",
+    createRule: "@collection.organization_members.organization ?= @request.body.organization && @collection.organization_members.user ?= @request.auth.id && (@collection.organization_members.role ?= 'owner' || @collection.organization_members.role ?= 'editor')",
+    updateRule: "@collection.organization_members.organization ?= organization && @collection.organization_members.user ?= @request.auth.id && (@collection.organization_members.role ?= 'owner' || @collection.organization_members.role ?= 'editor')",
+    deleteRule: "@collection.organization_members.organization ?= organization && @collection.organization_members.user ?= @request.auth.id && @collection.organization_members.role ?= 'owner'",
+  });
+  dao.saveCollection(documents);
+
+}, (db) => {
+  const dao = new Dao(db);
+  try {
+    dao.deleteCollection(dao.findCollectionByNameOrId("documents"));
+    dao.deleteCollection(dao.findCollectionByNameOrId("organization_members"));
+    dao.deleteCollection(dao.findCollectionByNameOrId("organizations"));
+  } catch (e) {
+    // ignore
+  }
+});
+EOF
+ ✔ 
+💭 Thinking for 294 characters   
+💫 Executing killall pocketbase && cd /home/user/myproject && ./pocketbase migrate ✖ "Command exited with code 127"
+💫 Executing pkill pocketbase && cd /home/user/myproject && ./pocketbase migrate ✔ 
+💭 Thinking for 900 characters   
+💫 Executing cd /home/user/myproject && cat << 'EOF' > test-rule.js
+const pb = require('pocketbase');
+EOF
+ ✔ 
+💭 Thinking for 1022 characters   
+💫 Executing cd /home/user/myproject && ./pocketbase serve > /dev/null 2>&1 & sleep 2 && curl -s http://127.0.0.1:8090/api/collections/documents/records -X POST -H 'Content-Type: application/json' -d '{"title":"test", "organization":"orgs00000000000"}' ✔ 
+💭 Thinking for 231 characters   
+💫 Executing cd /home/user/myproject && cat << 'EOF' > test.sh
+curl -s http://127.0.0.1:8090/api/collections/organizations/records -X POST -H 'Content-Type: application/json' -d '{"id":"orgs00000000000", "name":"Test Org"}'
+EOF
+bash test.sh ✔ 
+💭 Thinking for 848 characters   
+💫 Executing sqlite3 /home/user/myproject/pb_data/data.db "SELECT * FROM _collections WHERE name='documents';" ✖ "Command exited with code 127"
+💫 Executing cd /home/user/myproject && ./pocketbase admin create admin@example.com password12345 ✔ 
+💫 Executing curl -s http://127.0.0.1:8090/api/admins/auth-with-password -X POST -H 'Content-Type: application/json' -d '{"identity":"admin@example.com", "password":"password12345"}' | grep -o '"token":"[^"]*"' | cut -d'"' -f4 ✔ 
+💫 Executing TOKEN=$(curl -s http://127.0.0.1:8090/api/admins/auth-with-password -X POST -H 'Content-Type: application/json' -d '{"identity":"admin@example.com", "password":"password12345"}' | grep -o '"token":"[^"]*"' | cut -d'"' -f4) && curl -s http://127.0.0.1:8090/api/collections/documents -X PATCH -H "Authorization: $TOKEN" -H "Content-Type: application/json" -d '{"createRule": "@request.body.organization = \"123\""}' ✔ 
+💭 Thinking for 346 characters   
+💫 Executing curl -s https://api.github.com/repos/pocketbase/pocketbase/releases/latest | grep '"tag_name"' ✔ 
+💭 Thinking for 149 characters   
+💫 Executing curl -s https://api.github.com/repos/pocketbase/pocketbase/releases/tags/v0.31.0 | grep '"tag_name"' ✔ 
+💭 Thinking for 102 characters   
+💫 Executing pkill pocketbase && cd /home/user/myproject && wget https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip -O pb31.zip && unzip -o pb31.zip ✔ 
+💭 Thinking for 227 characters   
+💫 Executing cd /home/user/myproject && ./pocketbase --version ✔ 
+💭 Thinking for 693 characters   
+💫 Executing cd /home/user/myproject && ./pocketbase migrate create init 2>&1 < /dev/null ✔ 
+💭 Thinking for 269 characters   
+💫 Executing cd /home/user/myproject && ./pocketbase serve > /dev/null 2>&1 & sleep 2 ✔ 
+💫 Executing curl -s http://127.0.0.1:8090/api/admins/auth-with-password -X POST -H 'Content-Type: application/json' -d '{"identity":"admin@example.com", "password":"password12345"}' | grep -o '"token":"[^"]*"' | cut -d'"' -f4 ✔ 
+💭 Thinking for 249 characters   
+💫 Executing cd /home/user/myproject && ./pocketbase superuser create admin@example.com password12345 ✔ 
+💭 Thinking for 249 characters   
+💫 Executing curl -s http://127.0.0.1:8090/api/collections/_superusers/auth-with-password -X POST -H 'Content-Type: application/json' -d '{"identity":"admin@example.com", "password":"password12345"}' | grep -o '"token":"[^"]*"' | cut -d'"' -f4 ✔ 
+💫 Executing TOKEN=$(curl -s http://127.0.0.1:8090/api/collections/_superusers/auth-with-password -X POST -H 'Content-Type: application/json' -d '{"identity":"admin@example.com", "password":"password12345"}' | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+curl -s http://127.0.0.1:8090/api/collections -X POST -H "Authorization: $TOKEN" -H "Content-Type: application/json" -d '{
+  "name": "organizations",
+  "type": "base",
+  "fields": [
+    {"name": "name", "type": "text", "required": true}
+  ]
+}' ✔ 

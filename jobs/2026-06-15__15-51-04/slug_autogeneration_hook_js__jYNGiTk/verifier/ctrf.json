@@ -1,0 +1,65 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T16:20:58.138996+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 0,
+            "failed": 3,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781540457584,
+            "stop": 1781540458138
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_create_post_valid_title",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 159,
+                "start": 1781540457958,
+                "stop": 1781540458117,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_create_post_valid_title(start_app):\n        url = f\"{BASE_URL}/api/collections/posts/records\"\n        payload = {\"title\": \"Hello PocketBase JSVM\"}\n    \n        response = requests.post(url, json=payload)\n    \n        assert response.status_code == 200, f\"Expected status 200, got {response.status_code}. Response: {response.text}\"\n        data = response.json()\n        assert data.get(\"title\") == \"Hello PocketBase JSVM\", f\"Expected title to be 'Hello PocketBase JSVM', got {data.get('title')}\"\n>       assert data.get(\"slug\") == \"hello-pocketbase-jsvm\", f\"Expected slug to be 'hello-pocketbase-jsvm', got {data.get('slug')}\"\nE       AssertionError: Expected slug to be 'hello-pocketbase-jsvm', got \nE       assert '' == 'hello-pocketbase-jsvm'\nE         - hello-pocketbase-jsvm\n\ntests/test_final_state.py:41: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_empty_title",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 9,
+                "start": 1781540458117,
+                "stop": 1781540458126,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_create_post_empty_title(start_app):\n        url = f\"{BASE_URL}/api/collections/posts/records\"\n        payload = {\"title\": \"\"}\n    \n        response = requests.post(url, json=payload)\n    \n>       assert response.status_code == 400, f\"Expected status 400 for empty title, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 400 for empty title, got 200. Response: {\"collectionId\":\"pbc_1125843985\",\"collectionName\":\"posts\",\"id\":\"n6obmhw364i4ywv\",\"slug\":\"\",\"title\":\"\"}\nE         \nE       assert 200 == 400\nE        +  where 200 = <Response [200]>.status_code\n\ntests/test_final_state.py:49: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_missing_title",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 12,
+                "start": 1781540458126,
+                "stop": 1781540458138,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_create_post_missing_title(start_app):\n        url = f\"{BASE_URL}/api/collections/posts/records\"\n        payload = {}\n    \n        response = requests.post(url, json=payload)\n    \n>       assert response.status_code == 400, f\"Expected status 400 for missing title, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 400 for missing title, got 200. Response: {\"collectionId\":\"pbc_1125843985\",\"collectionName\":\"posts\",\"id\":\"qkrh34g21jbmc3z\",\"slug\":\"\",\"title\":\"\"}\nE         \nE       assert 200 == 400\nE        +  where 200 = <Response [200]>.status_code\n\ntests/test_final_state.py:60: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

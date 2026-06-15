@@ -1,0 +1,367 @@
+Trial transactional_ledger_hook_go__J5t7bre failed: Docker compose command failed for environment transactional_ledger_hook_go. Command: docker compose --project-name transactional_ledger_hook_go__j5t7bre --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/transactional_ledger_hook_go/environment -f /tmp/tmpk2selkdd/transactional_ledger_hook_go__J5t7bre-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpywpkjre4/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.12kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main 1/6] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main 2/6] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep golang-go unzip &&     ln -s /usr/bin/python3 /usr/bin/python &&     pip3 install --break-system-packages pytest-json-ctrf requests pytest-xprocess &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main 3/6] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main 4/6] RUN mkdir -p /home/user/myproject &&     cd /home/user/myproject &&     cat >main.go <<'EOF'
+#7 DONE 0.5s
+
+#8 [main 5/6] RUN cd /home/user/myproject &&     go mod init myproject &&     go get github.com/pocketbase/pocketbase@v0.31.0 &&     go mod tidy
+#8 0.609 go: creating new go.mod: module myproject
+#8 0.609 go: to add module requirements and sums:
+#8 0.609 	go mod tidy
+#8 0.706 go: downloading github.com/pocketbase/pocketbase v0.31.0
+#8 1.659 go: github.com/pocketbase/pocketbase@v0.31.0 requires go >= 1.24.0; switching to go1.25.11
+#8 1.659 go: downloading go1.25.11 (linux/amd64)
+#8 12.83 go: downloading github.com/spf13/cobra v1.10.1
+#8 12.83 go: downloading github.com/fatih/color v1.18.0
+#8 12.84 go: downloading github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+#8 12.86 go: downloading github.com/spf13/cast v1.10.0
+#8 12.88 go: downloading github.com/pocketbase/dbx v1.11.0
+#8 12.88 go: downloading golang.org/x/crypto v0.43.0
+#8 12.95 go: downloading github.com/golang-jwt/jwt/v5 v5.3.0
+#8 12.97 go: downloading golang.org/x/sync v0.17.0
+#8 12.98 go: downloading modernc.org/sqlite v1.39.1
+#8 13.04 go: downloading golang.org/x/oauth2 v0.32.0
+#8 13.10 go: downloading github.com/mattn/go-colorable v0.1.14
+#8 13.10 go: downloading github.com/mattn/go-isatty v0.0.20
+#8 13.11 go: downloading golang.org/x/sys v0.37.0
+#8 13.17 go: downloading github.com/gabriel-vasile/mimetype v1.4.10
+#8 13.22 go: downloading github.com/disintegration/imaging v1.6.2
+#8 13.22 go: downloading golang.org/x/image v0.32.0
+#8 13.39 go: downloading github.com/domodwyer/mailyak/v3 v3.6.2
+#8 13.39 go: downloading golang.org/x/net v0.46.0
+#8 13.47 go: downloading github.com/ganigeorgiev/fexpr v0.5.0
+#8 13.51 go: downloading github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+#8 13.58 go: downloading github.com/inconshreveable/mousetrap v1.1.0
+#8 13.58 go: downloading github.com/spf13/pflag v1.0.10
+#8 14.20 go: downloading golang.org/x/text v0.30.0
+#8 20.38 go: downloading modernc.org/libc v1.66.10
+#8 24.48 go: downloading github.com/google/uuid v1.6.0
+#8 24.48 go: downloading golang.org/x/exp v0.0.0-20251017212417-90e834f514db
+#8 24.48 go: downloading github.com/dustin/go-humanize v1.0.1
+#8 24.48 go: downloading github.com/ncruces/go-strftime v1.0.0
+#8 24.48 go: downloading modernc.org/memory v1.11.0
+#8 24.49 go: downloading modernc.org/mathutil v1.7.1
+#8 24.56 go: downloading github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec
+#8 25.03 go: upgraded go 1.22.2 => 1.24.0
+#8 25.03 go: added github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+#8 25.03 go: added github.com/disintegration/imaging v1.6.2
+#8 25.03 go: added github.com/domodwyer/mailyak/v3 v3.6.2
+#8 25.03 go: added github.com/dustin/go-humanize v1.0.1
+#8 25.03 go: added github.com/fatih/color v1.18.0
+#8 25.03 go: added github.com/gabriel-vasile/mimetype v1.4.10
+#8 25.03 go: added github.com/ganigeorgiev/fexpr v0.5.0
+#8 25.03 go: added github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+#8 25.03 go: added github.com/golang-jwt/jwt/v5 v5.3.0
+#8 25.03 go: added github.com/google/uuid v1.6.0
+#8 25.03 go: added github.com/inconshreveable/mousetrap v1.1.0
+#8 25.03 go: added github.com/mattn/go-colorable v0.1.14
+#8 25.03 go: added github.com/mattn/go-isatty v0.0.20
+#8 25.03 go: added github.com/ncruces/go-strftime v1.0.0
+#8 25.03 go: added github.com/pocketbase/dbx v1.11.0
+#8 25.03 go: added github.com/pocketbase/pocketbase v0.31.0
+#8 25.03 go: added github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec
+#8 25.03 go: added github.com/spf13/cast v1.10.0
+#8 25.03 go: added github.com/spf13/cobra v1.10.1
+#8 25.03 go: added github.com/spf13/pflag v1.0.10
+#8 25.03 go: added golang.org/x/crypto v0.43.0
+#8 25.03 go: added golang.org/x/exp v0.0.0-20251017212417-90e834f514db
+#8 25.03 go: added golang.org/x/image v0.32.0
+#8 25.03 go: added golang.org/x/net v0.46.0
+#8 25.03 go: added golang.org/x/oauth2 v0.32.0
+#8 25.03 go: added golang.org/x/sync v0.17.0
+#8 25.03 go: added golang.org/x/sys v0.37.0
+#8 25.03 go: added golang.org/x/text v0.30.0
+#8 25.03 go: added modernc.org/libc v1.66.10
+#8 25.03 go: added modernc.org/mathutil v1.7.1
+#8 25.03 go: added modernc.org/memory v1.11.0
+#8 25.03 go: added modernc.org/sqlite v1.39.1
+#8 25.05 go: downloading go1.24.0 (linux/amd64)
+#8 41.53 go: downloading github.com/frankban/quicktest v1.14.6
+#8 41.59 go: downloading github.com/go-sql-driver/mysql v1.4.1
+#8 41.59 go: downloading github.com/stretchr/testify v1.4.0
+#8 41.67 go: downloading github.com/google/pprof v0.0.0-20251007162407-5df77e3f7d1d
+#8 41.67 go: downloading modernc.org/fileutil v1.3.40
+#8 41.80 go: downloading github.com/davecgh/go-spew v1.1.0
+#8 41.80 go: downloading github.com/pmezard/go-difflib v1.0.0
+#8 41.81 go: downloading gopkg.in/yaml.v2 v2.2.2
+#8 41.83 go: downloading google.golang.org/appengine v1.6.5
+#8 41.86 go: downloading github.com/google/go-cmp v0.6.0
+#8 41.87 go: downloading github.com/kr/pretty v0.3.1
+#8 41.97 go: downloading github.com/kr/text v0.2.0
+#8 41.99 go: downloading github.com/rogpeppe/go-internal v1.9.0
+#8 42.24 go: downloading golang.org/x/tools v0.38.0
+#8 42.25 go: downloading modernc.org/goabi0 v0.2.0
+#8 42.25 go: downloading modernc.org/ccgo/v4 v4.28.1
+#8 42.25 go: downloading modernc.org/cc/v4 v4.26.5
+#8 42.55 go: downloading modernc.org/token v1.1.0
+#8 42.55 go: downloading modernc.org/strutil v1.2.1
+#8 42.55 go: downloading modernc.org/opt v0.1.4
+#8 42.55 go: downloading modernc.org/sortutil v1.2.1
+#8 42.65 go: downloading modernc.org/gc/v2 v2.6.5
+#8 42.65 go: downloading golang.org/x/mod v0.29.0
+#8 DONE 46.8s
+
+#9 [main 6/6] RUN curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H "Content-Type: application/json" -d '{"identity":"test@example.com","password":"password12345"}' | grep -o '"token":"[^"]*' | cut -d'"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"wallets","type":"base","fields":[{"name":"balance","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"ledger","type":"base","fields":[{"name":"wallet_id","type":"relation","relationOptions":{"collectionId":"wallets","cascadeDelete":false}},{"name":"amount","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletrich00000","balance":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletpoor00000","balance":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip
+#9 0.491   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+#9 0.492                                  Dload  Upload   Total   Spent    Left  Speed
+#9 0.492   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+#9 0.978 100 12.0M  100 12.0M    0     0  24.6M      0 --:--:-- --:--:-- --:--:-- 24.6M100 12.0M  100 12.0M    0     0  24.6M      0 --:--:-- --:--:-- --:--:--     0
+#9 0.992 Archive:  pocketbase.zip
+#9 0.992   inflating: CHANGELOG.md            
+#9 0.993   inflating: LICENSE.md              
+#9 0.993   inflating: pocketbase              
+#9 1.490 Error: unknown command "admin" for "pocketbase"
+#9 1.490 Run 'pocketbase --help' for usage.
+#9 1.614 2026/06/15 13:59:38 Server started at http://127.0.0.1:8090
+#9 1.614 ├─ REST API:  http://127.0.0.1:8090/api/
+#9 1.614 └─ Dashboard: http://127.0.0.1:8090/_/
+#9 1.702 
+#9 1.702 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+#9 1.702 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+#9 1.702 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+#9 1.702 
+#9 3.485 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+#9 3.496 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+#9 3.509 {"data":{},"message":"Missing or invalid collection context.","status":404}
+#9 3.524 {"data":{},"message":"Missing or invalid collection context.","status":404}
+#9 3.526 /bin/sh: 1: kill: No such process
+#9 3.526 
+#9 ERROR: process "/bin/sh -c curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H \"Content-Type: application/json\" -d '{\"identity\":\"test@example.com\",\"password\":\"password12345\"}' | grep -o '\"token\":\"[^\"]*' | cut -d'\"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"wallets\",\"type\":\"base\",\"fields\":[{\"name\":\"balance\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"ledger\",\"type\":\"base\",\"fields\":[{\"name\":\"wallet_id\",\"type\":\"relation\",\"relationOptions\":{\"collectionId\":\"wallets\",\"cascadeDelete\":false}},{\"name\":\"amount\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletrich00000\",\"balance\":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletpoor00000\",\"balance\":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip" did not complete successfully: exit code: 1
+------
+ > [main 6/6] RUN curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H "Content-Type: application/json" -d '{"identity":"test@example.com","password":"password12345"}' | grep -o '"token":"[^"]*' | cut -d'"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"wallets","type":"base","fields":[{"name":"balance","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"ledger","type":"base","fields":[{"name":"wallet_id","type":"relation","relationOptions":{"collectionId":"wallets","cascadeDelete":false}},{"name":"amount","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletrich00000","balance":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletpoor00000","balance":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip:
+1.702 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+1.702 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+1.702 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+1.702 
+3.485 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+3.496 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+3.509 {"data":{},"message":"Missing or invalid collection context.","status":404}
+3.524 {"data":{},"message":"Missing or invalid collection context.","status":404}
+3.526 /bin/sh: 1: kill: No such process
+3.526 
+------
+failed to solve: process "/bin/sh -c curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H \"Content-Type: application/json\" -d '{\"identity\":\"test@example.com\",\"password\":\"password12345\"}' | grep -o '\"token\":\"[^\"]*' | cut -d'\"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"wallets\",\"type\":\"base\",\"fields\":[{\"name\":\"balance\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"ledger\",\"type\":\"base\",\"fields\":[{\"name\":\"wallet_id\",\"type\":\"relation\",\"relationOptions\":{\"collectionId\":\"wallets\",\"cascadeDelete\":false}},{\"name\":\"amount\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletrich00000\",\"balance\":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletpoor00000\",\"balance\":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip" did not complete successfully: exit code: 1
+. Stderr: None. 
+Failed to download artifact '/home/user' (best-effort)
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 160, in run
+    await self._prepare()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 187, in _prepare
+    await self._setup_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 612, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 618, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/usr/lib/python3.13/asyncio/tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 517, in start
+    await self._run_docker_compose_command(["build"])
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment transactional_ledger_hook_go. Command: docker compose --project-name transactional_ledger_hook_go__j5t7bre --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/transactional_ledger_hook_go/environment -f /tmp/tmpk2selkdd/transactional_ledger_hook_go__J5t7bre-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpywpkjre4/docker-compose-mounts.json build. Return code: 17. Stdout: #0 building with "default" instance using docker driver
+
+#1 [main internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.12kB done
+#1 DONE 0.0s
+
+#2 [main internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 0.0s
+
+#3 [main internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [main 1/6] FROM docker.io/library/ubuntu:24.04
+#4 DONE 0.0s
+
+#5 [main 2/6] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep golang-go unzip &&     ln -s /usr/bin/python3 /usr/bin/python &&     pip3 install --break-system-packages pytest-json-ctrf requests pytest-xprocess &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [main 3/6] RUN mkdir -p /home/user && chmod 0755 /home/user
+#6 CACHED
+
+#7 [main 4/6] RUN mkdir -p /home/user/myproject &&     cd /home/user/myproject &&     cat >main.go <<'EOF'
+#7 DONE 0.5s
+
+#8 [main 5/6] RUN cd /home/user/myproject &&     go mod init myproject &&     go get github.com/pocketbase/pocketbase@v0.31.0 &&     go mod tidy
+#8 0.609 go: creating new go.mod: module myproject
+#8 0.609 go: to add module requirements and sums:
+#8 0.609 	go mod tidy
+#8 0.706 go: downloading github.com/pocketbase/pocketbase v0.31.0
+#8 1.659 go: github.com/pocketbase/pocketbase@v0.31.0 requires go >= 1.24.0; switching to go1.25.11
+#8 1.659 go: downloading go1.25.11 (linux/amd64)
+#8 12.83 go: downloading github.com/spf13/cobra v1.10.1
+#8 12.83 go: downloading github.com/fatih/color v1.18.0
+#8 12.84 go: downloading github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+#8 12.86 go: downloading github.com/spf13/cast v1.10.0
+#8 12.88 go: downloading github.com/pocketbase/dbx v1.11.0
+#8 12.88 go: downloading golang.org/x/crypto v0.43.0
+#8 12.95 go: downloading github.com/golang-jwt/jwt/v5 v5.3.0
+#8 12.97 go: downloading golang.org/x/sync v0.17.0
+#8 12.98 go: downloading modernc.org/sqlite v1.39.1
+#8 13.04 go: downloading golang.org/x/oauth2 v0.32.0
+#8 13.10 go: downloading github.com/mattn/go-colorable v0.1.14
+#8 13.10 go: downloading github.com/mattn/go-isatty v0.0.20
+#8 13.11 go: downloading golang.org/x/sys v0.37.0
+#8 13.17 go: downloading github.com/gabriel-vasile/mimetype v1.4.10
+#8 13.22 go: downloading github.com/disintegration/imaging v1.6.2
+#8 13.22 go: downloading golang.org/x/image v0.32.0
+#8 13.39 go: downloading github.com/domodwyer/mailyak/v3 v3.6.2
+#8 13.39 go: downloading golang.org/x/net v0.46.0
+#8 13.47 go: downloading github.com/ganigeorgiev/fexpr v0.5.0
+#8 13.51 go: downloading github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+#8 13.58 go: downloading github.com/inconshreveable/mousetrap v1.1.0
+#8 13.58 go: downloading github.com/spf13/pflag v1.0.10
+#8 14.20 go: downloading golang.org/x/text v0.30.0
+#8 20.38 go: downloading modernc.org/libc v1.66.10
+#8 24.48 go: downloading github.com/google/uuid v1.6.0
+#8 24.48 go: downloading golang.org/x/exp v0.0.0-20251017212417-90e834f514db
+#8 24.48 go: downloading github.com/dustin/go-humanize v1.0.1
+#8 24.48 go: downloading github.com/ncruces/go-strftime v1.0.0
+#8 24.48 go: downloading modernc.org/memory v1.11.0
+#8 24.49 go: downloading modernc.org/mathutil v1.7.1
+#8 24.56 go: downloading github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec
+#8 25.03 go: upgraded go 1.22.2 => 1.24.0
+#8 25.03 go: added github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+#8 25.03 go: added github.com/disintegration/imaging v1.6.2
+#8 25.03 go: added github.com/domodwyer/mailyak/v3 v3.6.2
+#8 25.03 go: added github.com/dustin/go-humanize v1.0.1
+#8 25.03 go: added github.com/fatih/color v1.18.0
+#8 25.03 go: added github.com/gabriel-vasile/mimetype v1.4.10
+#8 25.03 go: added github.com/ganigeorgiev/fexpr v0.5.0
+#8 25.03 go: added github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+#8 25.03 go: added github.com/golang-jwt/jwt/v5 v5.3.0
+#8 25.03 go: added github.com/google/uuid v1.6.0
+#8 25.03 go: added github.com/inconshreveable/mousetrap v1.1.0
+#8 25.03 go: added github.com/mattn/go-colorable v0.1.14
+#8 25.03 go: added github.com/mattn/go-isatty v0.0.20
+#8 25.03 go: added github.com/ncruces/go-strftime v1.0.0
+#8 25.03 go: added github.com/pocketbase/dbx v1.11.0
+#8 25.03 go: added github.com/pocketbase/pocketbase v0.31.0
+#8 25.03 go: added github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec
+#8 25.03 go: added github.com/spf13/cast v1.10.0
+#8 25.03 go: added github.com/spf13/cobra v1.10.1
+#8 25.03 go: added github.com/spf13/pflag v1.0.10
+#8 25.03 go: added golang.org/x/crypto v0.43.0
+#8 25.03 go: added golang.org/x/exp v0.0.0-20251017212417-90e834f514db
+#8 25.03 go: added golang.org/x/image v0.32.0
+#8 25.03 go: added golang.org/x/net v0.46.0
+#8 25.03 go: added golang.org/x/oauth2 v0.32.0
+#8 25.03 go: added golang.org/x/sync v0.17.0
+#8 25.03 go: added golang.org/x/sys v0.37.0
+#8 25.03 go: added golang.org/x/text v0.30.0
+#8 25.03 go: added modernc.org/libc v1.66.10
+#8 25.03 go: added modernc.org/mathutil v1.7.1
+#8 25.03 go: added modernc.org/memory v1.11.0
+#8 25.03 go: added modernc.org/sqlite v1.39.1
+#8 25.05 go: downloading go1.24.0 (linux/amd64)
+#8 41.53 go: downloading github.com/frankban/quicktest v1.14.6
+#8 41.59 go: downloading github.com/go-sql-driver/mysql v1.4.1
+#8 41.59 go: downloading github.com/stretchr/testify v1.4.0
+#8 41.67 go: downloading github.com/google/pprof v0.0.0-20251007162407-5df77e3f7d1d
+#8 41.67 go: downloading modernc.org/fileutil v1.3.40
+#8 41.80 go: downloading github.com/davecgh/go-spew v1.1.0
+#8 41.80 go: downloading github.com/pmezard/go-difflib v1.0.0
+#8 41.81 go: downloading gopkg.in/yaml.v2 v2.2.2
+#8 41.83 go: downloading google.golang.org/appengine v1.6.5
+#8 41.86 go: downloading github.com/google/go-cmp v0.6.0
+#8 41.87 go: downloading github.com/kr/pretty v0.3.1
+#8 41.97 go: downloading github.com/kr/text v0.2.0
+#8 41.99 go: downloading github.com/rogpeppe/go-internal v1.9.0
+#8 42.24 go: downloading golang.org/x/tools v0.38.0
+#8 42.25 go: downloading modernc.org/goabi0 v0.2.0
+#8 42.25 go: downloading modernc.org/ccgo/v4 v4.28.1
+#8 42.25 go: downloading modernc.org/cc/v4 v4.26.5
+#8 42.55 go: downloading modernc.org/token v1.1.0
+#8 42.55 go: downloading modernc.org/strutil v1.2.1
+#8 42.55 go: downloading modernc.org/opt v0.1.4
+#8 42.55 go: downloading modernc.org/sortutil v1.2.1
+#8 42.65 go: downloading modernc.org/gc/v2 v2.6.5
+#8 42.65 go: downloading golang.org/x/mod v0.29.0
+#8 DONE 46.8s
+
+#9 [main 6/6] RUN curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H "Content-Type: application/json" -d '{"identity":"test@example.com","password":"password12345"}' | grep -o '"token":"[^"]*' | cut -d'"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"wallets","type":"base","fields":[{"name":"balance","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"ledger","type":"base","fields":[{"name":"wallet_id","type":"relation","relationOptions":{"collectionId":"wallets","cascadeDelete":false}},{"name":"amount","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletrich00000","balance":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletpoor00000","balance":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip
+#9 0.491   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+#9 0.492                                  Dload  Upload   Total   Spent    Left  Speed
+#9 0.492   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+#9 0.978 100 12.0M  100 12.0M    0     0  24.6M      0 --:--:-- --:--:-- --:--:-- 24.6M100 12.0M  100 12.0M    0     0  24.6M      0 --:--:-- --:--:-- --:--:--     0
+#9 0.992 Archive:  pocketbase.zip
+#9 0.992   inflating: CHANGELOG.md            
+#9 0.993   inflating: LICENSE.md              
+#9 0.993   inflating: pocketbase              
+#9 1.490 Error: unknown command "admin" for "pocketbase"
+#9 1.490 Run 'pocketbase --help' for usage.
+#9 1.614 2026/06/15 13:59:38 Server started at http://127.0.0.1:8090
+#9 1.614 ├─ REST API:  http://127.0.0.1:8090/api/
+#9 1.614 └─ Dashboard: http://127.0.0.1:8090/_/
+#9 1.702 
+#9 1.702 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+#9 1.702 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+#9 1.702 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+#9 1.702 
+#9 3.485 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+#9 3.496 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+#9 3.509 {"data":{},"message":"Missing or invalid collection context.","status":404}
+#9 3.524 {"data":{},"message":"Missing or invalid collection context.","status":404}
+#9 3.526 /bin/sh: 1: kill: No such process
+#9 3.526 
+#9 ERROR: process "/bin/sh -c curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H \"Content-Type: application/json\" -d '{\"identity\":\"test@example.com\",\"password\":\"password12345\"}' | grep -o '\"token\":\"[^\"]*' | cut -d'\"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"wallets\",\"type\":\"base\",\"fields\":[{\"name\":\"balance\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"ledger\",\"type\":\"base\",\"fields\":[{\"name\":\"wallet_id\",\"type\":\"relation\",\"relationOptions\":{\"collectionId\":\"wallets\",\"cascadeDelete\":false}},{\"name\":\"amount\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletrich00000\",\"balance\":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletpoor00000\",\"balance\":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip" did not complete successfully: exit code: 1
+------
+ > [main 6/6] RUN curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H "Content-Type: application/json" -d '{"identity":"test@example.com","password":"password12345"}' | grep -o '"token":"[^"]*' | cut -d'"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"wallets","type":"base","fields":[{"name":"balance","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"name":"ledger","type":"base","fields":[{"name":"wallet_id","type":"relation","relationOptions":{"collectionId":"wallets","cascadeDelete":false}},{"name":"amount","type":"number"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletrich00000","balance":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"id":"walletpoor00000","balance":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip:
+1.702 (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
+1.702 http://127.0.0.1:8090/_/#/pbinstal/REDACTED
+1.702 (you can also create your first superuser by running: ./pocketbase superuser upsert EMAIL PASS)
+1.702 
+3.485 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+3.496 {"data":{},"message":"The request requires valid record authorization token.","status":401}
+3.509 {"data":{},"message":"Missing or invalid collection context.","status":404}
+3.524 {"data":{},"message":"Missing or invalid collection context.","status":404}
+3.526 /bin/sh: 1: kill: No such process
+3.526 
+------
+failed to solve: process "/bin/sh -c curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.31.0/pocketbase_0.31.0_linux_amd64.zip &&     unzip pocketbase.zip &&     ./pocketbase admin create test@example.com password12345 &&     ./pocketbase serve &     sleep 3 &&     TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/admins/auth-with-password -H \"Content-Type: application/json\" -d '{\"identity\":\"test@example.com\",\"password\":\"password12345\"}' | grep -o '\"token\":\"[^\"]*' | cut -d'\"' -f4) &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"wallets\",\"type\":\"base\",\"fields\":[{\"name\":\"balance\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"name\":\"ledger\",\"type\":\"base\",\"fields\":[{\"name\":\"wallet_id\",\"type\":\"relation\",\"relationOptions\":{\"collectionId\":\"wallets\",\"cascadeDelete\":false}},{\"name\":\"amount\",\"type\":\"number\"}]}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletrich00000\",\"balance\":100}' &&     curl -s -X POST http://127.0.0.1:8090/api/collections/wallets/records -H \"Authorization: Bearer $TOKEN\" -H \"Content-Type: application/json\" -d '{\"id\":\"walletpoor00000\",\"balance\":10}' &&     kill %1 && sleep 2 &&     mv pb_data /home/user/myproject/ &&     rm pocketbase pocketbase.zip" did not complete successfully: exit code: 1
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/artifact_handler.py", line 195, in _download_artifact
+    await source_env.download_file(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 609, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker_unix.py", line 48, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker.py", line 418, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment transactional_ledger_hook_go. Command: docker compose --project-name transactional_ledger_hook_go__j5t7bre --project-directory /home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/transactional_ledger_hook_go/environment -f /tmp/tmpk2selkdd/transactional_ledger_hook_go__J5t7bre-docker-compose-resources.json -f /home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /tmp/tmpywpkjre4/docker-compose-mounts.json cp main:/home/user jobs/2026-06-15__13-45-37/transactional_ledger_hook_go__J5t7bre/artifacts/user. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 

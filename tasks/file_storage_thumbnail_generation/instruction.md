@@ -1,0 +1,32 @@
+# PocketBase File Storage and Thumbnail Generation
+
+## Background
+PocketBase provides native file storage capabilities, including on-the-fly thumbnail generation for uploaded images. You need to write a Node.js script that interacts with a local PocketBase server to upload an image and retrieve its generated thumbnail.
+
+## Requirements
+- A local PocketBase server is running at `http://127.0.0.1:8090`.
+- An admin account exists with email `admin@example.com` and password `adminpassword`.
+- A collection named `gallery` has already been created. It contains a file field named `image` that is configured to support `100x100` thumbnails.
+- An image file `input.jpg` is provided in your project directory.
+- Write a Node.js script `run.js` that uses the PocketBase JS SDK to:
+  1. Authenticate as the admin.
+  2. Upload `input.jpg` to create a new record in the `gallery` collection.
+  3. Get the URL for the `100x100` thumbnail of the uploaded image.
+  4. Download the thumbnail and save it as `thumbnail.jpg` in the project directory.
+  5. Write the created record ID to `output.log`.
+
+## Implementation Hints
+- Use the `pocketbase` npm package to interact with the server.
+- To upload a file in Node.js, you may need to use `FormData` and `fs` (or `fs/promises`) to attach the file stream or blob.
+- Use `pb.files.getUrl()` to construct the thumbnail URL by passing the `thumb` option (e.g., `{'thumb': '100x100'}`).
+- Fetch the thumbnail URL and write the response buffer to `thumbnail.jpg`.
+
+## Acceptance Criteria
+- Project path: /home/user/pb-task
+- Ensure the script is executed and the artifacts exist.
+- Log file: /home/user/pb-task/output.log
+- The script must successfully upload `input.jpg` to the `gallery` collection.
+- The script must download the thumbnail and save it as `/home/user/pb-task/thumbnail.jpg`.
+- The saved thumbnail must be a valid image file and smaller than the original `input.jpg`.
+- The log file must contain the created record ID in the format: `Record ID: <id>`.
+

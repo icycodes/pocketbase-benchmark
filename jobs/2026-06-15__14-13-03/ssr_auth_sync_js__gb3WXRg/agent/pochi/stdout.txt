@@ -1,0 +1,71 @@
+- Initializing MCP connections...
+You
+# SSR Authentication Synchronization Middleware ## Background In Server-Side Rendered (SSR) applications using PocketBase, authentication state needs to be synchronized between the client and server using cookies, as PocketBase is stateless and defaults to storing JWTs in the browser's `localStorage`. You have an empty Express project initialized at `/home/user/myproject` with `express`, `cookie-parser`, and `pocketbase` installed. A PocketBase backend is already running locally at `http://127.0.0.1:8090` with a test user (`test@example.com` / `secure_password`). ## Requirements * Implement an Express.js server (`index.js`) with a middleware that synchronizes PocketBase authentication state via cookies. * The middleware must extract the PocketBase auth cookie (`pb_auth`) from the incoming request. * Load the cookie into a PocketBase SDK instance connected to `http://127.0.0.1:8090`. * Attempt to refresh the authentication state using the PocketBase API (`authRefresh()`). * Export the updated auth state to a cookie and attach it to the response headers. * Create a protected route `/profile` that returns the authenticated user's ID and email if successful, or a 401 Unauthorized error if the token is invalid or missing. ## Implementation Hints * Use the PocketBase JavaScript SDK (`pocketbase`). * Use `pb.authStore.loadFromCookie()` to load the initial auth state from the request's `cookie` header. * Use `pb.collection('users').authRefresh()` to validate and refresh the token. Ensure you handle errors (e.g., if the token is expired or invalid, clear the auth store). * Use `pb.authStore.exportToCookie()` to get the serialized cookie string and set it in the response header (`Set-Cookie`). * Ensure the Express app is configured to parse cookies (e.g., using `cookie-parser`) or parse the header directly. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: node index.js * Port: 3000 * API Endpoints: * GET `/profile`: * When a valid `pb_auth` cookie is provided in the request: Returns status 200 and a JSON object containing the user's `id` and `email`. ```json { "id": "string", "email": "string" } ``` The response MUST include a `Set-Cookie` header containing the refreshed `pb_auth` cookie. * When no cookie or an invalid `pb_auth` cookie is provided: Returns status 401 and a JSON object containing an error message. ```json { "error": "Unauthorized" } ``` The response MUST include a `Set-Cookie` header that clears or updates the `pb_auth` cookie to reflect the unauthenticated state.   
+
+Pochi
+💭 Thinking for 96 characters   
+📂 Listing files in /home/user/myproject ✔ 
+📖 Reading /home/user/myproject/package.json ✔ 
+💫 Executing ls /home/user/myproject/node_modules/pocketbase/ ✔ 
+📖 Reading /home/user/myproject/node_modules/pocketbase/package.json ✔ 
+The package uses ESM as its primary export. Since the project uses `"type": "commonjs"`, I need to use the CJS build of PocketBase. Let me write the `index.js`:   
+✏️  Writing /home/user/myproject/index.js ✔ 
+Now let me verify the CJS export path exists and test the server:   
+💫 Executing ls /home/user/myproject/node_modules/pocketbase/dist/ | grep cjs ✔ 
+🛠️ Tool startBackgroundJob ✔ 
+🛠️ Tool readBackgroundJobOutput ✔ 
+Server is up. Now let's run through the acceptance-criteria scenarios — unauthenticated first, then authenticated:   
+💫 Executing curl -si http://localhost:3000/profile ✔ 
+401 + cleared `Set-Cookie` ✅. Now get a real token and test the authenticated path:   
+💫 Executing AUTH=$(curl -s -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password \
+  -H "Content-Type: application/json" \
+  -d '{"identity":"test@example.com","password":"secure_password"}') && \
+echo "$AUTH" | python3 -m json.tool 2>/dev/null || echo "$AUTH" ✔ 
+💫 Executing TOKEN=$(curl -s -X POST http://127.0.0.1:8090/api/collections/users/auth-with-password \
+  -H "Content-Type: application/json" \
+  -d '{"identity":"test@example.com","password":"secure_password"}' | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['token'])") && \
+COOKIE_VAL=$(python3 -c "import urllib.parse, json; print('pb_auth=' + urllib.parse.quote(json.dumps({'token': '$TOKEN', 'record': {'id':'6pbrj21dlzo5kih','email':'test@example.com','collectionId':'_pb_users_auth_','collectionName':'users'}})))") && \
+curl -si http://localhost:3000/profile --cookie "$COOKIE_VAL" ✔ 
+Both cases work perfectly. Let me also verify the invalid-cookie case returns 401 with a cleared cookie:   
+💫 Executing curl -si http://localhost:3000/profile --cookie 'pb_auth=%7B%22token%22%3A%22invalid.token.here%22%7D' ✔ 
+All three scenarios confirmed ✅. Let me stop the background server:   
+🛠️ Tool killBackgroundJob ✔ 
+🎉 Task Completed
+`/home/user/myproject/index.js` has been created. Here's a summary of what was implemented:
+
+---
+
+### Architecture
+
+```
+Request
+  └─► pbAuthMiddleware
+        ├─ new PocketBase(PB_URL)          — fresh instance per request (no shared state)
+        ├─ pb.authStore.loadFromCookie()   — hydrates auth store from incoming cookie header
+        ├─ pb.collection('users').authRefresh()  — validates & refreshes token via PocketBase API
+        │     └─ on error → pb.authStore.clear()  — wipes store so exported cookie is empty
+        ├─ res.setHeader('Set-Cookie', pb.authStore.exportToCookie())  — always writes back
+        └─ res.locals.pb = pb             — passes instance to route handlers
+  └─► GET /profile
+        ├─ pb.authStore.isValid + record present → 200 { id, email }
+        └─ otherwise → 401 { error: "Unauthorized" }
+```
+
+### Key design decisions
+
+| Decision | Reason |
+|---|---|
+| `require('pocketbase/cjs')` | Project uses `"type": "commonjs"`, so the ESM-first default export can't be used with `require()`. The `/cjs` subpath export resolves to `pocketbase.cjs.js`. |
+| Fresh `PocketBase` instance per request | Prevents auth state leaking between concurrent requests (the SDK stores auth in-memory on the instance). |
+| `authRefresh()` only when `authStore.isValid` | Avoids a redundant network round-trip for anonymous requests. |
+| `pb.authStore.clear()` on refresh failure | Ensures `exportToCookie()` produces an expired/empty cookie so the client is correctly de-authenticated. |
+| `Set-Cookie` written unconditionally | Both the 200 and 401 paths always carry a `Set-Cookie` header, satisfying the requirement in both branches. |
+
+### Verified behaviour
+
+| Scenario | Status | Set-Cookie |
+|---|---|---|
+| No cookie | 401 `{"error":"Unauthorized"}` | Cleared cookie (`Expires: epoch`) |
+| Invalid / expired token | 401 `{"error":"Unauthorized"}` | Cleared cookie (`Expires: epoch`) |
+| Valid `pb_auth` cookie | 200 `{"id":"…","email":"…"}` | Refreshed cookie with new token & future expiry |   
+  

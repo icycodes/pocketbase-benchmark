@@ -1,0 +1,71 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py EEE                                            [100%]
+
+==================================== ERRORS ====================================
+_____________ ERROR at setup of test_create_post_with_valid_title ______________
+
+    @pytest.fixture(scope="session")
+    def build_app():
+        """Build the Go application before starting it."""
+        result = subprocess.run(
+            ["go", "build", "-o", "myapp"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True
+        )
+>       assert result.returncode == 0, f"Failed to build the Go app: {result.stderr}"
+E       AssertionError: Failed to build the Go app: go: downloading go1.24.0 (linux/amd64)
+E         no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:21: AssertionError
+_____________ ERROR at setup of test_create_post_with_empty_title ______________
+
+    @pytest.fixture(scope="session")
+    def build_app():
+        """Build the Go application before starting it."""
+        result = subprocess.run(
+            ["go", "build", "-o", "myapp"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True
+        )
+>       assert result.returncode == 0, f"Failed to build the Go app: {result.stderr}"
+E       AssertionError: Failed to build the Go app: go: downloading go1.24.0 (linux/amd64)
+E         no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:21: AssertionError
+____________ ERROR at setup of test_create_post_without_title_field ____________
+
+    @pytest.fixture(scope="session")
+    def build_app():
+        """Build the Go application before starting it."""
+        result = subprocess.run(
+            ["go", "build", "-o", "myapp"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True
+        )
+>       assert result.returncode == 0, f"Failed to build the Go app: {result.stderr}"
+E       AssertionError: Failed to build the Go app: go: downloading go1.24.0 (linux/amd64)
+E         no Go files in /home/user/myproject
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'myapp'], returncode=1, stdout='', stderr='go: downloading go1.24.0 (linux/amd64)\nno Go files in /home/user/myproject\n').returncode
+
+tests/test_final_state.py:21: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_create_post_with_valid_title - Assertio...
+ERROR tests/test_final_state.py::test_create_post_with_empty_title - Assertio...
+ERROR tests/test_final_state.py::test_create_post_without_title_field - Asser...
+============================== 3 errors in 9.20s ===============================

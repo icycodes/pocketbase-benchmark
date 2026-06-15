@@ -1,0 +1,43 @@
+# Custom JSON Route Handler (PocketBase JSVM)
+
+## Background
+PocketBase (v0.31.0) ships with an embedded JavaScript engine (Goja) that lets you extend the server without writing Go. By dropping `*.pb.js` files into the `pb_hooks/` directory you can register custom HTTP routes that respond alongside the built-in REST API. In this task you will use this capability to add a small public greeting endpoint to a running PocketBase instance.
+
+The PocketBase server is already installed and configured to run from the project directory. Your job is to extend it with a single JSVM file that exposes a new HTTP endpoint.
+
+## Requirements
+- Add a JSVM hook script under `pb_hooks/` that registers a single custom HTTP route.
+- The route must:
+  - Use the HTTP `GET` method.
+  - Be reachable at the path `/api/myapp/hello/{name}` (where `{name}` is a path parameter).
+  - Be accessible to unauthenticated guests (no auth middleware).
+  - Respond with HTTP status `200` and a JSON body of the shape `{"message": "Hello, <name>!"}`, where `<name>` is the exact value captured from the path parameter.
+- The route must coexist with the standard PocketBase API; do NOT remove or break any built-in routes.
+
+## Implementation Hints
+- PocketBase auto-loads any `*.pb.js` file from the `pb_hooks/` directory on `serve` startup. You do not need to restart the binary manually after a healthy startup — the verifier will start it for you.
+- Use the top-level `routerAdd(method, path, handler)` function exposed to the JSVM. For path parameters, refer to the standard `net/http.ServeMux` style (`{name}`), and read the value via `e.request.pathValue("name")`.
+- Return a JSON response using `e.json(status, body)`.
+- The JSVM is synchronous (powered by Goja / ECMAScript 5.1). Do NOT use `async`/`await`, Promises, or `fetch` — keep the handler purely synchronous.
+- Do NOT attach any auth middleware (such as `$apis.requireAuth()`); the endpoint must work for guests.
+
+## Acceptance Criteria
+- Project path: /home/user/myproject
+- Start command (run by the verifier): `./pocketbase serve --http="0.0.0.0:8090" --dir=./pb_data --hooksDir=./pb_hooks --migrationsDir=./pb_migrations`
+- Port: 8090
+- API Endpoints:
+  - GET `/api/myapp/hello/{name}`:
+    - Status: `200`
+    - Response body (JSON):
+
+      ```json
+      {
+        "message": "Hello, <name>!"
+      }
+      ```
+
+    - `<name>` must be the exact value of the `{name}` path segment from the request URL.
+    - Must succeed for unauthenticated (guest) clients.
+- The standard PocketBase health endpoint `GET /api/health` must continue to return status `200`.
+- The custom route handler must be implemented as a JSVM file inside `/home/user/myproject/pb_hooks/`.
+

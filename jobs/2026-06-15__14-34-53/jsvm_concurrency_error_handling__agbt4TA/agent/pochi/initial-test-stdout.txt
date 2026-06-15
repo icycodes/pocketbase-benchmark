@@ -1,0 +1,45 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 4 items
+
+bootstrap/test_initial_state.py::test_project_dir_exists PASSED
+bootstrap/test_initial_state.py::test_pocketbase_binary_exists PASSED
+bootstrap/test_initial_state.py::test_mock_webhook_script_exists PASSED
+bootstrap/test_initial_state.py::test_start_mock_webhook_server FAILED
+
+=================================== FAILURES ===================================
+________________________ test_start_mock_webhook_server ________________________
+
+    def test_start_mock_webhook_server():
+        # Start the mock webhook server in the background
+        script_path = os.path.join(PROJECT_DIR, "mock_webhook.py")
+    
+        # Check if it's already running on port 8081
+        try:
+            urllib.request.urlopen("http://127.0.0.1:8081/", timeout=1)
+            # Already running
+            return
+        except Exception:
+            pass
+    
+        subprocess.Popen(["python3", script_path], cwd=PROJECT_DIR)
+    
+        # Wait for the server to start
+        max_retries = 10
+        for _ in range(max_retries):
+            try:
+                urllib.request.urlopen("http://127.0.0.1:8081/", timeout=1)
+                break
+            except Exception:
+                time.sleep(0.5)
+        else:
+>           pytest.fail("Mock webhook server failed to start on port 8081.")
+E           Failed: Mock webhook server failed to start on port 8081.
+
+bootstrap/test_initial_state.py:44: Failed
+=========================== short test summary info ============================
+FAILED bootstrap/test_initial_state.py::test_start_mock_webhook_server - Fail...
+========================= 1 failed, 3 passed in 5.13s ==========================
+pytest-xprocess reminder::Be sure to terminate the started process by running 'pytest --xkill' if you have not explicitly done so in your fixture with 'xprocess.getinfo(<process_name>).terminate()'.
