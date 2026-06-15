@@ -1,7 +1,0 @@
-{
-  "library_name": "PocketBase",
-  "task_name": "word_count_hook_go",
-  "complexity_level": "multi-step sequential command set",
-  "research_plan_path": "plan.md",
-  "output_dir": "tasks/"
-}

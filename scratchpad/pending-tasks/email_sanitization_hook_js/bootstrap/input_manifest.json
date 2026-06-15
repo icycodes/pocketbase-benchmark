@@ -1,7 +1,0 @@
-{
-  "library_name": "PocketBase",
-  "task_name": "email_sanitization_hook_js",
-  "complexity_level": "simple set of 2-5 commands",
-  "research_plan_path": "plan.md",
-  "output_dir": "tasks/"
-}
