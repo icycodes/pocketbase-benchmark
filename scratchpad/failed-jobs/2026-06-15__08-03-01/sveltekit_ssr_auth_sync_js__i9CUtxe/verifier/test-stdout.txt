@@ -1,0 +1,143 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py EE                                             [100%]
+
+==================================== ERRORS ====================================
+__________________ ERROR at setup of test_unauthorized_access __________________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f80bde59790>
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def start_sveltekit(xprocess, start_pocketbase):
+        # Run npm install first
+        subprocess.run(["npm", "install"], cwd=PROJECT_DIR, check=True)
+    
+        class Starter(ProcessStarter):
+            name = "sveltekit"
+            args = ["npm", "run", "dev"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 60
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                    return s.connect_ex(("127.0.0.1", 5173)) == 0
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.start_sveltekit.<locals>.Starter object at 0x7f80bdebe870>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 60                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase$ pocketbase serve --http=127.0.0.1:8090 --dir=/home/user/pb_data
+process 'pocketbase' started pid=907
+pocketbase process startup detected
+
+up to date, audited 51 packages in 1s
+
+4 packages are looking for funding
+  run `npm fund` for details
+
+10 vulnerabilities (3 low, 6 moderate, 1 high)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+/tests/.pytest_cache/d/.xprocess/sveltekit$ npm run dev
+process 'sveltekit' started pid=928
+______________ ERROR at setup of test_login_and_authorized_access ______________
+
+xprocess = <xprocess.xprocess.XProcess object at 0x7f80bde59790>
+start_pocketbase = None
+
+    @pytest.fixture(scope="session")
+    def start_sveltekit(xprocess, start_pocketbase):
+        # Run npm install first
+        subprocess.run(["npm", "install"], cwd=PROJECT_DIR, check=True)
+    
+        class Starter(ProcessStarter):
+            name = "sveltekit"
+            args = ["npm", "run", "dev"]
+            env = os.environ.copy()
+            popen_kwargs = {
+                "cwd": PROJECT_DIR,
+                "text": True,
+            }
+            timeout = 60
+            terminate_on_interrupt = True
+    
+            def startup_check(self):
+                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                    return s.connect_ex(("127.0.0.1", 5173)) == 0
+    
+>       xprocess.ensure(Starter.name, Starter)
+
+tests/test_final_state.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:284: in ensure
+    if not starter.wait(log_file_handle):
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:413: in wait
+    callback_ok = self.wait_callback()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_final_state.start_sveltekit.<locals>.Starter object at 0x7f80bdebe870>
+
+    def wait_callback(self):
+        """Assert that process is ready to answer queries using provided
+        callback funtion. Will raise TimeoutError if self.callback does not
+        return True before self.timeout seconds"""
+        while True:
+            sleep(0.1)
+            if self.startup_check():
+                return True
+            if datetime.now() > self._max_time:
+>               raise TimeoutError(
+                    "The provided startup callback could not assert process\
+                    responsiveness within the specified time interval of {} \
+                    seconds".format(
+                        self.timeout
+                    )
+                )
+E               TimeoutError: The provided startup callback could not assert process                    responsiveness within the specified time interval of 60                     seconds
+
+usr/local/lib/python3.12/dist-packages/xprocess/xprocess.py:391: TimeoutError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_unauthorized_access - TimeoutError: The...
+ERROR tests/test_final_state.py::test_login_and_authorized_access - TimeoutEr...
+========================= 2 errors in 62.16s (0:01:02) =========================

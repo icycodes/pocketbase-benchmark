@@ -1,0 +1,122 @@
+{
+    "id": "06694655-a91d-4a64-a238-618390a97505",
+    "task_name": "email_sanitization_hook_js",
+    "trial_name": "email_sanitization_hook_js__qUoYZPp",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__08-27-45/email_sanitization_hook_js__qUoYZPp",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/email_sanitization_hook_js"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "8dc4f96f51832fc007e002a2c581ecab203b92c3e3097f6bbf88f6093d84fd7e",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/email_sanitization_hook_js",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "email_sanitization_hook_js__qUoYZPp",
+        "trials_dir": "jobs/2026-06-15__08-27-45",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "deepseek/deepseek-4-pro",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "07906fc1-893d-4e64-9e70-5ecd5df4384e"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "deepseek-4-pro",
+            "provider": "deepseek"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 0,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": {
+        "exception_type": "NonZeroAgentExitCodeError",
+        "exception_message": "Command failed (exit 143): pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# PocketBase Email Sanitization Hook\n\n## Background\nIn a PocketBase application, it's important to keep user data consistent. Email addresses should always be stored in lowercase and without leading or trailing spaces to avoid authentication issues or duplicate accounts.\n\n## Requirements\n- Create a PocketBase JavaScript event hook that intercepts record creation and updates for the `users` collection.\n- Sanitize the `email` field of the record by trimming whitespace from both ends and converting all characters to lowercase.\n- The hook must apply these changes before the record is validated and saved to the database.\n\n## Implementation Hints\n- Use PocketBase's JSVM hook functions such as `onRecordCreateRequest` and `onRecordUpdateRequest` (available in PocketBase v0.23+).\n- Access the record's `email` field, sanitize the string, and use the record setter to update the field.\n- Remember to call `e.next()` to continue the request chain.\n- Save your script as a `.pb.js` file in the `pb_hooks` directory.\n\n## Acceptance Criteria\n- Project path: `/home/user/pocketbase`\n- Start command: `./pocketbase serve --http=0.0.0.0:8090`\n- Port: `8090`\n- API Endpoints:\n  - POST `/api/collections/users/records`: Creates a new user. The response must contain the newly created user record with the sanitized email.\n\n    ```json\n    // Request\n    {\n      \"email\": string,\n      \"password\": string,\n      \"passwordConfirm\": string\n    }\n    ```\n\n  - PATCH `/api/collections/users/records/:id`: Updates an existing user. The response must contain the updated user record with the sanitized email.\n\n    ```json\n    // Request\n    {\n      \"email\": string\n    }\n    ```\n\n\nEOF\nstdout: \u001b[37m2026-06-15 08:35:38.413\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 08:35:38.793\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 08:35:39.096\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 08:35:39.190\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 08:35:39.221\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 08:35:40.526\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 63, in _run_agent\n    await self._run_agent_phase(\n    ...<4 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py\", line 238, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/usr/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 39, in wrapper\n    return await fn(self, instruction, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kweizh/zealt/zealt-agent/agents/pochi.py\", line 223, in run\n    await self.exec_as_agent(\n    ...<15 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 354, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 317, in _exec\n    raise NonZeroAgentExitCodeError(\n    ...<3 lines>...\n    )\nharbor.agents.installed.base.NonZeroAgentExitCodeError: Command failed (exit 143): pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# PocketBase Email Sanitization Hook\n\n## Background\nIn a PocketBase application, it's important to keep user data consistent. Email addresses should always be stored in lowercase and without leading or trailing spaces to avoid authentication issues or duplicate accounts.\n\n## Requirements\n- Create a PocketBase JavaScript event hook that intercepts record creation and updates for the `users` collection.\n- Sanitize the `email` field of the record by trimming whitespace from both ends and converting all characters to lowercase.\n- The hook must apply these changes before the record is validated and saved to the database.\n\n## Implementation Hints\n- Use PocketBase's JSVM hook functions such as `onRecordCreateRequest` and `onRecordUpdateRequest` (available in PocketBase v0.23+).\n- Access the record's `email` field, sanitize the string, and use the record setter to update the field.\n- Remember to call `e.next()` to continue the request chain.\n- Save your script as a `.pb.js` file in the `pb_hooks` directory.\n\n## Acceptance Criteria\n- Project path: `/home/user/pocketbase`\n- Start command: `./pocketbase serve --http=0.0.0.0:8090`\n- Port: `8090`\n- API Endpoints:\n  - POST `/api/collections/users/records`: Creates a new user. The response must contain the newly created user record with the sanitized email.\n\n    ```json\n    // Request\n    {\n      \"email\": string,\n      \"password\": string,\n      \"passwordConfirm\": string\n    }\n    ```\n\n  - PATCH `/api/collections/users/records/:id`: Updates an existing user. The response must contain the updated user record with the sanitized email.\n\n    ```json\n    // Request\n    {\n      \"email\": string\n    }\n    ```\n\n\nEOF\nstdout: \u001b[37m2026-06-15 08:35:38.413\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 08:35:38.793\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 08:35:39.096\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 08:35:39.190\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 08:35:39.221\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 08:35:40.526\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None\n",
+        "occurred_at": "2026-06-15T08:42:20.443297"
+    },
+    "started_at": "2026-06-15T08:35:20.063045Z",
+    "finished_at": "2026-06-15T08:42:35.997306Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T08:35:20.075013Z",
+        "finished_at": "2026-06-15T08:35:23.264778Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T08:35:23.264814Z",
+        "finished_at": "2026-06-15T08:35:35.467549Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T08:35:35.467644Z",
+        "finished_at": "2026-06-15T08:42:20.441588Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-15T08:42:22.522279Z",
+        "finished_at": "2026-06-15T08:42:24.190818Z"
+    },
+    "step_results": null
+}

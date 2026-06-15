@@ -1,0 +1,78 @@
+Skipping image OS validation for hb__realtime_per_auth_filter_js_sdk: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-h74kutd > /logs/artifacts/run-id && echo realtime_per_auth_filter_js_sdk__h74kuTD > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.1-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Realtime Per-Auth Filter Test in PocketBase
+
+## Background
+PocketBase's Realtime API uses Server-Sent Events (SSE). When subscribing to an entire collection, the collection's `ListRule` is automatically applied to filter which events the subscriber receives based on their authentication state. You need to write a Node.js script using the PocketBase JS SDK to verify this behavior.
+
+## Requirements
+- Write a Node.js script (`test_realtime.js`) that connects to a local PocketBase server running at `http://127.0.0.1:8090`.
+- The script must programmatically configure the server (using admin credentials) by creating a `messages` collection. The collection must have a `user` field (a relation to the `users` collection) and a `ListRule` set to `user = @request.auth.id`.
+- The script must create two distinct users (User A and User B).
+- The script must test the realtime subscription by:
+  1. Authenticating as User A and subscribing to the `messages` collection.
+  2. Creating one message assigned to User A and another message assigned to User B.
+  3. Verifying that User A's subscription only receives the SSE event for their own message, and does NOT receive the event for User B's message.
+- The script should exit with code 0 and print "Test passed!" on success, or exit with a non-zero code on failure.
+
+## Implementation Hints
+- Use the official `pocketbase` npm package.
+- You can authenticate as an admin to create collections and users using `pb.admins.authWithPassword()`.
+- Remember that realtime subscriptions are asynchronous. You may need to wait briefly (e.g., using `setTimeout` or a sleep function) to ensure all events have been processed before asserting the results.
+- Use `pb.collection('messages').subscribe('*', callback)` to listen for events.
+
+## Acceptance Criteria
+- Project path: `/home/user/myproject`
+- Command: `node test_realtime.js`
+- The script must successfully execute from start to finish without manual intervention.
+- The stdout should print: `Test passed!`
+- The script must exit with status code 0.
+- The script must correctly implement the per-auth filter test as described in the requirements (User A only receives their own message events).
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

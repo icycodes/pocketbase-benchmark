@@ -1,0 +1,7 @@
+{
+  "library_name": "PocketBase",
+  "task_name": "cron_archive_old_records_js",
+  "complexity_level": "multi-step sequential command set",
+  "research_plan_path": "N/A",
+  "output_dir": "scratchpad/pending-tasks"
+}

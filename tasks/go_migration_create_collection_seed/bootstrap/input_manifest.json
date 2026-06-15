@@ -1,0 +1,7 @@
+{
+  "library_name": "PocketBase",
+  "task_name": "go_migration_create_collection_seed",
+  "complexity_level": "multi-step sequential command set",
+  "research_plan_path": "https://pocketbase.io/docs/go-migrations/",
+  "output_dir": "scratchpad/pending-tasks"
+}

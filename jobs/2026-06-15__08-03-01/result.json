@@ -1,0 +1,75 @@
+{
+    "id": "8037d6da-d689-469e-a5a5-f1b0ddfa556b",
+    "started_at": "2026-06-15T08:03:03.527304",
+    "updated_at": "2026-06-15T08:27:42.272077",
+    "finished_at": "2026-06-15T08:27:42.272077",
+    "n_total_trials": 17,
+    "stats": {
+        "n_completed_trials": 17,
+        "n_errored_trials": 12,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__glm-5.1__pending-tasks": {
+                "n_trials": 14,
+                "n_errors": 12,
+                "metrics": [
+                    {
+                        "mean": 0.17647058823529413
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "sveltekit_ssr_auth_sync_js__i9CUtxe",
+                            "signup_rate_limiting_route_go__6jMd8SB",
+                            "auto_slug_generation_hook_go__ecXZWA8",
+                            "transactional_withdrawal_race_co__AERe2iS",
+                            "email_sanitization_hook_js__TFqRFpt",
+                            "bulk_import_csv_route_go__JLWGU5t",
+                            "view_collection_user_post_count__v3dXneR",
+                            "custom_json_route_handler_js__u2xzzRm",
+                            "mailer_password_reset_role_overr__EpWR8bJ",
+                            "realtime_per_auth_filter_js_sdk__ZLhUH2m",
+                            "cron_archive_old_records_js__7wBRWqG"
+                        ],
+                        "1.0": [
+                            "go_migration_create_collection_s__yoZjubG",
+                            "s3_direct_upload_presigned_url_g__UGZbkhw",
+                            "superuser_seed_via_cli_go_easy__MERoRFH"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "NonZeroAgentExitCodeError": [
+                        "signup_rate_limiting_route_go__6jMd8SB",
+                        "go_migration_create_collection_s__yoZjubG",
+                        "auto_slug_generation_hook_go__ecXZWA8",
+                        "bulk_import_csv_route_go__JLWGU5t",
+                        "mailer_password_reset_role_overr__EpWR8bJ",
+                        "cron_archive_old_records_js__7wBRWqG"
+                    ],
+                    "AgentTimeoutError": [
+                        "transactional_withdrawal_race_co__AERe2iS",
+                        "email_sanitization_hook_js__TFqRFpt",
+                        "view_collection_user_post_count__v3dXneR"
+                    ],
+                    "RuntimeError": [
+                        "restrict_thumbnail_view__VWgEVm9"
+                    ],
+                    "InitialStateError": [
+                        "expand_nested_relations_dart_sdk__jtxitmZ",
+                        "project_tasks_api_rules__fjvsbzG"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 201729,
+        "cost_usd": null
+    }
+}

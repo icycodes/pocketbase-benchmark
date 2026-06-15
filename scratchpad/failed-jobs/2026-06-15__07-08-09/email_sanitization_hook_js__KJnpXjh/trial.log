@@ -1,0 +1,91 @@
+Skipping image OS validation for hb__email_sanitization_hook_js: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-kjnpxjh > /logs/artifacts/run-id && echo email_sanitization_hook_js__KJnpXjh > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.5-flash --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# PocketBase Email Sanitization Hook
+
+## Background
+In a PocketBase application, it's important to keep user data consistent. Email addresses should always be stored in lowercase and without leading or trailing spaces to avoid authentication issues or duplicate accounts.
+
+## Requirements
+- Create a PocketBase JavaScript event hook that intercepts record creation and updates for the `users` collection.
+- Sanitize the `email` field of the record by trimming whitespace from both ends and converting all characters to lowercase.
+- The hook must apply these changes before the record is validated and saved to the database.
+
+## Implementation Hints
+- Use PocketBase's JSVM hook functions such as `onRecordCreateRequest` and `onRecordUpdateRequest` (available in PocketBase v0.23+).
+- Access the record's `email` field, sanitize the string, and use the record setter to update the field.
+- Remember to call `e.next()` to continue the request chain.
+- Save your script as a `.pb.js` file in the `pb_hooks` directory.
+
+## Acceptance Criteria
+- Project path: `/home/user/pocketbase`
+- Start command: `./pocketbase serve --http=0.0.0.0:8090`
+- Port: `8090`
+- API Endpoints:
+  - POST `/api/collections/users/records`: Creates a new user. The response must contain the newly created user record with the sanitized email.
+
+    ```json
+    // Request
+    {
+      "email": string,
+      "password": string,
+      "passwordConfirm": string
+    }
+    ```
+
+  - PATCH `/api/collections/users/records/:id`: Updates an existing user. The response must contain the updated user record with the sanitized email.
+
+    ```json
+    // Request
+    {
+      "email": string
+    }
+    ```
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

@@ -1,0 +1,117 @@
+{
+    "id": "c2780aca-c24e-42ad-988b-fba629cb3edc",
+    "task_name": "transactional_withdrawal_race_condition_go",
+    "trial_name": "transactional_withdrawal_race_co__qhdrxb4",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__07-08-09/transactional_withdrawal_race_co__qhdrxb4",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/transactional_withdrawal_race_condition_go"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "86b52f4b1d397808dd345b7a795f77e8aa279ab9bc00bef4f2b7beac10fae722",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/transactional_withdrawal_race_condition_go",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "transactional_withdrawal_race_co__qhdrxb4",
+        "trials_dir": "jobs/2026-06-15__07-08-09",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "google/gemini-3.5-flash",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "98378874-ebe7-48d5-b70f-6e220b2fc7a1"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "gemini-3.5-flash",
+            "provider": "google"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 60250,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-06-15T07:08:19.349799Z",
+    "finished_at": "2026-06-15T07:17:53.760118Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T07:08:19.837938Z",
+        "finished_at": "2026-06-15T07:11:41.389532Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T07:11:41.389569Z",
+        "finished_at": "2026-06-15T07:11:56.627947Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T07:11:56.628077Z",
+        "finished_at": "2026-06-15T07:17:36.207447Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-15T07:17:37.945385Z",
+        "finished_at": "2026-06-15T07:17:39.789142Z"
+    },
+    "step_results": null
+}

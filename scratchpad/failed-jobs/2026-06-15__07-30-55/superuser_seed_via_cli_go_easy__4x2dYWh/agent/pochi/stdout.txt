@@ -1,0 +1,47 @@
+- Initializing MCP connections...
+You
+# Custom CLI Command to Seed Superuser ## Background PocketBase allows extending its functionality using Go. You can add custom console commands to perform administrative tasks. In this task, you will create a custom CLI command to seed a superuser account programmatically. ## Requirements * Create a custom PocketBase console command named `seed-superuser`. * The command should accept two arguments: `email` and `password`. * When executed, the command should create a new superuser with the provided email and password. * If a superuser with the given email already exists, the command should update their password instead of failing (upsert behavior). ## Implementation Hints * Use `app.RootCmd.AddCommand` with a `cobra.Command` to register your custom command. * Use `app.FindCollectionByNameOrId(core.CollectionNameSuperusers)` to get the superusers collection. * Create a new record using `core.NewRecord(collection)` and set the `email` and `password` fields, then save it using `app.Save(record)`. * To handle upsert, you can try to find an existing auth record by email using `app.FindAuthRecordByEmail(core.CollectionNameSuperusers, email)` first. ## Acceptance Criteria * Project path: /home/user/pocketbase-app * Command: `go run main.go seed-superuser <email> <password>` * The command must successfully create a superuser in the database. * The command output format doesn't have strict requirements, but it should exit with code 0 on success.   
+
+Pochi
+💭 Thinking for 83 characters   
+📂 Listing files in /home/user/pocketbase-app ✔ 
+📖 Reading /home/user/pocketbase-app/main.go ✔ 
+📖 Reading /home/user/pocketbase-app/go.mod ✔ 
+Now I have a clear picture of the project. I'll implement the `seed-superuser` command in `main.go`:   
+✏️  Writing /home/user/pocketbase-app/main.go ✔ 
+Now let's verify it compiles cleanly:   
+💫 Executing cd /home/user/pocketbase-app && go build ./... ✖ "Command execution timed out after 60 seconds."
+💫 Executing cd /home/user/pocketbase-app && go build ./... ✔ 
+The build succeeds with no errors. Let's do a quick smoke-test to confirm the command is registered and the argument validation works:   
+💫 Executing cd /home/user/pocketbase-app && go run main.go seed-superuser --help ✔ 
+The command is registered and working. Let's also run it end-to-end to create an actual superuser:   
+💫 Executing cd /home/user/pocketbase-app && go run main.go seed-superuser admin@example.com supersecret123 ✔ 
+💫 Executing cd /home/user/pocketbase-app && go run main.go seed-superuser admin@example.com supersecret123 2>&1 | tail -5; echo "Exit code: $?" ✔ 
+The command works end-to-end with exit code 0. Let's also verify the upsert path (running again with the same email updates the password):   
+💫 Executing cd /home/user/pocketbase-app && go run main.go seed-superuser admin@example.com newpassword456 2>&1 | tail -3; echo "Exit code: $?" ✔ 
+Both create and upsert paths work correctly.   
+🎉 Task Completed
+The `seed-superuser` CLI command has been implemented in `/home/user/pocketbase-app/main.go`.
+
+**What was done:**
+
+- Registered a `seed-superuser` cobra command on `app.RootCmd` that accepts exactly two positional arguments: `<email>` and `<password>`.
+- Calls `app.Bootstrap()` to initialise the database before any queries.
+- **Upsert logic:**
+  - First tries `app.FindAuthRecordByEmail(core.CollectionNameSuperusers, email)`.
+  - If found → reuses the existing record (password update path).
+  - If not found → fetches the superusers collection with `app.FindCollectionByNameOrId` and creates a fresh record with `core.NewRecord`, setting the email.
+- Calls `record.SetPassword(password)` then `app.Save(record)` to persist.
+- Exits with code 0 on success and prints a confirmation message.
+
+**Verified:**
+```
+# Create
+go run main.go seed-superuser admin@example.com supersecret123
+# → Superuser "admin@example.com" saved successfully.  (exit 0)
+
+# Update (upsert)
+go run main.go seed-superuser admin@example.com newpassword456
+# → Superuser "admin@example.com" saved successfully.  (exit 0)
+```   
+  

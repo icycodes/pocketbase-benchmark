@@ -1,0 +1,122 @@
+{
+    "id": "83168a9f-290b-4695-a0a8-7c9a42884cb7",
+    "task_name": "mailer_password_reset_role_override_go",
+    "trial_name": "mailer_password_reset_role_overr__EpWR8bJ",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-15__08-03-01/mailer_password_reset_role_overr__EpWR8bJ",
+    "task_id": {
+        "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/mailer_password_reset_role_override_go"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "ac9abcec43c0aa2375b316417adf3c99277919ad2c96ece440a2ccd708a58d31",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/pocketbase-benchmark/scratchpad/pending-tasks/mailer_password_reset_role_override_go",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "mailer_password_reset_role_overr__EpWR8bJ",
+        "trials_dir": "jobs/2026-06-15__08-03-01",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "zai/glm-5.1",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "8037d6da-d689-469e-a5a5-f1b0ddfa556b"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "glm-5.1",
+            "provider": "zai"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 0,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": {
+        "exception_type": "NonZeroAgentExitCodeError",
+        "exception_message": "Command failed (exit 143): pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# PocketBase Password Reset Email Override\n\n## Background\nYou are building a PocketBase backend using Go. You need to customize the password reset email template dynamically based on the user's role.\n\n## Requirements\n- Implement a Go hook in `main.go` to intercept the password reset email for the `users` collection.\n- The `users` collection has a `role` text field.\n- If the user's `role` is `admin`, change the email subject to `Admin Password Reset - {APP_NAME}` and the HTML body to exactly `Admin Reset Link: {ACTION_URL}`.\n- If the user's `role` is `user`, change the email subject to `User Password Reset - {APP_NAME}` and the HTML body to exactly `User Reset Link: {ACTION_URL}`.\n- Do not modify the email for other roles.\n\n## Implementation Hints\n- Use the `OnMailerRecordPasswordResetSend` hook provided by the PocketBase Go SDK.\n- You can access the user record from the hook event to check the `role` field.\n- You can access `{APP_NAME}` via `$app.settings().meta.appName` (or equivalent Go method: `e.App.Settings().Meta.AppName`).\n- You can construct the `{ACTION_URL}` using the token from `e.Meta[\"token\"].(string)` and the base action URL from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`. Wait, actually you can just use the built-in template registry to resolve placeholders, or manually replace `{APP_NAME}` and `{ACTION_URL}`. Actually, PocketBase evaluates placeholders *after* the hook if you modify the raw template, but wait! The hook `OnMailerRecordPasswordResetSend` receives `e.Message` which has already been rendered! So you need to construct the final string yourself, or modify the `e.Message.Subject` and `e.Message.HTML` directly.\n- Since `e.Message` is already rendered, you must provide the final string. You can get the app name from `e.App.Settings().Meta.AppName`. You can get the reset token from `e.Meta[\"token\"].(string)`. The default ActionUrl can be retrieved from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`, and you should replace `{TOKEN}` in it with the actual token to form the final ActionUrl.\n\n## Acceptance Criteria\n- Project path: /home/user/app\n- Start command: go run main.go serve --http 0.0.0.0:8090\n- Port: 8090\n- API Endpoints:\n  - Standard PocketBase password reset endpoint: `POST /api/collections/users/request-password-reset`\n- When requesting a password reset for a user with `role=\"admin\"`, the outgoing email must have the subject `Admin Password Reset - <AppName>` and HTML body `Admin Reset Link: <ActionUrl>`.\n- When requesting a password reset for a user with `role=\"user\"`, the outgoing email must have the subject `User Password Reset - <AppName>` and HTML body `User Reset Link: <ActionUrl>`.\n\n\nEOF\nstdout: \u001b[37m2026-06-15 08:17:53.971\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 08:17:54.362\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 08:17:55.092\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 08:17:55.352\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 08:17:55.485\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 08:17:57.115\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 63, in _run_agent\n    await self._run_agent_phase(\n    ...<4 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py\", line 238, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/usr/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 39, in wrapper\n    return await fn(self, instruction, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kweizh/zealt/zealt-agent/agents/pochi.py\", line 223, in run\n    await self.exec_as_agent(\n    ...<15 lines>...\n    )\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 354, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 317, in _exec\n    raise NonZeroAgentExitCodeError(\n    ...<3 lines>...\n    )\nharbor.agents.installed.base.NonZeroAgentExitCodeError: Command failed (exit 143): pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'\n# PocketBase Password Reset Email Override\n\n## Background\nYou are building a PocketBase backend using Go. You need to customize the password reset email template dynamically based on the user's role.\n\n## Requirements\n- Implement a Go hook in `main.go` to intercept the password reset email for the `users` collection.\n- The `users` collection has a `role` text field.\n- If the user's `role` is `admin`, change the email subject to `Admin Password Reset - {APP_NAME}` and the HTML body to exactly `Admin Reset Link: {ACTION_URL}`.\n- If the user's `role` is `user`, change the email subject to `User Password Reset - {APP_NAME}` and the HTML body to exactly `User Reset Link: {ACTION_URL}`.\n- Do not modify the email for other roles.\n\n## Implementation Hints\n- Use the `OnMailerRecordPasswordResetSend` hook provided by the PocketBase Go SDK.\n- You can access the user record from the hook event to check the `role` field.\n- You can access `{APP_NAME}` via `$app.settings().meta.appName` (or equivalent Go method: `e.App.Settings().Meta.AppName`).\n- You can construct the `{ACTION_URL}` using the token from `e.Meta[\"token\"].(string)` and the base action URL from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`. Wait, actually you can just use the built-in template registry to resolve placeholders, or manually replace `{APP_NAME}` and `{ACTION_URL}`. Actually, PocketBase evaluates placeholders *after* the hook if you modify the raw template, but wait! The hook `OnMailerRecordPasswordResetSend` receives `e.Message` which has already been rendered! So you need to construct the final string yourself, or modify the `e.Message.Subject` and `e.Message.HTML` directly.\n- Since `e.Message` is already rendered, you must provide the final string. You can get the app name from `e.App.Settings().Meta.AppName`. You can get the reset token from `e.Meta[\"token\"].(string)`. The default ActionUrl can be retrieved from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`, and you should replace `{TOKEN}` in it with the actual token to form the final ActionUrl.\n\n## Acceptance Criteria\n- Project path: /home/user/app\n- Start command: go run main.go serve --http 0.0.0.0:8090\n- Port: 8090\n- API Endpoints:\n  - Standard PocketBase password reset endpoint: `POST /api/collections/users/request-password-reset`\n- When requesting a password reset for a user with `role=\"admin\"`, the outgoing email must have the subject `Admin Password Reset - <AppName>` and HTML body `Admin Reset Link: <ActionUrl>`.\n- When requesting a password reset for a user with `role=\"user\"`, the outgoing email must have the subject `User Password Reset - <AppName>` and HTML body `User Reset Link: <ActionUrl>`.\n\n\nEOF\nstdout: \u001b[37m2026-06-15 08:17:53.971\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochi\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tpochi v0.6.14\n\u001b[37m2026-06-15 08:17:54.362\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37mnative:7\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tBuiltInBundle\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tMaterializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59\n\u001b[37m2026-06-15 08:17:55.092\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517730\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadAgents\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 6 custom agents (6 valid, 0 invalid)\n\u001b[37m2026-06-15 08:17:55.352\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:517731\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tloadSkills\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tLoaded 3 skills (3 valid, 0 invalid)\n\u001b[37m2026-06-15 08:17:55.485\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b[1mDEBUG\u001b[22m\u001b[39m\u001b[0m\u001b[0m\t\u001b[37m$bunfs/root/pochi:442311\u001b[39m\u001b[0m\u001b[0m\u001b[1m\u001b[37m\tPochiVendor\u001b[39m\u001b[22m\u001b[0m\u001b[0m\tJWT is expiring or missing, fetching a new one\n\u001b[37m2026-06-15 08:17:57.115\u001b[39m\u001b[0m\u001b[0m\t\u001b[32m\u001b ... [truncated]\nstderr: None\n",
+        "occurred_at": "2026-06-15T08:24:45.511503"
+    },
+    "started_at": "2026-06-15T08:17:33.482369Z",
+    "finished_at": "2026-06-15T08:25:04.557140Z",
+    "environment_setup": {
+        "started_at": "2026-06-15T08:17:33.485070Z",
+        "finished_at": "2026-06-15T08:17:36.075280Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-15T08:17:36.075316Z",
+        "finished_at": "2026-06-15T08:17:48.161161Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-15T08:17:48.161283Z",
+        "finished_at": "2026-06-15T08:24:45.509644Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-15T08:24:47.070963Z",
+        "finished_at": "2026-06-15T08:24:51.452980Z"
+    },
+    "step_results": null
+}

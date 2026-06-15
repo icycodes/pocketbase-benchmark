@@ -1,0 +1,65 @@
+{
+    "id": "98378874-ebe7-48d5-b70f-6e220b2fc7a1",
+    "started_at": "2026-06-15T07:08:13.742401",
+    "updated_at": "2026-06-15T07:30:52.977005",
+    "finished_at": "2026-06-15T07:30:52.977005",
+    "n_total_trials": 17,
+    "stats": {
+        "n_completed_trials": 17,
+        "n_errored_trials": 4,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__gemini-3.5-flash__pending-tasks": {
+                "n_trials": 14,
+                "n_errors": 4,
+                "metrics": [
+                    {
+                        "mean": 0.17647058823529413
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "sveltekit_ssr_auth_sync_js__E4FZyus",
+                            "signup_rate_limiting_route_go__nemCWoe",
+                            "go_migration_create_collection_s__76ENKu3",
+                            "auto_slug_generation_hook_go__n7RgbB2",
+                            "transactional_withdrawal_race_co__qhdrxb4",
+                            "email_sanitization_hook_js__KJnpXjh",
+                            "bulk_import_csv_route_go__TYvw5Gw",
+                            "custom_json_route_handler_js__H2GSE8P",
+                            "mailer_password_reset_role_overr__Z7MCSpU",
+                            "realtime_per_auth_filter_js_sdk__euEQr2P",
+                            "cron_archive_old_records_js__JU2fhmm"
+                        ],
+                        "1.0": [
+                            "view_collection_user_post_count__DuKzZ23",
+                            "s3_direct_upload_presigned_url_g__aojsXQN",
+                            "superuser_seed_via_cli_go_easy__wCuaoSq"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "AgentTimeoutError": [
+                        "auto_slug_generation_hook_go__n7RgbB2"
+                    ],
+                    "RuntimeError": [
+                        "restrict_thumbnail_view__Xxj9LSQ"
+                    ],
+                    "InitialStateError": [
+                        "expand_nested_relations_dart_sdk__3P3iBM5",
+                        "project_tasks_api_rules__WC4Ex7e"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 684046,
+        "cost_usd": null
+    }
+}

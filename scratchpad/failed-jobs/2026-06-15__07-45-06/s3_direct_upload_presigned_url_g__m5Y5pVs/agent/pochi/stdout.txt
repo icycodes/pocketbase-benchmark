@@ -1,0 +1,50 @@
+- Initializing MCP connections...
+You
+# S3 Presigned URL Direct Upload Route ## Background PocketBase proxies file uploads through its own API, which can cause memory spikes and latency for large files when using S3 storage. To bypass this, developers often implement direct-to-bucket uploads via AWS presigned URLs. ## Requirements * Create a custom Go route `POST /api/presign-upload` in a PocketBase application. * The route must accept a JSON payload containing `filename` (string) and `contentType` (string). * It must generate an S3 presigned URL for a `PUT` request to upload the file directly to an S3 bucket. * The S3 configuration must be read from environment variables: `S3_ENDPOINT`, `S3_REGION`, `S3_BUCKET`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`. * The generated presigned URL must be valid for 15 minutes. * The object key should be uniquely generated (e.g., using a UUID or a timestamp prefix) to avoid collisions, preserving the original file extension. * Return the presigned URL and the generated object key in a JSON response. ## Implementation Hints * Initialize a custom PocketBase application in Go. * Register a custom POST route `/api/presign-upload` using the PocketBase router (`app.Router().AddRoute(...)` or `app.OnBeforeServe().Add(...)`). * Use the official AWS SDK for Go v2 (`github.com/aws/aws-sdk-go-v2`, `config`, `s3`, and `s3/presign`) to configure the S3 client and generate the presigned URL. * Ensure the S3 client uses the endpoint provided in `S3_ENDPOINT` (with path-style URLs enabled if necessary for compatibility with MinIO/custom endpoints). ## Acceptance Criteria * Project path: /home/user/app * Start command: go run main.go serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * POST `/api/presign-upload`: Accepts a JSON payload and returns status 200 with the presigned URL and object key. ```json // Request { "filename": "example.png", "contentType": "image/png" } ``` ```json // Response { "url": "string", "key": "string" } ``` * The returned `url` must be a valid presigned URL that successfully accepts a `PUT` request with the specified file and content type.   
+
+Pochi
+💭 Thinking for 419 characters   
+📋 Updating todo list (4 items) ✔ 
+💫 Executing mkdir -p /home/user/app && cd /home/user/app && go mod init app && go get github.com/pocketbase/pocketbase && go get github.com/aws/aws-sdk-go-v2 && go get github.com/aws/aws-sdk-go-v2/config && go get github.com/aws/aws-sdk-go-v2/service/s3 && go get github.com/aws/aws-sdk-go-v2/credentials ✖ "Command exited with code 1"
+💫 Executing cd /home/user/app && ls -la && cat go.mod ✔ 
+📋 Updating todo list (4 items) ✔ 
+💫 Executing cat /home/user/app/main.go ✔ 
+💭 Thinking for 309 characters   
+✏️  Writing /home/user/app/main.go ✖ "File has not been read yet. Please read the file before writing it."
+💭 Thinking for 239 characters   
+📖 Reading /home/user/app/main.go ✔ 
+✏️  Writing /home/user/app/main.go ✔ 
+💭 Thinking for 160 characters   
+📋 Updating todo list (4 items) ✔ 
+💭 Thinking for 177 characters   
+💫 Executing cd /home/user/app && go mod tidy && go build -o app ✔ 
+💭 Thinking for 226 characters   
+🛠️ Tool startBackgroundJob ✔ 
+💫 Executing sleep 2 && curl -X POST -H "Content-Type: application/json" -d '{"filename": "test.png", "contentType": "image/png"}' http://localhost:8090/api/presign-upload ✔ 
+💭 Thinking for 269 characters   
+🛠️ Tool killBackgroundJob ✔ 
+📋 Updating todo list (4 items) ✔ 
+💭 Thinking for 120 characters   
+🎉 Task Completed
+I have successfully implemented the custom PocketBase route for generating S3 presigned URLs for direct uploads.
+
+Here's what was done:
+1. Created a Go application in `/home/user/app` using PocketBase.
+2. Registered a custom `POST` route at `/api/presign-upload`.
+3. The route accepts a JSON payload with `filename` and `contentType`.
+4. It reads the S3 configuration from environment variables (`S3_ENDPOINT`, `S3_REGION`, `S3_BUCKET`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`) and configures the AWS SDK Go v2 client.
+5. Generated a unique object key using a UUID while preserving the original file extension.
+6. Generated an S3 presigned `PUT` URL that is valid for 15 minutes.
+7. Returned the generated presigned URL and the object key in a JSON response.
+
+You can run the application using:
+```bash
+cd /home/user/app
+go run main.go serve --http="0.0.0.0:8090"
+```
+
+And test it with:
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"filename": "example.png", "contentType": "image/png"}' http://localhost:8090/api/presign-upload
+```   
+  

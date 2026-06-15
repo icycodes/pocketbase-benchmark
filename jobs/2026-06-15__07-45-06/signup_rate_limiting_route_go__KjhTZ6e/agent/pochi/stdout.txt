@@ -1,0 +1,170 @@
+- Initializing MCP connections...
+You
+# Rate-Limited Custom Signup Route in Go ## Background Implement a custom user signup route in a PocketBase Go application and protect it against abuse by adding a rate limit. ## Requirements * You have a basic PocketBase Go project at `/workspace/pb`. * Add a custom route `POST /api/custom_signup`. * The route should accept a JSON payload with `email`, `password`, and `passwordConfirm`, and create a new record in the `users` collection. * The route must be rate-limited to allow a maximum of 5 requests per 1 minute per IP address. * The 6th request from the same IP within the 1-minute window must return a `429 Too Many Requests` status code. ## Implementation Hints * You can use PocketBase's built-in `apis.RateLimit()` middleware by configuring the app settings, or implement a custom rate limiting middleware using standard Go libraries (e.g., `golang.org/x/time/rate`). * To create a user, you'll need to interact with the PocketBase `users` collection programmatically using `core.NewRecord()` and `app.Save()`. * Ensure the application is started using `go run main.go serve --http=0.0.0.0:8090`. ## Acceptance Criteria * Project path: /workspace/pb * Start command: go run main.go serve --http=0.0.0.0:8090 * Port: 8090 * API Endpoints: * POST `/api/custom_signup`: Accepts a JSON body and creates a user. ```json // Request { "email": "string", "password": "string", "passwordConfirm": "string" } ``` ```json // Response (Success) // Status 200 OK or 201 Created { // can be any success indicator or the created user object } ``` ```json // Response (Rate Limited) // Status 429 Too Many Requests ```   
+
+Pochi
+💭 Thinking for 550 characters   
+💫 Executing ls -la /workspace/pb ✔ 
+📖 Reading /workspace/pb/main.go ✔ 
+💭 Thinking for 319 characters   
+📖 Reading /workspace/pb/go.mod ✔ 
+💭 Thinking for 1329 characters   
+💫 Executing cat << 'EOF' > /workspace/pb/test.go
+package main
+
+import (
+	"fmt"
+	"github.com/pocketbase/pocketbase/core"
+)
+
+func main() {
+	var e *core.RequestEvent
+	fmt.Printf("%T\n", e)
+}
+EOF
+cd /workspace/pb && go run test.go ✔ 
+💭 Thinking for 233 characters   
+💫 Executing cd /workspace/pb && go doc github.com/pocketbase/pocketbase/core.RequestEvent ✔ 
+💫 Executing cd /workspace/pb && go doc github.com/pocketbase/pocketbase/tools/router.Event ✔ 
+💭 Thinking for 664 characters   
+💫 Executing cd /workspace/pb && go doc github.com/pocketbase/pocketbase/core.App ✔ 
+💭 Thinking for 145 characters   
+💫 Executing cd /workspace/pb && grep -A 2 'FindCollectionByNameOrId' /root/.pochi/tasks/82db7e11-db84-488b-8ffe-62d35f4cffa1/tool-results/executeCommand-FqhAg76OPvdFsodx-output.log ✔ 
+💭 Thinking for 187 characters   
+💫 Executing cd /workspace/pb && grep -A 2 'Save(' /root/.pochi/tasks/82db7e11-db84-488b-8ffe-62d35f4cffa1/tool-results/executeCommand-FqhAg76OPvdFsodx-output.log ✔ 
+💭 Thinking for 207 characters   
+💫 Executing cd /workspace/pb && go doc github.com/pocketbase/pocketbase/core.NewRecord ✔ 
+💫 Executing cd /workspace/pb && go doc github.com/pocketbase/pocketbase/core.Record.Set ✔ 
+💭 Thinking for 572 characters   
+💫 Executing cat << 'EOF' > /workspace/pb/main.go
+package main
+
+import (
+	"log"
+	"net/http"
+	"os"
+	"sync"
+	"time"
+
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/apis"
+	"github.com/pocketbase/pocketbase/core"
+)
+
+var (
+	mu      sync.Mutex
+	clients = make(map[string]*Client)
+)
+
+type Client struct {
+	Count     int
+	ResetTime time.Time
+}
+
+func getClient(ip string) *Client {
+	mu.Lock()
+	defer mu.Unlock()
+
+	client, exists := clients[ip]
+	now := time.Now()
+
+	if !exists || now.After(client.ResetTime) {
+		client = &Client{
+			Count:     0,
+			ResetTime: now.Add(1 * time.Minute),
+		}
+		clients[ip] = client
+	}
+
+	return client
+}
+
+func main() {
+	app := pocketbase.New()
+
+	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
+		se.Router.POST("/api/custom_signup", func(e *core.RequestEvent) error {
+			ip := e.Request.RemoteAddr
+			// e.Request.RemoteAddr has ip:port usually, let's just use it or clean it up.
+			// e.RemoteIP() is cleaner.
+			remoteIP := e.RemoteIP()
+
+			client := getClient(remoteIP)
+
+			mu.Lock()
+			client.Count++
+			count := client.Count
+			mu.Unlock()
+
+			if count > 5 {
+				return e.JSON(http.StatusTooManyRequests, map[string]string{"error": "Too Many Requests"})
+			}
+
+			var data struct {
+				Email           string `json:"email"`
+				Password        string `json:"password"`
+				PasswordConfirm string `json:"passwordConfirm"`
+			}
+			if err := e.BindBody(&data); err != nil {
+				return e.BadRequestError("Invalid request", err)
+			}
+
+			collection, err := app.FindCollectionByNameOrId("users")
+			if err != nil {
+				return e.InternalServerError("Failed to find users collection", err)
+			}
+
+			record := core.NewRecord(collection)
+			record.Set("email", data.Email)
+			record.Set("password", data.Password)
+			record.Set("passwordConfirm", data.PasswordConfirm)
+
+			if err := app.Save(record); err != nil {
+				return e.BadRequestError("Failed to create user", err)
+			}
+
+			return e.JSON(http.StatusOK, map[string]interface{}{
+				"id": record.Id,
+				"email": record.GetString("email"),
+			})
+		})
+
+		se.Router.GET("/{path...}", apis.Static(os.DirFS("./pb_public"), false))
+		return se.Next()
+	})
+
+	if err := app.Start(); err != nil {
+		log.Fatal(err)
+	}
+}
+EOF
+cd /workspace/pb && go build main.go ✖ "Command exited with code 1"
+💭 Thinking for 236 characters   
+💫 Executing sed -i 's/ip := e.Request.RemoteAddr//' /workspace/pb/main.go && cd /workspace/pb && go build main.go ✔ 
+💭 Thinking for 130 characters   
+🛠️ Tool startBackgroundJob ✔ 
+💭 Thinking for 295 characters   
+🛠️ Tool readBackgroundJobOutput ✔ 
+💫 Executing curl -X POST -H "Content-Type: application/json" -d '{"email": "test@example.com", "password": "password123", "passwordConfirm": "password123"}' http://localhost:8090/api/custom_signup ✔ 
+💫 Executing for i in {1..5}; do curl -s -X POST -H "Content-Type: application/json" -d '{"email": "test'$i'@example.com", "password": "password123", "passwordConfirm": "password123"}' http://localhost:8090/api/custom_signup; echo ""; done ✔ 
+💭 Thinking for 1052 characters   
+💫 Executing cd /workspace/pb && go doc github.com/pocketbase/pocketbase/apis.RateLimit ✖ "Command exited with code 1"
+💭 Thinking for 268 characters   
+💫 Executing cd /workspace/pb && go doc github.com/pocketbase/pocketbase/apis | grep -i rate ✔ 
+💭 Thinking for 188 characters   
+💫 Executing cd /workspace/pb && go fmt main.go ✔ 
+💭 Thinking for 191 characters   
+📖 Reading /workspace/pb/main.go ✔ 
+💭 Thinking for 177 characters   
+🛠️ Tool killBackgroundJob ✔ 
+💭 Thinking for 201 characters   
+🛠️ Tool startBackgroundJob ✔ 
+💭 Thinking for 126 characters   
+💫 Executing sleep 2 && curl -X POST -H "Content-Type: application/json" -d '{"email": "test10@example.com", "password": "password123", "passwordConfirm": "password123"}' http://localhost:8090/api/custom_signup ✔ 
+💭 Thinking for 663 characters   
+🛠️ Tool readBackgroundJobOutput ✔ 
+💭 Thinking for 483 characters   
+💫 Executing killall go && killall main ✖ "Command exited with code 127"
+💫 Executing pkill -f 'go run main.go' && pkill -f 'serve --http' ✖ "Command exited with code 1"
+💭 Thinking for 181 characters   
+💫 Executing netstat -tulpn | grep 8090 ✖ "Command exited with code 1"

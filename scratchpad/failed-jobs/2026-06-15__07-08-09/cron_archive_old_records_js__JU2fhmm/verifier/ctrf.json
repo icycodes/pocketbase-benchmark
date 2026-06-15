@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T07:30:41.176078+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781508640789,
+            "stop": 1781508641175
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_cron_archives_old_records",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 242,
+                "start": 1781508640933,
+                "stop": 1781508641175,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_cron_archives_old_records(start_app):\n        # Setup data and superuser\n        setup_test_data()\n        create_superuser()\n>       token = get_admin_token()\n\ntests/test_final_state.py:83: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/test_final_state.py:76: in get_admin_token\n    resp.raise_for_status()\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <Response [404]>\n\n    def raise_for_status(self) -> None:\n        \"\"\"Raises :class:`HTTPError`, if one occurred.\"\"\"\n    \n        http_error_msg = \"\"\n        if isinstance(self.reason, bytes):\n            # We attempt to decode utf-8 first because some servers\n            # choose to localize their reason strings. If the string\n            # isn't utf-8, we fall back to iso-8859-1 for all other\n            # encodings. (See PR #3538)\n            try:\n                reason = self.reason.decode(\"utf-8\")\n            except UnicodeDecodeError:\n                reason = self.reason.decode(\"iso-8859-1\")\n        else:\n            reason = self.reason\n    \n        if 400 <= self.status_code < 500:\n            http_error_msg = (\n                f\"{self.status_code} Client Error: {reason} for url: {self.url}\"\n            )\n    \n        elif 500 <= self.status_code < 600:\n            http_error_msg = (\n                f\"{self.status_code} Server Error: {reason} for url: {self.url}\"\n            )\n    \n        if http_error_msg:\n>           raise HTTPError(http_error_msg, response=self)\nE           requests.exceptions.HTTPError: 404 Client Error: Not Found for url: http://localhost:8090/api/superusers/auth-with-password\n\nusr/local/lib/python3.12/dist-packages/requests/models.py:1167: HTTPError",
+                "message": "The test failed in the call phase"
+            }
+        ]
+    }
+}

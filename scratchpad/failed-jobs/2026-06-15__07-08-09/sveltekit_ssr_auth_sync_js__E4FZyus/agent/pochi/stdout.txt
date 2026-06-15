@@ -1,0 +1,59 @@
+- Initializing MCP connections...
+You
+# SvelteKit SSR Cookie Auth Sync with PocketBase ## Background You are building a SvelteKit application that uses PocketBase as its backend. To support Server-Side Rendering (SSR) with authenticated users, you need to synchronize the PocketBase authentication state with SvelteKit's server-side request/response flow using cookies. ## Requirements * Implement a SvelteKit server hook (`src/hooks.server.js`) to synchronize the PocketBase auth store with request cookies. * The middleware should initialize a new PocketBase instance for each request pointing to `http://127.0.0.1:8090`. * It must load the auth state from the request cookie, verify/refresh it if valid, and clear it if the refresh fails. * The PocketBase instance must be attached to `event.locals.pb`. * After resolving the event, it must serialize the updated auth store state back to the response `set-cookie` header. * Implement a `POST /api/login` endpoint that reads `email` and `password` from the JSON body, authenticates with PocketBase via `locals.pb.collection('users').authWithPassword()`, and returns a 200 JSON response. * Implement a `GET /api/me` endpoint that returns 401 Unauthorized if the user is not authenticated, and 200 OK with `{"email": "<user_email>"}` if authenticated (checking `locals.pb.authStore.isValid` and `locals.pb.authStore.model.email`). ## Implementation Hints * Follow the official PocketBase JS SDK documentation for SSR integration with SvelteKit. * Use `pb.authStore.loadFromCookie()` to load the initial state from the request headers. * Use `event.locals.pb.collection('users').authRefresh()` to ensure the token is still valid. * Use `pb.authStore.exportToCookie()` to send the updated state back to the client. * Ensure you handle `authRefresh()` failures by clearing the auth store. ## Acceptance Criteria * Project path: /home/user/sveltekit-app * Start command: npm run dev * Port: 5173 * API Endpoints: * `POST /api/login`: Accepts JSON `{"email": "...", "password": "..."}` and returns 200 OK. The response headers must include a `set-cookie` header containing `pb_auth`. * `GET /api/me`: Returns 401 Unauthorized if no valid `pb_auth` cookie is provided. Returns 200 OK with `{"email": "..."}` if a valid `pb_auth` cookie is provided.   
+
+Pochi
+💭 Thinking for 280 characters   
+📂 Listing files in /home/user/sveltekit-app ✔ 
+📂 Listing files in /home/user/sveltekit-app/src recursively ✔ 
+📖 Reading /home/user/sveltekit-app/package.json ✔ 
+📋 Updating todo list (5 items) ✔ 
+💭 Thinking for 944 characters   
+🔍 Searching for **/*.d.ts in /home/user/sveltekit-app ✔ 
+📂 Listing files in /home/user/sveltekit-app recursively ✔ 
+📋 Updating todo list (5 items) ✔ 
+💭 Thinking for 1425 characters   
+✏️  Writing /home/user/sveltekit-app/src/hooks.server.js ✔ 
+📋 Updating todo list (5 items) ✔ 
+💭 Thinking for 2337 characters   
+✏️  Writing /home/user/sveltekit-app/src/routes/api/login/+server.js ✔ 
+📋 Updating todo list (5 items) ✔ 
+💭 Thinking for 522 characters   
+✏️  Writing /home/user/sveltekit-app/src/routes/api/me/+server.js ✔ 
+📋 Updating todo list (5 items) ✔ 
+💭 Thinking for 284 characters   
+💫 Executing npm run build ✖ "Command exited with code 127"
+💫 Executing npm install ✔ 
+💫 Executing npm run build ✔ 
+💭 Thinking for 1329 characters   
+✏️  Writing /home/user/sveltekit-app/test-imports.js ✔ 
+💫 Executing node test-imports.js ✔ 
+💫 Executing rm test-imports.js ✔ 
+💭 Thinking for 1325 characters   
+📋 Updating todo list (5 items) ✔ 
+📂 Listing files in /home/user/sveltekit-app recursively ✔ 
+🎉 Task Completed
+I have implemented the SvelteKit Server-Side Rendering (SSR) Cookie Auth Synchronization with PocketBase.
+
+Here is a summary of the changes and implementation:
+
+1. **SvelteKit Server Hook (`src/hooks.server.js`)**:
+   - Initializes a new PocketBase instance pointing to `http://127.0.0.1:8090` for every incoming request.
+   - Loads the authentication state from the request cookie (`pb_auth`).
+   - Verifies and refreshes the loaded auth state if it is valid. If the refresh fails, it clears the auth store.
+   - Attaches the PocketBase instance to `event.locals.pb` so it is accessible to endpoints and page loads.
+   - Resolves the event, and then serializes the updated auth store state back to the client using the response `set-cookie` header (with `secure: false` option to ensure compatibility with local HTTP/127.0.0.1 development).
+
+2. **Login API Endpoint (`src/routes/api/login/+server.js`)**:
+   - Accepts a `POST` request with JSON containing `email` and `password`.
+   - Authenticates the user with PocketBase using `locals.pb.collection('users').authWithPassword(email, password)`.
+   - Returns a `200 OK` JSON response. Since the SvelteKit server hook executes post-resolution, it automatically serializes the authenticated PocketBase state and appends the `set-cookie` header with the `pb_auth` cookie.
+
+3. **Me API Endpoint (`src/routes/api/me/+server.js`)**:
+   - Accepts a `GET` request.
+   - Validates that the user is authenticated by checking `locals.pb.authStore.isValid` and the presence of the model.
+   - Returns `401 Unauthorized` if the user is not authenticated.
+   - Returns `200 OK` with `{"email": "<user_email>"}` if the user is authenticated.
+
+I have also successfully installed all project dependencies and verified that the project builds correctly without any errors or warnings.   
+  

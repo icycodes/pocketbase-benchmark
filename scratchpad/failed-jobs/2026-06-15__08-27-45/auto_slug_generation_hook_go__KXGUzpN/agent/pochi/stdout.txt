@@ -1,0 +1,61 @@
+- Initializing MCP connections...
+You
+# Auto Slug Generation Hook in Go ## Background PocketBase allows extending its core functionality using Go event hooks. In this task, you will write a custom Go backend that embeds PocketBase and uses a hook to automatically generate a slug from a title field when a new record is created. ## Requirements * Initialize a Go module and embed PocketBase. * Implement an `OnRecordBeforeCreateRequest` hook for the `posts` collection. * The hook must check if the `title` field is provided. If it is empty, the hook must return a 400 Bad Request error. * The hook must generate a slug from the `title` field (e.g., using `core.Slugify`) and save it to the `slug` field before the record is saved to the database. * Ensure the hook correctly propagates execution so the record is actually created. ## Implementation Hints * Use the `github.com/pocketbase/pocketbase` package. * Bind the hook using `app.OnRecordBeforeCreateRequest("posts").BindFunc(...)`. * Inside the hook, retrieve the title using `e.Record.GetString("title")` and set the slug using `e.Record.Set("slug", ...)`. * Be sure to return `e.Next()` at the end of your hook handler to continue the execution chain. ## Acceptance Criteria * Project path: /home/user/myproject * Start command: go run main.go serve --http="0.0.0.0:8090" * Port: 8090 * API Endpoints: * POST `/api/collections/posts/records`: Creates a new post. When a valid `title` is provided, the API must successfully create the record and the response must contain the correctly generated `slug`. * POST `/api/collections/posts/records`: If `title` is missing or empty, the API must reject the request and return a 400 Bad Request error.   
+
+Pochi
+I'll start by exploring the project directory and understanding the current state, then implement the PocketBase backend with the auto slug generation hook.   
+📂 Listing files in /home/user/myproject recursively ✔ 
+📖 Reading /home/user/myproject/go.mod ✔ 
+📖 Reading /home/user/myproject/pb_migrations/1781507452_created_posts.js ✔ 
+🔍 Searching for *.go in /home/user/myproject ✔ 
+📖 Reading /home/user/myproject/go.sum ✔ 
+📋 Updating todo list (3 items) ✔ 
+Let me check what version of Go is available and then set up the project.   
+💫 Executing go version ✔ 
+💫 Executing cd /home/user/myproject && go get github.com/pocketbase/pocketbase@latest 2>&1 ✔ 
+📋 Updating todo list (3 items) ✔ 
+Now let me check the PocketBase API to understand the correct hook signature and the `core.Slugify` function:   
+🔍 Searching for func Slugify in *.go files in /home/user/myproject ✔ 
+🔍 Searching for **/*.go in /root/go/pkg/mod/github.com/pocketbase ✔ 
+Let me check the events.go and base.go files for the hook signature and look for Slugify:   
+🔍 Searching for func Slugify in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+🔍 Searching for OnRecordBeforeCreateRequest in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/events.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/events.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/events.go ✔ 
+🔍 Searching for OnRecordBeforeCreateRequest in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+🔍 Searching for Record.*Create.*Request in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+Now let me look at the RecordRequestEvent structure and how the hook is used in tests:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/events.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/record_crud_test.go ✔ 
+Now let me check the RequestEvent structure and how to return errors:   
+🔍 Searching for func.*BadRequestError in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+🔍 Searching for type RequestEvent struct in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/event_request.go ✔ 
+Now let me check how the `Slugify` function is available (it could be in the `inflector` package):   
+🔍 Searching for func Slugify in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+🔍 Searching for slugify|Slugify in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+🔍 Searching for [Ss]lug in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+Let me check the inflector package:   
+🔍 Searching for *.go in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/inflector ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/inflector/inflector.go ✔ 
+There's no `Slugify` in the inflector package. Let me check if there's a separate `tools` package that has it, or if the PocketBase v0.39.4 API uses a different approach. Let me look at the `field_text.go` for autogenerate patterns which may reveal how slugs work:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/field_text.go ✔ 
+Now let me check if there is a `Slugify` function in the `tools` directory:   
+🔍 Searching for slugify|Slugify in *.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools ✔ 
+There's no `Slugify` built into PocketBase v0.39.4. The requirement mentions `core.Slugify` but it may not exist in this version. I'll need to write a simple slugify function myself. Let me also check how the existing migration defines the `posts` collection to understand what fields are available:   
+📖 Reading /home/user/myproject/pb_migrations/1781507452_created_posts.js ✔ 
+The migration only has the `id` field. The `title` and `slug` fields are not defined in the migration. I need to ensure the `posts` collection has `title` and `slug` fields. Let me check the PocketBase data to see the current state of the collection:   
+📖 Reading /home/user/myproject/pb_data/types.d.ts ✔ 
+Now I have a good understanding of the PocketBase v0.39.4 API. Let me also check the `pocketbase.go` for how to create the app:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/pocketbase.go ✔ 
+Now I have a complete understanding. Let me also check the `ServeEvent` to understand where hooks should be bound:   
+🔍 Searching for OnServe|OnRecordCreateRequest in app.go files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+Now let me also look at the test app to understand the pattern for binding hooks:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tests/app.go ✔ 
+Now I have all the information needed. Let me also check how `e.BadRequestError` works in the hook context:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/api_error_aliases.go ✔ 
+Now I have a complete understanding of the PocketBase v0.39.4 API. Let me note that: 1. `OnRecordCreateRequest` uses `*core.RecordRequestEvent` (not `RecordBeforeCreateRequest`) 2. The hook is bound with `app.OnRecordCreateRequest("posts").BindFunc(...)` 3. We return errors using `e.BadRequestError(...)` or `apis.NewBadRequestError(...)` 4. There's no built-in `Slugify` - I need to write my own Let me now write the `main.go`:   
+✏️  Writing /home/user/myproject/main.go ✔ 
+📋 Updating todo list (3 items) ✔ 
+Now let me verify the project compiles:   

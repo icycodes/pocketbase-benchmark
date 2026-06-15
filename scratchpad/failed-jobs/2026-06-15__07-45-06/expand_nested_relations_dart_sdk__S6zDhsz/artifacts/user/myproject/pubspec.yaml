@@ -1,0 +1,9 @@
+name: myproject
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  pocketbase: ^0.22.0

@@ -1,0 +1,36 @@
+- Initializing MCP connections...
+You
+# PocketBase Bulk CSV Import Custom Route ## Background PocketBase allows extending its functionality using Go. You need to create a custom API route that accepts a CSV file upload and bulk imports the data into a specified collection. ## Requirements * Create a custom `POST` route at `/api/import-csv` in Go. * The route must accept a `multipart/form-data` request containing two fields: * `file`: The uploaded CSV file. * `collection`: The name of the target PocketBase collection. * The CSV file will contain a header row matching the collection's field names, followed by data rows. * The route should parse the CSV and insert each row as a new record into the specified collection. * Return a JSON response with the number of successfully imported records. * Provide proper error handling for invalid input (e.g., missing file, missing collection, or invalid CSV format). ## Implementation Hints * Use `app.OnServe().BindFunc(...)` to register the custom route. * Use `e.Router.POST("/api/import-csv", ...)` to define the route. * Read the uploaded file using `re.Request.FormFile("file")` and the collection name using `re.Request.FormValue("collection")`. * Parse the CSV data using the standard `encoding/csv` package. * For each row, fetch the collection using `e.App.FindCollectionByNameOrId`, create a new record with `core.NewRecord`, populate fields using `record.Set()`, and save it using `e.App.Save(record)`. * Ensure you handle errors properly and return appropriate HTTP status codes (e.g., 400 for bad requests, 500 for server errors). ## Acceptance Criteria * Project path: /home/user/pb-app * Start command: go run main.go serve --http 0.0.0.0:8090 * Port: 8090 * API Endpoints: * POST `/api/import-csv`: Accepts a `multipart/form-data` request with `file` (CSV file) and `collection` (string). Returns status 200 and a JSON object `{"imported": number}` on success. * Error handling: Returns HTTP status 400 for missing fields or invalid CSV format.   
+
+Pochi
+I'll start by exploring the existing PocketBase project to understand its structure before implementing the custom route.   
+📂 Listing files in /home/user/pb-app recursively ✔ 
+📖 Reading /home/user/pb-app/main.go ✔ 
+📖 Reading /home/user/pb-app/go.mod ✔ 
+Now I have a clear picture. Let me implement the custom CSV import route.   
+📋 Updating todo list (2 items) ✔ 
+🔧 Applying diff to /home/user/pb-app/main.go ✔ 
+📋 Updating todo list (2 items) ✔ 
+💫 Executing cd /home/user/pb-app && go build -o /dev/null ./... ✖ "Command exited with code 1"
+💫 Executing cd /home/user/pb-app && go mod tidy ✔ 
+💫 Executing cd /home/user/pb-app && go build -o /dev/null ./... ✔ 
+Build succeeds with no errors.   
+📋 Updating todo list (2 items) ✔ 
+🎉 Task Completed
+The custom CSV import route has been implemented in `/home/user/pb-app/main.go`.
+
+**What was added:**
+
+A `POST /api/import-csv` route registered via `app.OnServe().BindFunc(...)`. The handler:
+
+1. **Parses the request**: Reads `collection` from the form value and `file` from the multipart upload.
+2. **Validates input**: Returns HTTP 400 if `collection` is missing, `file` is missing/invalid, the CSV header row can't be read, the collection doesn't exist, or the CSV format is malformed.
+3. **Processes rows**: Uses `encoding/csv` to read the header row and data rows. For each row, creates a `core.NewRecord`, populates fields via `record.Set(header, value)`, and saves with `e.App.Save(record)`.
+4. **Returns response**: On success, returns HTTP 200 with `{"imported": <count>}`.
+
+**Error handling:**
+- 400: Missing `collection`, missing/invalid `file`, unreadable CSV header, collection not found, invalid CSV row format
+- 500: Failed to save a record to the database
+
+**Start command:** `go run main.go serve --http 0.0.0.0:8090`   
+  

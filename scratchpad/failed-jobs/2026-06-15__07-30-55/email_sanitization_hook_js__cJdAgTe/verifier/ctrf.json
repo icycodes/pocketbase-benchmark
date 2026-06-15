@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T07:36:10.327394+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781508969383,
+            "stop": 1781508970327
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_email_sanitization_hook",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 520,
+                "start": 1781508969806,
+                "stop": 1781508970326,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_email_sanitization_hook(start_app):\n        # Step 1: Create User with Unsanitized Email\n        create_url = f\"http://localhost:{PORT}/api/collections/users/records\"\n        create_payload = {\n            \"email\": \"  TEST.user1@EXAMPLE.com  \",\n            \"password\": \"password123\",\n            \"passwordConfirm\": \"password123\"\n        }\n    \n        create_response = requests.post(create_url, json=create_payload)\n        assert create_response.status_code == 200, f\"Failed to create user: {create_response.text}\"\n    \n        create_data = create_response.json()\n>       assert create_data.get(\"email\") == \"test.user1@example.com\", \\\n            f\"Email was not sanitized correctly on create. Expected 'test.user1@example.com', got: '{create_data.get('email')}'\"\nE       AssertionError: Email was not sanitized correctly on create. Expected 'test.user1@example.com', got: 'None'\nE       assert None == 'test.user1@example.com'\nE        +  where None = <built-in method get of dict object at 0x7f047e29b1c0>('email')\nE        +    where <built-in method get of dict object at 0x7f047e29b1c0> = {'avatar': '', 'collectionId': '_pb_users_auth_', 'collectionName': 'users', 'created': '2026-06-15 07:36:10.241Z', ...}.get\n\ntests/test_final_state.py:45: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

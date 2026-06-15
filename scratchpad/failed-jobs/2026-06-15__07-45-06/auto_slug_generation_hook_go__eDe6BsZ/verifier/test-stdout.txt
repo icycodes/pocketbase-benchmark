@@ -1,0 +1,51 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py FF.                                            [100%]
+
+=================================== FAILURES ===================================
+______________________ test_create_post_with_valid_title _______________________
+
+start_app = None
+
+    def test_create_post_with_valid_title(start_app):
+        url = "http://localhost:8090/api/collections/posts/records"
+        payload = {"title": "Hello PocketBase World"}
+        response = requests.post(url, json=payload)
+    
+>       assert response.status_code == 200, f"Expected status 200, got {response.status_code}. Response: {response.text}"
+E       AssertionError: Expected status 200, got 400. Response: {"data":{},"message":"Title is required.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:36: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/start_app$ go run main.go serve --http=0.0.0.0:8090
+process 'start_app' started pid=7116
+start_app process startup detected
+___________________ test_create_post_with_special_characters ___________________
+
+start_app = None
+
+    def test_create_post_with_special_characters(start_app):
+        url = "http://localhost:8090/api/collections/posts/records"
+        payload = {"title": "Test @ 123!"}
+        response = requests.post(url, json=payload)
+    
+>       assert response.status_code == 200, f"Expected status 200, got {response.status_code}. Response: {response.text}"
+E       AssertionError: Expected status 200, got 400. Response: {"data":{},"message":"Title is required.","status":400}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:47: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_create_post_without_title
+FAILED tests/test_final_state.py::test_create_post_with_valid_title - Asserti...
+FAILED tests/test_final_state.py::test_create_post_with_special_characters - ...
+========================= 2 failed, 1 passed in 1.45s ==========================

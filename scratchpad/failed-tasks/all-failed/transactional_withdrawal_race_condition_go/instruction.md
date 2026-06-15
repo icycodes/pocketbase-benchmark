@@ -1,0 +1,35 @@
+# Transactional Withdrawal Hook to Prevent Race Conditions
+
+## Background
+You are building a PocketBase backend for a financial application. Users have a `wallets` collection to store their balance, and a `withdrawals` collection to record withdrawal transactions. You need to implement a Go event hook that safely deducts the withdrawal amount from the wallet's balance while preventing race conditions during concurrent requests.
+
+## Requirements
+- Intercept the creation of records in the `withdrawals` collection using a Go event hook.
+- When a withdrawal is requested, deduct the `amount` from the corresponding wallet's `balance`.
+- The wallet's `balance` must never drop below 0. If the balance is insufficient, the withdrawal must be rejected with an error.
+- The operation must be atomic and handle concurrent withdrawal requests safely (e.g., 10 concurrent requests of $10 on a $50 wallet must result in exactly 5 successes and 5 rejections, leaving the balance at $0).
+- You must handle SQLite transaction concurrency correctly to avoid deadlocks or lost updates.
+
+## Implementation Hints
+- Use `OnRecordBeforeCreateRequest` for the `withdrawals` collection.
+- Use `e.App.RunInTransaction(func(txApp core.App) error { ... })` to wrap the wallet fetch and update logic in a database transaction.
+- Inside the transaction, use `txApp` (not the global app) to fetch and update the wallet record to ensure it uses the transaction context.
+- PocketBase v0.23+ requires calling `e.Next()` to proceed with the hook chain.
+- To prevent race conditions, consider how SQLite handles concurrent transactions. You may need to use raw SQL or ensure the transaction isolates the read and write properly.
+
+## Acceptance Criteria
+- Project path: /home/user/app
+- Start command: go run main.go serve --http="0.0.0.0:8090"
+- Port: 8090
+- Collections:
+  - `wallets`: `balance` (number).
+  - `withdrawals`: `wallet_id` (relation to `wallets`), `amount` (number).
+- API Endpoints:
+  - POST `/api/collections/withdrawals/records`: Creates a withdrawal and deducts the balance.
+    - Request body: `{"wallet_id": "<wallet_id>", "amount": <number>}`
+    - Success response: 200 OK with the created withdrawal record.
+    - Insufficient funds response: 400 Bad Request.
+- Concurrency:
+  - Concurrent requests must not allow the wallet balance to drop below zero.
+  - Concurrent requests must not overwrite each other's balance updates (no lost updates).
+

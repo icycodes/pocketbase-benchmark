@@ -1,0 +1,60 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py FF                                             [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_rate_limited_signup ___________________________
+
+start_app = None
+
+    def test_rate_limited_signup(start_app):
+        url = "http://localhost:8090/api/custom_signup"
+    
+        # 1. First 5 Requests (Success)
+        for i in range(1, 6):
+            payload = {
+                "email": f"test{i}@example.com",
+                "password": "password12345",
+                "passwordConfirm": "password12345"
+            }
+            response = requests.post(url, json=payload)
+>           assert response.status_code in (200, 201), f"Request {i} failed with status {response.status_code}: {response.text}"
+E           AssertionError: Request 1 failed with status 404: {"data":{},"message":"The requested resource wasn't found.","status":404}
+E             
+E           assert 404 in (200, 201)
+E            +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:42: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/start_app$ go run main.go serve --http=0.0.0.0:8090
+process 'start_app' started pid=802
+start_app process startup detected
+______________________________ test_users_created ______________________________
+
+start_app = None
+
+    def test_users_created(start_app):
+        # Verify that the first 5 users were actually created by authenticating as them
+        auth_url = "http://localhost:8090/api/collections/users/auth-with-password"
+    
+        for i in range(1, 6):
+            payload = {
+                "identity": f"test{i}@example.com",
+                "password": "password12345"
+            }
+            response = requests.post(auth_url, json=payload)
+>           assert response.status_code == 200, f"Failed to authenticate as test{i}@example.com, user might not have been created properly: {response.text}"
+E           AssertionError: Failed to authenticate as test1@example.com, user might not have been created properly: {"data":{},"message":"Failed to authenticate.","status":400}
+E             
+E           assert 400 == 200
+E            +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:63: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_rate_limited_signup - AssertionError: ...
+FAILED tests/test_final_state.py::test_users_created - AssertionError: Failed...
+======================== 2 failed in 100.18s (0:01:40) =========================

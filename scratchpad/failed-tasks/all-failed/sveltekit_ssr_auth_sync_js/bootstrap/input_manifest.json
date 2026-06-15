@@ -1,0 +1,7 @@
+{
+  "library_name": "PocketBase",
+  "task_name": "sveltekit_ssr_auth_sync_js",
+  "complexity_level": "Medium",
+  "research_plan_path": "https://raw.githubusercontent.com/pocketbase/js-sdk/master/README.md",
+  "output_dir": "scratchpad/pending-tasks/"
+}

@@ -1,0 +1,93 @@
+Skipping image OS validation for hb__s3_direct_upload_presigned_url_go: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-aojsxqn > /logs/artifacts/run-id && echo s3_direct_upload_presigned_url_g__aojsXQN > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.5-flash --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# S3 Presigned URL Direct Upload Route
+
+## Background
+PocketBase proxies file uploads through its own API, which can cause memory spikes and latency for large files when using S3 storage. To bypass this, developers often implement direct-to-bucket uploads via AWS presigned URLs.
+
+## Requirements
+- Create a custom Go route `POST /api/presign-upload` in a PocketBase application.
+- The route must accept a JSON payload containing `filename` (string) and `contentType` (string).
+- It must generate an S3 presigned URL for a `PUT` request to upload the file directly to an S3 bucket.
+- The S3 configuration must be read from environment variables: `S3_ENDPOINT`, `S3_REGION`, `S3_BUCKET`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`.
+- The generated presigned URL must be valid for 15 minutes.
+- The object key should be uniquely generated (e.g., using a UUID or a timestamp prefix) to avoid collisions, preserving the original file extension.
+- Return the presigned URL and the generated object key in a JSON response.
+
+## Implementation Hints
+- Initialize a custom PocketBase application in Go.
+- Register a custom POST route `/api/presign-upload` using the PocketBase router (`app.Router().AddRoute(...)` or `app.OnBeforeServe().Add(...)`).
+- Use the official AWS SDK for Go v2 (`github.com/aws/aws-sdk-go-v2`, `config`, `s3`, and `s3/presign`) to configure the S3 client and generate the presigned URL.
+- Ensure the S3 client uses the endpoint provided in `S3_ENDPOINT` (with path-style URLs enabled if necessary for compatibility with MinIO/custom endpoints).
+
+## Acceptance Criteria
+- Project path: /home/user/app
+- Start command: go run main.go serve --http="0.0.0.0:8090"
+- Port: 8090
+- API Endpoints:
+  - POST `/api/presign-upload`: Accepts a JSON payload and returns status 200 with the presigned URL and object key.
+
+    ```json
+    // Request
+    {
+      "filename": "example.png",
+      "contentType": "image/png"
+    }
+    ```
+    ```json
+    // Response
+    {
+      "url": "string",
+      "key": "string"
+    }
+    ```
+- The returned `url` must be a valid presigned URL that successfully accepts a `PUT` request with the specified file and content type.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

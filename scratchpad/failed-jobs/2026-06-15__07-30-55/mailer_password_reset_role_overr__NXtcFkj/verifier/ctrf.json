@@ -1,0 +1,49 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T07:43:46.250311+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 0,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781509423289,
+            "stop": 1781509426250
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_admin_password_reset_email",
+                "status": "failed",
+                "duration": 2586,
+                "start": 1781509423635,
+                "stop": 1781509426221,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    @pytest.fixture(scope=\"session\")\n    def setup_users(start_app):\n        \"\"\"Setup admin user, ensure role field exists, and create test users.\"\"\"\n        base_url = \"http://localhost:8090\"\n    \n        # 1. Create an admin\n        admin_email = \"super@example.com\"\n        admin_password = \"password123456\"\n    \n        # We can use the CLI to create a superuser\n        subprocess.run(\n            [\"./pb\", \"superuser\", \"upsert\", admin_email, admin_password],\n            cwd=PROJECT_DIR,\n            check=True\n        )\n    \n        # 2. Authenticate as admin\n        resp = requests.post(f\"{base_url}/api/collections/_superusers/auth-with-password\", json={\n            \"identity\": admin_email,\n            \"password\": admin_password\n        })\n>       assert resp.status_code == 200, \"Failed to authenticate admin\"\nE       AssertionError: Failed to authenticate admin\nE       assert 404 == 200\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:89: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_user_password_reset_email",
+                "status": "failed",
+                "duration": 27,
+                "start": 1781509426222,
+                "stop": 1781509426249,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    @pytest.fixture(scope=\"session\")\n    def setup_users(start_app):\n        \"\"\"Setup admin user, ensure role field exists, and create test users.\"\"\"\n        base_url = \"http://localhost:8090\"\n    \n        # 1. Create an admin\n        admin_email = \"super@example.com\"\n        admin_password = \"password123456\"\n    \n        # We can use the CLI to create a superuser\n        subprocess.run(\n            [\"./pb\", \"superuser\", \"upsert\", admin_email, admin_password],\n            cwd=PROJECT_DIR,\n            check=True\n        )\n    \n        # 2. Authenticate as admin\n        resp = requests.post(f\"{base_url}/api/collections/_superusers/auth-with-password\", json={\n            \"identity\": admin_email,\n            \"password\": admin_password\n        })\n>       assert resp.status_code == 200, \"Failed to authenticate admin\"\nE       AssertionError: Failed to authenticate admin\nE       assert 404 == 200\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:89: AssertionError"
+            }
+        ]
+    }
+}

@@ -1,0 +1,71 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py FF                                             [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_script_execution _____________________________
+
+start_pocketbase = None
+
+    def test_script_execution(start_pocketbase):
+        """Run the test script and verify output and exit code."""
+        result = subprocess.run(
+            ["node", "test_realtime.js"],
+            cwd=PROJECT_DIR,
+            capture_output=True,
+            text=True
+        )
+>       assert result.returncode == 0, f"Script failed with exit code {result.returncode}. Stderr: {result.stderr}\nStdout: {result.stdout}"
+E       AssertionError: Script failed with exit code 1. Stderr: Unhandled error: ClientResponseError 400: Failed to authenticate.
+E             at /home/user/myproject/node_modules/pocketbase/dist/pocketbase.cjs.js:1:38332
+E             at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+E             at async RecordService.authWithPassword (/home/user/myproject/node_modules/pocketbase/dist/pocketbase.cjs.js:1:20033)
+E             at async main (/home/user/myproject/test_realtime.js:42:3) {
+E           url: 'http://127.0.0.1:8090/api/collections/_superusers/auth-with-password',
+E           status: 400,
+E           response: { data: {}, message: 'Failed to authenticate.', status: 400 },
+E           isAbort: false,
+E           originalError: {
+E             url: 'http://127.0.0.1:8090/api/collections/_superusers/auth-with-password',
+E             status: 400,
+E             data: { data: {}, message: 'Failed to authenticate.', status: 400 }
+E           },
+E           cause: {
+E             url: 'http://127.0.0.1:8090/api/collections/_superusers/auth-with-password',
+E             status: 400,
+E             data: { data: {}, message: 'Failed to authenticate.', status: 400 }
+E           }
+E         }
+E         
+E         Stdout: 
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['node', 'test_realtime.js'], returncode=1, stdout='', stderr="Unhandled error: ClientResponseEr...-with-password',\n    status: 400,\n    data: { data: {}, message: 'Failed to authenticate.', status: 400 }\n  }\n}\n").returncode
+
+tests/test_final_state.py:43: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase$ /usr/local/bin/pocketbase serve --http=0.0.0.0:8090
+process 'pocketbase' started pid=1217
+pocketbase process startup detected
+________________________ test_collection_configuration _________________________
+
+start_pocketbase = None
+
+    def test_collection_configuration(start_pocketbase):
+        """Verify the listRule of the messages collection in the SQLite database."""
+        db_path = os.path.join(PROJECT_DIR, "pb_data", "data.db")
+>       assert os.path.exists(db_path), f"Database file not found at {db_path}"
+E       AssertionError: Database file not found at /home/user/myproject/pb_data/data.db
+E       assert False
+E        +  where False = <function exists at 0x7fc40d897560>('/home/user/myproject/pb_data/data.db')
+E        +    where <function exists at 0x7fc40d897560> = <module 'posixpath' (frozen)>.exists
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:49: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_script_execution - AssertionError: Scr...
+FAILED tests/test_final_state.py::test_collection_configuration - AssertionEr...
+============================== 2 failed in 0.32s ===============================

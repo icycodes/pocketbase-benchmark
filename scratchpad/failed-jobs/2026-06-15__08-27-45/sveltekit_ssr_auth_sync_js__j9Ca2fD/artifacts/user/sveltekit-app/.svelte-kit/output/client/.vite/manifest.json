@@ -1,0 +1,78 @@
+{
+  ".svelte-kit/generated/client-optimized/app.js": {
+    "file": "_app/immutable/entry/app.CQMbrp1u.js",
+    "name": "entry/app",
+    "src": ".svelte-kit/generated/client-optimized/app.js",
+    "isEntry": true,
+    "imports": [
+      "_B2QSKqcC.js",
+      "_BoPpCq9m.js"
+    ],
+    "dynamicImports": [
+      ".svelte-kit/generated/client-optimized/nodes/0.js",
+      ".svelte-kit/generated/client-optimized/nodes/1.js",
+      ".svelte-kit/generated/client-optimized/nodes/2.js"
+    ]
+  },
+  ".svelte-kit/generated/client-optimized/nodes/0.js": {
+    "file": "_app/immutable/nodes/0.CdFrZDS7.js",
+    "name": "nodes/0",
+    "src": ".svelte-kit/generated/client-optimized/nodes/0.js",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_B2QSKqcC.js",
+      "_BoPpCq9m.js"
+    ]
+  },
+  ".svelte-kit/generated/client-optimized/nodes/1.js": {
+    "file": "_app/immutable/nodes/1.D7x9wL9w.js",
+    "name": "nodes/1",
+    "src": ".svelte-kit/generated/client-optimized/nodes/1.js",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_B2QSKqcC.js",
+      "_BoPpCq9m.js",
+      "_DkMDv_ll.js"
+    ]
+  },
+  ".svelte-kit/generated/client-optimized/nodes/2.js": {
+    "file": "_app/immutable/nodes/2.CQcNf_E6.js",
+    "name": "nodes/2",
+    "src": ".svelte-kit/generated/client-optimized/nodes/2.js",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_B2QSKqcC.js",
+      "_BoPpCq9m.js"
+    ]
+  },
+  "_B2QSKqcC.js": {
+    "file": "_app/immutable/chunks/B2QSKqcC.js",
+    "name": "scheduler"
+  },
+  "_BoPpCq9m.js": {
+    "file": "_app/immutable/chunks/BoPpCq9m.js",
+    "name": "index",
+    "imports": [
+      "_B2QSKqcC.js"
+    ]
+  },
+  "_DkMDv_ll.js": {
+    "file": "_app/immutable/chunks/DkMDv_ll.js",
+    "name": "entry",
+    "imports": [
+      "_B2QSKqcC.js"
+    ]
+  },
+  "node_modules/@sveltejs/kit/src/runtime/client/entry.js": {
+    "file": "_app/immutable/entry/start.BuCE7ckK.js",
+    "name": "entry/start",
+    "src": "node_modules/@sveltejs/kit/src/runtime/client/entry.js",
+    "isEntry": true,
+    "imports": [
+      "_DkMDv_ll.js"
+    ]
+  }
+}

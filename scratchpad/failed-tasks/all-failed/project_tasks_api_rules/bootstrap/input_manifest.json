@@ -1,0 +1,7 @@
+{
+  "library_name": "PocketBase",
+  "task_name": "project_tasks_api_rules",
+  "complexity_level": "Medium",
+  "research_plan_path": "plan.md",
+  "output_dir": "scratchpad/pending-tasks"
+}

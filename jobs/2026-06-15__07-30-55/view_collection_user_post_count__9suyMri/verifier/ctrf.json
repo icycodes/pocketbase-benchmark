@@ -1,0 +1,39 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T07:41:40.656565+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781509299671,
+            "stop": 1781509300656
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_view_collection_user_post_counts",
+                "status": "failed",
+                "duration": 721,
+                "start": 1781509299933,
+                "stop": 1781509300654,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    @pytest.fixture(scope=\"session\")\n    def test_data_setup(start_app):\n        # Create user 1\n        resp1 = requests.post(f\"{BASE_URL}/api/collections/users/records\", json={\n            \"username\": \"testuser1\",\n            \"password\": \"password123\",\n            \"passwordConfirm\": \"password123\",\n            \"email\": \"test1@example.com\"\n        })\n        assert resp1.status_code == 200, f\"Failed to create user 1: {resp1.text}\"\n        user_id_1 = resp1.json()[\"id\"]\n    \n        # Create user 2\n        resp2 = requests.post(f\"{BASE_URL}/api/collections/users/records\", json={\n            \"username\": \"testuser2\",\n            \"password\": \"password123\",\n            \"passwordConfirm\": \"password123\",\n            \"email\": \"test2@example.com\"\n        })\n        assert resp2.status_code == 200, f\"Failed to create user 2: {resp2.text}\"\n        user_id_2 = resp2.json()[\"id\"]\n    \n        # Create posts for user 1\n        r_post1 = requests.post(f\"{BASE_URL}/api/collections/posts/records\", json={\n            \"title\": \"Post 1\",\n            \"author\": user_id_1\n        })\n>       assert r_post1.status_code == 200, f\"Failed to create post 1: {r_post1.text}\"\nE       AssertionError: Failed to create post 1: {\"data\":{},\"message\":\"Failed to create record.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:60: AssertionError"
+            }
+        ]
+    }
+}

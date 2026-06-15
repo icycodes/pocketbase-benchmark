@@ -1,0 +1,71 @@
+- Initializing MCP connections...
+You
+# Rate-Limited Custom Signup Route in Go ## Background Implement a custom user signup route in a PocketBase Go application and protect it against abuse by adding a rate limit. ## Requirements * You have a basic PocketBase Go project at `/workspace/pb`. * Add a custom route `POST /api/custom_signup`. * The route should accept a JSON payload with `email`, `password`, and `passwordConfirm`, and create a new record in the `users` collection. * The route must be rate-limited to allow a maximum of 5 requests per 1 minute per IP address. * The 6th request from the same IP within the 1-minute window must return a `429 Too Many Requests` status code. ## Implementation Hints * You can use PocketBase's built-in `apis.RateLimit()` middleware by configuring the app settings, or implement a custom rate limiting middleware using standard Go libraries (e.g., `golang.org/x/time/rate`). * To create a user, you'll need to interact with the PocketBase `users` collection programmatically using `core.NewRecord()` and `app.Save()`. * Ensure the application is started using `go run main.go serve --http=0.0.0.0:8090`. ## Acceptance Criteria * Project path: /workspace/pb * Start command: go run main.go serve --http=0.0.0.0:8090 * Port: 8090 * API Endpoints: * POST `/api/custom_signup`: Accepts a JSON body and creates a user. ```json // Request { "email": "string", "password": "string", "passwordConfirm": "string" } ``` ```json // Response (Success) // Status 200 OK or 201 Created { // can be any success indicator or the created user object } ``` ```json // Response (Rate Limited) // Status 429 Too Many Requests ```   
+
+Pochi
+I'll start by exploring the existing project structure to understand the PocketBase setup.   
+📂 Listing files in /workspace/pb recursively ✔ 
+📖 Reading /workspace/pb/main.go ✔ 
+📖 Reading /workspace/pb/go.mod ✔ 
+📋 Updating todo list (3 items) ✔ 
+Let me explore the PocketBase library to understand the APIs available for rate limiting and creating users.   
+❯ Explore PocketBase APIs (explore)
+| 📋 Updating todo list (0 items)
+| 📋 Updating todo list (4 items)
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis recursively
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core recursively
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/middlewares_rate_limit.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/middlewares_rate_limit_test.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/serve.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/base.go
+| 📋 Updating todo list (0 items)
+| 📋 Updating todo list (4 items)
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/record_model.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/record_model_auth.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/app.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/events.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router recursively
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router/router.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router/route.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router/event.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router/unmarshal_request_data.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/event_request.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/tools/router/group.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/pocketbase.go
+| 📂 Listing files in .
+| 📂 Listing files in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/examples recursively
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/examples/base/main.go
+| 📖 Reading unknown
+| 📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/core/settings_model.go
+| 📋 Updating todo list (0 items)
+| 📋 Updating todo list (4 items)
+✔ Explore PocketBase APIs (explore)
+Let me explore the PocketBase source directly.   
+🔍 Searching for apis/*.go in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4 ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/middlewares_rate_limit.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/middlewares_rate_limit_test.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.39.4/apis/record_helpers.go ✔ 
+Now let me look at how the rate limit settings work and how to configure them, and also how to create records:   

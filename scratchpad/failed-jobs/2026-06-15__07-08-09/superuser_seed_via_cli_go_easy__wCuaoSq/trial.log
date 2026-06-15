@@ -1,0 +1,72 @@
+Skipping image OS validation for hb__superuser_seed_via_cli_go_easy: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-wcuaosq > /logs/artifacts/run-id && echo superuser_seed_via_cli_go_easy__wCuaoSq > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.5-flash --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Custom CLI Command to Seed Superuser
+
+## Background
+PocketBase allows extending its functionality using Go. You can add custom console commands to perform administrative tasks. In this task, you will create a custom CLI command to seed a superuser account programmatically.
+
+## Requirements
+- Create a custom PocketBase console command named `seed-superuser`.
+- The command should accept two arguments: `email` and `password`.
+- When executed, the command should create a new superuser with the provided email and password.
+- If a superuser with the given email already exists, the command should update their password instead of failing (upsert behavior).
+
+## Implementation Hints
+- Use `app.RootCmd.AddCommand` with a `cobra.Command` to register your custom command.
+- Use `app.FindCollectionByNameOrId(core.CollectionNameSuperusers)` to get the superusers collection.
+- Create a new record using `core.NewRecord(collection)` and set the `email` and `password` fields, then save it using `app.Save(record)`.
+- To handle upsert, you can try to find an existing auth record by email using `app.FindAuthRecordByEmail(core.CollectionNameSuperusers, email)` first.
+
+## Acceptance Criteria
+- Project path: /home/user/pocketbase-app
+- Command: `go run main.go seed-superuser <email> <password>`
+- The command must successfully create a superuser in the database.
+- The command output format doesn't have strict requirements, but it should exit with code 0 on success.
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured

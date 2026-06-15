@@ -1,0 +1,50 @@
+- Initializing MCP connections...
+You
+# SvelteKit SSR Cookie Auth Sync with PocketBase ## Background You are building a SvelteKit application that uses PocketBase as its backend. To support Server-Side Rendering (SSR) with authenticated users, you need to synchronize the PocketBase authentication state with SvelteKit's server-side request/response flow using cookies. ## Requirements * Implement a SvelteKit server hook (`src/hooks.server.js`) to synchronize the PocketBase auth store with request cookies. * The middleware should initialize a new PocketBase instance for each request pointing to `http://127.0.0.1:8090`. * It must load the auth state from the request cookie, verify/refresh it if valid, and clear it if the refresh fails. * The PocketBase instance must be attached to `event.locals.pb`. * After resolving the event, it must serialize the updated auth store state back to the response `set-cookie` header. * Implement a `POST /api/login` endpoint that reads `email` and `password` from the JSON body, authenticates with PocketBase via `locals.pb.collection('users').authWithPassword()`, and returns a 200 JSON response. * Implement a `GET /api/me` endpoint that returns 401 Unauthorized if the user is not authenticated, and 200 OK with `{"email": "<user_email>"}` if authenticated (checking `locals.pb.authStore.isValid` and `locals.pb.authStore.model.email`). ## Implementation Hints * Follow the official PocketBase JS SDK documentation for SSR integration with SvelteKit. * Use `pb.authStore.loadFromCookie()` to load the initial state from the request headers. * Use `event.locals.pb.collection('users').authRefresh()` to ensure the token is still valid. * Use `pb.authStore.exportToCookie()` to send the updated state back to the client. * Ensure you handle `authRefresh()` failures by clearing the auth store. ## Acceptance Criteria * Project path: /home/user/sveltekit-app * Start command: npm run dev * Port: 5173 * API Endpoints: * `POST /api/login`: Accepts JSON `{"email": "...", "password": "..."}` and returns 200 OK. The response headers must include a `set-cookie` header containing `pb_auth`. * `GET /api/me`: Returns 401 Unauthorized if no valid `pb_auth` cookie is provided. Returns 200 OK with `{"email": "..."}` if a valid `pb_auth` cookie is provided.   
+
+Pochi
+I'll start by exploring the existing project structure to understand what we're working with.   
+📂 Listing files in /home/user/sveltekit-app recursively ✔ 
+📖 Reading /home/user/sveltekit-app/package.json ✔ 
+📖 Reading /home/user/sveltekit-app/svelte.config.js ✔ 
+📖 Reading /home/user/sveltekit-app/vite.config.js ✔ 
+📂 Listing files in /home/user/sveltekit-app/src/routes recursively ✔ 
+📋 Updating todo list (4 items) ✔ 
+Now I have a clear picture. The project is a basic SvelteKit app with PocketBase already installed as a dependency. I need to create three files.   
+📋 Updating todo list (4 items) ✔ 
+✏️  Writing /home/user/sveltekit-app/src/hooks.server.js ✔ 
+📋 Updating todo list (4 items) ✔ 
+✏️  Writing /home/user/sveltekit-app/src/routes/api/login/+server.js ✔ 
+📋 Updating todo list (4 items) ✔ 
+✏️  Writing /home/user/sveltekit-app/src/routes/api/me/+server.js ✔ 
+📋 Updating todo list (4 items) ✔ 
+Now let me install dependencies and verify the build compiles correctly.   
+💫 Executing cd /home/user/sveltekit-app && npm install 2>&1 ✔ 
+💫 Executing cd /home/user/sveltekit-app && npm run build 2>&1 ✔ 
+The build succeeds (the adapter warning is expected — the SSR bundle compiled cleanly). Let me verify all three files are in place.   
+📂 Listing files in /home/user/sveltekit-app/src recursively ✔ 
+📋 Updating todo list (4 items) ✔ 
+All three files are created and the project builds successfully. Here's a summary of what was implemented: ### Files Created **1. `src/hooks.server.js`** — Server hook that runs on every request: - Creates a fresh `PocketBase` instance pointing to `http://127.0.0.1:8090` and attaches it to `event.locals.pb` - Loads auth state from the request's `cookie` header via `pb.authStore.loadFromCookie()` - If the token is valid, attempts to refresh it via `pb.collection('users').authRefresh()` - If refresh fails, clears the auth store - After the response is resolved, serializes the updated auth state back via `pb.authStore.exportToCookie()` and appends it as a `set-cookie` header **2. `src/routes/api/login/+server.js`** — `POST /api/login`: - Reads `email` and `password` from the JSON request body - Authenticates with PocketBase via `locals.pb.collection('users').authWithPassword()` - Returns 200 OK with an empty JSON body; the `set-cookie` header containing `pb_auth` is automatically appended by the server hook **3. `src/routes/api/me/+server.js`** — `GET /api/me`: - Returns 401 if `locals.pb.authStore.isValid` is false - Returns 200 with `{"email": "<user_email>"}` if authenticated   
+🎉 Task Completed
+All three files have been created and the project builds successfully:
+
+### Files Created
+
+**1. `src/hooks.server.js`** — Server hook that runs on every request:
+- Creates a fresh `PocketBase` instance pointing to `http://127.0.0.1:8090` and attaches it to `event.locals.pb`
+- Loads auth state from the request's `cookie` header via `pb.authStore.loadFromCookie()`
+- If the token is valid, attempts to refresh it via `pb.collection('users').authRefresh()`
+- If refresh fails, clears the auth store
+- After the response is resolved, serializes the updated auth state back via `pb.authStore.exportToCookie()` and appends it as a `set-cookie` header
+
+**2. `src/routes/api/login/+server.js`** — `POST /api/login`:
+- Reads `email` and `password` from the JSON request body
+- Authenticates with PocketBase via `locals.pb.collection('users').authWithPassword()`
+- Returns 200 OK with an empty JSON body; the `set-cookie` header containing `pb_auth` is automatically appended by the server hook
+
+**3. `src/routes/api/me/+server.js`** — `GET /api/me`:
+- Returns 401 if `locals.pb.authStore.isValid` is false
+- Returns 200 with `{"email": "<user_email>"}` if authenticated
+
+Start the dev server with `npm run dev` (port 5173).   
+  

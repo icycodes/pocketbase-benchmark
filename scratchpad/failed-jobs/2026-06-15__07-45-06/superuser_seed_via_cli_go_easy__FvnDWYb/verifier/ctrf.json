@@ -1,0 +1,65 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T07:58:23.225507+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 4,
+            "passed": 4,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781510300957,
+            "stop": 1781510303225
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_create_superuser_via_cli",
+                "status": "passed",
+                "duration": 589,
+                "start": 1781510301332,
+                "stop": 1781510301921,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_verify_superuser_creation",
+                "status": "passed",
+                "duration": 436,
+                "start": 1781510301922,
+                "stop": 1781510302358,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_upsert_superuser_via_cli",
+                "status": "passed",
+                "duration": 433,
+                "start": 1781510302359,
+                "stop": 1781510302792,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_verify_superuser_upsert",
+                "status": "passed",
+                "duration": 431,
+                "start": 1781510302793,
+                "stop": 1781510303224,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

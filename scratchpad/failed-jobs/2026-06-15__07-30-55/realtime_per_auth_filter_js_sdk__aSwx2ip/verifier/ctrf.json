@@ -1,0 +1,53 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T07:43:59.203098+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 0,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781509438879,
+            "stop": 1781509439202
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_script_execution",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 265,
+                "start": 1781509438914,
+                "stop": 1781509439179,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_pocketbase = None\n\n    def test_script_execution(start_pocketbase):\n        \"\"\"Run the test script and verify output and exit code.\"\"\"\n        result = subprocess.run(\n            [\"node\", \"test_realtime.js\"],\n            cwd=PROJECT_DIR,\n            capture_output=True,\n            text=True\n        )\n>       assert result.returncode == 0, f\"Script failed with exit code {result.returncode}. Stderr: {result.stderr}\\nStdout: {result.stdout}\"\nE       AssertionError: Script failed with exit code 1. Stderr: Unhandled error: ClientResponseError 400: Failed to authenticate.\nE             at /home/user/myproject/node_modules/pocketbase/dist/pocketbase.cjs.js:1:38332\nE             at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\nE             at async RecordService.authWithPassword (/home/user/myproject/node_modules/pocketbase/dist/pocketbase.cjs.js:1:20033)\nE             at async main (/home/user/myproject/test_realtime.js:42:3) {\nE           url: 'http://127.0.0.1:8090/api/collections/_superusers/auth-with-password',\nE           status: 400,\nE           response: { data: {}, message: 'Failed to authenticate.', status: 400 },\nE           isAbort: false,\nE           originalError: {\nE             url: 'http://127.0.0.1:8090/api/collections/_superusers/auth-with-password',\nE             status: 400,\nE             data: { data: {}, message: 'Failed to authenticate.', status: 400 }\nE           },\nE           cause: {\nE             url: 'http://127.0.0.1:8090/api/collections/_superusers/auth-with-password',\nE             status: 400,\nE             data: { data: {}, message: 'Failed to authenticate.', status: 400 }\nE           }\nE         }\nE         \nE         Stdout: \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['node', 'test_realtime.js'], returncode=1, stdout='', stderr=\"Unhandled error: ClientResponseEr...-with-password',\\n    status: 400,\\n    data: { data: {}, message: 'Failed to authenticate.', status: 400 }\\n  }\\n}\\n\").returncode\n\ntests/test_final_state.py:43: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_collection_configuration",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 23,
+                "start": 1781509439179,
+                "stop": 1781509439202,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_pocketbase = None\n\n    def test_collection_configuration(start_pocketbase):\n        \"\"\"Verify the listRule of the messages collection in the SQLite database.\"\"\"\n        db_path = os.path.join(PROJECT_DIR, \"pb_data\", \"data.db\")\n>       assert os.path.exists(db_path), f\"Database file not found at {db_path}\"\nE       AssertionError: Database file not found at /home/user/myproject/pb_data/data.db\nE       assert False\nE        +  where False = <function exists at 0x7fc40d897560>('/home/user/myproject/pb_data/data.db')\nE        +    where <function exists at 0x7fc40d897560> = <module 'posixpath' (frozen)>.exists\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:49: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

@@ -1,0 +1,63 @@
+- Initializing MCP connections...
+You
+# PocketBase Password Reset Email Override ## Background You are building a PocketBase backend using Go. You need to customize the password reset email template dynamically based on the user's role. ## Requirements * Implement a Go hook in `main.go` to intercept the password reset email for the `users` collection. * The `users` collection has a `role` text field. * If the user's `role` is `admin`, change the email subject to `Admin Password Reset - {APP_NAME}` and the HTML body to exactly `Admin Reset Link: {ACTION_URL}`. * If the user's `role` is `user`, change the email subject to `User Password Reset - {APP_NAME}` and the HTML body to exactly `User Reset Link: {ACTION_URL}`. * Do not modify the email for other roles. ## Implementation Hints * Use the `OnMailerRecordPasswordResetSend` hook provided by the PocketBase Go SDK. * You can access the user record from the hook event to check the `role` field. * You can access `{APP_NAME}` via `$app.settings().meta.appName` (or equivalent Go method: `e.App.Settings().Meta.AppName`). * You can construct the `{ACTION_URL}` using the token from `e.Meta["token"].(string)` and the base action URL from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`. Wait, actually you can just use the built-in template registry to resolve placeholders, or manually replace `{APP_NAME}` and `{ACTION_URL}`. Actually, PocketBase evaluates placeholders *after* the hook if you modify the raw template, but wait! The hook `OnMailerRecordPasswordResetSend` receives `e.Message` which has already been rendered! So you need to construct the final string yourself, or modify the `e.Message.Subject` and `e.Message.HTML` directly. * Since `e.Message` is already rendered, you must provide the final string. You can get the app name from `e.App.Settings().Meta.AppName`. You can get the reset token from `e.Meta["token"].(string)`. The default ActionUrl can be retrieved from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`, and you should replace `{TOKEN}` in it with the actual token to form the final ActionUrl. ## Acceptance Criteria * Project path: /home/user/app * Start command: go run main.go serve --http 0.0.0.0:8090 * Port: 8090 * API Endpoints: * Standard PocketBase password reset endpoint: `POST /api/collections/users/request-password-reset` * When requesting a password reset for a user with `role="admin"`, the outgoing email must have the subject `Admin Password Reset - <AppName>` and HTML body `Admin Reset Link: <ActionUrl>`. * When requesting a password reset for a user with `role="user"`, the outgoing email must have the subject `User Password Reset - <AppName>` and HTML body `User Reset Link: <ActionUrl>`.   
+
+Pochi
+I'll start by exploring the existing project structure to understand the codebase before implementing the hook.   
+📂 Listing files in /home/user/app recursively ✔ 
+📖 Reading /home/user/app/main.go ✔ 
+📖 Reading /home/user/app/go.mod ✔ 
+Now let me look at the PocketBase SDK to understand the `OnMailerRecordPasswordResetSend` hook signature.   
+🔍 Searching for OnMailerRecordPasswordResetSend in /home/user/app ✔ 
+🔍 Searching for **/pocketbase/**/*.go in /root ✔ 
+Let me examine the relevant source files to understand the hook event structure:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/events.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/mails/record.go ✔ 
+Now let me look at the hook registration pattern to understand how hooks are connected:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/app.go ✔ 
+Now let me look at the mailer.Message type and the settings.EmailTemplate to understand the template resolution:   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/tools/mailer ✖ "EISDIR: illegal operation on a directory, read"
+🔍 Searching for **/tools/mailer/*.go in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20 ✔ 
+🔍 Searching for **/models/settings/*.go in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20 ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/tools/mailer/mailer.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings_templates.go ✔ 
+Now let me look at how the settings EmailTemplate resolves:   
+🔍 Searching for func.*EmailTemplate.*Resolve in /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings.go ✔ 
+Now I have a complete understanding. Let me also check how `e.Message` is already rendered when the hook fires. Looking back at `mails/record.go`, the `resolveEmailTemplate` is called before the event is created, and the resolved subject/body are placed into `e.Message.Subject` and `e.Message.HTML`. So the message is already fully resolved when the hook fires. Now I have all the information needed. Let me implement the solution:   
+📋 Updating todo list (1 items) ✔ 
+🔧 Applying diff to /home/user/app/main.go ✔ 
+Wait, let me reconsider the `actionUrl` construction. Looking at the `EmailTemplate.Resolve` method, it uses `rest.NormalizeUrl` on the action URL. Let me check if I should use the same approach or just construct it manually. Also, the default `ActionUrl` in the settings is `{APP_URL}/_/#/auth/confirm-password-reset/{TOKEN}`. Let me use the same approach as PocketBase's `Resolve` method but simpler:   
+📖 Reading /home/user/app/main.go ✔ 
+I notice there's an unused variable `actionUrl` on line 17 (the one reading `ResetPasswordTemplate.ActionUrl`). Let me clean that up and also use `strings.ReplaceAll` to properly construct the action URL from the template, which is the more robust approach:   
+🔧 Applying diff to /home/user/app/main.go ✔ 
+🔧 Applying diff to /home/user/app/main.go ✔ 
+Now let me verify the final file:   
+📖 Reading /home/user/app/main.go ✔ 
+Let me verify the code compiles:   
+💫 Executing cd /home/user/app && go build -o /dev/null . 2>&1 ✖ "Command execution timed out after 60 seconds."
+The build timed out likely due to first-time module download. Let me try again with a longer timeout:   
+💫 Executing cd /home/user/app && go build -o /dev/null . 2>&1 ✖ "Command exited with code 1"
+The `MailerRecordEvent` doesn't have an `App` field. Let me check how to access the app from the hook. Looking at the `MailerRecordEvent` struct: ```go type MailerRecordEvent struct { BaseCollectionEvent MailClient mailer.Mailer Message *mailer.Message Record *models.Record Meta map[string]any } ``` No `App` field. I need to use a closure to capture the `app` variable. Let me fix this:   
+🔧 Applying diff to /home/user/app/main.go ✔ 
+💫 Executing cd /home/user/app && go build -o /dev/null . 2>&1 ✔ 
+The code compiles successfully. Let me verify the final file:   
+📖 Reading /home/user/app/main.go ✔ 
+📋 Updating todo list (1 items) ✔ 
+🎉 Task Completed
+The password reset email override has been implemented in `/home/user/app/main.go`.
+
+**What was done:**
+
+Registered a hook on `OnMailerBeforeRecordResetPasswordSend` for the `users` collection. When a password reset is requested, the hook:
+
+1. Reads the user's `role` field from the record
+2. Gets the app name from `app.Settings().Meta.AppName`
+3. Resolves the action URL by replacing `{TOKEN}`, `{APP_URL}`, and `{APP_NAME}` placeholders in the configured `ResetPasswordTemplate.ActionUrl`
+4. Based on the role:
+   - **`admin`**: Sets subject to `Admin Password Reset - {APP_NAME}` and HTML body to `Admin Reset Link: {ACTION_URL}`
+   - **`user`**: Sets subject to `User Password Reset - {APP_NAME}` and HTML body to `User Reset Link: {ACTION_URL}`
+   - Other roles: Email is left unchanged (the default PocketBase template is used)
+
+The code compiles successfully and is ready to run with `go run main.go serve --http 0.0.0.0:8090`.   
+  

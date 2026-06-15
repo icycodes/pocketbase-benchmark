@@ -1,0 +1,39 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T07:17:39.662489+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781507858815,
+            "stop": 1781507859662
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_concurrent_withdrawals",
+                "status": "failed",
+                "duration": 451,
+                "start": 1781507859210,
+                "stop": 1781507859661,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def build_app():\n        import subprocess\n        result = subprocess.run([\"go\", \"build\", \"-o\", \"main\", \".\"], cwd=PROJECT_DIR, capture_output=True, text=True)\n>       assert result.returncode == 0, f\"Failed to build app: {result.stderr}\"\nE       AssertionError: Failed to build app: # app\nE         ./test_concurrency.go:23:6: main redeclared in this block\nE         \t./main.go:14:6: other declaration of main\nE         \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['go', 'build', '-o', 'main', '.'], returncode=1, stdout='', stderr='# app\\n./test_concurrency.go:23:6: main redeclared in this block\\n\\t./main.go:14:6: other declaration of main\\n').returncode\n\ntests/test_final_state.py:15: AssertionError"
+            }
+        ]
+    }
+}

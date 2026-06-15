@@ -1,0 +1,81 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py EE                                             [100%]
+
+==================================== ERRORS ====================================
+______________ ERROR at setup of test_admin_password_reset_email _______________
+
+start_app = None
+
+    @pytest.fixture(scope="session")
+    def setup_users(start_app):
+        """Setup admin user, ensure role field exists, and create test users."""
+        base_url = "http://localhost:8090"
+    
+        # 1. Create an admin
+        admin_email = "super@example.com"
+        admin_password = "password123456"
+    
+        # We can use the CLI to create a superuser
+        subprocess.run(
+            ["./pb", "superuser", "upsert", admin_email, admin_password],
+            cwd=PROJECT_DIR,
+            check=True
+        )
+    
+        # 2. Authenticate as admin
+        resp = requests.post(f"{base_url}/api/collections/_superusers/auth-with-password", json={
+            "identity": admin_email,
+            "password": admin_password
+        })
+>       assert resp.status_code == 200, "Failed to authenticate admin"
+E       AssertionError: Failed to authenticate admin
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:89: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pb_app$ ./pb serve --http 0.0.0.0:8090
+process 'pb_app' started pid=6554
+pb_app process startup detected
+Error: unknown command "superuser" for "pb"
+Run 'pb --help' for usage.
+_______________ ERROR at setup of test_user_password_reset_email _______________
+
+start_app = None
+
+    @pytest.fixture(scope="session")
+    def setup_users(start_app):
+        """Setup admin user, ensure role field exists, and create test users."""
+        base_url = "http://localhost:8090"
+    
+        # 1. Create an admin
+        admin_email = "super@example.com"
+        admin_password = "password123456"
+    
+        # We can use the CLI to create a superuser
+        subprocess.run(
+            ["./pb", "superuser", "upsert", admin_email, admin_password],
+            cwd=PROJECT_DIR,
+            check=True
+        )
+    
+        # 2. Authenticate as admin
+        resp = requests.post(f"{base_url}/api/collections/_superusers/auth-with-password", json={
+            "identity": admin_email,
+            "password": admin_password
+        })
+>       assert resp.status_code == 200, "Failed to authenticate admin"
+E       AssertionError: Failed to authenticate admin
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:89: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_admin_password_reset_email - AssertionE...
+ERROR tests/test_final_state.py::test_user_password_reset_email - AssertionEr...
+============================== 2 errors in 2.78s ===============================

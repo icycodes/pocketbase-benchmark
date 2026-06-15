@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T08:39:46.651507+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781512692621,
+            "stop": 1781512786651
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_configs_collection_seeded_records",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 93514,
+                "start": 1781512693136,
+                "stop": 1781512786650,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_configs_collection_seeded_records(start_app):\n        \"\"\"Verify that the configs collection exists and contains the seeded records.\"\"\"\n        url = \"http://localhost:8090/api/collections/configs/records\"\n        try:\n            response = requests.get(url)\n        except requests.exceptions.RequestException as e:\n            pytest.fail(f\"Failed to connect to the API: {e}\")\n    \n>       assert response.status_code == 200, f\"Expected status 200, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 200, got 404. Response: {\"code\":404,\"message\":\"The requested resource wasn't found.\",\"data\":{}}\nE         \nE       assert 404 == 200\nE        +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:52: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

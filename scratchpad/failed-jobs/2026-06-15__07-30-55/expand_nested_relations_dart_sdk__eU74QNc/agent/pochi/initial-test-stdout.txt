@@ -1,0 +1,98 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 4 items
+
+bootstrap/test_initial_state.py::test_dart_binary_available PASSED
+bootstrap/test_initial_state.py::test_pocketbase_binary_available PASSED
+bootstrap/test_initial_state.py::test_project_dir_exists PASSED
+bootstrap/test_initial_state.py::test_pocketbase_running_and_seeded FAILED
+
+=================================== FAILURES ===================================
+______________________ test_pocketbase_running_and_seeded ______________________
+
+    def test_pocketbase_running_and_seeded():
+        # Start PocketBase in the background if it's not running
+        try:
+            response = urllib.request.urlopen("http://127.0.0.1:8090/api/health")
+            if response.getcode() == 200:
+                pass # Already running
+        except urllib.error.URLError:
+            subprocess.Popen(
+                ["pocketbase", "serve", "--http", "0.0.0.0:8090", "--dir", "/home/user/pb_data"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True
+            )
+    
+            # Wait for PocketBase to be ready
+            ready = False
+            for _ in range(30):
+                try:
+                    if urllib.request.urlopen("http://127.0.0.1:8090/api/health").getcode() == 200:
+                        ready = True
+                        break
+                except Exception:
+                    pass
+                time.sleep(1)
+    
+            if not ready:
+                pytest.fail("PocketBase failed to start on http://127.0.0.1:8090")
+    
+        # Seed data
+        # Create an admin
+        admin_email = "admin@example.com"
+        admin_password = "adminpassword123"
+        try:
+            req = urllib.request.Request(
+                "http://127.0.0.1:8090/api/admins",
+                data=json.dumps({
+                    "email": admin_email,
+                    "password": admin_password,
+                    "passwordConfirm": admin_password
+                }).encode('utf-8'),
+                headers={"Content-Type": "application/json"}
+            )
+            urllib.request.urlopen(req)
+        except urllib.error.HTTPError:
+            pass # Admin might already exist
+    
+        # Authenticate as admin
+        req = urllib.request.Request(
+            "http://127.0.0.1:8090/api/admins/auth-with-password",
+            data=json.dumps({
+                "identity": admin_email,
+                "password": admin_password
+            }).encode('utf-8'),
+            headers={"Content-Type": "application/json"}
+        )
+>       response = urllib.request.urlopen(req)
+
+bootstrap/test_initial_state.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/urllib/request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+usr/lib/python3.12/urllib/request.py:521: in open
+    response = meth(req, response)
+usr/lib/python3.12/urllib/request.py:630: in http_response
+    response = self.parent.error(
+usr/lib/python3.12/urllib/request.py:559: in error
+    return self._call_chain(*args)
+usr/lib/python3.12/urllib/request.py:492: in _call_chain
+    result = func(*args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <urllib.request.HTTPDefaultErrorHandler object at 0x7f2b904831a0>
+req = <urllib.request.Request object at 0x7f2b905a5c40>
+fp = <http.client.HTTPResponse object at 0x7f2b90483580>, code = 404
+msg = 'Not Found', hdrs = <http.client.HTTPMessage object at 0x7f2b904e4a40>
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+>       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 404: Not Found
+
+usr/lib/python3.12/urllib/request.py:639: HTTPError
+=========================== short test summary info ============================
+FAILED bootstrap/test_initial_state.py::test_pocketbase_running_and_seeded - ...
+========================= 1 failed, 3 passed in 1.38s ==========================

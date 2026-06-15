@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T08:20:37.475174+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781511636591,
+            "stop": 1781511637474
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_view_collection_user_post_counts",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 529,
+                "start": 1781511636945,
+                "stop": 1781511637474,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\ntest_data_setup = {'user_id_1': 'hda0qg1kx4ff476', 'user_id_2': 'j3tbn70ja9vg88x'}\n\n    def test_view_collection_user_post_counts(start_app, test_data_setup):\n        user_id_1 = test_data_setup[\"user_id_1\"]\n        user_id_2 = test_data_setup[\"user_id_2\"]\n    \n        resp = requests.get(f\"{BASE_URL}/api/collections/user_post_counts/records\")\n        assert resp.status_code == 200, f\"Failed to query view collection: {resp.text}\"\n    \n        data = resp.json()\n        items = data.get(\"items\", [])\n    \n        user1_found = False\n        user2_found = False\n    \n        for item in items:\n            if item.get(\"id\") == user_id_1:\n>               assert item.get(\"username\") == \"testuser1\", f\"Expected username testuser1, got {item.get('username')}\"\nE               AssertionError: Expected username testuser1, got \nE               assert '' == 'testuser1'\nE                 - testuser1\n\ntests/test_final_state.py:95: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

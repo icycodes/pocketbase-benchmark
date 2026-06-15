@@ -1,0 +1,93 @@
+- Initializing MCP connections...
+You
+# PocketBase Password Reset Email Override ## Background You are building a PocketBase backend using Go. You need to customize the password reset email template dynamically based on the user's role. ## Requirements * Implement a Go hook in `main.go` to intercept the password reset email for the `users` collection. * The `users` collection has a `role` text field. * If the user's `role` is `admin`, change the email subject to `Admin Password Reset - {APP_NAME}` and the HTML body to exactly `Admin Reset Link: {ACTION_URL}`. * If the user's `role` is `user`, change the email subject to `User Password Reset - {APP_NAME}` and the HTML body to exactly `User Reset Link: {ACTION_URL}`. * Do not modify the email for other roles. ## Implementation Hints * Use the `OnMailerRecordPasswordResetSend` hook provided by the PocketBase Go SDK. * You can access the user record from the hook event to check the `role` field. * You can access `{APP_NAME}` via `$app.settings().meta.appName` (or equivalent Go method: `e.App.Settings().Meta.AppName`). * You can construct the `{ACTION_URL}` using the token from `e.Meta["token"].(string)` and the base action URL from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`. Wait, actually you can just use the built-in template registry to resolve placeholders, or manually replace `{APP_NAME}` and `{ACTION_URL}`. Actually, PocketBase evaluates placeholders *after* the hook if you modify the raw template, but wait! The hook `OnMailerRecordPasswordResetSend` receives `e.Message` which has already been rendered! So you need to construct the final string yourself, or modify the `e.Message.Subject` and `e.Message.HTML` directly. * Since `e.Message` is already rendered, you must provide the final string. You can get the app name from `e.App.Settings().Meta.AppName`. You can get the reset token from `e.Meta["token"].(string)`. The default ActionUrl can be retrieved from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`, and you should replace `{TOKEN}` in it with the actual token to form the final ActionUrl. ## Acceptance Criteria * Project path: /home/user/app * Start command: go run main.go serve --http 0.0.0.0:8090 * Port: 8090 * API Endpoints: * Standard PocketBase password reset endpoint: `POST /api/collections/users/request-password-reset` * When requesting a password reset for a user with `role="admin"`, the outgoing email must have the subject `Admin Password Reset - <AppName>` and HTML body `Admin Reset Link: <ActionUrl>`. * When requesting a password reset for a user with `role="user"`, the outgoing email must have the subject `User Password Reset - <AppName>` and HTML body `User Reset Link: <ActionUrl>`.   
+
+Pochi
+💭 Thinking for 363 characters   
+📋 Updating todo list (4 items) ✔ 
+💭 Thinking for 46 characters   
+📂 Listing files in /home/user/app recursively ✔ 
+💭 Thinking for 66 characters   
+📖 Reading /home/user/app/main.go ✔ 
+📖 Reading /home/user/app/go.mod ✔ 
+💭 Thinking for 372 characters   
+💫 Executing find /home/user/app -name "*.go" -path "*/pocketbase/*" | head -30 ✔ 
+💭 Thinking for 70 characters   
+💫 Executing find /root/go -path "*/pocketbase/pocketbase*" -name "*.go" | head -20 2>/dev/null; find /home -path "*/pocketbase/pocketbase*" -name "*.go" | head -20 2>/dev/null ✔ 
+💭 Thinking for 70 characters   
+💫 Executing grep -r "OnMailerRecordPasswordResetSend\|MailerRecordPasswordResetSend" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/ --include="*.go" -l 2>/dev/null ✖ "Command exited with code 1"
+💭 Thinking for 54 characters   
+💫 Executing grep -rl "PasswordReset" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/ --include="*.go" 2>/dev/null | head -20 ✔ 
+💭 Thinking for 60 characters   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/mails/record.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/forms/record_password_reset_request.go ✔ 
+💭 Thinking for 261 characters   
+💫 Executing grep -rl "MailerRecordEvent\|OnMailerBeforeRecordResetPasswordSend" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/ --include="*.go" 2>/dev/null ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/events.go ✔ 
+💭 Thinking for 344 characters   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/app.go ✔ 
+💭 Thinking for 463 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/tools/mailer/mailer.go ✔ 
+💫 Executing grep -r "ActionUrl\|ActionURL\|actionUrl\|action_url" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/ --include="*.go" | head -20 ✔ 
+💭 Thinking for 103 characters   
+💫 Executing grep -rn "EmailTemplate\|EmailPlaceholderToken\|EmailPlaceholderActionUrl\|EmailPlaceholderAppName" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings.go | head -30 ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings.go ✔ 
+💭 Thinking for 43 characters   
+💫 Executing grep -n "EmailPlaceholder" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings.go | head -10 ✔ 
+💫 Executing grep -rn "EmailPlaceholder" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/ --include="*.go" | grep -v "_test.go" ✔ 
+💭 Thinking for 139 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/tools/hook/hook.go ✔ 
+💭 Thinking for 43 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/tools/hook/taggedhook.go ✖ "Command exited with code 1"
+💫 Executing find /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/tools/hook/ -type f ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/tools/hook/tagged.go ✔ 
+💭 Thinking for 125 characters   
+💫 Executing grep -n "func.*GetString\|func.*Get(" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/record.go | head -20 ✔ 
+💭 Thinking for 9916 characters   
+💫 Executing grep -rn "App\b" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/events.go | head -20 ✔ 
+💭 Thinking for 63 characters   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/events.go ✔ 
+💭 Thinking for 1198 characters   
+💫 Executing grep -n "func.*Record.*Dao\|func.*Dao\|type Record struct" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/record.go | head -10 ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/record.go ✔ 
+💭 Thinking for 4926 characters   
+Now I have a thorough understanding of the PocketBase v0.22.20 API. Let me implement the solution.   
+📋 Updating todo list (4 items) ✔ 
+✏️  Writing /home/user/app/main.go ✔ 
+📋 Updating todo list (4 items) ✔ 
+💫 Executing cd /home/user/app && go mod tidy 2>&1 ✔ 
+💫 Executing cd /home/user/app && go build -o pocketbase-test . 2>&1 ✔ 
+💭 Thinking for 83 characters   
+📋 Updating todo list (4 items) ✔ 
+💫 Executing cd /home/user/app && timeout 5 go run main.go serve --http 0.0.0.0:8090 2>&1 || true ✔ 
+💭 Thinking for 4391 characters   
+The app starts successfully. Now I need to ensure the `users` collection has a `role` text field, as specified in the requirements. Let me update `main.go` to add this field during setup.   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/collection.go | head -5 ✔ 
+💫 Executing grep -n "type SchemaField\|type Collection\b" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/collection.go | head -5 ✔ 
+💫 Executing grep -n "type SchemaField" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/schema/schema.go ✖ "Command exited with code 1"
+💫 Executing grep -rn "type SchemaField" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/ --include="*.go" ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/schema/schema_field.go ✔ 
+💭 Thinking for 238 characters   
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/schema/schema_field.go ✔ 
+💭 Thinking for 2811 characters   
+I need to add the `role` text field to the `users` collection. Let me update the `main.go` to include this setup.   
+✏️  Writing /home/user/app/main.go ✔ 
+💫 Executing cd /home/user/app && go build -o pocketbase-test . 2>&1 ✖ "Command exited with code 1"
+💭 Thinking for 378 characters   
+💫 Executing grep -n "type Schema\b" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/schema/schema.go ✔ 
+📖 Reading /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/schema/schema.go ✔ 
+💭 Thinking for 995 characters   
+💫 Executing grep -n "type TextOptions\|FieldTypeText" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/schema/schema_field.go | head -5 ✔ 
+💫 Executing sed -n '443,460p' /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/schema/schema_field.go ✔ 
+Now let me fix the code:   
+✏️  Writing /home/user/app/main.go ✔ 
+💫 Executing cd /home/user/app && go build -o pocketbase-test . 2>&1 ✔ 
+💭 Thinking for 176 characters   
+The build succeeds. Let me now start the server and test the password reset email hook.   
+💫 Executing cd /home/user/app && rm -rf pb_data && go run main.go serve --http 0.0.0.0:8090 &
+sleep 3
+echo "Server should be running" ✔ 
+💭 Thinking for 477 characters   
+The server started successfully and the `role` field was added to the `users` collection. Let me kill the background process and verify everything is clean.   
+💫 Executing pkill -f "go run main.go serve" 2>/dev/null; pkill -f "pocketbase-test" 2>/dev/null; sleep 1; echo "Processes killed" ✖ "Command exited with code 1"
+💫 Executing cd /home/user/app && rm -rf pb_data && echo "Cleaned up" ✔ 

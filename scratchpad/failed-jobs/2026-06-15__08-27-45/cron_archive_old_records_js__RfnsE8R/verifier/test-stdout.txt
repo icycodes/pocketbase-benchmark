@@ -1,0 +1,68 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 1 item
+
+tests/test_final_state.py F                                              [100%]
+
+=================================== FAILURES ===================================
+________________________ test_cron_archives_old_records ________________________
+
+start_app = None
+
+    def test_cron_archives_old_records(start_app):
+        # Setup data and superuser
+        setup_test_data()
+        create_superuser()
+>       token = get_admin_token()
+
+tests/test_final_state.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_final_state.py:76: in get_admin_token
+    resp.raise_for_status()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Response [404]>
+
+    def raise_for_status(self) -> None:
+        """Raises :class:`HTTPError`, if one occurred."""
+    
+        http_error_msg = ""
+        if isinstance(self.reason, bytes):
+            # We attempt to decode utf-8 first because some servers
+            # choose to localize their reason strings. If the string
+            # isn't utf-8, we fall back to iso-8859-1 for all other
+            # encodings. (See PR #3538)
+            try:
+                reason = self.reason.decode("utf-8")
+            except UnicodeDecodeError:
+                reason = self.reason.decode("iso-8859-1")
+        else:
+            reason = self.reason
+    
+        if 400 <= self.status_code < 500:
+            http_error_msg = (
+                f"{self.status_code} Client Error: {reason} for url: {self.url}"
+            )
+    
+        elif 500 <= self.status_code < 600:
+            http_error_msg = (
+                f"{self.status_code} Server Error: {reason} for url: {self.url}"
+            )
+    
+        if http_error_msg:
+>           raise HTTPError(http_error_msg, response=self)
+E           requests.exceptions.HTTPError: 404 Client Error: Not Found for url: http://localhost:8090/api/superusers/auth-with-password
+
+usr/local/lib/python3.12/dist-packages/requests/models.py:1167: HTTPError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pocketbase$ ./pocketbase serve --http 0.0.0.0:8090
+process 'pocketbase' started pid=836
+pocketbase process startup detected
+----------------------------- Captured stdout call -----------------------------
+Error: unknown command "superuser" for "pocketbase"
+Run 'pocketbase --help' for usage.
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_cron_archives_old_records - requests.e...
+============================== 1 failed in 0.62s ===============================

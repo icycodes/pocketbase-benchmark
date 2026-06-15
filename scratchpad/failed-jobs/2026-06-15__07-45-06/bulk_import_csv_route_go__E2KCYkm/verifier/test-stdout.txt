@@ -1,0 +1,56 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: xprocess-1.0.2, json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py FF.                                            [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_valid_csv_import _____________________________
+
+start_app = None
+
+    def test_valid_csv_import(start_app):
+        csv_content = "name,price\nApple,1.5\nBanana,2.0\n"
+        csv_path = os.path.join(PROJECT_DIR, "test.csv")
+        with open(csv_path, "w") as f:
+            f.write(csv_content)
+    
+        url = "http://localhost:8090/api/import-csv"
+        with open(csv_path, "rb") as f:
+            files = {"file": ("test.csv", f, "text/csv")}
+            data = {"collection": "products"}
+            response = requests.post(url, files=files, data=data)
+    
+>       assert response.status_code == 200, f"Expected status 200, got {response.status_code}: {response.text}"
+E       AssertionError: Expected status 200, got 400: {"error":"collection products not found"}
+E         
+E       assert 400 == 200
+E        +  where 400 = <Response [400]>.status_code
+
+tests/test_final_state.py:49: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+/tests/.pytest_cache/d/.xprocess/pb_app$ go run main.go serve --http 0.0.0.0:8090
+process 'pb_app' started pid=4599
+pb_app process startup detected
+_______________________ test_verify_records_in_database ________________________
+
+start_app = None
+
+    def test_verify_records_in_database(start_app):
+        url = "http://localhost:8090/api/collections/products/records"
+        response = requests.get(url)
+>       assert response.status_code == 200, f"Expected status 200, got {response.status_code}: {response.text}"
+E       AssertionError: Expected status 200, got 404: {"data":{},"message":"Missing collection context.","status":404}
+E         
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:57: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_invalid_request_missing_file
+FAILED tests/test_final_state.py::test_valid_csv_import - AssertionError: Exp...
+FAILED tests/test_final_state.py::test_verify_records_in_database - Assertion...
+========================= 2 failed, 1 passed in 2.85s ==========================

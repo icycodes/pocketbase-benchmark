@@ -1,0 +1,39 @@
+- Initializing MCP connections...
+You
+# PocketBase Email Sanitization Hook ## Background In a PocketBase application, it's important to keep user data consistent. Email addresses should always be stored in lowercase and without leading or trailing spaces to avoid authentication issues or duplicate accounts. ## Requirements - Create a PocketBase JavaScript event hook that intercepts record creation and updates for the `users` collection. - Sanitize the `email` field of the record by trimming whitespace from both ends and converting all characters to lowercase. - The hook must apply these changes before the record is validated and saved to the database. ## Implementation Hints - Use PocketBase's JSVM hook functions such as `onRecordCreateRequest` and `onRecordUpdateRequest` (available in PocketBase v0.23+). - Access the record's `email` field, sanitize the string, and use the record setter to update the field. - Remember to call `e.next()` to continue the request chain. - Save your script as a `.pb.js` file in the `pb_hooks` directory. ## Acceptance Criteria - Project path: `/home/user/pocketbase` - Start command: `./pocketbase serve --http=0.0.0.0:8090` - Port: `8090` - API Endpoints: - POST `/api/collections/users/records`: Creates a new user. The response must contain the newly created user record with the sanitized email. ```json // Request { "email": string, "password": string, "passwordConfirm": string } ``` - PATCH `/api/collections/users/records/:id`: Updates an existing user. The response must contain the updated user record with the sanitized email. ```json // Request { "email": string } ```   
+
+Pochi
+💭 Thinking for 105 characters   
+📂 Listing files in /home/user/pocketbase ✔ 
+The `pb_hooks` directory doesn't exist yet. I'll create it along with the hook file.   
+✏️  Writing /home/user/pocketbase/pb_hooks/sanitize_email.pb.js ✔ 
+🎉 Task Completed
+Created `/home/user/pocketbase/pb_hooks/sanitize_email.pb.js` with the following hook:
+
+```js
+onRecordCreateRequest((e) => {
+    const email = e.record.get("email");
+    if (email) {
+        e.record.set("email", email.trim().toLowerCase());
+    }
+    e.next();
+}, "users");
+
+onRecordUpdateRequest((e) => {
+    const email = e.record.get("email");
+    if (email) {
+        e.record.set("email", email.trim().toLowerCase());
+    }
+    e.next();
+}, "users");
+```
+
+**How it works:**
+
+- `onRecordCreateRequest` — fires before a new `users` record is validated and saved (POST `/api/collections/users/records`).
+- `onRecordUpdateRequest` — fires before an existing `users` record is validated and saved (PATCH `/api/collections/users/records/:id`).
+- Both handlers read the current `email` value, apply `.trim().toLowerCase()`, write it back with `e.record.set(...)`, then call `e.next()` to continue the request chain so PocketBase proceeds with validation and persistence.
+- The second argument `"users"` scopes each hook exclusively to the `users` collection, so other collections are unaffected.
+
+PocketBase automatically loads all `*.pb.js` files from `pb_hooks/` on startup — no additional registration is needed. Start the server with `./pocketbase serve --http=0.0.0.0:8090` and the sanitization will be active immediately.   
+  

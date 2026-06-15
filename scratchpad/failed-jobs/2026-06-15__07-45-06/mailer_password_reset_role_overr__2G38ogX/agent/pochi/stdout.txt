@@ -1,0 +1,150 @@
+- Initializing MCP connections...
+You
+# PocketBase Password Reset Email Override ## Background You are building a PocketBase backend using Go. You need to customize the password reset email template dynamically based on the user's role. ## Requirements * Implement a Go hook in `main.go` to intercept the password reset email for the `users` collection. * The `users` collection has a `role` text field. * If the user's `role` is `admin`, change the email subject to `Admin Password Reset - {APP_NAME}` and the HTML body to exactly `Admin Reset Link: {ACTION_URL}`. * If the user's `role` is `user`, change the email subject to `User Password Reset - {APP_NAME}` and the HTML body to exactly `User Reset Link: {ACTION_URL}`. * Do not modify the email for other roles. ## Implementation Hints * Use the `OnMailerRecordPasswordResetSend` hook provided by the PocketBase Go SDK. * You can access the user record from the hook event to check the `role` field. * You can access `{APP_NAME}` via `$app.settings().meta.appName` (or equivalent Go method: `e.App.Settings().Meta.AppName`). * You can construct the `{ACTION_URL}` using the token from `e.Meta["token"].(string)` and the base action URL from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`. Wait, actually you can just use the built-in template registry to resolve placeholders, or manually replace `{APP_NAME}` and `{ACTION_URL}`. Actually, PocketBase evaluates placeholders *after* the hook if you modify the raw template, but wait! The hook `OnMailerRecordPasswordResetSend` receives `e.Message` which has already been rendered! So you need to construct the final string yourself, or modify the `e.Message.Subject` and `e.Message.HTML` directly. * Since `e.Message` is already rendered, you must provide the final string. You can get the app name from `e.App.Settings().Meta.AppName`. You can get the reset token from `e.Meta["token"].(string)`. The default ActionUrl can be retrieved from `e.App.Settings().Meta.ResetPasswordTemplate.ActionUrl`, and you should replace `{TOKEN}` in it with the actual token to form the final ActionUrl. ## Acceptance Criteria * Project path: /home/user/app * Start command: go run main.go serve --http 0.0.0.0:8090 * Port: 8090 * API Endpoints: * Standard PocketBase password reset endpoint: `POST /api/collections/users/request-password-reset` * When requesting a password reset for a user with `role="admin"`, the outgoing email must have the subject `Admin Password Reset - <AppName>` and HTML body `Admin Reset Link: <ActionUrl>`. * When requesting a password reset for a user with `role="user"`, the outgoing email must have the subject `User Password Reset - <AppName>` and HTML body `User Reset Link: <ActionUrl>`.   
+
+Pochi
+💭 Thinking for 324 characters   
+💫 Executing mkdir -p /home/user/app && cd /home/user/app && ls -la ✔ 
+📖 Reading /home/user/app/go.mod ✔ 
+📖 Reading /home/user/app/main.go ✔ 
+💭 Thinking for 557 characters   
+💫 Executing cat << 'EOF' > test.go
+package main
+
+import (
+	"fmt"
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/core"
+)
+
+func main() {
+	app := pocketbase.New()
+	app.OnMailerRecordPasswordResetSend().Add(func(e *core.MailerRecordEvent) error {
+		fmt.Println("Hook invoked!")
+		return nil
+	})
+}
+EOF
+go run test.go
+ ✖ "Command exited with code 1"
+💫 Executing cd /home/user/app && cat << 'EOF' > test.go
+package main
+
+import (
+	"fmt"
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/core"
+)
+
+func init() {
+	app := pocketbase.New()
+	app.OnMailerRecordPasswordResetSend().Add(func(e *core.MailerRecordEvent) error {
+		fmt.Println("Hook invoked!")
+		return nil
+	})
+}
+EOF
+go build test.go
+ ✖ "Command exited with code 1"
+💫 Executing cd /home/user/app && go list -f '{{.Dir}}' -m github.com/pocketbase/pocketbase ✔ 
+💭 Thinking for 245 characters   
+💫 Executing grep -i "mailer" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/*.go ✔ 
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/events.go | grep -A 10 "type MailerRecordEvent" ✔ 
+💭 Thinking for 190 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/tools/mailer/mailer.go | grep -A 15 "type Message struct" ✔ 
+💭 Thinking for 465 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/record.go | grep -A 5 "func (m \*Record) GetString" ✔ 
+💭 Thinking for 433 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/events.go | grep -A 10 "type BaseCollectionEvent" ✔ 
+💭 Thinking for 335 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/app.go | grep -A 2 "Settings()" ✔ 
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings.go | grep -A 5 "type Settings struct" ✔ 
+💭 Thinking for 274 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings.go | grep -A 10 "type MetaConfig struct" ✔ 
+💭 Thinking for 230 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings.go | grep -A 5 "type EmailTemplate struct" ✔ 
+💭 Thinking for 480 characters   
+💫 Executing grep -A 10 "MailerRecordEvent" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/events.go ✔ 
+💭 Thinking for 227 characters   
+💫 Executing grep -A 20 "func (app \*BaseApp) SendRecordPasswordResetEmail" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/core/app_mailer.go ✖ "Command exited with code 2"
+💭 Thinking for 262 characters   
+💫 Executing grep -rn "SendRecordPasswordResetEmail" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/ ✖ "Command exited with code 1"
+💭 Thinking for 367 characters   
+💫 Executing find /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/ -name "*.go" | xargs grep -i "OnMailerBeforeRecordResetPasswordSend" ✔ 
+💭 Thinking for 260 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/mails/record.go | grep -A 30 "func SendRecordPasswordReset" ✔ 
+💭 Thinking for 343 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/mails/record.go | grep -A 20 "func resolveEmailTemplate" ✔ 
+💭 Thinking for 186 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings.go | grep -A 10 "func (t \*EmailTemplate) Resolve" ✖ "Command exited with code 1"
+💭 Thinking for 231 characters   
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/email_template.go | grep -A 20 "func (t \*EmailTemplate) Resolve" ✖ "Command exited with code 1"
+💫 Executing grep -rn "func (t \*EmailTemplate) Resolve" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/ ✖ "Command exited with code 1"
+💭 Thinking for 172 characters   
+💫 Executing grep -rn "func .* Resolve" /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/ ✔ 
+💫 Executing cat /root/go/pkg/mod/github.com/pocketbase/pocketbase@v0.22.20/models/settings/settings.go | grep -A 20 "func (t EmailTemplate) Resolve" ✔ 
+💭 Thinking for 1129 characters   
+💫 Executing cat << 'EOF' > test2.go
+package main
+
+import (
+	"fmt"
+	"github.com/pocketbase/pocketbase/models/settings"
+)
+
+func main() {
+	t := settings.EmailTemplate{
+		ActionUrl: "http://example.com/{TOKEN}",
+	}
+	s, b, a := t.Resolve("My App", "http://app.com", "123456")
+	fmt.Println(s, b, a)
+}
+EOF
+go run test2.go
+ ✖ "Command exited with code 1"
+💭 Thinking for 169 characters   
+💫 Executing cd /home/user/app && go run test2.go ✖ "Command exited with code 1"
+💫 Executing cd /home/user/app && cat << 'EOF' > test2.go
+package main
+
+import (
+	"fmt"
+	"github.com/pocketbase/pocketbase/models/settings"
+)
+
+func main() {
+	t := settings.EmailTemplate{
+		ActionUrl: "http://example.com/{TOKEN}",
+	}
+	s, b, a := t.Resolve("My App", "http://app.com", "123456")
+	fmt.Println(s, b, a)
+}
+EOF
+go run test2.go
+ ✔ 
+💭 Thinking for 599 characters   
+✏️  Writing /home/user/app/main.go ✔ 
+💭 Thinking for 231 characters   
+💫 Executing cd /home/user/app && go build main.go ✔ 
+💭 Thinking for 1161 characters   
+💫 Executing cd /home/user/app && ./main serve --http 0.0.0.0:8090 &
+sleep 2
+curl -X POST http://localhost:8090/api/collections/users/request-password-reset -H "Content-Type: application/json" -d '{"email":"test@example.com"}'
+kill %1
+ ✔ 
+💭 Thinking for 373 characters   
+🎉 Task Completed
+I have successfully implemented the Go hook to customize the password reset email based on the user's role.
+
+### Changes Made:
+1. Modified `main.go` to use the `OnMailerBeforeRecordResetPasswordSend` hook provided by the PocketBase Go SDK.
+2. The hook intercepts the email before it is sent and checks if the target collection is `users`.
+3. It retrieves the `role` field from the user record using `e.Record.GetString("role")`.
+4. It extracts the reset token from the event metadata (`e.Meta["token"]`) and resolves the `ActionUrl` using PocketBase's built-in `Resolve` method for the `ResetPasswordTemplate`.
+5. Based on the user's role (`admin` or `user`), it modifies the `e.Message.Subject` and `e.Message.HTML` fields to exactly match the requested formats:
+   - For `admin`: Subject `Admin Password Reset - <AppName>` and HTML `Admin Reset Link: <ActionUrl>`.
+   - For `user`: Subject `User Password Reset - <AppName>` and HTML `User Reset Link: <ActionUrl>`.
+6. Emails for other roles (or missing roles) remain unmodified, as requested.
+
+The application has been successfully built and is ready to run.   
+  

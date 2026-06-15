@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T08:17:20.768249+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781511440259,
+            "stop": 1781511440768
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_custom_stats_route",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 189,
+                "start": 1781511440578,
+                "stop": 1781511440767,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_pb = None\n\n    def test_custom_stats_route(start_pb):\n        # 1. Create sample data\n        scores = [10, 25, 15]\n        for score in scores:\n            resp = requests.post(\n                \"http://localhost:8090/api/collections/game_scores/records\",\n                json={\"score\": score}\n            )\n            assert resp.status_code == 200, f\"Failed to create record: {resp.text}\"\n    \n        # 2. Get aggregated stats\n        resp = requests.get(\"http://localhost:8090/api/stats\")\n        assert resp.status_code == 200, f\"Expected status 200 from /api/stats, got {resp.status_code}. Response: {resp.text}\"\n    \n        data = resp.json()\n        assert \"count\" in data, \"Response JSON is missing 'count' field.\"\n        assert \"sum\" in data, \"Response JSON is missing 'sum' field.\"\n    \n>       assert data[\"count\"] == 3, f\"Expected count to be 3, got {data['count']}\"\nE       AssertionError: Expected count to be 3, got 6\nE       assert 6 == 3\n\ntests/test_final_state.py:54: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

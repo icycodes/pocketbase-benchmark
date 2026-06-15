@@ -1,0 +1,24 @@
+# PocketBase JS Cron Job for Archiving Records
+
+## Background
+PocketBase supports executing custom JavaScript logic using `pb_hooks`. You need to create a scheduled cron job that automatically archives old records from a specific collection.
+
+## Requirements
+- Create a JS cron job in `pb_hooks/main.pb.js`.
+- The cron job must be named `archive_old_messages` and run once every day at midnight (`0 0 * * *`).
+- It should query the `messages` collection for records where the `created` date is older than 30 days from the current time, and `archived` is `false`.
+- For each matched record, it should set `archived` to `true` and save the record.
+
+## Implementation Hints
+- Use `cronAdd(id, expr, handler)` to register the cron job.
+- You can use standard JavaScript `Date` to calculate the threshold date (30 days ago) and format it as a string compatible with PocketBase's datetime format (e.g., `YYYY-MM-DD HH:mm:ss.SSSZ`).
+- Use `$app.dao().findRecordsByFilter("messages", filterString)` to find the records.
+- Loop through the records, use `record.set("archived", true)`, and save them with `$app.dao().saveRecord(record)`.
+
+## Acceptance Criteria
+- Project path: /workspace
+- Start command: ./pocketbase serve --http 0.0.0.0:8090
+- Port: 8090
+- The application must have a cron job registered with the ID `archive_old_messages`.
+- When the cron job `archive_old_messages` is triggered, it must successfully update all `messages` records that were created more than 30 days ago and have `archived: false` to `archived: true`.
+- Records created within the last 30 days must remain unchanged.

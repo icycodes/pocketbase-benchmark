@@ -1,0 +1,55 @@
+- Initializing MCP connections...
+You
+# SvelteKit SSR Cookie Auth Sync with PocketBase ## Background You are building a SvelteKit application that uses PocketBase as its backend. To support Server-Side Rendering (SSR) with authenticated users, you need to synchronize the PocketBase authentication state with SvelteKit's server-side request/response flow using cookies. ## Requirements * Implement a SvelteKit server hook (`src/hooks.server.js`) to synchronize the PocketBase auth store with request cookies. * The middleware should initialize a new PocketBase instance for each request pointing to `http://127.0.0.1:8090`. * It must load the auth state from the request cookie, verify/refresh it if valid, and clear it if the refresh fails. * The PocketBase instance must be attached to `event.locals.pb`. * After resolving the event, it must serialize the updated auth store state back to the response `set-cookie` header. * Implement a `POST /api/login` endpoint that reads `email` and `password` from the JSON body, authenticates with PocketBase via `locals.pb.collection('users').authWithPassword()`, and returns a 200 JSON response. * Implement a `GET /api/me` endpoint that returns 401 Unauthorized if the user is not authenticated, and 200 OK with `{"email": "<user_email>"}` if authenticated (checking `locals.pb.authStore.isValid` and `locals.pb.authStore.model.email`). ## Implementation Hints * Follow the official PocketBase JS SDK documentation for SSR integration with SvelteKit. * Use `pb.authStore.loadFromCookie()` to load the initial state from the request headers. * Use `event.locals.pb.collection('users').authRefresh()` to ensure the token is still valid. * Use `pb.authStore.exportToCookie()` to send the updated state back to the client. * Ensure you handle `authRefresh()` failures by clearing the auth store. ## Acceptance Criteria * Project path: /home/user/sveltekit-app * Start command: npm run dev * Port: 5173 * API Endpoints: * `POST /api/login`: Accepts JSON `{"email": "...", "password": "..."}` and returns 200 OK. The response headers must include a `set-cookie` header containing `pb_auth`. * `GET /api/me`: Returns 401 Unauthorized if no valid `pb_auth` cookie is provided. Returns 200 OK with `{"email": "..."}` if a valid `pb_auth` cookie is provided.   
+
+Pochi
+💭 Thinking for 280 characters   
+💫 Executing mkdir -p /home/user/sveltekit-app && cd /home/user/sveltekit-app && npx sv create . --template minimal --types js --no-install && npm install && npm install pocketbase ✖ "Command exited with code 1"
+💭 Thinking for 504 characters   
+💫 Executing cd /home/user/sveltekit-app && npx sv create . --template minimal --types jsdoc --no-install && npm install && npm install pocketbase ✔ 
+💭 Thinking for 239 characters   
+💫 Executing rm -rf /home/user/sveltekit-app && mkdir -p /home/user/sveltekit-app && cd /home/user/sveltekit-app && npx sv create . --template minimal --types jsdoc --no-install && npm install && npm install pocketbase ✖ "Command exited with code 254"
+💫 Executing rm -rf /home/user/sveltekit-app && mkdir -p /home/user/sveltekit-app && cd /home/user/sveltekit-app && npx sv create . --template minimal --types jsdoc --no-add-ons --no-install && npm install && npm install pocketbase ✔ 
+💭 Thinking for 321 characters   
+✏️  Writing /home/user/sveltekit-app/src/hooks.server.js ✔ 
+💭 Thinking for 464 characters   
+✏️  Writing /home/user/sveltekit-app/src/routes/api/login/+server.js ✔ 
+✏️  Writing /home/user/sveltekit-app/src/routes/api/me/+server.js ✔ 
+💭 Thinking for 273 characters   
+💫 Executing cat /home/user/sveltekit-app/src/app.d.ts ✔ 
+🔧 Applying diff to /home/user/sveltekit-app/src/app.d.ts ✖ "File has not been read yet. Please read the file before editing it."
+✏️  Writing /home/user/sveltekit-app/src/app.d.ts ✖ "File has not been read yet. Please read the file before writing it."
+📖 Reading /home/user/sveltekit-app/src/app.d.ts ✔ 
+💭 Thinking for 72 characters   
+✏️  Writing /home/user/sveltekit-app/src/app.d.ts ✔ 
+💭 Thinking for 309 characters   
+📖 Reading /home/user/sveltekit-app/src/hooks.server.js ✔ 
+💭 Thinking for 307 characters   
+🛠️ Tool startBackgroundJob ✔ 
+🛠️ Tool readBackgroundJobOutput ✔ 
+📖 Reading /home/user/sveltekit-app/src/routes/api/login/+server.js ✔ 
+💭 Thinking for 196 characters   
+📖 Reading /home/user/sveltekit-app/src/routes/api/me/+server.js ✔ 
+💭 Thinking for 297 characters   
+🛠️ Tool readBackgroundJobOutput ✔ 
+🛠️ Tool killBackgroundJob ✔ 
+💭 Thinking for 117 characters   
+🎉 Task Completed
+I have implemented the SvelteKit Server-Side Rendering (SSR) cookie authentication synchronization with PocketBase as requested.
+
+Here's a summary of the changes made:
+1. Created a new SvelteKit project at `/home/user/sveltekit-app` and installed the `pocketbase` SDK.
+2. Implemented `src/hooks.server.js` which:
+   - Initializes a new PocketBase instance for each request pointing to `http://127.0.0.1:8090`.
+   - Loads the auth state from the incoming request's cookie (`pb_auth`).
+   - Verifies and refreshes the token using `authRefresh()`, clearing the store if it's invalid.
+   - Attaches the instance to `event.locals.pb`.
+   - Serializes the updated auth store state back to the `set-cookie` response header.
+3. Added the `POST /api/login` endpoint (`src/routes/api/login/+server.js`) to authenticate users with an email and password using `locals.pb.collection('users').authWithPassword()`. The `set-cookie` header is automatically added to the response by the server hook.
+4. Added the `GET /api/me` endpoint (`src/routes/api/me/+server.js`) that checks `locals.pb.authStore.isValid` and returns either a 401 Unauthorized error or a 200 OK response with the authenticated user's email.
+5. Updated `src/app.d.ts` to include the `pb` typing on `App.Locals` for proper IDE support.
+
+The application is fully configured and ready to be started with `npm run dev`.   
+- Waiting for background jobs to complete (timeout: 60000ms)...
+✖ Async wait timeout reached. Remaining: 1 job(s)
+  

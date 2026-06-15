@@ -1,0 +1,62 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T07:55:42.527072+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 1,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781510141063,
+            "stop": 1781510142526
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_create_post_with_valid_title",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 555,
+                "start": 1781510141855,
+                "stop": 1781510142410,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_create_post_with_valid_title(start_app):\n        url = \"http://localhost:8090/api/collections/posts/records\"\n        payload = {\"title\": \"Hello PocketBase World\"}\n        response = requests.post(url, json=payload)\n    \n>       assert response.status_code == 200, f\"Expected status 200, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 200, got 400. Response: {\"data\":{},\"message\":\"Title is required.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:36: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_with_special_characters",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 78,
+                "start": 1781510142413,
+                "stop": 1781510142491,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_create_post_with_special_characters(start_app):\n        url = \"http://localhost:8090/api/collections/posts/records\"\n        payload = {\"title\": \"Test @ 123!\"}\n        response = requests.post(url, json=payload)\n    \n>       assert response.status_code == 200, f\"Expected status 200, got {response.status_code}. Response: {response.text}\"\nE       AssertionError: Expected status 200, got 400. Response: {\"data\":{},\"message\":\"Title is required.\",\"status\":400}\nE         \nE       assert 400 == 200\nE        +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:47: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_create_post_without_title",
+                "status": "passed",
+                "duration": 33,
+                "start": 1781510142492,
+                "stop": 1781510142525,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

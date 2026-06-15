@@ -1,0 +1,53 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-15T08:39:52.782363+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 0,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781512692601,
+            "stop": 1781512792782
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_rate_limited_signup",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 99680,
+                "start": 1781512693055,
+                "stop": 1781512792735,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_rate_limited_signup(start_app):\n        url = \"http://localhost:8090/api/custom_signup\"\n    \n        # 1. First 5 Requests (Success)\n        for i in range(1, 6):\n            payload = {\n                \"email\": f\"test{i}@example.com\",\n                \"password\": \"password12345\",\n                \"passwordConfirm\": \"password12345\"\n            }\n            response = requests.post(url, json=payload)\n>           assert response.status_code in (200, 201), f\"Request {i} failed with status {response.status_code}: {response.text}\"\nE           AssertionError: Request 1 failed with status 404: {\"data\":{},\"message\":\"The requested resource wasn't found.\",\"status\":404}\nE             \nE           assert 404 in (200, 201)\nE            +  where 404 = <Response [404]>.status_code\n\ntests/test_final_state.py:42: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_users_created",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 45,
+                "start": 1781512792736,
+                "stop": 1781512792781,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "start_app = None\n\n    def test_users_created(start_app):\n        # Verify that the first 5 users were actually created by authenticating as them\n        auth_url = \"http://localhost:8090/api/collections/users/auth-with-password\"\n    \n        for i in range(1, 6):\n            payload = {\n                \"identity\": f\"test{i}@example.com\",\n                \"password\": \"password12345\"\n            }\n            response = requests.post(auth_url, json=payload)\n>           assert response.status_code == 200, f\"Failed to authenticate as test{i}@example.com, user might not have been created properly: {response.text}\"\nE           AssertionError: Failed to authenticate as test1@example.com, user might not have been created properly: {\"data\":{},\"message\":\"Failed to authenticate.\",\"status\":400}\nE             \nE           assert 400 == 200\nE            +  where 400 = <Response [400]>.status_code\n\ntests/test_final_state.py:63: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}
